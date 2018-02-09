@@ -24,8 +24,9 @@
             services.AddSignalR();
             services.AddDotNetify();
 
-            services.AddTransient<ILiveDataService, MockLiveDataService>();
+            services.AddTransient<ILiveDataService, CurrencyService>();
             services.AddSingleton<IEmployeeService, EmployeeService>();
+            services.AddSingleton<ICacheService, CacheService>();
         }
 
         public void Configure(IApplicationBuilder app)

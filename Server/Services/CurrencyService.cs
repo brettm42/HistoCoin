@@ -9,7 +9,7 @@ namespace HistoCoin.Server.Services
     using HistoCoin.Server.Infrastructure;
     using static HistoCoin.Server.Infrastructure.Constants;
     
-    public class MockLiveDataService : ILiveDataService
+    public class CurrencyService : ILiveDataService
     {
         private readonly TimeSpan _maxDataAge = TimeSpan.FromMinutes(1);
         private readonly List<double> _valueHistoryUsd = new List<double>();
@@ -36,7 +36,7 @@ namespace HistoCoin.Server.Services
 
         public Currencies BaseCurrency { get; set; }
 
-        public MockLiveDataService(ICacheService cacheService)
+        public CurrencyService(ICacheService cacheService)
         {
             this.Coins = 
                 SyncCoinList(in this._cache, this.BaseCurrency)
