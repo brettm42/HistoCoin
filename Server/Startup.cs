@@ -12,6 +12,8 @@
     using DotNetify;
     using DotNetify.Security;
     using HistoCoin.Server.Services;
+    using HistoCoin.Server.Services.CacheService;
+    using HistoCoin.Server.Services.CurrencyService;
 
     public class Startup
     {
@@ -24,9 +26,8 @@
             services.AddSignalR();
             services.AddDotNetify();
 
-            services.AddTransient<ILiveDataService, CurrencyService>();
+            services.AddTransient<ICurrencyService, CurrencyService>();
             services.AddSingleton<IEmployeeService, EmployeeService>();
-            services.AddSingleton<ICacheService, CacheService>();
         }
 
         public void Configure(IApplicationBuilder app)

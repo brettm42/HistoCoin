@@ -1,4 +1,4 @@
-namespace HistoCoin.Server.Services
+namespace HistoCoin.Server.Services.CurrencyService
 {
     using System;
     using System.Collections.Concurrent;
@@ -7,9 +7,10 @@ namespace HistoCoin.Server.Services
     using System.Reactive.Linq;
     using HistoCoin.Server.Data;
     using HistoCoin.Server.Infrastructure;
+    using HistoCoin.Server.Services.CacheService;
     using static HistoCoin.Server.Infrastructure.Constants;
     
-    public class CurrencyService : ILiveDataService
+    public class CurrencyService : ICurrencyService
     {
         private readonly TimeSpan _maxDataAge = TimeSpan.FromMinutes(1);
         private readonly List<double> _valueHistoryUsd = new List<double>();
@@ -36,7 +37,7 @@ namespace HistoCoin.Server.Services
 
         public Currencies BaseCurrency { get; set; }
 
-        public CurrencyService(ICacheService cacheService)
+        public CurrencyService(ICacheService<ConcurrentBag<Currency>> cacheService)
         {
             this.Coins = 
                 SyncCoinList(in this._cache, this.BaseCurrency)
