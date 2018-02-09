@@ -13,6 +13,7 @@ namespace HistoCoin.Server.Data
     {
         internal const string CryptoCompareApi = "https://min-api.cryptocompare.com/data/";
 
+        // example wallet data
         internal static readonly Dictionary<string, (double Count, double PricePer)> CurrencyList =
             new Dictionary<string, (double Count, double PricePer)>
             {
