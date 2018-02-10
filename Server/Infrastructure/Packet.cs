@@ -1,6 +1,9 @@
 ﻿
 namespace HistoCoin.Server.Infrastructure
 {
+    using System.Diagnostics;
+
+    [DebuggerStepThrough]
     public class Packet<T>
     {
         public Packet(string name, T contents)

@@ -1,6 +1,9 @@
 ﻿
 namespace HistoCoin.Server.Infrastructure
 {
+    using System.Diagnostics;
+
+    [DebuggerStepThrough]
     public class Result
     {
         public Result(bool success, string message)

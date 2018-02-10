@@ -41,9 +41,9 @@ namespace HistoCoin.Server.Services.CurrencyService
 
         public CurrencyService(ICacheService<ConcurrentBag<Currency>> cacheService)
         {
-            if (cacheService != null)
+            if (cacheService.Cache != null)
             {
-                this._cache = cacheService.Cache?.Get();
+                this._cache = cacheService.Cache.Get() ?? new ConcurrentBag<Currency>();
                 this._cacheServiceLocation = cacheService.StorageLocation;
                 this._cacheServiceStoreEnabled = true;
             }
@@ -89,7 +89,7 @@ namespace HistoCoin.Server.Services.CurrencyService
 
             this.CurrentDeltas =
                 Observable
-                    .Interval(UpdateInterval + TimeSpan.FromSeconds(5))
+                    .Interval(UpdateInterval + TimeSpan.FromSeconds(3))
                     .StartWith(0)
                     .Select(_ => CalculateDeltas(in this._cache, this.BaseCurrency));
 
@@ -101,7 +101,7 @@ namespace HistoCoin.Server.Services.CurrencyService
 
             this.Value =
                 Observable
-                    .Interval(UpdateInterval + TimeSpan.FromSeconds(5))
+                    .Interval(UpdateInterval + TimeSpan.FromSeconds(3))
                     .StartWith(0)
                     .Select(_ => this._valueHistoryUsd.Take(50).ToArray());
         }

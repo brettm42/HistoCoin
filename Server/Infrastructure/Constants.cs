@@ -5,6 +5,8 @@ namespace HistoCoin.Server.Infrastructure
 
     public static class Constants
     {
+        public const string DefaultCacheStoreLocation = @"C:\Temp\HistoCoin";
+
         public enum Currencies
         {
             USD,

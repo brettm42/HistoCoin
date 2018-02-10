@@ -11,7 +11,7 @@ namespace HistoCoin.Server.Services.CacheService
         public Cache(T store)
         {
             this._cache = store;
-            this.Id = this._cache.GetHashCode();
+            this.Id = this._cache?.GetHashCode() ?? -1;
         }
 
         public int Id { get; }

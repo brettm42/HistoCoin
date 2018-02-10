@@ -15,6 +15,7 @@
     using HistoCoin.Server.Services;
     using HistoCoin.Server.Services.CacheService;
     using HistoCoin.Server.Services.CurrencyService;
+    using static HistoCoin.Server.Infrastructure.Constants;
 
     public class Startup
     {
@@ -27,9 +28,13 @@
             services.AddSignalR();
             services.AddDotNetify();
 
-            services.AddTransient<ICurrencyService, CurrencyService>();
+            services
+                .AddTransient<ICurrencyService, CurrencyService>(
+                    service => 
+                        new CurrencyService(
+                            new CacheService<ConcurrentBag<Currency>>(DefaultCacheStoreLocation)));
+
             services.AddSingleton<IEmployeeService, EmployeeService>();
-            //services.AddSingleton<ICacheService<ConcurrentBag<Currency>>, CacheService<ConcurrentBag<Currency>>>();
         }
 
         public void Configure(IApplicationBuilder app)
