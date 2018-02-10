@@ -19,65 +19,73 @@
         {
             var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
 
-            services.AddAuthentication().AddOpenIdConnectServer(options =>
-            {
-                options.AccessTokenHandler = new JwtSecurityTokenHandler();
-                options.SigningCredentials.AddKey(signingKey);
-
-                options.AllowInsecureHttp = true;
-                options.TokenEndpointPath = "/token";
-
-                options.Provider.OnValidateTokenRequest = 
-                    context =>
+            services
+                .AddAuthentication()
+                .AddOpenIdConnectServer(
+                    options =>
                     {
-                        context.Validate();
-                        return Task.CompletedTask;
-                    };
+                        options.AccessTokenHandler = new JwtSecurityTokenHandler();
+                        options.SigningCredentials.AddKey(signingKey);
 
-                options.Provider.OnHandleTokenRequest = 
-                    context =>
-                    {
-                        if (context.Request.Password != "dotnetify")
-                        {
-                            context.Reject(
-                                error: OpenIdConnectConstants.Errors.InvalidGrant,
-                                description: "Invalid user credentials.");
+                        options.AllowInsecureHttp = true;
+                        options.TokenEndpointPath = "/token";
 
-                            return Task.CompletedTask;
-                        }
+                        options.Provider.OnValidateTokenRequest = 
+                            context =>
+                            {
+                                context.Validate();
 
-                        var identity = 
-                            new ClaimsIdentity(context.Scheme.Name,
-                                OpenIdConnectConstants.Claims.Name,
-                                OpenIdConnectConstants.Claims.Role);
+                                return Task.CompletedTask;
+                            };
 
-                        identity.AddClaim(OpenIdConnectConstants.Claims.Name, context.Request.Username);
-                        identity.AddClaim(OpenIdConnectConstants.Claims.Subject, context.Request.Username);
+                        options.Provider.OnHandleTokenRequest = 
+                            context =>
+                            {
+                                if (context.Request.Password != "dotnetify")
+                                {
+                                    context.Reject(
+                                        error: OpenIdConnectConstants.Errors.InvalidGrant,
+                                        description: "Invalid user credentials.");
 
-                        identity.AddClaim(ClaimTypes.Name, context.Request.Username,
-                            OpenIdConnectConstants.Destinations.AccessToken,
-                            OpenIdConnectConstants.Destinations.IdentityToken);
+                                    return Task.CompletedTask;
+                                }
 
-                        identity.AddClaim(ClaimTypes.Uri,
-                            "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png",
-                            OpenIdConnectConstants.Destinations.AccessToken,
-                            OpenIdConnectConstants.Destinations.IdentityToken);
+                                var identity = 
+                                    new ClaimsIdentity(
+                                        context.Scheme.Name,
+                                        OpenIdConnectConstants.Claims.Name,
+                                        OpenIdConnectConstants.Claims.Role);
 
-                        var ticket = 
-                            new AuthenticationTicket(
-                                new ClaimsPrincipal(identity),
-                                new AuthenticationProperties(),
-                                context.Scheme.Name);
+                                identity.AddClaim(OpenIdConnectConstants.Claims.Name, context.Request.Username);
+                                identity.AddClaim(OpenIdConnectConstants.Claims.Subject, context.Request.Username);
 
-                        ticket.SetScopes(
-                            OpenIdConnectConstants.Scopes.Profile,
-                            OpenIdConnectConstants.Scopes.OfflineAccess);
+                                identity.AddClaim(
+                                    ClaimTypes.Name, 
+                                    context.Request.Username,
+                                    OpenIdConnectConstants.Destinations.AccessToken,
+                                    OpenIdConnectConstants.Destinations.IdentityToken);
 
-                        context.Validate(ticket);
+                                identity.AddClaim(
+                                    ClaimTypes.Uri,
+                                    "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png",
+                                    OpenIdConnectConstants.Destinations.AccessToken,
+                                    OpenIdConnectConstants.Destinations.IdentityToken);
 
-                        return Task.CompletedTask;
-                    };
-            });
+                                var ticket = 
+                                    new AuthenticationTicket(
+                                        new ClaimsPrincipal(identity),
+                                        new AuthenticationProperties(),
+                                        context.Scheme.Name);
+
+                                ticket.SetScopes(
+                                    OpenIdConnectConstants.Scopes.Profile,
+                                    OpenIdConnectConstants.Scopes.OfflineAccess);
+
+                                context.Validate(ticket);
+
+                                return Task.CompletedTask;
+                            };
+                    });
         }
     }
 }

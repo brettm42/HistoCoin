@@ -16,7 +16,16 @@
 
             this.Load();
         }
-        
+
+        public CacheService(string cacheLocation, T store)
+        {
+            this.Username = Environment.UserDomainName;
+
+            this.StorageLocation = cacheLocation;
+
+            this.Cache = new Cache<T>(store);
+        }
+
         public string Username { get; set; }
 
         public string StorageLocation { get; set; }

@@ -9,8 +9,8 @@ namespace HistoCoin.Server.Infrastructure
             this.Message = message;
         }
 
-        public bool? Success { get; set; }
+        public bool Success { get; set; }
 
-        public string Message { get; set; } = string.Empty;
+        public string Message { get; set; }
     }
 }
