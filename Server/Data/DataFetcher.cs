@@ -3,6 +3,7 @@ namespace HistoCoin.Server.Data
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Net.Http;
     using Newtonsoft.Json;
@@ -12,49 +13,59 @@ namespace HistoCoin.Server.Data
     public static class DataFetcher
     {
         internal const string CryptoCompareApi = "https://min-api.cryptocompare.com/data/";
-
-        internal static readonly Dictionary<string, (double Count, double PricePer)> CurrencyList =
-            new Dictionary<string, (double Count, double PricePer)>
-            {
-                { "BTC", (0.00820034, 11292.57) },
-                { "ETH", (0.09955317, 974.85) },
-                { "LTC", (0.504, 244.41) },
-                { "BNB", (7.05380502, 12.9) },
-                { "VEN", (10.996, 4.90) },
-                { "XLM", (181.849, 0.4301) },
-                { "ICX", (11.386, 5.60) },
-                { "IOTA", (23.0, 2.44) },
-                { "TRX", (4, 0.07173)},
-            };
-
+        
         public static IEnumerable<(string Handle, double Count)> BuildCurrenciesPair()
         {
-            // todo: load from config - handles & current wallet total
-            foreach (var entry in CurrencyList)
+            var walletPath = Path.Combine(DefaultCacheStoreLocation, DefaultWalletFilename);
+
+            if (File.Exists(walletPath))
             {
-                yield return (entry.Key, entry.Value.Count);
+                var currencyList =
+                    JsonConvert.DeserializeObject<Dictionary<string, (double Count, double PricePer)>>(
+                        File.ReadAllText(walletPath));
+
+                foreach (var entry in currencyList ?? new Dictionary<string, (double Count, double PricePer)>())
+                {
+                    yield return (entry.Key, entry.Value.Count);
+                }
+            }
+            else
+            {
+                yield return default;
             }
         }
 
         public static IEnumerable<(string Handle, double Count, double StartingValue)> BuildCurrencies()
         {
-            // todo: load from config - handles & current wallet total
-            foreach (var entry in CurrencyList)
+            var walletPath = Path.Combine(DefaultCacheStoreLocation, DefaultWalletFilename);
+
+            if (File.Exists(walletPath))
             {
-                yield return (entry.Key, entry.Value.Count, entry.Value.PricePer);
+                var currencyList =
+                    JsonConvert.DeserializeObject<Dictionary<string, (double Count, double PricePer)>>(
+                        File.ReadAllText(walletPath));
+
+                foreach (var entry in currencyList ?? new Dictionary<string, (double Count, double PricePer)>())
+                {
+                    yield return (entry.Key, entry.Value.Count, entry.Value.PricePer);
+                }
+            }
+            else
+            {
+                yield return default;
             }
         }
 
-        public static double CalculateDelta(string handle, double currentValue, Currencies currency)
+        public static double CalculateDelta(string handle, double currentValue, double purchasePrice, Currencies currency)
         {
             switch (currency)
             {
                 case Currencies.USD:
-                    return Math.Round(currentValue - CurrencyList?[handle].PricePer ?? 0, 4);
+                    return Math.Round(currentValue - purchasePrice, 4);
                 case Currencies.BTC:
-                    return Math.Round(BtcToUsd(currentValue) - CurrencyList?[handle].PricePer ?? 0, 8);
+                    return Math.Round(BtcToUsd(currentValue) - purchasePrice, 8);
                 case Currencies.ETH:
-                    return Math.Round(EthToUsd(currentValue) - CurrencyList?[handle].PricePer ?? 0, 6);
+                    return Math.Round(EthToUsd(currentValue) - purchasePrice, 6);
                 default:
                     return 0;
             }

@@ -9,7 +9,7 @@ namespace HistoCoin.Server.ViewModels
     using DotNetify;
     using DotNetify.Routing;
     using DotNetify.Security;
-    using HistoCoin.Server.Services;
+    using HistoCoin.Server.Services.CurrencyService;
     using static HistoCoin.Server.Infrastructure.Constants;
 
     [Authorize]
@@ -50,25 +50,25 @@ namespace HistoCoin.Server.ViewModels
             }
         }
 
-        public Dashboard(ILiveDataService liveDataService)
+        public Dashboard(ICurrencyService dataService)
         {
-            AddProperty<string[]>("Currencies").SubscribeTo(liveDataService.Coins);
-            AddProperty<double[]>("Value").SubscribeTo(liveDataService.Value);
-            AddProperty<double>("TotalValueUsd").SubscribeTo(liveDataService.TotalValueUsd);
-            AddProperty<double>("TotalValueBtc").SubscribeTo(liveDataService.TotalValueBtc);
-            AddProperty<double[]>("CurrentDeltas").SubscribeTo(liveDataService.CurrentDeltas);
-            AddProperty<double>("OverallDelta").SubscribeTo(liveDataService.OverallDelta);
-            AddProperty<int[]>("DistributionUsd").SubscribeTo(liveDataService.DistributionUsd);
-            AddProperty<int[]>("DistributionBtc").SubscribeTo(liveDataService.DistributionBtc);
+            AddProperty<string[]>("Currencies").SubscribeTo(dataService.Coins);
+            AddProperty<double[]>("Value").SubscribeTo(dataService.Value);
+            AddProperty<double>("TotalValueUsd").SubscribeTo(dataService.TotalValueUsd);
+            AddProperty<double>("TotalValueBtc").SubscribeTo(dataService.TotalValueBtc);
+            AddProperty<double[]>("CurrentDeltas").SubscribeTo(dataService.CurrentDeltas);
+            AddProperty<double>("OverallDelta").SubscribeTo(dataService.OverallDelta);
+            AddProperty<int[]>("DistributionUsd").SubscribeTo(dataService.DistributionUsd);
+            AddProperty<int[]>("DistributionBtc").SubscribeTo(dataService.DistributionBtc);
 
             AddProperty<Currency[]>("CurrentValues")
                 .SubscribeTo(
-                    liveDataService.CurrentValues.Select(
+                    dataService.CurrentValues.Select(
                         value =>
                         {
                             var values =
                                 new Queue<Currency>(
-                                    Get<Currency[]>(nameof(liveDataService.CurrentValues))?.Reverse() 
+                                    Get<Currency[]>(nameof(dataService.CurrentValues))?.Reverse() 
                                 ?? new Currency[] { });
 
                             values.Enqueue(
@@ -89,12 +89,12 @@ namespace HistoCoin.Server.ViewModels
                             return values.Reverse().ToArray();
                         }));
 
-            // Regulate data update interval to every 60 seconds
-            _subscription = 
+            // Regulate data update interval to no less than every 200 msecs.
+            _subscription =
                 Observable
-                .Interval(UpdateInterval / 5)
-                .StartWith(0)
-                .Subscribe(_ => PushUpdates());
+                    .Interval(TimeSpan.FromMilliseconds(200))
+                    .StartWith(0)
+                    .Subscribe(_ => PushUpdates());
         }
 
         public Action Sync =>

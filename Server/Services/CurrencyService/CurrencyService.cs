@@ -1,4 +1,4 @@
-namespace HistoCoin.Server.Services
+namespace HistoCoin.Server.Services.CurrencyService
 {
     using System;
     using System.Collections.Concurrent;
@@ -7,15 +7,18 @@ namespace HistoCoin.Server.Services
     using System.Reactive.Linq;
     using HistoCoin.Server.Data;
     using HistoCoin.Server.Infrastructure;
+    using HistoCoin.Server.Services.CacheService;
     using static HistoCoin.Server.Infrastructure.Constants;
     
-    public class MockLiveDataService : ILiveDataService
+    public class CurrencyService : ICurrencyService
     {
         private readonly TimeSpan _maxDataAge = TimeSpan.FromMinutes(1);
         private readonly List<double> _valueHistoryUsd = new List<double>();
         private readonly List<double> _valueHistoryBtc = new List<double>();
         private readonly ConcurrentBag<Currency> _cache = new ConcurrentBag<Currency>();
-        
+        private readonly bool _cacheServiceStoreEnabled = false;
+        private readonly string _cacheServiceLocation;
+
         public IObservable<double[]> CurrentDeltas { get; }
 
         public IObservable<int[]> DistributionUsd { get; }
@@ -36,8 +39,15 @@ namespace HistoCoin.Server.Services
 
         public Currencies BaseCurrency { get; set; }
 
-        public MockLiveDataService(ICacheService cacheService)
+        public CurrencyService(ICacheService<ConcurrentBag<Currency>> cacheService)
         {
+            if (cacheService.Cache != null)
+            {
+                this._cache = cacheService.Cache.Get() ?? new ConcurrentBag<Currency>();
+                this._cacheServiceLocation = cacheService.StorageLocation;
+                this._cacheServiceStoreEnabled = true;
+            }
+
             this.Coins = 
                 SyncCoinList(in this._cache, this.BaseCurrency)
                     .Select(c => c.Handle)
@@ -48,7 +58,9 @@ namespace HistoCoin.Server.Services
                 Observable
                     .Interval(UpdateInterval)
                     .StartWith(0)
-                    .Select(_ => RefreshCache(in this._cache, this._maxDataAge, this.BaseCurrency))
+                    .Select(
+                        _ => 
+                            RefreshCache(in this._cache, this._maxDataAge, this.BaseCurrency, (this._cacheServiceStoreEnabled, this._cacheServiceLocation)))
                     .SelectMany(i => i);
 
             this.DistributionUsd =
@@ -77,7 +89,7 @@ namespace HistoCoin.Server.Services
 
             this.CurrentDeltas =
                 Observable
-                    .Interval(UpdateInterval + TimeSpan.FromSeconds(5))
+                    .Interval(UpdateInterval + TimeSpan.FromSeconds(3))
                     .StartWith(0)
                     .Select(_ => CalculateDeltas(in this._cache, this.BaseCurrency));
 
@@ -89,7 +101,7 @@ namespace HistoCoin.Server.Services
 
             this.Value =
                 Observable
-                    .Interval(UpdateInterval + TimeSpan.FromSeconds(5))
+                    .Interval(UpdateInterval + TimeSpan.FromSeconds(3))
                     .StartWith(0)
                     .Select(_ => this._valueHistoryUsd.Take(50).ToArray());
         }
@@ -132,17 +144,18 @@ namespace HistoCoin.Server.Services
                 .Select(c => (c.Handle, c.Count));
         }
 
-        private static IEnumerable<Currency> RefreshCache(in ConcurrentBag<Currency> cache, TimeSpan minAge, Currencies filter)
+        private static IEnumerable<Currency> RefreshCache(
+            in ConcurrentBag<Currency> cache, 
+            TimeSpan minAge, 
+            Currencies filter, 
+            (bool StoreEnabled, string StoreLocation) backup = default)
         {
             var queue =
-                cache
-                    .Where(
-                        c => c.LastUpdated < (DateTimeOffset.Now - minAge));
+                cache.Where(
+                    c => c.LastUpdated < (DateTimeOffset.Now - minAge));
             
-            var refreshedData = 
-                DataFetcher.FetchComparisons(queue.Select(i => i.Handle));
-
-            if (refreshedData.Results is null)
+            var (_, Results) = DataFetcher.FetchComparisons(queue.Select(i => i.Handle));
+            if (Results is null)
             {
                 return cache.Where(c => c.BaseCurrency == filter);
             }
@@ -151,8 +164,7 @@ namespace HistoCoin.Server.Services
             {
                 var value =
                     double.Parse(
-                        refreshedData
-                            .Results
+                        Results
                             .FirstOrDefault(
                                 i => i.Name.Equals(coin.Handle))?
                             .Contents?[$"{coin.BaseCurrency}"] ?? "-1");
@@ -165,9 +177,18 @@ namespace HistoCoin.Server.Services
                 coin.Value = value;
 
                 coin.Delta =
-                    DataFetcher.CalculateDelta(coin.Handle, coin.Value, filter) * coin.Count;
+                    DataFetcher.CalculateDelta(coin.Handle, coin.Value, coin.StartingValue, filter) * coin.Count;
                 
                 coin.LastUpdated = DateTimeOffset.Now;
+            }
+
+            if (backup.StoreEnabled)
+            {
+                var result = CreateCacheStore(in cache, backup.StoreLocation);
+                if (!result.Success)
+                {
+                    // TODO: ignore cache storage exceptions for now
+                }
             }
 
             return cache.Where(c => c.BaseCurrency == filter);
@@ -332,6 +353,14 @@ namespace HistoCoin.Server.Services
             }
 
             return Math.Round(total, currency == Currencies.BTC ? 6 : 2);
+        }
+
+        private static Result CreateCacheStore(in ConcurrentBag<Currency> cache, string storeLocation)
+        {
+            var cacheStore =
+                new CacheService<ConcurrentBag<Currency>>(storeLocation, cache);
+            
+            return cacheStore.Store();
         }
     }
 }

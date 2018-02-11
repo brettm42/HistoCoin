@@ -7,7 +7,7 @@
     using System.Text;
     using Newtonsoft.Json;
 
-    public interface ICacheService
+    public interface IEmployeeService
     {
         IList<EmployeeModel> GetAll();
 
@@ -20,7 +20,7 @@
         void Delete(int id);
     }
 
-    public class CacheModel
+    public class EmployeeModel
     {
         public int Id { get; set; }
 
@@ -33,12 +33,12 @@
         public string FullName => $"{FirstName} {LastName}";
     }
 
-    public class CacheService : ICacheService
+    public class EmployeeService : IEmployeeService
     {
         private List<EmployeeModel> _employees;
         private int _newId;
 
-        public CacheService()
+        public EmployeeService()
         {
             _employees = JsonConvert.DeserializeObject<List<EmployeeModel>>(this.GetEmbeddedResource("employees.json"));
             _newId = _employees.Count;

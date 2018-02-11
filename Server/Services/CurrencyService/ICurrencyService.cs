@@ -1,9 +1,9 @@
-namespace HistoCoin.Server.Services
+namespace HistoCoin.Server.Services.CurrencyService
 {
     using System;
     using static HistoCoin.Server.Infrastructure.Constants;
 
-    public interface ILiveDataService
+    public interface ICurrencyService
     {
         Currencies BaseCurrency { get; set; }
 

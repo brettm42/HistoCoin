@@ -1,6 +1,7 @@
 ﻿namespace HistoCoin.Server
 {
     using System;
+    using System.Collections.Concurrent;
     using System.IO;
     using System.Text;
     using Microsoft.AspNetCore.Builder;
@@ -12,6 +13,9 @@
     using DotNetify;
     using DotNetify.Security;
     using HistoCoin.Server.Services;
+    using HistoCoin.Server.Services.CacheService;
+    using HistoCoin.Server.Services.CurrencyService;
+    using static HistoCoin.Server.Infrastructure.Constants;
 
     public class Startup
     {
@@ -24,7 +28,12 @@
             services.AddSignalR();
             services.AddDotNetify();
 
-            services.AddTransient<ILiveDataService, MockLiveDataService>();
+            services
+                .AddTransient<ICurrencyService, CurrencyService>(
+                    service => 
+                        new CurrencyService(
+                            new CacheService<ConcurrentBag<Currency>>(DefaultCacheStoreLocation)));
+
             services.AddSingleton<IEmployeeService, EmployeeService>();
         }
 
@@ -33,39 +42,43 @@
             app.UseAuthentication();
             app.UseWebSockets();
             app.UseSignalR(routes => routes.MapDotNetifyHub());
-            app.UseDotNetify(config =>
-            {
-                // Middleware to do authenticate token in incoming request headers.
-                config.UseJwtBearerAuthentication(new TokenValidationParameters
+            app.UseDotNetify(
+                config =>
                 {
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AuthServer.SecretKey)),
-                    ValidateIssuerSigningKey = true,
-                    ValidateAudience = false,
-                    ValidateIssuer = false,
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.FromSeconds(0)
+                    // Middleware to do authenticate token in incoming request headers.
+                    config.UseJwtBearerAuthentication(
+                        new TokenValidationParameters
+                        {
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AuthServer.SecretKey)),
+                            ValidateIssuerSigningKey = true,
+                            ValidateAudience = false,
+                            ValidateIssuer = false,
+                            ValidateLifetime = true,
+                            ClockSkew = TimeSpan.FromSeconds(0)
+                        });
+
+                    // Filter to check whether user has permission to access view models with [Authorize] attribute.
+                    config.UseFilter<AuthorizeFilter>();
                 });
 
-                // Filter to check whether user has permission to access view models with [Authorize] attribute.
-                config.UseFilter<AuthorizeFilter>();
-            });
-
-            app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-            {
-                HotModuleReplacement = true,
-                ReactHotModuleReplacement = true
-            });
+            app.UseWebpackDevMiddleware(
+                new WebpackDevMiddlewareOptions
+                {
+                    HotModuleReplacement = true,
+                    ReactHotModuleReplacement = true
+                });
 
             app.UseStaticFiles();
 
-            app.Run(async (context) =>
+            app.Run(async context =>
             {
                 var uri = context.Request.Path.ToUriComponent();
                 if (uri.EndsWith(".map"))
                 {
                     return;
                 }
-                else if (uri.EndsWith("_hmr")) // Fix HMR for deep links.
+
+                if (uri.EndsWith("_hmr")) // Fix HMR for deep links.
                 {
                     context.Response.Redirect("/dist/__webpack_hmr");
                 }
