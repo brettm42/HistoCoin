@@ -177,7 +177,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                 coin.Value = value;
 
                 coin.Delta =
-                    DataFetcher.CalculateDelta(coin.Handle, coin.Value, filter) * coin.Count;
+                    DataFetcher.CalculateDelta(coin.Handle, coin.Value, coin.StartingValue, filter) * coin.Count;
                 
                 coin.LastUpdated = DateTimeOffset.Now;
             }
