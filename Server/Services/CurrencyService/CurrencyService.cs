@@ -60,7 +60,8 @@ namespace HistoCoin.Server.Services.CurrencyService
                     .StartWith(0)
                     .Select(
                         _ => 
-                            RefreshCache(in this._cache, this._maxDataAge, this.BaseCurrency, (this._cacheServiceStoreEnabled, this._cacheServiceLocation)))
+                            RefreshCache(
+                                in this._cache, this._maxDataAge, this.BaseCurrency, (this._cacheServiceStoreEnabled, this._cacheServiceLocation)))
                     .SelectMany(i => i);
 
             this.DistributionUsd =
