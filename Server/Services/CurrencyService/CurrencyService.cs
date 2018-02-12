@@ -60,7 +60,8 @@ namespace HistoCoin.Server.Services.CurrencyService
                     .StartWith(0)
                     .Select(
                         _ => 
-                            RefreshCache(in this._cache, this._maxDataAge, this.BaseCurrency, (this._cacheServiceStoreEnabled, this._cacheServiceLocation)))
+                            RefreshCache(
+                                in this._cache, this._maxDataAge, this.BaseCurrency, (this._cacheServiceStoreEnabled, this._cacheServiceLocation)))
                     .SelectMany(i => i);
 
             this.DistributionUsd =
@@ -89,7 +90,7 @@ namespace HistoCoin.Server.Services.CurrencyService
 
             this.CurrentDeltas =
                 Observable
-                    .Interval(UpdateInterval + TimeSpan.FromSeconds(3))
+                    .Interval(UpdateInterval)
                     .StartWith(0)
                     .Select(_ => CalculateDeltas(in this._cache, this.BaseCurrency));
 
@@ -101,7 +102,7 @@ namespace HistoCoin.Server.Services.CurrencyService
 
             this.Value =
                 Observable
-                    .Interval(UpdateInterval + TimeSpan.FromSeconds(3))
+                    .Interval(UpdateInterval)
                     .StartWith(0)
                     .Select(_ => this._valueHistoryUsd.Take(50).ToArray());
         }
@@ -308,6 +309,13 @@ namespace HistoCoin.Server.Services.CurrencyService
                     continue;
                 }
 
+                if (double.Parse(currentValue) < 0)
+                {
+                    output.Add(0);
+
+                    continue;
+                }
+
                 var percent = (double.Parse(currentValue) * Count) / total;
 
                 output.Add((int)(percent * 100));
@@ -321,11 +329,13 @@ namespace HistoCoin.Server.Services.CurrencyService
             var output = new List<int>();
 
             var total = CalculateAverageValue(in cache, currency);
-
+            
             foreach (var coin in cache.Where(c => c.BaseCurrency == currency))
             {
                 output.Add(
-                    (int)Math.Round((coin.Value * coin.Count / total) * 100, 0));
+                    coin.Value < 0
+                    ? 0
+                    : (int)Math.Round((coin.Value * coin.Count / total) * 100, 0));
             }
 
             return output.ToArray();

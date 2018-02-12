@@ -5,6 +5,7 @@
     using System.Linq;
     using Newtonsoft.Json;
     using HistoCoin.Server.Infrastructure;
+    using static HistoCoin.Server.Infrastructure.Constants;
     
     public class CacheService<T> : ICacheService<T>
     {
@@ -44,7 +45,10 @@
 
             try
             {
-                var filename = Path.Combine(this.StorageLocation, $"store_{DateTime.Now.ToOADate()}.hcc");
+                var filename = 
+                    Path.Combine(
+                        this.StorageLocation, 
+                        $"{DefaultCacheFilename.Replace("%date%", DateTime.Now.ToOADate().ToString())}");
 
                 File.WriteAllText(filename, json);
 
@@ -73,7 +77,9 @@
                 }
 
                 var latestStore =
-                    Directory.GetFiles(this.StorageLocation).LastOrDefault();
+                    Directory.GetFiles(this.StorageLocation, $"*.{DefaultCacheExtension}")
+                        .OrderBy(i => i)
+                        .LastOrDefault();
 
                 if (string.IsNullOrWhiteSpace(latestStore))
                 {

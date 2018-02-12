@@ -101,9 +101,7 @@ namespace HistoCoin.Server.ViewModels
             () =>
             {
                 this.IsSyncing = true;
-
-                Thread.Sleep(TimeSpan.FromSeconds(2));
-
+                
                 this.PushUpdates();
                 
                 this.IsSyncing = false;
