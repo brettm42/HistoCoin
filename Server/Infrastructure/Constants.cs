@@ -24,6 +24,8 @@ namespace HistoCoin.Server.Infrastructure
 
         public const string NoneValue = "n/a";
 
-        public static readonly TimeSpan UpdateInterval = TimeSpan.FromSeconds(75);
+        public const int MaxCachedFiles = 500;
+
+        public static readonly TimeSpan UpdateInterval = TimeSpan.FromSeconds(1);
     }
 }

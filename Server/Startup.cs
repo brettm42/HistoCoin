@@ -70,24 +70,25 @@
 
             app.UseStaticFiles();
 
-            app.Run(async context =>
-            {
-                var uri = context.Request.Path.ToUriComponent();
-                if (uri.EndsWith(".map"))
+            app.Run(
+                async context =>
                 {
-                    return;
-                }
+                    var uri = context.Request.Path.ToUriComponent();
+                    if (uri.EndsWith(".map"))
+                    {
+                        return;
+                    }
 
-                if (uri.EndsWith("_hmr")) // Fix HMR for deep links.
-                {
-                    context.Response.Redirect("/dist/__webpack_hmr");
-                }
+                    if (uri.EndsWith("_hmr")) // Fix HMR for deep links.
+                    {
+                        context.Response.Redirect("/dist/__webpack_hmr");
+                    }
 
-                using (var reader = new StreamReader(File.OpenRead("wwwroot/index.html")))
-                {
-                    await context.Response.WriteAsync(reader.ReadToEnd());
-                }
-            });
+                    using (var reader = new StreamReader(File.OpenRead("wwwroot/index.html")))
+                    {
+                        await context.Response.WriteAsync(reader.ReadToEnd());
+                    }
+                });
         }
     }
 }

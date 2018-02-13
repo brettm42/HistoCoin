@@ -104,6 +104,41 @@
             }
         }
 
+        public Result Cleanup()
+        {
+            if (this.StorageLocation is null)
+            {
+                return new Result(false, "Storage path is null!");
+            }
+
+            try
+            {
+                if (!Directory.Exists(this.StorageLocation))
+                {
+                    return new Result(true, $"Cache at {this.StorageLocation} is clean");
+                }
+
+                var legacyCache =
+                    Directory.GetFiles(this.StorageLocation, $"*.{DefaultCacheExtension}")
+                        .OrderBy(i => i);
+
+                var deletionQueue =
+                    legacyCache
+                        .Skip(MaxCachedFiles);
+
+                foreach (var file in deletionQueue)
+                {
+                    File.Delete(file);
+                }
+
+                return new Result(true, $"Cache at {this.StorageLocation} is clean");
+            }
+            catch (Exception ex)
+            {
+                return new Result(false, ex.ToString());
+            }
+        }
+
         private static string GetUsername() => Environment.MachineName + @"\" + Environment.UserDomainName;
     }
 }

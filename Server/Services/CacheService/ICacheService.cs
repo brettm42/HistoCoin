@@ -14,5 +14,7 @@ namespace HistoCoin.Server.Services.CacheService
         Result Store();
 
         Result Load();
+
+        Result Cleanup();
     }
 }
