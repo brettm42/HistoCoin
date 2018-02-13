@@ -16,9 +16,10 @@ namespace HistoCoin.Server.Services.CurrencyService
         private readonly List<double> _valueHistoryUsd = new List<double>();
         private readonly List<double> _valueHistoryBtc = new List<double>();
         private readonly List<double> _valueHistoryEth = new List<double>();
-        private readonly ConcurrentBag<Currency> _cache = new ConcurrentBag<Currency>();
-        private readonly bool _cacheServiceStoreEnabled = false;
+
         private readonly string _cacheServiceLocation;
+        private readonly bool _cacheServiceStoreEnabled = false;
+        private readonly ConcurrentBag<Currency> _cache = new ConcurrentBag<Currency>();
 
         public IObservable<double[]> CurrentDeltas { get; }
 
