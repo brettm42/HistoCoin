@@ -7,13 +7,13 @@ namespace HistoCoin.Server.Infrastructure
     {
         public const string DefaultCacheStoreLocation = @"C:\Temp\HistoCoin";
 
-        public const string DefaultWalletExtension = ".hcw";
+        public const string DefaultWalletExtension = "hcw";
         public const string DefaultWalletPrefix = "_currencies";
-        public const string DefaultWalletFilename = DefaultWalletPrefix + DefaultWalletExtension;
+        public const string DefaultWalletFilename = DefaultWalletPrefix + "." + DefaultWalletExtension;
 
-        public const string DefaultCacheExtension = ".hcc";
+        public const string DefaultCacheExtension = "hcc";
         public const string DefaultCachePrefix = "store_";
-        public const string DefaultCacheFilename = DefaultCachePrefix + "%date%" + DefaultCacheExtension;
+        public const string DefaultCacheFilename = DefaultCachePrefix + "%date%." + DefaultCacheExtension;
 
         public enum Currencies
         {

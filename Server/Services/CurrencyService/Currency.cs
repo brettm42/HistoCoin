@@ -22,14 +22,13 @@ namespace HistoCoin.Server.Services.CurrencyService
         public double Count { get; set; } = 0;
 
         public double StartingValue { get; set; } = 0;
-
+        
         public double Delta { get; set; } = 0;
 
         public DateTimeOffset LastUpdated { get; set; }
 
-        public override string ToString()
-        {
-            return $"{this.Handle} ({this.BaseCurrency})";
-        }
+        public double Worth => this.Value < 0 ? 0 : this.Value * this.Count;
+
+        public override string ToString() => $"{this.Handle} ({this.BaseCurrency})";
     }
 }

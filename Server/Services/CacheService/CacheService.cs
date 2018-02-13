@@ -1,6 +1,7 @@
 ﻿namespace HistoCoin.Server.Services.CacheService
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using Newtonsoft.Json;
@@ -28,7 +29,7 @@
         public string StorageLocation { get; set; }
 
         public Cache<T> Cache { get; set; }
-
+        
         public Result Store()
         {
             if (this.StorageLocation is null)
@@ -77,7 +78,8 @@
                 }
 
                 var latestStore =
-                    Directory.GetFiles(this.StorageLocation, $"*.{DefaultCacheExtension}")
+                    Directory.EnumerateFiles(
+                            this.StorageLocation, $"*.{DefaultCacheExtension}", SearchOption.AllDirectories)
                         .OrderBy(i => i)
                         .LastOrDefault();
 
@@ -119,7 +121,8 @@
                 }
 
                 var legacyCache =
-                    Directory.GetFiles(this.StorageLocation, $"*.{DefaultCacheExtension}")
+                    Directory.EnumerateFiles(
+                            this.StorageLocation, $"*.{DefaultCacheExtension}", SearchOption.AllDirectories)
                         .OrderBy(i => i);
 
                 var deletionQueue =
@@ -136,6 +139,44 @@
             catch (Exception ex)
             {
                 return new Result(false, ex.ToString());
+            }
+        }
+
+        public IEnumerable<Cache<T>> PollHistoricalCache()
+        {
+            if (this.StorageLocation is null || !Directory.Exists(this.StorageLocation))
+            {
+                yield return default;
+            }
+
+            var legacyStore =
+                Directory.EnumerateFiles(
+                        this.StorageLocation, $"*.{DefaultCacheExtension}", SearchOption.AllDirectories)
+                    .OrderBy(i => i)
+                    .Take(MaxCachedFiles);
+
+            foreach (var store in legacyStore)
+            {
+                if (string.IsNullOrWhiteSpace(store))
+                {
+                    yield return default;
+                }
+
+                Cache<T> cache;
+                try
+                {
+                    var json = File.ReadAllText(store);
+
+                    cache =
+                        new Cache<T>(
+                            JsonConvert.DeserializeObject<T>(json));
+                }
+                catch
+                {
+                    cache = null;
+                }
+
+                yield return cache;
             }
         }
 

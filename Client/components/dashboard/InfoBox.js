@@ -51,7 +51,7 @@ class InfoBox extends React.Component {
 
         <div style={styles.content}>
           <span style={styles.text}>{title}</span>
-          <span style={styles.number}>{value}</span>
+          <span style={styles.number}>{value ? value : "-"}</span>
         </div>
       </Paper>
     );

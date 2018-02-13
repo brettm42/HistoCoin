@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "6225fe52c4ea09126d5c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "e8595f616725d3dbb85e"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -52827,7 +52827,7 @@ var InfoBox = function (_React$Component) {
           _react2.default.createElement(
             'span',
             { style: styles.number },
-            value
+            value ? value : "-"
           )
         )
       );
@@ -52953,7 +52953,7 @@ var RecentActivities = function RecentActivities(props) {
           _react2.default.createElement(_List.ListItem, {
             leftAvatar: _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_wallpaper2.default, null) }),
             primaryText: item.Handle,
-            secondaryText: '$' + item.Value + ' x ' + item.Count + ' ($' + item.Result + ')',
+            secondaryText: item.Value < 0 ? "Loading..." : '$' + item.Value + ' x ' + item.Count + ' ($' + item.Result + ')',
             rightIconButton: _react2.default.createElement(
               _IconMenu2.default,
               { iconButtonElement: iconButtonElement },

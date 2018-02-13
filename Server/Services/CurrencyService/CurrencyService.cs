@@ -15,6 +15,7 @@ namespace HistoCoin.Server.Services.CurrencyService
         private readonly TimeSpan _maxDataAge = TimeSpan.FromMinutes(1);
         private readonly List<double> _valueHistoryUsd = new List<double>();
         private readonly List<double> _valueHistoryBtc = new List<double>();
+        private readonly List<double> _valueHistoryEth = new List<double>();
         private readonly ConcurrentBag<Currency> _cache = new ConcurrentBag<Currency>();
         private readonly bool _cacheServiceStoreEnabled = false;
         private readonly string _cacheServiceLocation;
@@ -46,6 +47,31 @@ namespace HistoCoin.Server.Services.CurrencyService
                 this._cache = cacheService.Cache.Get() ?? new ConcurrentBag<Currency>();
                 this._cacheServiceLocation = cacheService.StorageLocation;
                 this._cacheServiceStoreEnabled = true;
+                
+                // load historical data from CacheService
+                switch (this.BaseCurrency)
+                {
+                    case Currencies.USD:
+                        this._valueHistoryUsd =
+                            CurrencyService.LoadHistoricalValue(
+                                cacheService.PollHistoricalCache(), this.BaseCurrency);
+                        break;
+
+                    case Currencies.BTC:
+                        this._valueHistoryBtc =
+                            CurrencyService.LoadHistoricalValue(
+                                cacheService.PollHistoricalCache(), this.BaseCurrency);
+                        break;
+
+                    case Currencies.ETH:
+                        this._valueHistoryEth =
+                            CurrencyService.LoadHistoricalValue(
+                                cacheService.PollHistoricalCache(), this.BaseCurrency);
+                        break;
+
+                    default:
+                        break;
+                }
             }
 
             this.Coins = 
@@ -194,136 +220,46 @@ namespace HistoCoin.Server.Services.CurrencyService
 
             return cache.Where(c => c.BaseCurrency == filter);
         }
-
-        private double CalculateAverageValue(
-            IEnumerable<(string Handle, double Count)> coins, 
-            (string Handles, List<Packet<Dictionary<string, string>>> Results) currentValues,
-            string currency)
-        {
-            double output = 0;
-
-            foreach (var (Handle, Count) in coins)
-            {
-                var currentValue =
-                    currentValues.Results
-                        .FirstOrDefault(i => i.Name.Equals(Handle))?
-                        .Contents
-                        .FirstOrDefault(i => i.Key.Contains(currency))
-                        .Value;
-
-                if (currentValue is null)
-                {
-                    continue;
-                }
-
-                output += double.Parse(currentValue) * Count;
-            }
-
-            switch (currency)
-            {
-                case nameof(Currencies.USD):
-                    if (this._valueHistoryUsd.LastOrDefault() != output)
-                    {
-                        this._valueHistoryUsd.Add(output);
-                    }
-
-                    break;
-                case nameof(Currencies.BTC):
-                    if (this._valueHistoryBtc.LastOrDefault() != output)
-                    {
-                        this._valueHistoryBtc.Add(output);
-                    }
-
-                    break;
-                case nameof(Currencies.ETH):
-                default:
-                    break;
-            }
-
-            return 
-                Math.Round(
-                    output, 
-                    currency.Contains(nameof(Currencies.BTC)) ? 6 : 2);
-        }
-
+        
         private double CalculateAverageValue(in ConcurrentBag<Currency> cache, Currencies currency)
         {
-            double output = 0;
+            var output = 
+                cache
+                    .Where(c => c.BaseCurrency == currency)
+                    .Where(coin => !(coin.Value < 0))
+                    .Sum(coin => coin.Worth);
 
-            foreach (var coin in cache.Where(c => c.BaseCurrency == currency))
+            output = CurrencyService.Normalize(output, currency);
+
+            if (output > 0)
             {
-                if (coin.Value < 0)
+                switch (currency)
                 {
-                    continue;
+                    case Currencies.USD:
+                        if (this._valueHistoryUsd.LastOrDefault() != output)
+                        {
+                            this._valueHistoryUsd.Add(output);
+                        }
+
+                        break;
+
+                    case Currencies.BTC:
+                        if (this._valueHistoryBtc.LastOrDefault() != output)
+                        {
+                            this._valueHistoryBtc.Add(output);
+                        }
+
+                        break;
+
+                    case Currencies.ETH:
+                    default:
+                        break;
                 }
-
-                output += coin.Value * coin.Count;
-            }
-
-            output = Math.Round(output, currency == Currencies.BTC ? 6 : 2);
-
-            switch (currency)
-            {
-                case Currencies.USD:
-                    if (this._valueHistoryUsd.LastOrDefault() != output)
-                    {
-                        this._valueHistoryUsd.Add(output);
-                    }
-
-                    break;
-                case Currencies.BTC:
-                    if (this._valueHistoryBtc.LastOrDefault() != output)
-                    {
-                        this._valueHistoryBtc.Add(output);
-                    }
-
-                    break;
-                case Currencies.ETH:
-                default:
-                    break;
             }
 
             return output;
         }
-
-        private int[] CalculateValueDistribution(
-            IEnumerable<(string Handle, double Count)> coins,
-            (string Handles, List<Packet<Dictionary<string, string>>> Results) currentValues,
-            string currency)
-        {
-            var output = new List<int>();
-
-            var total = CalculateAverageValue(coins, currentValues, currency);
-
-            foreach (var (Handle, Count) in coins)
-            {
-                var currentValue =
-                    currentValues.Results
-                        .FirstOrDefault(i => i.Name.Equals(Handle))?
-                        .Contents
-                        .FirstOrDefault(i => i.Key.Contains(currency))
-                        .Value;
-
-                if (currentValue is null)
-                {
-                    continue;
-                }
-
-                if (double.Parse(currentValue) < 0)
-                {
-                    output.Add(0);
-
-                    continue;
-                }
-
-                var percent = (double.Parse(currentValue) * Count) / total;
-
-                output.Add((int)(percent * 100));
-            }
-
-            return output.ToArray();
-        }
-
+        
         private int[] CalculateValueDistribution(in ConcurrentBag<Currency> cache, Currencies currency)
         {
             var output = new List<int>();
@@ -335,7 +271,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                 output.Add(
                     coin.Value < 0
                     ? 0
-                    : (int)Math.Round((coin.Value * coin.Count / total) * 100, 0));
+                    : (int)Math.Round(coin.Worth / total * 100, 0));
             }
 
             return output.ToArray();
@@ -343,26 +279,25 @@ namespace HistoCoin.Server.Services.CurrencyService
 
         private static double[] CalculateDeltas(in ConcurrentBag<Currency> cache, Currencies currency)
         {
-            var output = new List<double>();
-
-            foreach (var coin in cache.Where(c => c.BaseCurrency == currency))
-            {
-                output.Add(coin.Delta);
-            }
-
-            return output.ToArray();
+            return cache
+                .Where(c => c.BaseCurrency == currency)
+                .Select(coin => coin.Delta)
+                .ToArray();
         }
 
         private static double CalculateOverallDelta(in ConcurrentBag<Currency> cache, Currencies currency)
         {
-            double total = 0;
+            var total = 
+                cache
+                    .Where(c => c.BaseCurrency == currency)
+                    .Sum(coin => coin.Delta);
 
-            foreach (var coin in cache.Where(c => c.BaseCurrency == currency))
-            {
-                total += coin.Delta;
-            }
+            return CurrencyService.Normalize(total, currency);
+        }
 
-            return Math.Round(total, currency == Currencies.BTC ? 6 : 2);
+        private static double Normalize(double value, Currencies currency)
+        {
+            return Math.Round(value, currency == Currencies.USD ? 2 : 6);
         }
 
         private static Result CreateCacheStore(in ConcurrentBag<Currency> cache, string storeLocation)
@@ -371,6 +306,20 @@ namespace HistoCoin.Server.Services.CurrencyService
                 new CacheService<ConcurrentBag<Currency>>(storeLocation, cache);
             
             return cacheStore.Store();
+        }
+
+        private static List<double> LoadHistoricalValue(IEnumerable<Cache<ConcurrentBag<Currency>>> caches, Currencies currency)
+        {
+            return caches
+                .Where(cache => cache != null)
+                .Select(
+                    cache => 
+                        cache.Get()
+                            .Where(i => i.BaseCurrency == currency)
+                            .Sum(i => i.Worth))
+                .Where(sum => sum > 0)
+                .Select(sum => CurrencyService.Normalize(sum, currency))
+                .ToList();
         }
     }
 }
