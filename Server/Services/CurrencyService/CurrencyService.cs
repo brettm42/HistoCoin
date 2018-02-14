@@ -131,7 +131,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                 Observable
                     .Interval(UpdateInterval)
                     .StartWith(0)
-                    .Select(_ => this._valueHistoryUsd.Take(50).ToArray());
+                    .Select(_ => this._valueHistoryUsd.TakeLast(50).ToArray());
         }
 
         private static IEnumerable<(string Handle, double Count)> SyncCoinList(in ConcurrentBag<Currency> cache, Currencies currency)
