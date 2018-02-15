@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "fc87ecc00924a9043079"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "3b9bf35dadb10154798f"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -15637,16 +15637,16 @@ var FormPage = function (_React$Component) {
               })
             ),
             _react2.default.createElement(_TextField2.default, {
-              hintText: 'Enter first name',
-              floatingLabelText: 'First Name',
+              hintText: 'Enter cryptocurrency handle',
+              floatingLabelText: 'Coin Handle',
               fullWidth: true,
               value: FirstName,
               onChange: function onChange(event) {
                 return _this2.setState({ FirstName: event.target.value, dirty: true });
               } }),
             _react2.default.createElement(_TextField2.default, {
-              hintText: 'Enter last name',
-              floatingLabelText: 'Last Name',
+              hintText: 'Enter current wallet holdings',
+              floatingLabelText: 'Number of coins in wallet',
               fullWidth: true,
               value: LastName,
               onChange: function onChange(event) {
@@ -15852,7 +15852,7 @@ var TablePage = function (_React$Component) {
                 },
                 _react2.default.createElement(_add2.default, null)
               ),
-              _react2.default.createElement(_TextField2.default, { id: 'AddName', floatingLabelText: 'Add', hintText: 'Type full name here',
+              _react2.default.createElement(_TextField2.default, { id: 'AddName', floatingLabelText: 'Add', hintText: 'Type coin handle here',
                 floatingLabelFixed: true,
                 value: addName,
                 onKeyPress: function onKeyPress(event) {
@@ -15879,12 +15879,32 @@ var TablePage = function (_React$Component) {
                   _react2.default.createElement(
                     _Table.TableHeaderColumn,
                     { style: styles.columns.firstName },
-                    'First Name'
+                    'Handle'
                   ),
                   _react2.default.createElement(
                     _Table.TableHeaderColumn,
                     { style: styles.columns.lastName },
-                    'Last Name'
+                    'Value'
+                  ),
+                  _react2.default.createElement(
+                    _Table.TableHeaderColumn,
+                    { style: styles.columns.lastName },
+                    'Count'
+                  ),
+                  _react2.default.createElement(
+                    _Table.TableHeaderColumn,
+                    { style: styles.columns.lastName },
+                    'Worth'
+                  ),
+                  _react2.default.createElement(
+                    _Table.TableHeaderColumn,
+                    { style: styles.columns.lastName },
+                    'Delta'
+                  ),
+                  _react2.default.createElement(
+                    _Table.TableHeaderColumn,
+                    { style: styles.columns.lastName },
+                    'Last Updated'
                   ),
                   _react2.default.createElement(
                     _Table.TableHeaderColumn,
@@ -15925,6 +15945,50 @@ var TablePage = function (_React$Component) {
                             return handleUpdate({ Id: item.Id, LastName: value });
                           } },
                         item.LastName
+                      )
+                    ),
+                    _react2.default.createElement(
+                      _Table.TableRowColumn,
+                      { style: styles.columns.lastName },
+                      _react2.default.createElement(
+                        _InlineEdit2.default,
+                        { onChange: function onChange(value) {
+                            return handleUpdate({ Id: item.Id, LastName: value });
+                          } },
+                        item.LastName
+                      )
+                    ),
+                    _react2.default.createElement(
+                      _Table.TableRowColumn,
+                      { style: styles.columns.lastName },
+                      _react2.default.createElement(
+                        _InlineEdit2.default,
+                        { onChange: function onChange(value) {
+                            return handleUpdate({ Id: item.Id, LastName: value });
+                          } },
+                        item.LastName
+                      )
+                    ),
+                    _react2.default.createElement(
+                      _Table.TableRowColumn,
+                      { style: styles.columns.lastName },
+                      _react2.default.createElement(
+                        _InlineEdit2.default,
+                        { onChange: function onChange(value) {
+                            return handleUpdate({ Id: item.Id, LastName: value });
+                          } },
+                        item.LastName
+                      )
+                    ),
+                    _react2.default.createElement(
+                      _Table.TableRowColumn,
+                      { style: styles.columns.lastName },
+                      _react2.default.createElement(
+                        _InlineEdit2.default,
+                        { onChange: function onChange(value) {
+                            return handleUpdate({ Id: item.Id, LastName: value });
+                          } },
+                        Date.now.toString()
                       )
                     ),
                     _react2.default.createElement(

@@ -318,9 +318,15 @@ namespace HistoCoin.Server.Services.CurrencyService
                 .Where(cache => cache != null)
                 .Select(
                     cache => 
-                        cache.Get()
-                            .Where(i => i.BaseCurrency == currency)
-                            .Sum(i => i.Worth))
+                        cache.Get().Where(i => i.BaseCurrency == currency))
+                .GroupBy(
+                    cache => 
+                        (DateTime.Now - cache.FirstOrDefault().LastUpdated).Days)
+                .Select(
+                    group => 
+                        group
+                            .LastOrDefault()?
+                            .Sum(i => i.Worth) ?? 0)
                 .Where(sum => sum > 0)
                 .Select(sum => CurrencyService.Normalize(sum, currency))
                 .ToList();

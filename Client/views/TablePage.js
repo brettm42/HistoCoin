@@ -82,7 +82,7 @@ class TablePage extends React.Component {
               >
                 <ContentAdd />
               </FloatingActionButton>
-              <TextField id="AddName" floatingLabelText="Add" hintText="Type full name here"
+              <TextField id="AddName" floatingLabelText="Add" hintText="Type coin handle here"
                 floatingLabelFixed={true}
                 value={addName}
                 onKeyPress={event => event.key === "Enter" ? handleAdd() : null}
@@ -93,8 +93,12 @@ class TablePage extends React.Component {
               <TableHeader>
                 <TableRow>
                   <TableHeaderColumn style={styles.columns.id}>ID</TableHeaderColumn>
-                  <TableHeaderColumn style={styles.columns.firstName}>First Name</TableHeaderColumn>
-                  <TableHeaderColumn style={styles.columns.lastName}>Last Name</TableHeaderColumn>
+                  <TableHeaderColumn style={styles.columns.firstName}>Handle</TableHeaderColumn>
+                  <TableHeaderColumn style={styles.columns.lastName}>Value</TableHeaderColumn>
+                    <TableHeaderColumn style={styles.columns.lastName}>Count</TableHeaderColumn>
+                    <TableHeaderColumn style={styles.columns.lastName}>Worth</TableHeaderColumn>
+                    <TableHeaderColumn style={styles.columns.lastName}>Delta</TableHeaderColumn>
+                    <TableHeaderColumn style={styles.columns.lastName}>Last Updated</TableHeaderColumn>
                   <TableHeaderColumn style={styles.columns.remove}>Remove</TableHeaderColumn>
                 </TableRow>
               </TableHeader>
@@ -107,7 +111,19 @@ class TablePage extends React.Component {
                     </TableRowColumn>
                     <TableRowColumn style={styles.columns.lastName}>
                       <InlineEdit onChange={value => handleUpdate({ Id: item.Id, LastName: value })}>{item.LastName}</InlineEdit>
-                    </TableRowColumn>
+                                    </TableRowColumn>
+                      <TableRowColumn style={styles.columns.lastName}>
+                          <InlineEdit onChange={value => handleUpdate({ Id: item.Id, LastName: value })}>{item.LastName}</InlineEdit>
+                                    </TableRowColumn>
+                      <TableRowColumn style={styles.columns.lastName}>
+                          <InlineEdit onChange={value => handleUpdate({ Id: item.Id, LastName: value })}>{item.LastName}</InlineEdit>
+                                    </TableRowColumn>
+                      <TableRowColumn style={styles.columns.lastName}>
+                          <InlineEdit onChange={value => handleUpdate({ Id: item.Id, LastName: value })}>{item.LastName}</InlineEdit>
+                                    </TableRowColumn>
+                      <TableRowColumn style={styles.columns.lastName}>
+                          <InlineEdit onChange={value => handleUpdate({ Id: item.Id, LastName: value })}>{Date.now.toString()}</InlineEdit>
+                      </TableRowColumn>
                     <TableRowColumn style={styles.columns.remove}>
                       <FloatingActionButton onClick={_ => this.dispatch({ Remove: item.Id })}
                         zDepth={0}

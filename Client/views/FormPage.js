@@ -80,15 +80,15 @@ class FormPage extends React.Component {
             </SelectField>
 
             <TextField
-              hintText="Enter first name"
-              floatingLabelText="First Name"
+              hintText="Enter cryptocurrency handle"
+              floatingLabelText="Coin Handle"
               fullWidth={true}
               value={FirstName}
               onChange={event => this.setState({ FirstName: event.target.value, dirty: true })} />
 
             <TextField
-              hintText="Enter last name"
-              floatingLabelText="Last Name"
+              hintText="Enter current wallet holdings"
+              floatingLabelText="Number of coins in wallet"
               fullWidth={true}
               value={LastName}
               onChange={event => this.setState({ LastName: event.target.value, dirty: true })} />
