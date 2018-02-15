@@ -129,7 +129,7 @@ namespace HistoCoin.Server.Services.CurrencyService
 
             this.Value =
                 Observable
-                    .Interval(UpdateInterval)
+                    .Interval(UpdateInterval + TimeSpan.FromSeconds(1))
                     .StartWith(0)
                     .Select(_ => this._valueHistoryUsd.TakeLast(50).ToArray());
         }
@@ -253,6 +253,12 @@ namespace HistoCoin.Server.Services.CurrencyService
                         break;
 
                     case Currencies.ETH:
+                        if (this._valueHistoryEth.LastOrDefault() != output)
+                        {
+                            this._valueHistoryEth.Add(output);
+                        }
+
+                        break;
                     default:
                         break;
                 }
@@ -263,19 +269,16 @@ namespace HistoCoin.Server.Services.CurrencyService
         
         private int[] CalculateValueDistribution(in ConcurrentBag<Currency> cache, Currencies currency)
         {
-            var output = new List<int>();
-
             var total = CalculateAverageValue(in cache, currency);
-            
-            foreach (var coin in cache.Where(c => c.BaseCurrency == currency))
-            {
-                output.Add(
-                    coin.Value < 0
-                    ? 0
-                    : (int)Math.Round(coin.Worth / total * 100, 0));
-            }
 
-            return output.ToArray();
+            return cache
+                .Where(c => c.BaseCurrency == currency)
+                .Select(
+                    coin => 
+                        coin.Value < 0
+                        ? 0
+                        : (int) Math.Round(coin.Worth / total * 100, 0))
+                .ToArray();
         }
 
         private static double[] CalculateDeltas(in ConcurrentBag<Currency> cache, Currencies currency)
