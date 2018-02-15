@@ -93,9 +93,9 @@ class Dashboard extends React.Component {
 
               <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
                   <InfoBox Icon={ActionTimeline}
-                           color={purple600}
-                           title="Overall Delta"
-                           value={`$ ${this.state.OverallDelta > 0 ? "+" + this.state.OverallDelta : this.state.OverallDelta}`}
+                    color={purple600}
+                    title="Overall Delta"
+                    value={`$ ${this.state.OverallDelta > 0 ? `+${this.state.OverallDelta}` : this.state.OverallDelta}`}
                   />
               </div>
           </div>

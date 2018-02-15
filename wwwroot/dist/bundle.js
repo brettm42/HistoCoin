@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "e8595f616725d3dbb85e"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "fc87ecc00924a9043079"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -15431,7 +15431,7 @@ var Dashboard = function (_React$Component) {
               _react2.default.createElement(_InfoBox2.default, { Icon: _timeline2.default,
                 color: _colors.purple600,
                 title: 'Overall Delta',
-                value: '$ ' + (this.state.OverallDelta > 0 ? "+" + this.state.OverallDelta : this.state.OverallDelta)
+                value: '$ ' + (this.state.OverallDelta > 0 ? '+' + this.state.OverallDelta : this.state.OverallDelta)
               })
             )
           ),
