@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "3b9bf35dadb10154798f"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "27278a5416d10ecc3435"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -53017,7 +53017,7 @@ var RecentActivities = function RecentActivities(props) {
           _react2.default.createElement(_List.ListItem, {
             leftAvatar: _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_wallpaper2.default, null) }),
             primaryText: item.Handle,
-            secondaryText: item.Value < 0 ? "Loading..." : '$' + item.Value + ' x ' + item.Count + ' ($' + item.Result + ')',
+            secondaryText: item.Value < 0 ? "Loading..." : '$' + item.Value + ' x ' + item.Count + ' ($' + item.Worth + ')',
             rightIconButton: _react2.default.createElement(
               _IconMenu2.default,
               { iconButtonElement: iconButtonElement },

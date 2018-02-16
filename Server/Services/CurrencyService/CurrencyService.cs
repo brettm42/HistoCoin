@@ -133,6 +133,11 @@ namespace HistoCoin.Server.Services.CurrencyService
                     .StartWith(0)
                     .Select(_ => this._valueHistoryUsd.TakeLast(50).ToArray());
         }
+        
+        internal static double Normalize(double value, Currencies currency)
+        {
+            return Math.Round(value, currency == Currencies.USD ? 2 : 6);
+        }
 
         private static IEnumerable<(string Handle, double Count)> SyncCoinList(in ConcurrentBag<Currency> cache, Currencies currency)
         {
@@ -285,7 +290,7 @@ namespace HistoCoin.Server.Services.CurrencyService
         {
             return cache
                 .Where(c => c.BaseCurrency == currency)
-                .Select(coin => coin.Delta)
+                .Select(coin => CurrencyService.Normalize(coin.Delta, currency))
                 .ToArray();
         }
 
@@ -298,12 +303,7 @@ namespace HistoCoin.Server.Services.CurrencyService
 
             return CurrencyService.Normalize(total, currency);
         }
-
-        private static double Normalize(double value, Currencies currency)
-        {
-            return Math.Round(value, currency == Currencies.USD ? 2 : 6);
-        }
-
+        
         private static Result CreateCacheStore(in ConcurrentBag<Currency> cache, string storeLocation)
         {
             var cacheStore =

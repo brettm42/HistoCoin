@@ -29,7 +29,7 @@ namespace HistoCoin.Server.ViewModels
 
             public string Count { get; set; }
 
-            public string Result { get; set; }
+            public string Worth { get; set; }
         }
 
         public RoutingState RoutingState { get; set; }
@@ -75,9 +75,10 @@ namespace HistoCoin.Server.ViewModels
                                 new Currency
                                 {
                                     Handle = value.Handle,
-                                    Value = $"{value.Value}",
+                                    Value = $"{CurrencyService.Normalize(value.Value, dataService.BaseCurrency)}",
+                                    Worth = $"{CurrencyService.Normalize(value.Worth, dataService.BaseCurrency)}",
+                                    //$"{CurrencyService.Normalize((value.Value < 0 ? 0 : value.Value) * value.Count, dataService.BaseCurrency)}",
                                     Count = $"{value.Count}",
-                                    Result = $"{(value.Value < 0 ? 0 : value.Value) * value.Count}",
                                     Route = this.Redirect(AppLayout.FormPagePath, value.Id.ToString())
                                 });
 

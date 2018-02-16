@@ -47,7 +47,7 @@ const RecentActivities = (props) => {
               primaryText={item.Handle}
               secondaryText={item.Value < 0
                   ? "Loading..."
-                  : `$${item.Value} x ${item.Count} ($${item.Result})`}
+                  : `$${item.Value} x ${item.Count} ($${item.Worth})`}
               rightIconButton={
                 <IconMenu iconButtonElement={iconButtonElement}>
                   <MenuItem onClick={_ => handleMenuClick(item.Route)}>View</MenuItem>
