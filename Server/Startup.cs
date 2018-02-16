@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Concurrent;
     using System.IO;
+    using System.Linq;
     using System.Text;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -12,9 +13,10 @@
     using Microsoft.IdentityModel.Tokens;
     using DotNetify;
     using DotNetify.Security;
-    using HistoCoin.Server.Services;
     using HistoCoin.Server.Services.CacheService;
+    using HistoCoin.Server.Services.CoinService;
     using HistoCoin.Server.Services.CurrencyService;
+    using HistoCoin.Server.Services.EmployeeService;
     using static HistoCoin.Server.Infrastructure.Constants;
 
     public class Startup
@@ -28,13 +30,21 @@
             services.AddSignalR();
             services.AddDotNetify();
 
-            services
-                .AddTransient<ICurrencyService, CurrencyService>(
-                    service => 
-                        new CurrencyService(
-                            new CacheService<ConcurrentBag<Currency>>(DefaultCacheStoreLocation)));
+            var cacheService = 
+                new CacheService<ConcurrentBag<Currency>>(DefaultCacheStoreLocation);
 
-            services.AddSingleton<IEmployeeService, EmployeeService>();
+            var coinService = new CoinService();
+
+            services
+                .AddSingleton<IEmployeeService, EmployeeService>();
+            services
+                .AddSingleton<ICacheService<ConcurrentBag<Currency>>, CacheService<ConcurrentBag<Currency>>>(
+                    service => cacheService);
+            services
+                .AddSingleton<ICoinService, CoinService>(service => coinService);
+            services
+                .AddSingleton<ICurrencyService, CurrencyService>(
+                    service => new CurrencyService(cacheService, coinService));
         }
 
         public void Configure(IApplicationBuilder app)

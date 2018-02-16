@@ -8,6 +8,7 @@ namespace HistoCoin.Server.Services.CurrencyService
     using HistoCoin.Server.Data;
     using HistoCoin.Server.Infrastructure;
     using HistoCoin.Server.Services.CacheService;
+    using HistoCoin.Server.Services.CoinService;
     using static HistoCoin.Server.Infrastructure.Constants;
     
     public class CurrencyService : ICurrencyService
@@ -41,7 +42,7 @@ namespace HistoCoin.Server.Services.CurrencyService
 
         public Currencies BaseCurrency { get; set; }
 
-        public CurrencyService(ICacheService<ConcurrentBag<Currency>> cacheService)
+        public CurrencyService(ICacheService<ConcurrentBag<Currency>> cacheService, ICoinService coinService)
         {
             if (cacheService.Cache != null)
             {
@@ -76,7 +77,7 @@ namespace HistoCoin.Server.Services.CurrencyService
             }
 
             this.Coins = 
-                SyncCoinList(in this._cache, this.BaseCurrency)
+                CurrencyService.SyncCoinList(in this._cache, this.BaseCurrency)
                     .Select(c => c.Handle)
                     .ToObservable()
                     .ToArray();
@@ -188,7 +189,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                     c => c.LastUpdated < (DateTimeOffset.Now - minAge));
             
             var (_, Results) = DataFetcher.FetchComparisons(queue.Select(i => i.Handle));
-            if (Results is null)
+            if (Results is null || Results.Count < 1)
             {
                 return cache.Where(c => c.BaseCurrency == filter);
             }

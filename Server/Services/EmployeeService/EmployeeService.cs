@@ -1,4 +1,5 @@
-﻿namespace HistoCoin.Server.Services
+﻿
+namespace HistoCoin.Server.Services.EmployeeService
 {
     using System;
     using System.Collections.Generic;
@@ -6,33 +7,7 @@
     using System.Linq;
     using System.Text;
     using Newtonsoft.Json;
-
-    public interface IEmployeeService
-    {
-        IList<EmployeeModel> GetAll();
-
-        EmployeeModel GetById(int id);
-
-        int Add(EmployeeModel record);
-
-        void Update(EmployeeModel record);
-
-        void Delete(int id);
-    }
-
-    public class EmployeeModel
-    {
-        public int Id { get; set; }
-
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
-        public int ReportTo { get; set; }
-
-        public string FullName => $"{FirstName} {LastName}";
-    }
-
+    
     public class EmployeeService : IEmployeeService
     {
         private List<EmployeeModel> _employees;

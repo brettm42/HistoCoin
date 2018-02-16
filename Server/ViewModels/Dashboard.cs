@@ -5,7 +5,6 @@ namespace HistoCoin.Server.ViewModels
     using System.Collections.Generic;
     using System.Linq;
     using System.Reactive.Linq;
-    using System.Threading;
     using DotNetify;
     using DotNetify.Routing;
     using DotNetify.Security;
@@ -91,7 +90,7 @@ namespace HistoCoin.Server.ViewModels
                         }));
 
             // Regulate data update interval to no less than every 200 msecs.
-            _subscription =
+            this._subscription =
                 Observable
                     .Interval(TimeSpan.FromMilliseconds(200))
                     .StartWith(0)

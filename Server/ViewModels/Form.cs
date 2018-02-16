@@ -7,6 +7,8 @@ namespace HistoCoin.Server.ViewModels
     using DotNetify.Routing;
     using DotNetify.Security;
     using HistoCoin.Server.Services;
+    using HistoCoin.Server.Services.CoinService;
+    using HistoCoin.Server.Services.EmployeeService;
 
     [Authorize]
     public class Form : BaseVM, IRoutable
