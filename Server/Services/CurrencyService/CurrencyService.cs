@@ -76,11 +76,17 @@ namespace HistoCoin.Server.Services.CurrencyService
                 }
             }
 
-            this.Coins = 
+            this.Coins =
                 CurrencyService.SyncCoinList(in this._cache, this.BaseCurrency)
                     .Select(c => c.Handle)
                     .ToObservable()
                     .ToArray();
+
+            //this.Coins =
+            //    coinService.GetAll()
+            //        .Select(c => c.Handle)
+            //        .ToObservable()
+            //        .ToArray();
 
             this.CurrentValues =
                 Observable
