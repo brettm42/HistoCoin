@@ -328,7 +328,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                         cache.Get().Where(i => i.BaseCurrency == currency))
                 .GroupBy(
                     cache => 
-                        (DateTime.Now - cache.FirstOrDefault().LastUpdated).Days)
+                        (int)(DateTime.Now - cache.FirstOrDefault().LastUpdated).TotalHours / 12)
                 .Select(
                     group => 
                         group
