@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "27278a5416d10ecc3435"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "e0eec36f1fc9ba0a0174"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -15368,7 +15368,7 @@ var Dashboard = function (_React$Component) {
 
       var styles = {
         syncButton: {
-          marginTop: "-40",
+          marginTop: "-50",
           float: "right"
         }
       };
