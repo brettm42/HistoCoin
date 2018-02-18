@@ -16,8 +16,8 @@ class App extends React.Component {
   render() {
     const handleAuthenticated = _ => this.setState({ authenticated: true });
 
-    return !this.state.authenticated ? 
-      <LoginPage onAuthenticated={handleAuthenticated} /> : <AppLayout />;
+    return !this.state.authenticated
+        ? <LoginPage onAuthenticated={handleAuthenticated} /> : <AppLayout />;
   }
 }
 
