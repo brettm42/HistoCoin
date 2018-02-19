@@ -20,8 +20,8 @@ class AppLayout extends React.Component {
     this.vm.onRouteEnter = (path, template) => template.Target = "Content";
 
     this.state = {
-      /* sidebarOpen: props.width === LARGE, */
-      sidebarOpen: false,
+      sidebarOpen: props.width === LARGE,
+      /* sidebarOpen: false, */
       Menus: []
     };
   }

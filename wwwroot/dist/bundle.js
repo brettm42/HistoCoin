@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "57dd0cb066feffc3c97c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "eb1d380136dd1385684a"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -15988,7 +15988,7 @@ var TablePage = function (_React$Component) {
                         { onChange: function onChange(value) {
                             return handleUpdate({ Id: item.Id, LastName: value });
                           } },
-                        Date.now.toString()
+                        Date.now()
                       )
                     ),
                     _react2.default.createElement(
@@ -53460,8 +53460,8 @@ var AppLayout = function (_React$Component) {
     };
 
     _this.state = {
-      /* sidebarOpen: props.width === LARGE, */
-      sidebarOpen: false,
+      sidebarOpen: props.width === _withWidth.LARGE,
+      /* sidebarOpen: false, */
       Menus: []
     };
     return _this;

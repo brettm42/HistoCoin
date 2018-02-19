@@ -13,7 +13,7 @@ namespace HistoCoin.Server.ViewModels
     public class Table : BaseVM
     {
         private readonly IEmployeeService _employeeService;
-        private readonly int _recordsPerPage = 8;
+        private readonly int _recordsPerPage = 15;
 
         public class EmployeeInfo
         {

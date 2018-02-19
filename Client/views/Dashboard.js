@@ -62,7 +62,7 @@ class Dashboard extends React.Component {
       <MuiThemeProvider muiTheme={ThemeDefault}>
         <div>
           <h3 style={globalStyles.navigation}>HistoCoin / Dashboard</h3>
-
+                
             <div>
                 <FloatingActionButton
                     style={styles.syncButton}
