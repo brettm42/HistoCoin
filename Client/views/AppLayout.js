@@ -20,8 +20,8 @@ class AppLayout extends React.Component {
     this.vm.onRouteEnter = (path, template) => template.Target = "Content";
 
     this.state = {
-      sidebarOpen: props.width === LARGE,
-      /* sidebarOpen: false, */
+      /* sidebarOpen: props.width === LARGE, */
+      sidebarOpen: false,
       Menus: []
     };
   }
@@ -51,6 +51,8 @@ class AppLayout extends React.Component {
 
     const handleSidebarToggle = () => this.setState({ sidebarOpen: !this.state.sidebarOpen });
 
+    const handleSidebarCollapse = () => this.setState({ sidebarOpen: false });
+
     return (
       <MuiThemeProvider muiTheme={ThemeDefault}>
         <div>
@@ -66,7 +68,7 @@ class AppLayout extends React.Component {
               menus={Menus}
               username={UserName}
           />
-          <div id="Content" style={styles.container} />
+          <div id="Content" style={styles.container} onFocus={handleSidebarCollapse} onClick={handleSidebarCollapse} />
         </div>
       </MuiThemeProvider>
     );

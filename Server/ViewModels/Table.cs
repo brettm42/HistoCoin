@@ -18,7 +18,9 @@ namespace HistoCoin.Server.ViewModels
         public class EmployeeInfo
         {
             public int Id { get; set; }
+
             public string FirstName { get; set; }
+
             public string LastName { get; set; }
         }
 
@@ -139,7 +141,7 @@ namespace HistoCoin.Server.ViewModels
             }
             else
             {
-                Pages = Enumerable.Range(1, GetPageCount(employees.Count())).ToArray();
+                this.Pages = Enumerable.Range(1, GetPageCount(employees.Count())).ToArray();
 
                 return employees.Take(_recordsPerPage);
             }

@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "eb1d380136dd1385684a"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "41c4fc871d9d1d2bde82"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -15988,7 +15988,7 @@ var TablePage = function (_React$Component) {
                         { onChange: function onChange(value) {
                             return handleUpdate({ Id: item.Id, LastName: value });
                           } },
-                        Date.now()
+                        new Date().toJSON().slice(0, 10)
                       )
                     ),
                     _react2.default.createElement(
@@ -53460,8 +53460,8 @@ var AppLayout = function (_React$Component) {
     };
 
     _this.state = {
-      sidebarOpen: props.width === _withWidth.LARGE,
-      /* sidebarOpen: false, */
+      /* sidebarOpen: props.width === LARGE, */
+      sidebarOpen: false,
       Menus: []
     };
     return _this;
@@ -53505,6 +53505,10 @@ var AppLayout = function (_React$Component) {
         return _this2.setState({ sidebarOpen: !_this2.state.sidebarOpen });
       };
 
+      var handleSidebarCollapse = function handleSidebarCollapse() {
+        return _this2.setState({ sidebarOpen: false });
+      };
+
       return _react2.default.createElement(
         _MuiThemeProvider2.default,
         { muiTheme: _themeDefault2.default },
@@ -53523,7 +53527,7 @@ var AppLayout = function (_React$Component) {
             menus: Menus,
             username: UserName
           }),
-          _react2.default.createElement('div', { id: 'Content', style: styles.container })
+          _react2.default.createElement('div', { id: 'Content', style: styles.container, onFocus: handleSidebarCollapse, onClick: handleSidebarCollapse })
         )
       );
     }

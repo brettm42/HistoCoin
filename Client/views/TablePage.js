@@ -122,7 +122,7 @@ class TablePage extends React.Component {
                           <InlineEdit onChange={value => handleUpdate({ Id: item.Id, LastName: value })}>{item.LastName}</InlineEdit>
                                     </TableRowColumn>
                       <TableRowColumn style={styles.columns.lastName}>
-                          <InlineEdit onChange={value => handleUpdate({ Id: item.Id, LastName: value })}>{Date.now()}</InlineEdit>
+                          <InlineEdit onChange={value => handleUpdate({ Id: item.Id, LastName: value })}>{new Date().toJSON().slice(0, 10)}</InlineEdit>
                       </TableRowColumn>
                     <TableRowColumn style={styles.columns.remove}>
                       <FloatingActionButton onClick={_ => this.dispatch({ Remove: item.Id })}
