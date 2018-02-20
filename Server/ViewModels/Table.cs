@@ -29,15 +29,16 @@ namespace HistoCoin.Server.ViewModels
         public string Employees_itemKey => nameof(EmployeeInfo.Id);
 
         public IEnumerable<EmployeeInfo> Employees => 
-            Paginate(
-                _employeeService
+            this.Paginate(
+                this._employeeService
                     .GetAll()
-                    .Select(i => new EmployeeInfo
-                    {
-                        Id = i.Id,
-                        FirstName = i.FirstName,
-                        LastName = i.LastName
-                    }));
+                    .Select(i => 
+                        new EmployeeInfo
+                        {
+                            Id = i.Id,
+                            FirstName = i.FirstName,
+                            LastName = i.LastName
+                        }));
 
         public Action<string> Add => fullName =>
         {
@@ -46,7 +47,7 @@ namespace HistoCoin.Server.ViewModels
                 new EmployeeModel
                 {
                     FirstName = names.First(),
-                    LastName = names.Length > 1 ? names.Last() : ""
+                    LastName = names.Length > 1 ? names.Last() : string.Empty
                 };
 
             this.AddList(
@@ -76,12 +77,12 @@ namespace HistoCoin.Server.ViewModels
 
         public Action<int> Remove => id =>
         {
-            _employeeService.Delete(id);
-            this.RemoveList(nameof(Employees), id);
+            this._employeeService.Delete(id);
+            this.RemoveList(nameof(this.Employees), id);
 
-            ShowNotification = true;
+            this.ShowNotification = true;
             Changed(nameof(SelectedPage));
-            Changed(nameof(Employees));
+            Changed(nameof(this.Employees));
         };
 
         // Whether to show notification that changes have been saved.
@@ -126,7 +127,7 @@ namespace HistoCoin.Server.ViewModels
 
         public Table(IEmployeeService employeeService)
         {
-            _employeeService = employeeService;
+            this._employeeService = employeeService;
         }
 
         private IEnumerable<EmployeeInfo> Paginate(IEnumerable<EmployeeInfo> employees)
