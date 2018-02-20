@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using HistoCoin.Server.Data;
+    using static HistoCoin.Server.Infrastructure.Constants;
     
     public class CoinService : ICoinService
     {
@@ -26,6 +27,8 @@
 
             this._newId = this._coins.Count;
         }
+
+        public Currencies BaseCurrency { get; set; } = Currencies.USD;
 
         public IList<CoinModel> GetAll() => this._coins;
 

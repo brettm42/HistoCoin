@@ -40,10 +40,15 @@ namespace HistoCoin.Server.Services.CurrencyService
 
         public IObservable<string[]> Coins { get; }
 
-        public Currencies BaseCurrency { get; set; }
+        public Currencies BaseCurrency { get; set; } = Currencies.USD;
 
         public CurrencyService(ICacheService<ConcurrentBag<Currency>> cacheService, ICoinService coinService)
         {
+            if (coinService != null)
+            {
+                this.BaseCurrency = coinService.BaseCurrency;
+            }
+
             if (cacheService.Cache != null)
             {
                 this._cache = cacheService.Cache.Get() ?? new ConcurrentBag<Currency>();
@@ -76,17 +81,17 @@ namespace HistoCoin.Server.Services.CurrencyService
                 }
             }
 
-            this.Coins =
-                CurrencyService.SyncCoinList(in this._cache, this.BaseCurrency)
-                    .Select(c => c.Handle)
-                    .ToObservable()
-                    .ToArray();
-
             //this.Coins =
-            //    coinService.GetAll()
+            //    CurrencyService.SyncCoinList(in this._cache, this.BaseCurrency)
             //        .Select(c => c.Handle)
             //        .ToObservable()
             //        .ToArray();
+
+            this.Coins =
+                CurrencyService.SyncCoinList(in this._cache, coinService)
+                    .Select(c => c.Handle)
+                    .ToObservable()
+                    .ToArray();
 
             this.CurrentValues =
                 Observable
@@ -146,6 +151,44 @@ namespace HistoCoin.Server.Services.CurrencyService
             return Math.Round(value, currency == Currencies.USD ? 2 : 6);
         }
 
+        private static IEnumerable<(string Handle, double Count)> SyncCoinList(in ConcurrentBag<Currency> cache, ICoinService coinService)
+        {
+            var coins = coinService.GetAll();
+
+            var count = cache.Count(c => c.BaseCurrency == coinService.BaseCurrency);
+            if (count != coins.Count)
+            {
+                cache.Clear();
+            
+                foreach (var coin in coins)
+                {
+                    cache.Add(
+                        new Currency(Currencies.USD)
+                        {
+                            Id = coin.Id,
+                            Handle = coin.Handle,
+                            Count = coin.Count,
+                            StartingValue = coin.StartingValue,
+                            LastUpdated = DateTimeOffset.MinValue,
+                        });
+
+                    cache.Add(
+                        new Currency(Currencies.BTC)
+                        {
+                            Id = coin.Id,
+                            Handle = coin.Handle,
+                            Count = coin.Count,
+                            StartingValue = coin.StartingValue,
+                            LastUpdated = DateTimeOffset.MinValue,
+                        });
+                }
+            }
+
+            return cache
+                .Where(c => c.BaseCurrency == coinService.BaseCurrency)
+                .Select(c => (c.Handle, c.Count));
+        }
+
         private static IEnumerable<(string Handle, double Count)> SyncCoinList(in ConcurrentBag<Currency> cache, Currencies currency)
         {
             var coins = DataFetcher.BuildCurrencies().ToArray();
@@ -154,7 +197,7 @@ namespace HistoCoin.Server.Services.CurrencyService
             if (count != coins.Length)
             {
                 cache.Clear();
-            
+
                 foreach (var (Handle, Count, StartingValue) in coins)
                 {
                     cache.Add(
