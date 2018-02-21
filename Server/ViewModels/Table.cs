@@ -42,7 +42,7 @@ namespace HistoCoin.Server.ViewModels
 
         public Action<string> Add => fullName =>
         {
-            var names = fullName.Split(new char[] {' '}, 2);
+            var names = fullName.Split(new [] {' '}, 2);
             var newRecord = 
                 new EmployeeModel
                 {
@@ -59,7 +59,7 @@ namespace HistoCoin.Server.ViewModels
                     LastName = newRecord.LastName
                 });
 
-            SelectedPage = GetPageCount(_employeeService.GetAll().Count);
+            this.SelectedPage = this.GetPageCount(_employeeService.GetAll().Count);
         };
 
         public Action<EmployeeInfo> Update => changes =>
@@ -69,9 +69,9 @@ namespace HistoCoin.Server.ViewModels
             {
                 record.FirstName = changes.FirstName ?? record.FirstName;
                 record.LastName = changes.LastName ?? record.LastName;
-                _employeeService.Update(record);
+                this._employeeService.Update(record);
 
-                ShowNotification = true;
+                this.ShowNotification = true;
             }
         };
 
@@ -121,7 +121,7 @@ namespace HistoCoin.Server.ViewModels
             set
             {
                 Set(value);
-                Changed(nameof(Employees));
+                Changed(nameof(this.Employees));
             }
         }
 
@@ -148,6 +148,6 @@ namespace HistoCoin.Server.ViewModels
             }
         }
 
-        private int GetPageCount(int records) => (int) Math.Ceiling(records / (double) _recordsPerPage);
+        private int GetPageCount(int records) => (int) Math.Ceiling(records / (double) this._recordsPerPage);
     }
 }
