@@ -24,7 +24,7 @@ class TablePage extends React.Component {
 
     this.state = {
       addName: '',
-      Employees: [],
+      Coins: [],
       Pages: [],
       ShowNotification: false
     };
@@ -35,15 +35,16 @@ class TablePage extends React.Component {
   }
 
   render() {
-    let { addName, Employees, Pages, SelectedPage, ShowNotification } = this.state;
+    let { addName, Coins, Pages, SelectedPage, ShowNotification } = this.state;
 
     const styles = {
       addButton: { margin: '1em' },
       removeIcon: { fill: grey500 },
       columns: {
         id: { width: '10%' },
-        firstName: { width: '35%' },
-        lastName: { width: '35%' },
+        handle: { width: '35%' },
+        count: { width: '35%' },
+        startingValue: { width: '35%' },
         remove: { width: '15%' }
       },
       pagination: { marginTop: '1em' }
@@ -56,10 +57,10 @@ class TablePage extends React.Component {
       }
     };
 
-    const handleUpdate = employee => {
-      let newState = Employees.map(item => item.Id === employee.Id ? Object.assign(item, employee) : item);
-      this.setState({ Employees: newState });
-      this.dispatch({ Update: employee });
+    const handleUpdate = coin => {
+      let newState = Coins.map(item => item.Id === coin.Id ? Object.assign(item, coin) : item);
+      this.setState({ Coins: newState });
+      this.dispatch({ Update: coin });
     };
 
     const handleSelectPage = page => {
@@ -92,38 +93,28 @@ class TablePage extends React.Component {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHeaderColumn style={styles.columns.id}>ID</TableHeaderColumn>
-                  <TableHeaderColumn style={styles.columns.firstName}>Handle</TableHeaderColumn>
-                  <TableHeaderColumn style={styles.columns.lastName}>Value</TableHeaderColumn>
-                    <TableHeaderColumn style={styles.columns.lastName}>Count</TableHeaderColumn>
-                    <TableHeaderColumn style={styles.columns.lastName}>Worth</TableHeaderColumn>
-                    <TableHeaderColumn style={styles.columns.lastName}>Delta</TableHeaderColumn>
-                    <TableHeaderColumn style={styles.columns.lastName}>Last Updated</TableHeaderColumn>
+                  <TableHeaderColumn style={styles.columns.handle}>Handle</TableHeaderColumn>
+                  <TableHeaderColumn style={styles.columns.count}>Count</TableHeaderColumn>
+                  <TableHeaderColumn style={styles.columns.startingValue}>Starting Value</TableHeaderColumn>
+                  <TableHeaderColumn style={styles.columns.startingValue}>Last Updated</TableHeaderColumn>
                   <TableHeaderColumn style={styles.columns.remove}>Remove</TableHeaderColumn>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {Employees.map(item =>
+                {Coins.map(item =>
                   <TableRow key={item.Id}>
-                    <TableRowColumn style={styles.columns.id}>{item.Id}</TableRowColumn>
-                    <TableRowColumn style={styles.columns.firstName}>
-                      <InlineEdit onChange={value => handleUpdate({ Id: item.Id, FirstName: value })}>{item.FirstName}</InlineEdit>
+                    <TableRowColumn style={styles.columns.handle}>
+                      <InlineEdit onChange={value => handleUpdate({ Id: item.Id, Handle: value })}>{item.Handle}</InlineEdit>
                     </TableRowColumn>
-                    <TableRowColumn style={styles.columns.lastName}>
-                      <InlineEdit onChange={value => handleUpdate({ Id: item.Id, LastName: value })}>{item.LastName}</InlineEdit>
-                                    </TableRowColumn>
-                      <TableRowColumn style={styles.columns.lastName}>
-                          <InlineEdit onChange={value => handleUpdate({ Id: item.Id, LastName: value })}>{item.LastName}</InlineEdit>
-                                    </TableRowColumn>
-                      <TableRowColumn style={styles.columns.lastName}>
-                          <InlineEdit onChange={value => handleUpdate({ Id: item.Id, LastName: value })}>{item.LastName}</InlineEdit>
-                                    </TableRowColumn>
-                      <TableRowColumn style={styles.columns.lastName}>
-                          <InlineEdit onChange={value => handleUpdate({ Id: item.Id, LastName: value })}>{item.LastName}</InlineEdit>
-                                    </TableRowColumn>
-                      <TableRowColumn style={styles.columns.lastName}>
-                          <InlineEdit onChange={value => handleUpdate({ Id: item.Id, LastName: value })}>{new Date().toJSON().slice(0, 10)}</InlineEdit>
-                      </TableRowColumn>
+                    <TableRowColumn style={styles.columns.count}>
+                      <InlineEdit onChange={value => handleUpdate({ Id: item.Id, Count: value })}>{item.Count}</InlineEdit>
+                    </TableRowColumn>
+                    <TableRowColumn style={styles.columns.startingValue}>
+                      <InlineEdit onChange={value => handleUpdate({ Id: item.Id, StartingValue: value })}>{item.StartingValue}</InlineEdit>
+                    </TableRowColumn>
+                    <TableRowColumn style={styles.columns.startingValue}>
+                      {new Date().toJSON().slice(0, 10)}
+                    </TableRowColumn>
                     <TableRowColumn style={styles.columns.remove}>
                       <FloatingActionButton onClick={_ => this.dispatch({ Remove: item.Id })}
                         zDepth={0}
@@ -144,8 +135,7 @@ class TablePage extends React.Component {
               select={SelectedPage}
               onSelect={handleSelectPage} />
 
-            <Snackbar open={ShowNotification} message="Changes saved" autoHideDuration={1000}
-              onRequestClose={hideNotification} />
+            <Snackbar open={ShowNotification} message="Changes saved" autoHideDuration={1000} onRequestClose={hideNotification} />
           </div>
         </BasePage>
       </MuiThemeProvider>

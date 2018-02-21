@@ -183,7 +183,7 @@ namespace HistoCoin.Server.Data
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 // ignore exceptions for now
             }

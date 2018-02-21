@@ -46,15 +46,15 @@
 
             try
             {
-                var filename = 
+                var filename =
                     Path.Combine(
-                        this.StorageLocation, 
+                        this.StorageLocation,
                         $"{DefaultCacheFilename.Replace("%date%", DateTime.Now.ToOADate().ToString())}");
 
                 File.WriteAllText(filename, json);
 
-                return File.Exists(filename) 
-                    ? new Result(true, $"Saved to {filename}") 
+                return File.Exists(filename)
+                    ? new Result(true, $"Saved to {filename}")
                     : new Result(false, $"Cache not saved to {filename}!");
             }
             catch (Exception ex)

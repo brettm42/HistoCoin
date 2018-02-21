@@ -16,7 +16,6 @@
     using HistoCoin.Server.Services.CacheService;
     using HistoCoin.Server.Services.CoinService;
     using HistoCoin.Server.Services.CurrencyService;
-    using HistoCoin.Server.Services.EmployeeService;
     using static HistoCoin.Server.Infrastructure.Constants;
 
     public class Startup
@@ -34,9 +33,7 @@
                 new CacheService<ConcurrentBag<Currency>>(DefaultCacheStoreLocation);
 
             var coinService = new CoinService();
-
-            services
-                .AddSingleton<IEmployeeService, EmployeeService>();
+            
             services
                 .AddSingleton<ICacheService<ConcurrentBag<Currency>>, CacheService<ConcurrentBag<Currency>>>(
                     service => cacheService);

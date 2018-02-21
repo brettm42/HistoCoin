@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "3bb52fc17beeb20500c1"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "60eb5e3c103385fc0f57"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -15556,9 +15556,10 @@ var FormPage = function (_React$Component) {
 
     _this.state = {
       dirty: false,
-      Employees: [],
-      FirstName: '',
-      LastName: ''
+      Coins: [],
+      Handle: '',
+      Count: '',
+      StartingValue: ''
     };
     return _this;
   }
@@ -15575,10 +15576,11 @@ var FormPage = function (_React$Component) {
 
       var _state = this.state,
           dirty = _state.dirty,
-          Employees = _state.Employees,
+          Coins = _state.Coins,
           Id = _state.Id,
-          FirstName = _state.FirstName,
-          LastName = _state.LastName;
+          Handle = _state.Handle,
+          Count = _state.Count,
+          StartingValue = _state.StartingValue;
 
 
       var styles = {
@@ -15600,7 +15602,7 @@ var FormPage = function (_React$Component) {
       };
 
       var handleSelectFieldChange = function handleSelectFieldChange(event, idx, value) {
-        return _this2.routeTo(Employees.find(function (i) {
+        return _this2.routeTo(Coins.find(function (i) {
           return i.Id == value;
         }).Route);
       };
@@ -15611,7 +15613,7 @@ var FormPage = function (_React$Component) {
       };
 
       var handleSave = function handleSave(_) {
-        _this2.dispatch({ Save: { Id: Id, FirstName: FirstName, LastName: LastName } });
+        _this2.dispatch({ Save: { Id: Id, Handle: Handle, Count: Count, StartingValue: StartingValue } });
         _this2.setState({ dirty: false });
       };
 
@@ -15632,25 +15634,33 @@ var FormPage = function (_React$Component) {
                 floatingLabelText: 'Select to edit',
                 floatingLabelStyle: styles.selectLabel
               },
-              Employees.map(function (item) {
-                return _react2.default.createElement(_MenuItem2.default, { key: item.Id, value: item.Id, primaryText: item.Name });
+              Coins.map(function (item) {
+                return _react2.default.createElement(_MenuItem2.default, { key: item.Id, value: item.Id, primaryText: item.Handle + ' (' + item.Count + ')' });
               })
             ),
             _react2.default.createElement(_TextField2.default, {
               hintText: 'Enter cryptocurrency handle',
               floatingLabelText: 'Coin Handle',
               fullWidth: true,
-              value: FirstName,
+              value: Handle,
               onChange: function onChange(event) {
-                return _this2.setState({ FirstName: event.target.value, dirty: true });
+                return _this2.setState({ Handle: event.target.value, dirty: true });
               } }),
             _react2.default.createElement(_TextField2.default, {
               hintText: 'Enter current wallet holdings',
               floatingLabelText: 'Number of coins in wallet',
               fullWidth: true,
-              value: LastName,
+              value: Count,
               onChange: function onChange(event) {
-                return _this2.setState({ LastName: event.target.value, dirty: true });
+                return _this2.setState({ Count: event.target.value, dirty: true });
+              } }),
+            _react2.default.createElement(_TextField2.default, {
+              hintText: 'Enter cost in USB per coin on purchase',
+              floatingLabelText: 'Cost per coin when purchased',
+              fullWidth: true,
+              value: StartingValue,
+              onChange: function onChange(event) {
+                return _this2.setState({ StartingValue: event.target.value, dirty: true });
               } }),
             _react2.default.createElement(
               'div',
@@ -15769,7 +15779,7 @@ var TablePage = function (_React$Component) {
 
     _this.state = {
       addName: '',
-      Employees: [],
+      Coins: [],
       Pages: [],
       ShowNotification: false
     };
@@ -15788,7 +15798,7 @@ var TablePage = function (_React$Component) {
 
       var _state = this.state,
           addName = _state.addName,
-          Employees = _state.Employees,
+          Coins = _state.Coins,
           Pages = _state.Pages,
           SelectedPage = _state.SelectedPage,
           ShowNotification = _state.ShowNotification;
@@ -15799,8 +15809,9 @@ var TablePage = function (_React$Component) {
         removeIcon: { fill: _colors.grey500 },
         columns: {
           id: { width: '10%' },
-          firstName: { width: '35%' },
-          lastName: { width: '35%' },
+          handle: { width: '35%' },
+          count: { width: '35%' },
+          startingValue: { width: '35%' },
           remove: { width: '15%' }
         },
         pagination: { marginTop: '1em' }
@@ -15813,12 +15824,12 @@ var TablePage = function (_React$Component) {
         }
       };
 
-      var handleUpdate = function handleUpdate(employee) {
-        var newState = Employees.map(function (item) {
-          return item.Id === employee.Id ? Object.assign(item, employee) : item;
+      var handleUpdate = function handleUpdate(coin) {
+        var newState = Coins.map(function (item) {
+          return item.Id === coin.Id ? Object.assign(item, coin) : item;
         });
-        _this2.setState({ Employees: newState });
-        _this2.dispatch({ Update: employee });
+        _this2.setState({ Coins: newState });
+        _this2.dispatch({ Update: coin });
       };
 
       var handleSelectPage = function handleSelectPage(page) {
@@ -15873,37 +15884,22 @@ var TablePage = function (_React$Component) {
                   null,
                   _react2.default.createElement(
                     _Table.TableHeaderColumn,
-                    { style: styles.columns.id },
-                    'ID'
-                  ),
-                  _react2.default.createElement(
-                    _Table.TableHeaderColumn,
-                    { style: styles.columns.firstName },
+                    { style: styles.columns.handle },
                     'Handle'
                   ),
                   _react2.default.createElement(
                     _Table.TableHeaderColumn,
-                    { style: styles.columns.lastName },
-                    'Value'
-                  ),
-                  _react2.default.createElement(
-                    _Table.TableHeaderColumn,
-                    { style: styles.columns.lastName },
+                    { style: styles.columns.count },
                     'Count'
                   ),
                   _react2.default.createElement(
                     _Table.TableHeaderColumn,
-                    { style: styles.columns.lastName },
-                    'Worth'
+                    { style: styles.columns.startingValue },
+                    'Starting Value'
                   ),
                   _react2.default.createElement(
                     _Table.TableHeaderColumn,
-                    { style: styles.columns.lastName },
-                    'Delta'
-                  ),
-                  _react2.default.createElement(
-                    _Table.TableHeaderColumn,
-                    { style: styles.columns.lastName },
+                    { style: styles.columns.startingValue },
                     'Last Updated'
                   ),
                   _react2.default.createElement(
@@ -15916,80 +15912,47 @@ var TablePage = function (_React$Component) {
               _react2.default.createElement(
                 _Table.TableBody,
                 null,
-                Employees.map(function (item) {
+                Coins.map(function (item) {
                   return _react2.default.createElement(
                     _Table.TableRow,
                     { key: item.Id },
                     _react2.default.createElement(
                       _Table.TableRowColumn,
-                      { style: styles.columns.id },
-                      item.Id
-                    ),
-                    _react2.default.createElement(
-                      _Table.TableRowColumn,
-                      { style: styles.columns.firstName },
+                      { style: styles.columns.handle },
                       _react2.default.createElement(
                         _InlineEdit2.default,
                         { onChange: function onChange(value) {
-                            return handleUpdate({ Id: item.Id, FirstName: value });
+                            return handleUpdate({ Id: item.Id, Handle: value });
                           } },
-                        item.FirstName
+                        item.Handle
                       )
                     ),
                     _react2.default.createElement(
                       _Table.TableRowColumn,
-                      { style: styles.columns.lastName },
+                      { style: styles.columns.count },
                       _react2.default.createElement(
                         _InlineEdit2.default,
                         { onChange: function onChange(value) {
-                            return handleUpdate({ Id: item.Id, LastName: value });
+                            return handleUpdate({ Id: item.Id, Count: value });
                           } },
-                        item.LastName
+                        item.Count
                       )
                     ),
                     _react2.default.createElement(
                       _Table.TableRowColumn,
-                      { style: styles.columns.lastName },
+                      { style: styles.columns.startingValue },
                       _react2.default.createElement(
                         _InlineEdit2.default,
                         { onChange: function onChange(value) {
-                            return handleUpdate({ Id: item.Id, LastName: value });
+                            return handleUpdate({ Id: item.Id, StartingValue: value });
                           } },
-                        item.LastName
+                        item.StartingValue
                       )
                     ),
                     _react2.default.createElement(
                       _Table.TableRowColumn,
-                      { style: styles.columns.lastName },
-                      _react2.default.createElement(
-                        _InlineEdit2.default,
-                        { onChange: function onChange(value) {
-                            return handleUpdate({ Id: item.Id, LastName: value });
-                          } },
-                        item.LastName
-                      )
-                    ),
-                    _react2.default.createElement(
-                      _Table.TableRowColumn,
-                      { style: styles.columns.lastName },
-                      _react2.default.createElement(
-                        _InlineEdit2.default,
-                        { onChange: function onChange(value) {
-                            return handleUpdate({ Id: item.Id, LastName: value });
-                          } },
-                        item.LastName
-                      )
-                    ),
-                    _react2.default.createElement(
-                      _Table.TableRowColumn,
-                      { style: styles.columns.lastName },
-                      _react2.default.createElement(
-                        _InlineEdit2.default,
-                        { onChange: function onChange(value) {
-                            return handleUpdate({ Id: item.Id, LastName: value });
-                          } },
-                        new Date().toJSON().slice(0, 10)
-                      )
+                      { style: styles.columns.startingValue },
+                      new Date().toJSON().slice(0, 10)
                     ),
                     _react2.default.createElement(
                       _Table.TableRowColumn,
@@ -16015,8 +15978,7 @@ var TablePage = function (_React$Component) {
               pages: Pages,
               select: SelectedPage,
               onSelect: handleSelectPage }),
-            _react2.default.createElement(_Snackbar2.default, { open: ShowNotification, message: 'Changes saved', autoHideDuration: 1000,
-              onRequestClose: hideNotification })
+            _react2.default.createElement(_Snackbar2.default, { open: ShowNotification, message: 'Changes saved', autoHideDuration: 1000, onRequestClose: hideNotification })
           )
         )
       );

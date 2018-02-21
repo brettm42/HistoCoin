@@ -21,9 +21,10 @@ class FormPage extends React.Component {
 
     this.state = {
       dirty: false,
-      Employees: [],
-      FirstName: '',
-      LastName: ''
+      Coins: [],
+      Handle: '',
+      Count: '',
+      StartingValue: '',
     };
   }
 
@@ -32,7 +33,7 @@ class FormPage extends React.Component {
   }
 
   render() {
-    let { dirty, Employees, Id, FirstName, LastName } = this.state;
+    let { dirty, Coins, Id, Handle, Count, StartingValue } = this.state;
 
     const styles = {
       selectLabel: { color: pink400 },
@@ -52,7 +53,7 @@ class FormPage extends React.Component {
       saveButton: { marginLeft: 5 }
     };
 
-    const handleSelectFieldChange = (event, idx, value) => this.routeTo(Employees.find(i => i.Id == value).Route);
+    const handleSelectFieldChange = (event, idx, value) => this.routeTo(Coins.find(i => i.Id == value).Route);
 
     const handleCancel = _ => {
       this.dispatch({ Cancel: Id });
@@ -60,7 +61,7 @@ class FormPage extends React.Component {
     }
 
     const handleSave = _ => {
-      this.dispatch({ Save: { Id: Id, FirstName: FirstName, LastName: LastName } });
+      this.dispatch({ Save: { Id: Id, Handle: Handle, Count: Count, StartingValue: StartingValue } });
       this.setState({ dirty: false });
     }
 
@@ -74,8 +75,8 @@ class FormPage extends React.Component {
               floatingLabelText="Select to edit"
               floatingLabelStyle={styles.selectLabel}
             >
-              {Employees.map(item =>
-                <MenuItem key={item.Id} value={item.Id} primaryText={item.Name} />
+              {Coins.map(item =>
+                <MenuItem key={item.Id} value={item.Id} primaryText={`${item.Handle} (${item.Count})`} />
               )}
             </SelectField>
 
@@ -83,15 +84,22 @@ class FormPage extends React.Component {
               hintText="Enter cryptocurrency handle"
               floatingLabelText="Coin Handle"
               fullWidth={true}
-              value={FirstName}
-              onChange={event => this.setState({ FirstName: event.target.value, dirty: true })} />
+              value={Handle}
+              onChange={event => this.setState({ Handle: event.target.value, dirty: true })} />
 
             <TextField
               hintText="Enter current wallet holdings"
               floatingLabelText="Number of coins in wallet"
               fullWidth={true}
-              value={LastName}
-              onChange={event => this.setState({ LastName: event.target.value, dirty: true })} />
+              value={Count}
+              onChange={event => this.setState({ Count: event.target.value, dirty: true })} />
+
+            <TextField
+                hintText="Enter cost in USB per coin on purchase"
+                floatingLabelText="Cost per coin when purchased"
+                fullWidth={true}
+                value={StartingValue}
+                onChange={event => this.setState({ StartingValue: event.target.value, dirty: true })} />
 
             <div style={styles.buttons}>
               <RaisedButton label="Cancel"
