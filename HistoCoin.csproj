@@ -15,9 +15,9 @@
     <PackageReference Include="DotNetify.Core" Version="2.3.1-pre" />
     <PackageReference Include="DotNetify.SignalR" Version="2.3.1-pre" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
     <PackageReference Include="System.Reactive" Version="3.1.1" />
-    <PackageReference Include="AspNet.Security.OpenIdConnect.Server" Version="2.0.0-rc1-final" />    
+    <PackageReference Include="AspNet.Security.OpenIdConnect.Server" Version="2.0.0-rc2-final" />    
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
