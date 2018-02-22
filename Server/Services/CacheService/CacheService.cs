@@ -49,7 +49,7 @@
                 var filename =
                     Path.Combine(
                         this.StorageLocation,
-                        $"{DefaultCacheFilename.Replace("%date%", DateTime.Now.ToOADate().ToString())}");
+                        $"{DefaultCacheFilename.Replace(DefaultCacheDatePlaceholder, DateTime.Now.ToOADate().ToString())}");
 
                 File.WriteAllText(filename, json);
 

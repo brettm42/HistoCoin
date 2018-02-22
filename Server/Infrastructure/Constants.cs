@@ -13,7 +13,8 @@ namespace HistoCoin.Server.Infrastructure
 
         public const string DefaultCacheExtension = "hcc";
         public const string DefaultCachePrefix = "store_";
-        public const string DefaultCacheFilename = DefaultCachePrefix + "%date%." + DefaultCacheExtension;
+        public const string DefaultCacheDatePlaceholder = "%date%";
+        public const string DefaultCacheFilename = DefaultCachePrefix + DefaultCacheDatePlaceholder + "." + DefaultCacheExtension;
 
         public enum Currencies
         {
