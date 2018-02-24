@@ -56,7 +56,8 @@ const Distribution = (props) => {
   const options = {
     legend: { display: false },
     layout: { padding: { left: 0, right: 10, top: 20, bottom: 10 } },
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
   };
 
   return (

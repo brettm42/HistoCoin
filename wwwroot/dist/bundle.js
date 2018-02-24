@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "9fc99e7f2af77ac9b7f2"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "e4f512868e810d77a868"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -52686,7 +52686,8 @@ var Distribution = function Distribution(props) {
   var options = {
     legend: { display: false },
     layout: { padding: { left: 0, right: 10, top: 20, bottom: 10 } },
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
   };
 
   return _react2.default.createElement(
@@ -53056,7 +53057,7 @@ var ValueHistory = function ValueHistory(props) {
   };
 
   var data = {
-    labels: new Array(props.dates),
+    labels: props.dates,
     datasets: [{
       data: props.data,
       fill: false,
@@ -53072,7 +53073,8 @@ var ValueHistory = function ValueHistory(props) {
     legend: { display: false },
     scales: { xAxes: [{ display: false }], yAxes: [{ display: false }] },
     layout: { padding: { left: 5, right: 5, top: 5, bottom: 5 } },
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
   };
 
   return _react2.default.createElement(

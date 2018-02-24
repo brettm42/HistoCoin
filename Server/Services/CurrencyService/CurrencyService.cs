@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace HistoCoin.Server.Services.CurrencyService
 {
     using System;
@@ -148,6 +150,11 @@ namespace HistoCoin.Server.Services.CurrencyService
             return Math.Round(value, currency == Currencies.USD ? 2 : 6);
         }
 
+        private static string Normalize(DateTimeOffset dateTime)
+        {
+            return dateTime.DateTime.ToString(CultureInfo.CurrentCulture);
+        }
+
         private static IEnumerable<(string Handle, double Count)> SyncCoinList(in ConcurrentBag<Currency> cache, ICoinService coinService)
         {
             var coins = coinService.GetAll();
@@ -291,7 +298,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                     case Currencies.USD:
                         if (this._valueHistoryUsd.GetLastValue() != output)
                         {
-                            this._valueHistoryUsd.Add($"{DateTime.Now.ToShortDateString()} {(DateTime.Now.Hour > 11 ? "PM" : "AM")}", output);
+                            this._valueHistoryUsd.Add(CurrencyService.Normalize(DateTime.Now), output);
                         }
 
                         break;
@@ -299,7 +306,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                     case Currencies.BTC:
                         if (this._valueHistoryBtc.GetLastValue() != output)
                         {
-                            this._valueHistoryBtc.Add($"{DateTime.Now.ToShortDateString()} {(DateTime.Now.Hour > 11 ? "PM" : "AM")}", output);
+                            this._valueHistoryBtc.Add(CurrencyService.Normalize(DateTime.Now), output);
                         }
 
                         break;
@@ -307,7 +314,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                     case Currencies.ETH:
                         if (this._valueHistoryEth.GetLastValue() != output)
                         {
-                            this._valueHistoryEth.Add($"{DateTime.Now.ToShortDateString()} {(DateTime.Now.Hour > 11 ? "PM" : "AM")}", output);
+                            this._valueHistoryEth.Add(CurrencyService.Normalize(DateTime.Now), output);
                         }
 
                         break;
@@ -372,13 +379,13 @@ namespace HistoCoin.Server.Services.CurrencyService
                 .Select(
                     group =>
                         (Sum: group.LastOrDefault()?.Sum(i => i.Worth) ?? 0,
-                        LastUpdate: group.LastOrDefault()?.LastOrDefault()?.LastUpdated ?? default))
+                            LastUpdate: group.LastOrDefault()?.LastOrDefault()?.LastUpdated ?? default))
                 //.Where((sum, _) => sum > 0)
                 .Where(t => t.Sum > 0)
                 .ToDictionary(
-                    //(_, date) => date.Date.ToShortDateString(),
+                    //(_, date) => CurrencyService.Normalize(date),
                     //(sum, _) => CurrencyService.Normalize(sum, currency));
-                    t => $"{t.LastUpdate.Date.ToShortDateString()} {(t.LastUpdate.Hour > 11 ? "PM" : "AM")}",
+                    t => CurrencyService.Normalize(t.LastUpdate),
                     t => CurrencyService.Normalize(t.Sum, currency));
         }
     }

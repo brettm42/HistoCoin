@@ -24,7 +24,7 @@ const ValueHistory = (props) => {
   };
 
   const data = {
-    labels: new Array(props.dates),
+    labels: props.dates,
     datasets: [
       {
         data: props.data,
@@ -42,7 +42,8 @@ const ValueHistory = (props) => {
     legend: { display: false },
     scales: { xAxes: [{ display: false }], yAxes: [{ display: false }] },
     layout: { padding: { left: 5, right: 5, top: 5, bottom: 5 } },
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
   }
 
   return (
