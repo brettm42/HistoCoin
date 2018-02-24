@@ -10,6 +10,7 @@ namespace HistoCoin.Server.ViewModels
     using DotNetify.Security;
     using HistoCoin.Server.Services.CurrencyService;
     using static HistoCoin.Server.Infrastructure.Constants;
+    using static HistoCoin.Server.Infrastructure.Helpers;
 
     [Authorize]
     public class Dashboard : BaseVM, IRoutable
@@ -75,8 +76,8 @@ namespace HistoCoin.Server.ViewModels
                                 new Currency
                                 {
                                     Handle = value.Handle,
-                                    Value = $"{CurrencyService.Normalize(value.Value, dataService.BaseCurrency)}",
-                                    Worth = $"{CurrencyService.Normalize(value.Worth, dataService.BaseCurrency)}",
+                                    Value = $"{Normalize(value.Value, dataService.BaseCurrency)}",
+                                    Worth = $"{Normalize(value.Worth, dataService.BaseCurrency)}",
                                     Count = $"{value.Count}",
                                     Route = this.Redirect(AppLayout.FormPagePath, value.Id.ToString())
                                 });
