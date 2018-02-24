@@ -6,7 +6,7 @@ namespace HistoCoin.Server.Services.CacheService
     public class Cache<T> : IDisposable
     {
         private T _cache;
-        private bool _disposed = false;
+        private bool _disposed;
         
         public Cache(T store)
         {

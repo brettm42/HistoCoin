@@ -21,7 +21,7 @@ namespace HistoCoin.Server.Services.CurrencyService
         private readonly History _valueHistoryEth = new History();
 
         private readonly string _cacheServiceLocation;
-        private readonly bool _cacheServiceStoreEnabled = false;
+        private readonly bool _cacheServiceStoreEnabled;
         private readonly ConcurrentBag<Currency> _cache = new ConcurrentBag<Currency>();
 
         public IObservable<double[]> CurrentDeltas { get; }
@@ -192,25 +192,25 @@ namespace HistoCoin.Server.Services.CurrencyService
             {
                 cache.Clear();
 
-                foreach (var (Handle, Count, StartingValue) in coins)
+                foreach (var (handle, coinCount, startingValue) in coins)
                 {
                     cache.Add(
                         new Currency(Currencies.USD)
                         {
-                            Id = Handle.GetHashCode(),
-                            Handle = Handle,
-                            Count = Count,
-                            StartingValue = StartingValue,
+                            Id = handle.GetHashCode(),
+                            Handle = handle,
+                            Count = coinCount,
+                            StartingValue = startingValue,
                             LastUpdated = DateTimeOffset.MinValue,
                         });
 
                     cache.Add(
                         new Currency(Currencies.BTC)
                         {
-                            Id = Handle.GetHashCode(),
-                            Handle = Handle,
-                            Count = Count,
-                            StartingValue = StartingValue,
+                            Id = handle.GetHashCode(),
+                            Handle = handle,
+                            Count = coinCount,
+                            StartingValue = startingValue,
                             LastUpdated = DateTimeOffset.MinValue,
                         });
                 }
@@ -231,8 +231,8 @@ namespace HistoCoin.Server.Services.CurrencyService
                 cache.Where(
                     c => c.LastUpdated < (DateTimeOffset.Now - minAge));
             
-            var (_, Results) = DataFetcher.FetchComparisons(queue.Select(i => i.Handle));
-            if (Results is null || Results.Count < 1)
+            var (_, results) = DataFetcher.FetchComparisons(queue.Select(i => i.Handle));
+            if (results is null || results.Count < 1)
             {
                 return cache.Where(c => c.BaseCurrency == filter);
             }
@@ -241,7 +241,7 @@ namespace HistoCoin.Server.Services.CurrencyService
             {
                 var value =
                     double.Parse(
-                        Results
+                        results
                             .FirstOrDefault(
                                 i => i.Name.Equals(coin.Handle))?
                             .Contents?[$"{coin.BaseCurrency}"] ?? "-1");

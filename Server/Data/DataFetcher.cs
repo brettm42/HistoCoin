@@ -119,16 +119,16 @@ namespace HistoCoin.Server.Data
 
         private static double BtcToUsd(double btcValue)
         {
-            var (_, Result) = DataFetcher.FetchComparison(nameof(Currencies.BTC));
+            var (_, result) = DataFetcher.FetchComparison(nameof(Currencies.BTC));
 
-            return btcValue * double.Parse(Result.Contents[nameof(Currencies.USD)]);
+            return btcValue * double.Parse(result.Contents[nameof(Currencies.USD)]);
         }
 
         private static double EthToUsd(double ethValue)
         {
-            var (_, Result) = DataFetcher.FetchComparison(nameof(Currencies.ETH));
+            var (_, result) = DataFetcher.FetchComparison(nameof(Currencies.ETH));
 
-            return ethValue * double.Parse(Result.Contents[nameof(Currencies.USD)]);
+            return ethValue * double.Parse(result.Contents[nameof(Currencies.USD)]);
         }
 
         private static List<Packet<Dictionary<string, string>>> SendRequest(string request)
