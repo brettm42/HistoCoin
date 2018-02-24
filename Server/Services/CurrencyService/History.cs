@@ -37,7 +37,14 @@ namespace HistoCoin.Server.Services.CurrencyService
                 return this;
             }
 
-            this._backingDict.Add(key, value);
+            try
+            {
+                this._backingDict.Add(key, value);
+            }
+            catch
+            {
+                // thread collisions for now
+            }
 
             return this;
         }
