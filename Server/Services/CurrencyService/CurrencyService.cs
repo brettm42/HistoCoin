@@ -1,4 +1,3 @@
-using System.Globalization;
 
 namespace HistoCoin.Server.Services.CurrencyService
 {
@@ -12,7 +11,8 @@ namespace HistoCoin.Server.Services.CurrencyService
     using HistoCoin.Server.Services.CacheService;
     using HistoCoin.Server.Services.CoinService;
     using static HistoCoin.Server.Infrastructure.Constants;
-    
+    using static HistoCoin.Server.Infrastructure.Helpers;
+
     public class CurrencyService : ICurrencyService
     {
         private readonly TimeSpan _maxDataAge = TimeSpan.FromMinutes(1);
@@ -145,16 +145,6 @@ namespace HistoCoin.Server.Services.CurrencyService
                     .Select(_ => this._valueHistoryUsd);
         }
         
-        internal static double Normalize(double value, Currencies currency)
-        {
-            return Math.Round(value, currency == Currencies.USD ? 2 : 6);
-        }
-
-        private static string Normalize(DateTimeOffset dateTime)
-        {
-            return dateTime.DateTime.ToString(CultureInfo.CurrentCulture);
-        }
-
         private static IEnumerable<(string Handle, double Count)> SyncCoinList(in ConcurrentBag<Currency> cache, ICoinService coinService)
         {
             var coins = coinService.GetAll();
@@ -289,7 +279,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                     .Where(coin => !(coin.Value < 0))
                     .Sum(coin => coin.Worth);
 
-            output = CurrencyService.Normalize(output, currency);
+            output = Normalize(output, currency);
 
             if (output > 0)
             {
@@ -298,7 +288,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                     case Currencies.USD:
                         if (this._valueHistoryUsd.GetLastValue() != output)
                         {
-                            this._valueHistoryUsd.Add(CurrencyService.Normalize(DateTime.Now), output);
+                            this._valueHistoryUsd.Add(Normalize(DateTime.Now), output);
                         }
 
                         break;
@@ -306,7 +296,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                     case Currencies.BTC:
                         if (this._valueHistoryBtc.GetLastValue() != output)
                         {
-                            this._valueHistoryBtc.Add(CurrencyService.Normalize(DateTime.Now), output);
+                            this._valueHistoryBtc.Add(Normalize(DateTime.Now), output);
                         }
 
                         break;
@@ -314,7 +304,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                     case Currencies.ETH:
                         if (this._valueHistoryEth.GetLastValue() != output)
                         {
-                            this._valueHistoryEth.Add(CurrencyService.Normalize(DateTime.Now), output);
+                            this._valueHistoryEth.Add(Normalize(DateTime.Now), output);
                         }
 
                         break;
@@ -344,7 +334,7 @@ namespace HistoCoin.Server.Services.CurrencyService
         {
             return cache
                 .Where(c => c.BaseCurrency == currency)
-                .Select(coin => CurrencyService.Normalize(coin.Delta, currency))
+                .Select(coin => Normalize(coin.Delta, currency))
                 .ToArray();
         }
 
@@ -355,7 +345,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                     .Where(c => c.BaseCurrency == currency)
                     .Sum(coin => coin.Delta);
 
-            return CurrencyService.Normalize(total, currency);
+            return Normalize(total, currency);
         }
         
         private static Result CreateCacheStore(in ConcurrentBag<Currency> cache, string storeLocation)
@@ -383,10 +373,8 @@ namespace HistoCoin.Server.Services.CurrencyService
                 //.Where((sum, _) => sum > 0)
                 .Where(t => t.Sum > 0)
                 .ToDictionary(
-                    //(_, date) => CurrencyService.Normalize(date),
-                    //(sum, _) => CurrencyService.Normalize(sum, currency));
-                    t => CurrencyService.Normalize(t.LastUpdate),
-                    t => CurrencyService.Normalize(t.Sum, currency));
+                    //(_, date) => Normalize(date), (sum, _) => Normalize(sum, currency));
+                    t => Normalize(t.LastUpdate), t => Normalize(t.Sum, currency));
         }
     }
 }
