@@ -1,6 +1,7 @@
 namespace HistoCoin.Server.Services.CurrencyService
 {
     using System;
+    using System.Collections.Generic;
     using static HistoCoin.Server.Infrastructure.Constants;
 
     public interface ICurrencyService
@@ -23,6 +24,6 @@ namespace HistoCoin.Server.Services.CurrencyService
 
         IObservable<double> OverallDelta { get; }
 
-        IObservable<double[]> Value { get; }
+        IObservable<History> ValueHistory { get; }
     }
 }

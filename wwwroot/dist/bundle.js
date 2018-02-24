@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "60eb5e3c103385fc0f57"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "9fc99e7f2af77ac9b7f2"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -15441,7 +15441,7 @@ var Dashboard = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: 'col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md m-b-15' },
-              _react2.default.createElement(_ValueHistory2.default, { data: this.state.Value })
+              _react2.default.createElement(_ValueHistory2.default, { data: this.state.HistValues, dates: this.state.HistDates })
             ),
             _react2.default.createElement(
               'div',
@@ -53056,7 +53056,7 @@ var ValueHistory = function ValueHistory(props) {
   };
 
   var data = {
-    labels: new Array(props.data.length),
+    labels: new Array(props.dates),
     datasets: [{
       data: props.data,
       fill: false,
@@ -53092,7 +53092,8 @@ var ValueHistory = function ValueHistory(props) {
 };
 
 ValueHistory.propTypes = {
-  data: _propTypes2.default.array
+  data: _propTypes2.default.array,
+  dates: _propTypes2.default.array
 };
 
 exports.default = ValueHistory;

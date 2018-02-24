@@ -24,7 +24,7 @@ const ValueHistory = (props) => {
   };
 
   const data = {
-    labels: new Array(props.data.length),
+    labels: new Array(props.dates),
     datasets: [
       {
         data: props.data,
@@ -56,7 +56,8 @@ const ValueHistory = (props) => {
 };
 
 ValueHistory.propTypes = {
-  data: PropTypes.array
+    data: PropTypes.array,
+    dates: PropTypes.array
 };
 
 export default ValueHistory;

@@ -14,9 +14,9 @@ namespace HistoCoin.Server.Services.CurrencyService
     public class CurrencyService : ICurrencyService
     {
         private readonly TimeSpan _maxDataAge = TimeSpan.FromMinutes(1);
-        private readonly List<double> _valueHistoryUsd = new List<double>();
-        private readonly List<double> _valueHistoryBtc = new List<double>();
-        private readonly List<double> _valueHistoryEth = new List<double>();
+        private readonly History _valueHistoryUsd = new History();
+        private readonly History _valueHistoryBtc = new History();
+        private readonly History _valueHistoryEth = new History();
 
         private readonly string _cacheServiceLocation;
         private readonly bool _cacheServiceStoreEnabled = false;
@@ -36,7 +36,7 @@ namespace HistoCoin.Server.Services.CurrencyService
 
         public IObservable<double> OverallDelta { get; }
 
-        public IObservable<double[]> Value { get; }
+        public IObservable<History> ValueHistory { get; }
 
         public IObservable<string[]> Coins { get; }
 
@@ -60,33 +60,30 @@ namespace HistoCoin.Server.Services.CurrencyService
                 {
                     case Currencies.USD:
                         this._valueHistoryUsd =
-                            CurrencyService.LoadHistoricalValue(
-                                cacheService.PollHistoricalCache(), this.BaseCurrency);
+                            new History(
+                                CurrencyService.LoadHistoricalValue(
+                                    cacheService.PollHistoricalCache(), this.BaseCurrency));
                         break;
 
                     case Currencies.BTC:
                         this._valueHistoryBtc =
-                            CurrencyService.LoadHistoricalValue(
-                                cacheService.PollHistoricalCache(), this.BaseCurrency);
+                            new History(
+                                CurrencyService.LoadHistoricalValue(
+                                    cacheService.PollHistoricalCache(), this.BaseCurrency));
                         break;
 
                     case Currencies.ETH:
                         this._valueHistoryEth =
-                            CurrencyService.LoadHistoricalValue(
-                                cacheService.PollHistoricalCache(), this.BaseCurrency);
+                            new History(
+                                CurrencyService.LoadHistoricalValue(
+                                    cacheService.PollHistoricalCache(), this.BaseCurrency));
                         break;
 
                     default:
                         break;
                 }
             }
-
-            //this.Coins =
-            //    CurrencyService.SyncCoinList(in this._cache, this.BaseCurrency)
-            //        .Select(c => c.Handle)
-            //        .ToObservable()
-            //        .ToArray();
-
+            
             this.Coins =
                 CurrencyService.SyncCoinList(in this._cache, coinService)
                     .Select(c => c.Handle)
@@ -139,11 +136,11 @@ namespace HistoCoin.Server.Services.CurrencyService
                     .StartWith(0)
                     .Select(_ => CalculateOverallDelta(in this._cache, this.BaseCurrency));
 
-            this.Value =
+            this.ValueHistory =
                 Observable
                     .Interval(UpdateInterval + TimeSpan.FromSeconds(1))
                     .StartWith(0)
-                    .Select(_ => this._valueHistoryUsd.TakeLast(50).ToArray());
+                    .Select(_ => this._valueHistoryUsd);
         }
         
         internal static double Normalize(double value, Currencies currency)
@@ -292,25 +289,25 @@ namespace HistoCoin.Server.Services.CurrencyService
                 switch (currency)
                 {
                     case Currencies.USD:
-                        if (this._valueHistoryUsd.LastOrDefault() != output)
+                        if (this._valueHistoryUsd.GetLastValue() != output)
                         {
-                            this._valueHistoryUsd.Add(output);
+                            this._valueHistoryUsd.Add($"{DateTime.Now.ToShortDateString()} {(DateTime.Now.Hour > 11 ? "PM" : "AM")}", output);
                         }
 
                         break;
 
                     case Currencies.BTC:
-                        if (this._valueHistoryBtc.LastOrDefault() != output)
+                        if (this._valueHistoryBtc.GetLastValue() != output)
                         {
-                            this._valueHistoryBtc.Add(output);
+                            this._valueHistoryBtc.Add($"{DateTime.Now.ToShortDateString()} {(DateTime.Now.Hour > 11 ? "PM" : "AM")}", output);
                         }
 
                         break;
 
                     case Currencies.ETH:
-                        if (this._valueHistoryEth.LastOrDefault() != output)
+                        if (this._valueHistoryEth.GetLastValue() != output)
                         {
-                            this._valueHistoryEth.Add(output);
+                            this._valueHistoryEth.Add($"{DateTime.Now.ToShortDateString()} {(DateTime.Now.Hour > 11 ? "PM" : "AM")}", output);
                         }
 
                         break;
@@ -362,24 +359,27 @@ namespace HistoCoin.Server.Services.CurrencyService
             return cacheStore.Store();
         }
 
-        private static List<double> LoadHistoricalValue(IEnumerable<Cache<ConcurrentBag<Currency>>> caches, Currencies currency)
+        private static Dictionary<string, double> LoadHistoricalValue(IEnumerable<Cache<ConcurrentBag<Currency>>> caches, Currencies currency)
         {
             return caches
                 .Where(cache => cache != null)
                 .Select(
-                    cache => 
+                    cache =>
                         cache.Get().Where(i => i.BaseCurrency == currency))
                 .GroupBy(
-                    cache => 
-                        (int)(DateTime.Now - cache.FirstOrDefault().LastUpdated).TotalHours / 10)
+                    cache =>
+                        (int) (DateTime.Now - cache.FirstOrDefault().LastUpdated).TotalHours / 10)
                 .Select(
-                    group => 
-                        group
-                            .LastOrDefault()?
-                            .Sum(i => i.Worth) ?? 0)
-                .Where(sum => sum > 0)
-                .Select(sum => CurrencyService.Normalize(sum, currency))
-                .ToList();
+                    group =>
+                        (Sum: group.LastOrDefault()?.Sum(i => i.Worth) ?? 0,
+                        LastUpdate: group.LastOrDefault()?.LastOrDefault()?.LastUpdated ?? default))
+                //.Where((sum, _) => sum > 0)
+                .Where(t => t.Sum > 0)
+                .ToDictionary(
+                    //(_, date) => date.Date.ToShortDateString(),
+                    //(sum, _) => CurrencyService.Normalize(sum, currency));
+                    t => $"{t.LastUpdate.Date.ToShortDateString()} {(t.LastUpdate.Hour > 11 ? "PM" : "AM")}",
+                    t => CurrencyService.Normalize(t.Sum, currency));
         }
     }
 }

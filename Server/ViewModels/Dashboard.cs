@@ -52,7 +52,8 @@ namespace HistoCoin.Server.ViewModels
         public Dashboard(ICurrencyService dataService)
         {
             AddProperty<string[]>("Currencies").SubscribeTo(dataService.Coins);
-            AddProperty<double[]>("Value").SubscribeTo(dataService.Value);
+            AddProperty<double[]>("HistValues").SubscribeTo(dataService.ValueHistory.Select(i => i.GetValues(50)));
+            AddProperty<string[]>("HistDates").SubscribeTo(dataService.ValueHistory.Select(i => i.GetDates(50)));
             AddProperty<double>("TotalValueUsd").SubscribeTo(dataService.TotalValueUsd);
             AddProperty<double>("TotalValueBtc").SubscribeTo(dataService.TotalValueBtc);
             AddProperty<double[]>("CurrentDeltas").SubscribeTo(dataService.CurrentDeltas);
@@ -76,7 +77,6 @@ namespace HistoCoin.Server.ViewModels
                                     Handle = value.Handle,
                                     Value = $"{CurrencyService.Normalize(value.Value, dataService.BaseCurrency)}",
                                     Worth = $"{CurrencyService.Normalize(value.Worth, dataService.BaseCurrency)}",
-                                    //$"{CurrencyService.Normalize((value.Value < 0 ? 0 : value.Value) * value.Count, dataService.BaseCurrency)}",
                                     Count = $"{value.Count}",
                                     Route = this.Redirect(AppLayout.FormPagePath, value.Id.ToString())
                                 });
