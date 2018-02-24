@@ -32,6 +32,11 @@ namespace HistoCoin.Server.Services.CurrencyService
         
         public History Add(string key, double value)
         {
+            if (this._backingDict.ContainsKey(key))
+            {
+                return this;
+            }
+
             this._backingDict.Add(key, value);
 
             return this;
@@ -39,7 +44,10 @@ namespace HistoCoin.Server.Services.CurrencyService
 
         public History Remove(string key)
         {
-            this._backingDict.Remove(key);
+            if (this._backingDict.ContainsKey(key))
+            {
+                this._backingDict.Remove(key);
+            }
 
             return this;
         }
