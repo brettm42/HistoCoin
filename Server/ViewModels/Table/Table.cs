@@ -12,7 +12,7 @@ namespace HistoCoin.Server.ViewModels.Table
     public class Table : BaseVM
     {
         private readonly ICoinService _coinService;
-        private readonly int _recordsPerPage = 15;
+        private const int _recordsPerPage = 15;
         
         // If you use CRUD methods on a list, you must set the item key prop name of that list
         // by defining a string property that starts with that list's prop name, followed by "_itemKey".
@@ -146,6 +146,6 @@ namespace HistoCoin.Server.ViewModels.Table
             return coins.Take(_recordsPerPage);
         }
 
-        private int GetPageCount(int records) => (int) Math.Ceiling(records / (double) this._recordsPerPage);
+        private int GetPageCount(int records) => (int)Math.Ceiling(records / (double)_recordsPerPage);
     }
 }
