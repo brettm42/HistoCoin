@@ -7,7 +7,8 @@ import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import TextField from 'material-ui/TextField';
-import { grey400, pink400 } from 'material-ui/styles/colors';
+import InfoBar from '../components/form/InfoBar';
+import { grey400, pink400, orange200 } from 'material-ui/styles/colors';
 import BasePage from '../components/BasePage';
 import ThemeDefault from '../styles/theme-default';
 
@@ -25,6 +26,11 @@ class FormPage extends React.Component {
       Handle: '',
       Count: '',
       StartingValue: '',
+      Worth: '',
+      CurrentValue: '',
+      Delta: '',
+      HistoricalValues: [],
+      HistoricalDates: [],
     };
   }
 
@@ -33,7 +39,7 @@ class FormPage extends React.Component {
   }
 
   render() {
-    let { dirty, Coins, Id, Handle, Count, StartingValue } = this.state;
+    let { dirty, Coins, Id, Handle, Count, StartingValue, Worth, CurrentValue, Delta, HistoricalDates, HistoricalValues } = this.state;
 
     const styles = {
       selectLabel: { color: pink400 },
@@ -67,7 +73,8 @@ class FormPage extends React.Component {
 
     return (
       <MuiThemeProvider muiTheme={ThemeDefault}>
-        <BasePage title="Form Page" navigation="HistoCoin / Form Page">
+            <BasePage title="Form Page" navigation="HistoCoin / Form Page">
+                <div>
           <form>
             <SelectField
               value={Id}
@@ -112,7 +119,27 @@ class FormPage extends React.Component {
                 style={styles.saveButton}
                 primary={true} />
             </div>
-          </form>
+        </form>
+                    
+            <div className="row">
+                <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
+                    <InfoBar
+                        color={orange200}
+                        title="Worth (USD)"
+                        value={`$${this.state.CurrentValue}`}
+                    />
+                </div>
+
+                <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
+                    <InfoBar
+                        color={orange200}
+                        title="Delta"
+                        value={`$ ${this.state.Delta > 0 ? `+${this.state.Delta}` : this.state.Delta}`}
+                    />
+                </div>
+            </div>
+
+                </div>
         </BasePage>
       </MuiThemeProvider>
     );

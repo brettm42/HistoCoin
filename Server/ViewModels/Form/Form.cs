@@ -8,6 +8,7 @@ namespace HistoCoin.Server.ViewModels.Form
     using DotNetify.Security;
     using HistoCoin.Server.Infrastructure;
     using HistoCoin.Server.Services.CoinService;
+    using static HistoCoin.Server.Infrastructure.Constants;
 
     [Authorize]
     public class Form : BaseVM, IRoutable
@@ -58,6 +59,41 @@ namespace HistoCoin.Server.ViewModels.Form
             set => Set(value);
         }
 
+        public double CurrentValue
+        {
+            get => Get<double>();
+
+            set => Set(value);
+        }
+
+        public double Worth
+        {
+            get => Get<double>();
+
+            set => Set(value);
+        }
+
+        public double Delta
+        {
+            get => Get<double>();
+
+            set => Set(value);
+        }
+
+        public double[] HistoricalValues
+        {
+            get => Get<double[]>();
+
+            set => Set(value);
+        }
+
+        public string[] HistoricalDates
+        {
+            get => Get<string[]>();
+
+            set => Set(value);
+        }
+        
         public Action<int> Cancel => LoadCoin;
 
         public Action<SavedCoinInfo> Save => changes =>
@@ -96,6 +132,11 @@ namespace HistoCoin.Server.ViewModels.Form
                 this.Count = record.Count;
                 this.StartingValue = record.StartingValue;
                 this.Id = record.Id;
+                this.CurrentValue = record.CurrentValue;
+                this.Delta = record.Delta;
+                this.Worth = record.Worth;
+                this.HistoricalDates = record.History?.GetDates(DefaultHistoryPopulation) ?? new string[0];
+                this.HistoricalValues = record.History?.GetValues(DefaultHistoryPopulation) ?? new double[0];
             }
         }
     }

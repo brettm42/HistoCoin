@@ -8,6 +8,7 @@ namespace HistoCoin.Server.ViewModels
     using DotNetify;
     using DotNetify.Routing;
     using DotNetify.Security;
+    using HistoCoin.Server.Infrastructure;
     using HistoCoin.Server.Services.CurrencyService;
     using static HistoCoin.Server.Infrastructure.Constants;
     using static HistoCoin.Server.Infrastructure.Helpers;
@@ -53,14 +54,19 @@ namespace HistoCoin.Server.ViewModels
         public Dashboard(ICurrencyService dataService)
         {
             AddProperty<string[]>("Currencies").SubscribeTo(dataService.Coins);
-            AddProperty<double[]>("HistValues").SubscribeTo(dataService.ValueHistory.Select(i => i.GetValues(50)));
-            AddProperty<string[]>("HistDates").SubscribeTo(dataService.ValueHistory.Select(i => i.GetDates(50)));
             AddProperty<double>("TotalValueUsd").SubscribeTo(dataService.TotalValueUsd);
             AddProperty<double>("TotalValueBtc").SubscribeTo(dataService.TotalValueBtc);
             AddProperty<double[]>("CurrentDeltas").SubscribeTo(dataService.CurrentDeltas);
             AddProperty<double>("OverallDelta").SubscribeTo(dataService.OverallDelta);
             AddProperty<int[]>("DistributionUsd").SubscribeTo(dataService.DistributionUsd);
             AddProperty<int[]>("DistributionBtc").SubscribeTo(dataService.DistributionBtc);
+
+            AddProperty<double[]>("HistValues").SubscribeTo(
+                dataService.ValueHistory
+                    .Select(i => i.GetValues(DefaultHistoryPopulation)));
+            AddProperty<string[]>("HistDates").SubscribeTo(
+                dataService.ValueHistory
+                    .Select(i => i.GetDates(DefaultHistoryPopulation)));
 
             AddProperty<Currency[]>("CurrentValues")
                 .SubscribeTo(

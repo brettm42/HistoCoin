@@ -35,10 +35,10 @@ class Dashboard extends React.Component {
         TotalValueBtc: [],
         CurrentDeltas: [],
         OverallDelta: [],
-      DistributionUsd: [],
-      DistributionBtc: [],
-      CurrentValues: [],
-      IsSyncing: false
+        DistributionUsd: [],
+        DistributionBtc: [],
+        CurrentValues: [],
+        IsSyncing: false
     };
   }
     

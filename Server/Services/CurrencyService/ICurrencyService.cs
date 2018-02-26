@@ -1,6 +1,7 @@
 namespace HistoCoin.Server.Services.CurrencyService
 {
     using System;
+    using HistoCoin.Server.Infrastructure;
     using static HistoCoin.Server.Infrastructure.Constants;
 
     public interface ICurrencyService

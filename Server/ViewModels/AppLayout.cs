@@ -26,8 +26,8 @@ namespace HistoCoin.Server.ViewModels
             new List<object>
             {
                 new { Title = "Dashboard", Icon = "assessment", Route = this.GetRoute(nameof(Route.Dashboard)) },
+                new { Title = "Table Page", Icon = "grid_on", Route = this.GetRoute(nameof(Route.TablePage)) },
                 new { Title = "Form Page", Icon = "web", Route = this.GetRoute(nameof(Route.FormPage), $"{FormPagePath}/1") },
-                new { Title = "Table Page", Icon = "grid_on", Route = this.GetRoute(nameof(Route.TablePage)) }
             };
 
         public string UserName { get; set; }

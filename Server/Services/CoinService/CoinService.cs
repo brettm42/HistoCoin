@@ -18,7 +18,7 @@
                         new CoinModel
                         {
                             Id = c.GetHashCode(),
-                            Handle = c.Handle,
+                            Handle = c.Handle,              
                             StartingValue = c.StartingValue,
                             Count = c.Count,
                         })

@@ -1,5 +1,5 @@
 ﻿
-namespace HistoCoin.Server.Services.CurrencyService
+namespace HistoCoin.Server.Infrastructure
 {
     using System.Collections.Generic;
     using System.Linq;

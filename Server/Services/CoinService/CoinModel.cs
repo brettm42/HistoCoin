@@ -1,6 +1,8 @@
 ﻿
 namespace HistoCoin.Server.Services.CoinService
 {
+    using HistoCoin.Server.Infrastructure;
+
     public class CoinModel
     {
         public int Id { get; set; }
@@ -16,5 +18,7 @@ namespace HistoCoin.Server.Services.CoinService
         public double Worth => this.CurrentValue < 0 ? 0 : this.CurrentValue * this.Count;
 
         public double Delta { get; set; } = 0;
+
+        public History History { get; set; }
     }
 }
