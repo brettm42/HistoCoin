@@ -1,7 +1,9 @@
-﻿namespace HistoCoin.Server.Services.CacheService
+﻿
+namespace HistoCoin.Server.Services.CacheService
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using Newtonsoft.Json;
@@ -49,7 +51,7 @@
                 var filename =
                     Path.Combine(
                         this.StorageLocation,
-                        $"{DefaultCacheFilename.Replace(DefaultCacheDatePlaceholder, DateTime.Now.ToOADate().ToString())}");
+                        $"{DefaultCacheFilename.Replace(DefaultCacheDatePlaceholder, DateTime.Now.ToOADate().ToString(CultureInfo.InvariantCulture))}");
 
                 File.WriteAllText(filename, json);
 

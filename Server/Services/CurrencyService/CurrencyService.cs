@@ -369,7 +369,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                 .Select(
                     group =>
                         (Sum: group.LastOrDefault()?.Sum(i => i.Worth) ?? 0,
-                            LastUpdate: group.LastOrDefault()?.LastOrDefault()?.LastUpdated ?? default))
+                        LastUpdate: group.LastOrDefault()?.LastOrDefault()?.LastUpdated ?? default))
                 //.Where((sum, _) => sum > 0)
                 .Where(t => t.Sum > 0)
                 .ToDictionary(
