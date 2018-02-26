@@ -2,19 +2,20 @@
 namespace HistoCoin.Server.Services.CoinService
 {
     using System.Collections.Generic;
+    using HistoCoin.Server.Infrastructure;
     using static HistoCoin.Server.Infrastructure.Constants;
     
     public interface ICoinService
     {
-        IList<CoinModel> GetAll();
+        IList<ICoin> GetAll();
 
         Currencies BaseCurrency { get; set; }
 
-        CoinModel GetById(int id);
+        ICoin GetById(int id);
 
-        int Add(CoinModel record);
+        int Add(ICoin record);
 
-        void Update(CoinModel record);
+        void Update(ICoin record);
 
         void Delete(int id);
     }

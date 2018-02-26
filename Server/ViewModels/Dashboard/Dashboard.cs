@@ -1,5 +1,5 @@
 
-namespace HistoCoin.Server.ViewModels
+namespace HistoCoin.Server.ViewModels.Dashboard
 {
     using System;
     using System.Collections.Generic;
@@ -8,7 +8,6 @@ namespace HistoCoin.Server.ViewModels
     using DotNetify;
     using DotNetify.Routing;
     using DotNetify.Security;
-    using HistoCoin.Server.Infrastructure;
     using HistoCoin.Server.Services.CurrencyService;
     using static HistoCoin.Server.Infrastructure.Constants;
     using static HistoCoin.Server.Infrastructure.Helpers;
@@ -17,22 +16,8 @@ namespace HistoCoin.Server.ViewModels
     public class Dashboard : BaseVM, IRoutable
     {
         private IDisposable _subscription;
-
         private bool _isSyncing;
-
-        public class Currency
-        {
-            public string Handle { get; set; }
-
-            public Route Route { get; set; }
-
-            public string Value { get; set; }
-
-            public string Count { get; set; }
-
-            public string Worth { get; set; }
-        }
-
+        
         public RoutingState RoutingState { get; set; }
 
         public bool IsSyncing
@@ -82,7 +67,7 @@ namespace HistoCoin.Server.ViewModels
                                 new Currency
                                 {
                                     Handle = value.Handle,
-                                    Value = $"{Normalize(value.Value, dataService.BaseCurrency)}",
+                                    Value = $"{Normalize(value.CurrentValue, dataService.BaseCurrency)}",
                                     Worth = $"{Normalize(value.Worth, dataService.BaseCurrency)}",
                                     Count = $"{value.Count}",
                                     Route = this.Redirect(AppLayout.FormPagePath, value.Id.ToString())
@@ -108,9 +93,7 @@ namespace HistoCoin.Server.ViewModels
             () =>
             {
                 this.IsSyncing = true;
-                
                 this.PushUpdates();
-                
                 this.IsSyncing = false;
             };
 

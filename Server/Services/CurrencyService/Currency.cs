@@ -2,33 +2,37 @@
 namespace HistoCoin.Server.Services.CurrencyService
 {
     using System;
+    using HistoCoin.Server.Infrastructure;
     using static HistoCoin.Server.Infrastructure.Constants;
     
-    public class Currency
+    public class Currency : ICoin
     {
         public Currency(Currencies currency)
         {
             this.BaseCurrency = currency;
         }
 
-        public Currencies BaseCurrency { get; }
-        
         public int Id { get; set; }
-        
+
         public string Handle { get; set; }
 
-        public double Value { get; set; } = -1;
+        public double Count { get; set; }
 
-        public double Count { get; set; } = 0;
+        public Currencies BaseCurrency { get; set; }
 
-        public double StartingValue { get; set; } = 0;
-        
+        public double StartingValue { get; set; }
+
+        public double CurrentValue { get; set; } = -1;
+
+        public double Worth => this.CurrentValue < 0 ? 0 : this.CurrentValue * this.Count;
+
         public double Delta { get; set; } = 0;
+
+        public History History { get; set; }
 
         public DateTimeOffset LastUpdated { get; set; }
 
-        public double Worth => this.Value < 0 ? 0 : this.Value * this.Count;
-
         public override string ToString() => $"{this.Handle} ({this.BaseCurrency})";
+
     }
 }

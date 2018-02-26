@@ -99,7 +99,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                     .Select(
                         _ => 
                             RefreshCache(
-                                in this._cache, this._maxDataAge, this.BaseCurrency, (this._cacheServiceStoreEnabled, this._cacheServiceLocation)))
+                                in this._cache, in coinService, this._maxDataAge, this.BaseCurrency, (this._cacheServiceStoreEnabled, this._cacheServiceLocation)))
                     .SelectMany(i => i);
 
             this.DistributionUsd =
@@ -182,47 +182,10 @@ namespace HistoCoin.Server.Services.CurrencyService
                 .Where(c => c.BaseCurrency == coinService.BaseCurrency)
                 .Select(c => (c.Handle, c.Count));
         }
-
-        private static IEnumerable<(string Handle, double Count)> SyncCoinList(in ConcurrentBag<Currency> cache, Currencies currency)
-        {
-            var coins = DataFetcher.BuildCurrencies().ToArray();
-
-            var count = cache.Count(c => c.BaseCurrency == currency);
-            if (count != coins.Length)
-            {
-                cache.Clear();
-
-                foreach (var (handle, coinCount, startingValue) in coins)
-                {
-                    cache.Add(
-                        new Currency(Currencies.USD)
-                        {
-                            Id = handle.GetHashCode(),
-                            Handle = handle,
-                            Count = coinCount,
-                            StartingValue = startingValue,
-                            LastUpdated = DateTimeOffset.MinValue,
-                        });
-
-                    cache.Add(
-                        new Currency(Currencies.BTC)
-                        {
-                            Id = handle.GetHashCode(),
-                            Handle = handle,
-                            Count = coinCount,
-                            StartingValue = startingValue,
-                            LastUpdated = DateTimeOffset.MinValue,
-                        });
-                }
-            }
-
-            return cache
-                .Where(c => c.BaseCurrency == currency)
-                .Select(c => (c.Handle, c.Count));
-        }
-
+        
         private static IEnumerable<Currency> RefreshCache(
             in ConcurrentBag<Currency> cache, 
+            in ICoinService coinService,
             TimeSpan minAge, 
             Currencies filter, 
             (bool StoreEnabled, string StoreLocation) backup = default)
@@ -251,12 +214,14 @@ namespace HistoCoin.Server.Services.CurrencyService
                     continue;
                 }
 
-                coin.Value = value;
+                coin.CurrentValue = value;
 
                 coin.Delta =
-                    DataFetcher.CalculateDelta(coin.Handle, coin.Value, coin.StartingValue, filter) * coin.Count;
+                    DataFetcher.CalculateDelta(coin.Handle, coin.CurrentValue, coin.StartingValue, filter) * coin.Count;
                 
                 coin.LastUpdated = DateTimeOffset.Now;
+
+                coinService.Update(coin);
             }
 
             if (backup.StoreEnabled)
@@ -276,7 +241,7 @@ namespace HistoCoin.Server.Services.CurrencyService
             var output = 
                 cache
                     .Where(c => c.BaseCurrency == currency)
-                    .Where(coin => !(coin.Value < 0))
+                    .Where(coin => !(coin.CurrentValue < 0))
                     .Sum(coin => coin.Worth);
 
             output = Normalize(output, currency);
@@ -324,7 +289,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                 .Where(c => c.BaseCurrency == currency)
                 .Select(
                     coin => 
-                        coin.Value < 0
+                        coin.CurrentValue < 0
                         ? 0
                         : (int) Math.Round(coin.Worth / total * 100, 0))
                 .ToArray();
