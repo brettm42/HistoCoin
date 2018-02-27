@@ -32,18 +32,22 @@
             var cacheService = 
                 new CacheService<ConcurrentBag<Currency>>(DefaultCacheStoreLocation);
 
-            var coinService = new CoinService(cacheService);
-            
+            var coinService = 
+                new CoinService()
+                    .AddCacheService(cacheService);
+
+            var currencyService =
+                new CurrencyService(coinService, cacheService);
+
             services
                 .AddSingleton<ICacheService<ConcurrentBag<Currency>>, CacheService<ConcurrentBag<Currency>>>(
                     service => cacheService);
-
             services
-                .AddSingleton<ICoinService, CoinService>(service => coinService);
-
+                .AddSingleton<ICoinService, CoinService>(
+                    service => coinService);
             services
                 .AddSingleton<ICurrencyService, CurrencyService>(
-                    service => new CurrencyService(cacheService, coinService));
+                    service => currencyService);
         }
 
         public void Configure(IApplicationBuilder app)

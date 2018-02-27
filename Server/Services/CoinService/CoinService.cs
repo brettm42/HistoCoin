@@ -30,43 +30,7 @@
                         })
                     .ToList();
         }
-
-        public CoinService(ICacheService<ConcurrentBag<Currency>> cacheService)
-        {
-            this._coins =
-                DataFetcher.BuildCurrencies()
-                    .Select(c =>
-                        new CoinModel
-                        {
-                            Id = c.GetHashCode(),
-                            BaseCurrency = this.BaseCurrency,
-                            Handle = c.Handle,
-                            StartingValue = c.StartingValue,
-                            Count = c.Count,
-                            History = 
-                                new History(
-                                    CoinService.LoadHistoricalValue(
-                                        cacheService.PollHistoricalCache(), 
-                                        c.Handle, 
-                                        this.BaseCurrency)),
-                        })
-                    .ToList();
-
-            // update fields if not initialized
-            foreach (var coin in this._coins)
-            {
-                coin.CurrentValue =
-                    coin.CurrentValue > -1
-                        ? coin.CurrentValue
-                        : coin.History?.GetLastValue() ?? -1;
-
-                coin.Delta =
-                    coin.Delta > -1
-                        ? coin.Delta
-                        : DataFetcher.CalculateDelta(coin.CurrentValue * coin.Count, coin.StartingValue * coin.Count, coin.BaseCurrency);
-            }
-        }
-
+        
         public Currencies BaseCurrency { get; set; } = Currencies.USD;
 
         public IEnumerable<ICoin> GetAll() => this._coins;
@@ -95,7 +59,36 @@
         public void Delete(int id) => 
             this._coins.Remove(
                 this._coins.FirstOrDefault(i => i.Id == id));
-        
+
+        public CoinService AddCacheService(ICacheService<ConcurrentBag<Currency>> cacheService)
+        {
+            if (cacheService != null)
+            {
+                foreach (var coin in this._coins)
+                {
+                    coin.History =
+                        new History(
+                            CoinService.LoadHistoricalValue(
+                                cacheService.PollHistoricalCache(),
+                                coin.Handle,
+                                this.BaseCurrency));
+
+                    coin.CurrentValue =
+                        coin.CurrentValue > -1
+                            ? coin.CurrentValue
+                            : coin.History?.GetLastValue() ?? -1;
+
+                    coin.Delta =
+                        coin.Delta > -1
+                            ? coin.Delta
+                            : DataFetcher.CalculateDelta(coin.CurrentValue * coin.Count,
+                                coin.StartingValue * coin.Count, coin.BaseCurrency);
+                }
+            }
+
+            return this;
+        }
+
         private static Dictionary<string, double> LoadHistoricalValue(IEnumerable<Cache<ConcurrentBag<Currency>>> caches, string handle, Currencies currency)
         {
             return caches

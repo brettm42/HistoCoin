@@ -44,7 +44,7 @@ namespace HistoCoin.Server.Services.CurrencyService
 
         public Currencies BaseCurrency { get; set; } = Currencies.USD;
 
-        public CurrencyService(ICacheService<ConcurrentBag<Currency>> cacheService, ICoinService coinService)
+        public CurrencyService(ICoinService coinService, ICacheService<ConcurrentBag<Currency>> cacheService)
         {
             if (coinService != null)
             {
