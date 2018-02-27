@@ -12,7 +12,6 @@ class InfoBar extends React.Component {
     const styles = {
       content: {
         padding: '5px 10px',
-        marginLeft: 90,
         height: 80
       },
       number: {
@@ -44,13 +43,15 @@ class InfoBar extends React.Component {
     };
 
     return (
-      <Paper>
-        <span style={styles.iconSpan}>
-          <Icon color={white} style={styles.icon} />
-        </span>
-
+        <Paper>
+            {Icon ?
+                <span style={styles.iconSpan}>
+                  <Icon color={white} style={styles.icon} />
+                </span>
+                : <div />}
+            
         <div style={styles.content}>
-          <span style={styles.text}>{title}</span>
+          <span style={styles.text}>{title ? title : "-"}</span>
           <span style={styles.number}>{value ? value : "-"}</span>
         </div>
       </Paper>

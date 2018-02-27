@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "caae5014b6bfd393ae46"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "058e09d7a183d5b6d0c2"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -15699,6 +15699,7 @@ var FormPage = function (_React$Component) {
                 'div',
                 { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ' },
                 _react2.default.createElement(_InfoBar2.default, {
+                  icon: null,
                   color: _colors.orange200,
                   title: 'Worth (USD)',
                   value: '$' + this.state.CurrentValue
@@ -15708,6 +15709,7 @@ var FormPage = function (_React$Component) {
                 'div',
                 { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ' },
                 _react2.default.createElement(_InfoBar2.default, {
+                  icon: null,
                   color: _colors.orange200,
                   title: 'Delta',
                   value: '$ ' + (this.state.Delta > 0 ? '+' + this.state.Delta : this.state.Delta)
@@ -53199,7 +53201,6 @@ var InfoBar = function (_React$Component) {
       var styles = {
         content: {
           padding: '5px 10px',
-          marginLeft: 90,
           height: 80
         },
         number: {
@@ -53233,18 +53234,18 @@ var InfoBar = function (_React$Component) {
       return _react2.default.createElement(
         _Paper2.default,
         null,
-        _react2.default.createElement(
+        Icon ? _react2.default.createElement(
           'span',
           { style: styles.iconSpan },
           _react2.default.createElement(Icon, { color: _colors.white, style: styles.icon })
-        ),
+        ) : _react2.default.createElement('div', null),
         _react2.default.createElement(
           'div',
           { style: styles.content },
           _react2.default.createElement(
             'span',
             { style: styles.text },
-            title
+            title ? title : "-"
           ),
           _react2.default.createElement(
             'span',
