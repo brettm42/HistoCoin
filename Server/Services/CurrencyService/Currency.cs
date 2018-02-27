@@ -4,6 +4,7 @@ namespace HistoCoin.Server.Services.CurrencyService
     using System;
     using HistoCoin.Server.Infrastructure;
     using static HistoCoin.Server.Infrastructure.Constants;
+    using static HistoCoin.Server.Infrastructure.Helpers;
     
     public class Currency : ICoin
     {
@@ -24,9 +25,9 @@ namespace HistoCoin.Server.Services.CurrencyService
 
         public double CurrentValue { get; set; } = -1;
 
-        public double Worth => this.CurrentValue < 0 ? 0 : this.CurrentValue * this.Count;
+        public double Worth => Normalize(this.CurrentValue < 0 ? 0 : this.CurrentValue * this.Count, this.BaseCurrency);
 
-        public double Delta { get; set; } = 0;
+        public double Delta { get; set; } = -1;
 
         public History History { get; set; }
 

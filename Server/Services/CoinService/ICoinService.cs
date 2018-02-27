@@ -13,6 +13,8 @@ namespace HistoCoin.Server.Services.CoinService
 
         ICoin GetById(int id);
 
+        int GetFirstId();
+
         int Add(ICoin record);
 
         void Update(ICoin record);

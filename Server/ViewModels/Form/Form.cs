@@ -9,7 +9,7 @@ namespace HistoCoin.Server.ViewModels.Form
     using HistoCoin.Server.Infrastructure;
     using HistoCoin.Server.Services.CoinService;
     using static HistoCoin.Server.Infrastructure.Constants;
-
+    
     [Authorize]
     public class Form : BaseVM, IRoutable
     {
@@ -94,6 +94,23 @@ namespace HistoCoin.Server.ViewModels.Form
             set => Set(value);
         }
         
+        public Form(ICoinService coinService)
+        {
+            this._coinService = coinService;
+
+            this.OnRouted((sender, e) =>
+            {
+                if (!int.TryParse(e?.From?.Replace($"{AppLayout.FormPagePath}/", string.Empty), out var id))
+                {
+                    return;
+                }
+
+                this.LoadCoin(id == 1 
+                    ? this._coinService.GetFirstId() 
+                    : id);
+            });
+        }
+        
         public Action<int> Cancel => LoadCoin;
 
         public Action<SavedCoinInfo> Save => changes =>
@@ -109,19 +126,6 @@ namespace HistoCoin.Server.ViewModels.Form
                 Changed(nameof(this.Coins));
             }
         };
-
-        public Form(ICoinService coinService)
-        {
-            this._coinService = coinService;
-
-            this.OnRouted((sender, e) =>
-            {
-                if (int.TryParse(e?.From?.Replace($"{AppLayout.FormPagePath}/", string.Empty), out var id))
-                {
-                    this.LoadCoin(id);
-                }
-            });
-        }
 
         private void LoadCoin(int id)
         {

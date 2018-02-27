@@ -14,7 +14,6 @@
     public class CoinService : ICoinService
     {
         private List<CoinModel> _coins;
-        private int _newId;
 
         public CoinService()
         {
@@ -30,8 +29,6 @@
                             Count = c.Count,
                         })
                     .ToList();
-            
-            this._newId = this._coins.Count;
         }
 
         public CoinService(ICacheService<ConcurrentBag<Currency>> cacheService)
@@ -55,18 +52,32 @@
                         })
                     .ToList();
 
-            this._newId = this._coins.Count;
+            // update fields if not initialized
+            foreach (var coin in this._coins)
+            {
+                coin.CurrentValue =
+                    coin.CurrentValue > -1
+                        ? coin.CurrentValue
+                        : coin.History?.GetLastValue() ?? -1;
+
+                coin.Delta =
+                    coin.Delta > -1
+                        ? coin.Delta
+                        : DataFetcher.CalculateDelta(coin.CurrentValue * coin.Count, coin.StartingValue * coin.Count, coin.BaseCurrency);
+            }
         }
 
         public Currencies BaseCurrency { get; set; } = Currencies.USD;
 
         public IEnumerable<ICoin> GetAll() => this._coins;
-
+        
         public ICoin GetById(int id) => this._coins.FirstOrDefault(i => i.Id == id);
+
+        public int GetFirstId() => this._coins.FirstOrDefault()?.Id ?? 1;
 
         public int Add(ICoin record)
         {
-            record.Id = ++_newId;
+            record.Id = record.Id;
             this._coins.Add(record as CoinModel);
 
             return record.Id;

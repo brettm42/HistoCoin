@@ -40,7 +40,7 @@ const CoinHistory = (props) => {
 
   const options = {
     legend: { display: false },
-    scales: { xAxes: [{ display: false }], yAxes: [{ display: false }] },
+    scales: { xAxes: [{ display: false }], yAxes: [{ display: true }] },
     layout: { padding: { left: 5, right: 5, top: 5, bottom: 5 } },
     maintainAspectRatio: false,
     multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"

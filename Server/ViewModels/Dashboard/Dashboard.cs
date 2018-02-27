@@ -68,7 +68,7 @@ namespace HistoCoin.Server.ViewModels.Dashboard
                                 {
                                     Handle = value.Handle,
                                     Value = $"{Normalize(value.CurrentValue, dataService.BaseCurrency)}",
-                                    Worth = $"{Normalize(value.Worth, dataService.BaseCurrency)}",
+                                    Worth = $"{value.Worth}",
                                     Count = $"{value.Count}",
                                     Route = this.Redirect(AppLayout.FormPagePath, value.Id.ToString())
                                 });

@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "ff8b4ae7476722d8a5c2"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "adcd2e03778fcda4412d"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -53236,7 +53236,7 @@ var CoinHistory = function CoinHistory(props) {
 
   var options = {
     legend: { display: false },
-    scales: { xAxes: [{ display: false }], yAxes: [{ display: false }] },
+    scales: { xAxes: [{ display: false }], yAxes: [{ display: true }] },
     layout: { padding: { left: 5, right: 5, top: 5, bottom: 5 } },
     maintainAspectRatio: false,
     multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"

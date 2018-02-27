@@ -56,6 +56,21 @@ namespace HistoCoin.Server.Data
             }
         }
 
+        public static double CalculateDelta(double currentValue, double purchasePrice, Currencies currency)
+        {
+            switch (currency)
+            {
+                case Currencies.USD:
+                    return Math.Round(currentValue - purchasePrice, 4);
+                case Currencies.BTC:
+                    return Math.Round(BtcToUsd(currentValue) - purchasePrice, 8);
+                case Currencies.ETH:
+                    return Math.Round(EthToUsd(currentValue) - purchasePrice, 6);
+                default:
+                    return 0;
+            }
+        }
+
         public static double CalculateDelta(string handle, double currentValue, double purchasePrice, Currencies currency)
         {
             switch (currency)
