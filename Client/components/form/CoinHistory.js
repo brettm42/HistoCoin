@@ -8,7 +8,7 @@ const CoinHistory = (props) => {
 
   const styles = {
     paper: {
-      backgroundColor: 'white',
+        backgroundColor: 'white',
       height: 150
     },
     div: {

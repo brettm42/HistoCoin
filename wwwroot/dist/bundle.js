@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "249fda3820fff5ef91f7"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ff8b4ae7476722d8a5c2"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16118,6 +16118,9 @@ var FormPage = function (_React$Component) {
 
       var styles = {
         selectLabel: { color: _colors.pink400 },
+        form: {
+          paddingBottom: 80
+        },
         toggleDiv: {
           maxWidth: 300,
           marginTop: 40,
@@ -16161,7 +16164,7 @@ var FormPage = function (_React$Component) {
             null,
             _react2.default.createElement(
               'form',
-              null,
+              { style: styles.form },
               _react2.default.createElement(
                 _SelectField2.default,
                 {
@@ -16211,7 +16214,6 @@ var FormPage = function (_React$Component) {
                   primary: true })
               )
             ),
-            _react2.default.createElement('span', { height: 15 }),
             _react2.default.createElement(
               'div',
               { className: 'row' },

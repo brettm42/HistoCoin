@@ -43,7 +43,10 @@ class FormPage extends React.Component {
     let { dirty, Coins, Id, Handle, Count, StartingValue, Worth, CurrentValue, Delta, HistoricalDates, HistoricalValues } = this.state;
 
     const styles = {
-      selectLabel: { color: pink400 },
+        selectLabel: { color: pink400 },
+        form: {
+            paddingBottom: 80,
+        },
       toggleDiv: {
         maxWidth: 300,
         marginTop: 40,
@@ -76,7 +79,7 @@ class FormPage extends React.Component {
       <MuiThemeProvider muiTheme={ThemeDefault}>
         <BasePage title="Form Page" navigation="HistoCoin / Form Page">
             <div>
-          <form>
+          <form style={styles.form}>
             <SelectField
               value={Id}
               onChange={handleSelectFieldChange}
@@ -121,9 +124,7 @@ class FormPage extends React.Component {
                 primary={true} />
             </div>
         </form>
-
-          <span height={15} />
-
+                    
           <div className="row">
               <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
                   <InfoBar
@@ -152,7 +153,7 @@ class FormPage extends React.Component {
                 </div>
                     </div>
 
-              <div className="row">
+                <div className="row">
                   <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md m-b-15">
                     <CoinHistory
                         data={this.state.HistoricalValues}
