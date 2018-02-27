@@ -8,8 +8,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import TextField from 'material-ui/TextField';
 import InfoBar from '../components/form/InfoBar';
-import ValueHistory from '../components/form/ValueHistory';
-import { grey400, pink400, orange200 } from 'material-ui/styles/colors';
+import CoinHistory from '../components/form/CoinHistory';
+import { grey200, grey400, pink400, orange200 } from 'material-ui/styles/colors';
 import BasePage from '../components/BasePage';
 import ThemeDefault from '../styles/theme-default';
 
@@ -121,7 +121,9 @@ class FormPage extends React.Component {
                 primary={true} />
             </div>
         </form>
-                    
+
+          <span height={15} />
+
           <div className="row">
               <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
                   <InfoBar
@@ -152,7 +154,10 @@ class FormPage extends React.Component {
 
               <div className="row">
                   <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md m-b-15">
-                      <ValueHistory data={this.state.HistoricalValues} dates={this.state.HistoricalDates} />
+                    <CoinHistory
+                        data={this.state.HistoricalValues}
+                        dates={this.state.HistoricalDates}
+                        color={grey200} />
                     </div>
                 </div>
             </div>

@@ -4,11 +4,11 @@ import { Line } from 'react-chartjs-2';
 import Paper from 'material-ui/Paper';
 import { white, purple600, purple500 } from 'material-ui/styles/colors';
 
-const ValueHistory = (props) => {
+const CoinHistory = (props) => {
 
   const styles = {
     paper: {
-      backgroundColor: purple500,
+      backgroundColor: 'white',
       height: 150
     },
     div: {
@@ -17,19 +17,19 @@ const ValueHistory = (props) => {
     },
     header: {
       fontSize: 24,
-      color: white,
-      backgroundColor: purple600,
+      color: 'black',
+      backgroundColor: 'white',
       padding: 10,
     }
   };
 
   const data = {
-    labels: props.dates,
+    labels: props.dates ? props.dates : new Array(0),
     datasets: [
       {
-        data: props.data,
+        data: props.data ? props.data : new Array(0),
         fill: false,
-        backgroundColor: 'white',
+        backgroundColor: props.color,
         borderColor: '#8884d8',
         borderWidth: 2,
         pointBorderWidth: 2,
@@ -56,9 +56,10 @@ const ValueHistory = (props) => {
   );
 };
 
-ValueHistory.propTypes = {
+CoinHistory.propTypes = {
     data: PropTypes.array,
-    dates: PropTypes.array
+    dates: PropTypes.array,
+    color: PropTypes.string,
 };
 
-export default ValueHistory;
+export default CoinHistory;

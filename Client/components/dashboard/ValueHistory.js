@@ -24,10 +24,10 @@ const ValueHistory = (props) => {
   };
 
   const data = {
-    labels: props.dates,
+    labels: props.dates ? props.dates : new Array(0),
     datasets: [
       {
-        data: props.data,
+        data: props.data ? props.data : new Array(0),
         fill: false,
         backgroundColor: 'white',
         borderColor: '#8884d8',
