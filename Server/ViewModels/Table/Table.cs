@@ -52,7 +52,7 @@ namespace HistoCoin.Server.ViewModels.Table
                     StartingValue = newRecord.StartingValue,
                 });
 
-            this.SelectedPage = this.GetPageCount(this._coinService.GetAll().Count);
+            this.SelectedPage = this.GetPageCount(this._coinService.GetAll().Count());
         };
 
         public Action<CoinInfo> Update => changes =>

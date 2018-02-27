@@ -147,7 +147,7 @@ namespace HistoCoin.Server.Services.CurrencyService
         
         private static IEnumerable<(string Handle, double Count)> SyncCoinList(in ConcurrentBag<Currency> cache, ICoinService coinService)
         {
-            var coins = coinService.GetAll();
+            var coins = coinService.GetAll().ToList();
 
             var count = cache.Count(c => c.BaseCurrency == coinService.BaseCurrency);
             if (count != coins.Count)

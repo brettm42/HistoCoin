@@ -7,7 +7,7 @@ namespace HistoCoin.Server.Services.CoinService
     
     public interface ICoinService
     {
-        IList<ICoin> GetAll();
+        IEnumerable<ICoin> GetAll();
 
         Currencies BaseCurrency { get; set; }
 

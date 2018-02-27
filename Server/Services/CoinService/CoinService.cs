@@ -32,7 +32,7 @@
 
         public Currencies BaseCurrency { get; set; } = Currencies.USD;
 
-        public IList<ICoin> GetAll() => this._coins;
+        public IEnumerable<ICoin> GetAll() => this._coins;
 
         public ICoin GetById(int id) => this._coins.FirstOrDefault(i => i.Id == id);
 
