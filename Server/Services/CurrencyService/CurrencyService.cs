@@ -335,11 +335,11 @@ namespace HistoCoin.Server.Services.CurrencyService
                     group =>
                         (Sum: group.LastOrDefault()?.Sum(i => i.Worth) ?? 0,
                         LastUpdate: group.LastOrDefault()?.LastOrDefault()?.LastUpdated ?? default))
-                //.Where((sum, _) => sum > 0)
                 .Where(t => t.Sum > 0)
+                //.Where((sum, _) => sum > 0)
                 .ToDictionary(
-                    //(_, date) => Normalize(date), (sum, _) => Normalize(sum, currency));
                     t => Normalize(t.LastUpdate), t => Normalize(t.Sum, currency));
+                    //(_, date) => Normalize(date), (sum, _) => Normalize(sum, currency));
         }
     }
 }
