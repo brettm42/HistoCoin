@@ -22,7 +22,7 @@
                     .Select(c =>
                         new CoinModel
                         {
-                            Id = c.GetHashCode(),
+                            Id = c.ToString().GetHashCode(),
                             BaseCurrency = this.BaseCurrency,
                             Handle = c.Handle,              
                             StartingValue = c.StartingValue,

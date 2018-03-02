@@ -35,11 +35,11 @@
             var coinService = 
                 new CoinService()
                     .AddCacheService(cacheService);
-            
+
             var currencyService =
                 new CurrencyService()
-                    .AddCoinService(coinService)
-                    .AddCacheService(cacheService);
+                    .AddCacheService(cacheService)
+                    .AddCoinService(coinService);
 
             services
                 .AddSingleton<ICacheService<ConcurrentBag<Currency>>, CacheService<ConcurrentBag<Currency>>>(

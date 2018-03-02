@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "8180ac532c99fa13cc1c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "febd7a8a2e78ed91a74c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16406,7 +16406,7 @@ var TablePage = function (_React$Component) {
 
       var handleAdd = function handleAdd(_) {
         if (addName) {
-          _this2.dispatch({ Add: addName });
+          _this2.dispatch({ Add: addName + " 0 0" });
           _this2.setState({ addName: '' });
         }
       };

@@ -1,6 +1,7 @@
 ﻿
 namespace HistoCoin.Server.Services.CoinService
 {
+    using System;
     using HistoCoin.Server.Infrastructure;
     using static HistoCoin.Server.Infrastructure.Constants;
     using static HistoCoin.Server.Infrastructure.Helpers;
@@ -30,5 +31,29 @@ namespace HistoCoin.Server.Services.CoinService
         public History History { get; set; }
 
         public override string ToString() => $"{this.Handle} ({this.BaseCurrency})";
+
+        public ICoin Update(ICoin coin)
+        {
+            this.Handle =
+                this.Handle.Equals(coin.Handle, StringComparison.InvariantCultureIgnoreCase)
+                    ? this.Handle
+                    : coin.Handle;
+            this.Count =
+                this.Count.Equals(coin.Count)
+                    ? this.Count
+                    : coin.Count;
+            this.StartingValue =
+                this.StartingValue.Equals(coin.StartingValue)
+                    ? this.StartingValue
+                    : coin.StartingValue;
+            this.BaseCurrency =
+                this.BaseCurrency == coin.BaseCurrency
+                    ? this.BaseCurrency
+                    : coin.BaseCurrency;
+            
+            this.IsModified = true;
+
+            return this;
+        }
     }
 }

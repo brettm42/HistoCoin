@@ -26,5 +26,7 @@ namespace HistoCoin.Server.Infrastructure
         double Delta { get; }
 
         History History { get; set; }
+
+        ICoin Update(ICoin coin);
     }
 }

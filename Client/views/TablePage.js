@@ -52,7 +52,7 @@ class TablePage extends React.Component {
 
     const handleAdd = _ => {
       if (addName) {
-        this.dispatch({ Add: addName });
+        this.dispatch({ Add: addName + " 0 0" });
         this.setState({ addName: '' });
       }
     };

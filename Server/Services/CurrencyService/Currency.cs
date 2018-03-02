@@ -40,5 +40,30 @@ namespace HistoCoin.Server.Services.CurrencyService
 
         public override string ToString() => $"{this.Handle} ({this.BaseCurrency})";
 
+        public ICoin Update(ICoin coin)
+        {
+            this.Handle =
+                this.Handle.Equals(coin.Handle, StringComparison.InvariantCultureIgnoreCase)
+                    ? this.Handle
+                    : coin.Handle;
+            this.Count =
+                this.Count.Equals(coin.Count)
+                    ? this.Count
+                    : coin.Count;
+            this.StartingValue =
+                this.StartingValue.Equals(coin.StartingValue)
+                    ? this.StartingValue
+                    : coin.StartingValue;
+            this.BaseCurrency =
+                this.BaseCurrency == coin.BaseCurrency
+                    ? this.BaseCurrency
+                    : coin.BaseCurrency;
+
+            this.LastUpdated = DateTimeOffset.MinValue;
+            this.IsModified = true;
+
+            return this;
+        }
+
     }
 }
