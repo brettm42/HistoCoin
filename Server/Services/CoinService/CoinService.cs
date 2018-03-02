@@ -41,7 +41,7 @@
 
         public int Add(ICoin record)
         {
-            record.Id = record.Id;
+            record.IsModified = true;
             this._coins.Add(record as CoinModel);
 
             return record.Id;
@@ -52,6 +52,7 @@
             var idx = this._coins.FindIndex(i => i.Id == record.Id);
             if (idx >= 0)
             {
+                record.IsModified = true;
                 this._coins[idx] = record as CoinModel;
             }
         }

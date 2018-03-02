@@ -50,10 +50,14 @@ namespace HistoCoin.Server.Services.CurrencyService
         public CurrencyService()
         {
             this.Coins =
-                CurrencyService.SyncCoinList(in this._cache, in this._coinService, this.BaseCurrency)
-                    .Select(c => c.Handle)
-                    .ToObservable()
-                    .ToArray();
+                Observable
+                    .Interval(UpdateInterval * 115)
+                    .StartWith(0)
+                    .Select(
+                        _ =>
+                            CurrencyService.SyncCoinList(in this._cache, in this._coinService, this.BaseCurrency)
+                                .Select(c => c.Handle)
+                                .ToArray());
 
             this.CurrentValues =
                 Observable
@@ -261,6 +265,20 @@ namespace HistoCoin.Server.Services.CurrencyService
                             StartingValue = coin.StartingValue,
                             LastUpdated = DateTimeOffset.MinValue,
                         });
+                }
+            }
+            else
+            {
+                foreach (var coin in coins.Where(c => c.IsModified))
+                {
+                    var update = cache.FirstOrDefault(c => c.Id == coin.Id);
+                    
+                    if (update != null)
+                    {
+                        update.LastUpdated = DateTimeOffset.MinValue;
+
+                        coin.IsModified = false;
+                    }
                 }
             }
 

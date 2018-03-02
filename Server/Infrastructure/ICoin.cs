@@ -2,10 +2,14 @@
 namespace HistoCoin.Server.Infrastructure
 {
     using static HistoCoin.Server.Infrastructure.Constants;
+    using Newtonsoft.Json;
 
     public interface ICoin
     {
         int Id { get; set; }
+
+        [JsonIgnore]
+        bool IsModified { get; set; }
 
         string Handle { get; set; }
 

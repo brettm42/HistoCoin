@@ -35,9 +35,10 @@
             var coinService = 
                 new CoinService()
                     .AddCacheService(cacheService);
-
+            
             var currencyService =
-                new CurrencyService(coinService)
+                new CurrencyService()
+                    .AddCoinService(coinService)
                     .AddCacheService(cacheService);
 
             services

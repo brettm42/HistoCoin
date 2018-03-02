@@ -69,7 +69,8 @@ class Dashboard extends React.Component {
                     disabled={this.state.IsSyncing}
                     onClick={() => handleSync()}
                     mini={true}
-                    backgroundColor={pink600}>
+                    backgroundColor={pink600}
+                >
                     <ActionCached />
                 </FloatingActionButton>
             </div>

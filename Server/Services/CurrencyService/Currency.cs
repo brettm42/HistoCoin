@@ -5,7 +5,9 @@ namespace HistoCoin.Server.Services.CurrencyService
     using HistoCoin.Server.Infrastructure;
     using static HistoCoin.Server.Infrastructure.Constants;
     using static HistoCoin.Server.Infrastructure.Helpers;
-    
+
+    using Newtonsoft.Json;
+
     public class Currency : ICoin
     {
         public Currency(Currencies currency)
@@ -14,6 +16,9 @@ namespace HistoCoin.Server.Services.CurrencyService
         }
 
         public int Id { get; set; }
+
+        [JsonIgnore]
+        public bool IsModified { get; set; }
 
         public string Handle { get; set; }
 

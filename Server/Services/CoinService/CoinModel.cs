@@ -4,10 +4,14 @@ namespace HistoCoin.Server.Services.CoinService
     using HistoCoin.Server.Infrastructure;
     using static HistoCoin.Server.Infrastructure.Constants;
     using static HistoCoin.Server.Infrastructure.Helpers;
+    using Newtonsoft.Json;
 
     public class CoinModel : ICoin
     {
         public int Id { get; set; }
+        
+        [JsonIgnore]
+        public bool IsModified { get; set; }
 
         public string Handle { get; set; }
 

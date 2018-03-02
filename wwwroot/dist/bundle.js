@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "adcd2e03778fcda4412d"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "8180ac532c99fa13cc1c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -15915,7 +15915,8 @@ var Dashboard = function (_React$Component) {
                   return handleSync();
                 },
                 mini: true,
-                backgroundColor: _colors.pink600 },
+                backgroundColor: _colors.pink600
+              },
               _react2.default.createElement(_cached2.default, null)
             )
           ),
