@@ -35,12 +35,17 @@
 
         public IEnumerable<ICoin> GetAll() => this._coins;
         
-        public ICoin GetById(int id) => this._coins.FirstOrDefault(i => i.Id == id);
+        public ICoin GetById(int id) => this._coins.FirstOrDefault(i => i?.Id == id);
 
         public int GetFirstId() => this._coins.FirstOrDefault()?.Id ?? 1;
 
         public int Add(ICoin record)
         {
+            if (record is null)
+            {
+                return -1;
+            }
+
             record.IsModified = true;
             this._coins.Add(record as CoinModel);
 
@@ -49,7 +54,12 @@
 
         public void Update(ICoin record)
         {
-            var idx = this._coins.FindIndex(i => i.Id == record.Id);
+            if (record is null)
+            {
+                return;
+            }
+
+            var idx = this._coins.FindIndex(i => i?.Id == record.Id);
             if (idx >= 0)
             {
                 record.IsModified = true;

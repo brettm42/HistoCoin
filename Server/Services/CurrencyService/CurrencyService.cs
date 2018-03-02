@@ -222,7 +222,7 @@ namespace HistoCoin.Server.Services.CurrencyService
             else
             {
                 // update any cached coinsn with modified items
-                foreach (var coin in coins.Where(c => c.IsModified))
+                foreach (var coin in coins.Where(c => c?.IsModified ?? false))
                 {
                     var update = cache.FirstOrDefault(c => c.Id == coin.Id);
                     if (update != null)
