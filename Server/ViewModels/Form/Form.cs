@@ -21,7 +21,7 @@ namespace HistoCoin.Server.ViewModels.Form
             this._coinService
                 .GetAll()
                 .OrderBy(i => i.Handle)
-                .Select(i => 
+                .Select(i =>
                     new CoinInfo
                     {
                         Id = i.Id,
