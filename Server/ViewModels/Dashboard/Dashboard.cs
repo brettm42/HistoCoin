@@ -15,7 +15,7 @@ namespace HistoCoin.Server.ViewModels.Dashboard
     [Authorize]
     public class Dashboard : BaseVM, IRoutable
     {
-        private IDisposable _subscription;
+        private readonly IDisposable _subscription;
         private bool _isSyncing;
         
         public RoutingState RoutingState { get; set; }
@@ -49,6 +49,7 @@ namespace HistoCoin.Server.ViewModels.Dashboard
             AddProperty<double[]>("HistValues").SubscribeTo(
                 dataService.ValueHistory
                     .Select(i => i.GetValues(DefaultHistoryPopulation)));
+
             AddProperty<string[]>("HistDates").SubscribeTo(
                 dataService.ValueHistory
                     .Select(i => i.GetDates(DefaultHistoryPopulation)));

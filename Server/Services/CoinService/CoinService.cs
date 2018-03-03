@@ -13,7 +13,7 @@
     
     public class CoinService : ICoinService
     {
-        private List<CoinModel> _coins;
+        private readonly List<CoinModel> _coins;
 
         public CoinService()
         {
