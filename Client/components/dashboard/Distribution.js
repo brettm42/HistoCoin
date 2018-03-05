@@ -30,20 +30,20 @@ const Distribution = (props) => {
     }
   };
 
-  const labelStyles = [
-      { color: cyan600, icon: <MemoryIcon /> },
-      { color: pink600, icon: <DiskIcon /> },
-      { color: purple600, icon: <NetworkIcon /> },
-      { color: cyan600, icon: <MemoryIcon /> },
-      { color: pink600, icon: <DiskIcon /> },
-      { color: purple600, icon: <NetworkIcon /> },
-      { color: cyan600, icon: <MemoryIcon /> },
-      { color: pink600, icon: <DiskIcon /> },
-      { color: purple600, icon: <NetworkIcon /> },
-      { color: cyan600, icon: <MemoryIcon /> },
-      { color: pink600, icon: <DiskIcon /> },
-      { color: purple600, icon: <NetworkIcon /> },
-  ]
+    const labelStyles = [
+        { color: cyan600, icon: <MemoryIcon /> },
+        { color: pink600, icon: <DiskIcon /> },
+        { color: purple600, icon: <NetworkIcon /> },
+        { color: cyan600, icon: <MemoryIcon /> },
+        { color: pink600, icon: <DiskIcon /> },
+        { color: purple600, icon: <NetworkIcon /> },
+        { color: cyan600, icon: <MemoryIcon /> },
+        { color: pink600, icon: <DiskIcon /> },
+        { color: purple600, icon: <NetworkIcon /> },
+        { color: cyan600, icon: <MemoryIcon /> },
+        { color: pink600, icon: <DiskIcon /> },
+        { color: purple600, icon: <NetworkIcon /> },
+    ];
 
   const data = {
     labels: props.label,
