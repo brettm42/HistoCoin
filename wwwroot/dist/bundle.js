@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "393594b014f74d260672"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "2b4c60f1cf480f3e8891"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -53719,7 +53719,7 @@ var AppLayout = function (_React$Component) {
     };
 
     _this.state = {
-      sidebarOpen: props.width === _withWidth.LARGE,
+      sidebarOpen: false,
       Menus: []
     };
     return _this;

@@ -63,7 +63,7 @@
             if (idx >= 0)
             {
                 record.IsModified = true;
-                this._coins[idx] = record as CoinModel;
+                this._coins[idx].Update(record);
             }
         }
         

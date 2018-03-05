@@ -14,6 +14,11 @@ namespace HistoCoin.Server.ViewModels.Table
         private readonly ICoinService _coinService;
         private const int _recordsPerPage = 15;
         
+        public Table(ICoinService coinService)
+        {
+            this._coinService = coinService;
+        }
+
         // If you use CRUD methods on a list, you must set the item key prop name of that list
         // by defining a string property that starts with that list's prop name, followed by "_itemKey".
         public string CoinsItemKey => nameof(CoinInfo.Id);
@@ -22,6 +27,7 @@ namespace HistoCoin.Server.ViewModels.Table
             this.Paginate(
                 this._coinService
                     .GetAll()
+                    .Where(i => i != null)
                     .Select(i => 
                         new CoinInfo
                         {
@@ -123,12 +129,7 @@ namespace HistoCoin.Server.ViewModels.Table
                 Changed(nameof(this.Coins));
             }
         }
-
-        public Table(ICoinService coinService)
-        {
-            this._coinService = coinService;
-        }
-
+        
         private IEnumerable<CoinInfo> Paginate(IEnumerable<CoinInfo> coins)
         {
             // ChangedProperties is a base class property that contains a list of changed properties.
