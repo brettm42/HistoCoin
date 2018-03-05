@@ -20,6 +20,7 @@ namespace HistoCoin.Server.ViewModels.Form
         public IEnumerable<CoinInfo> Coins =>
             this._coinService
                 .GetAll()
+                .Where(i => i != null)
                 .OrderBy(i => i.Handle)
                 .Select(i =>
                     new CoinInfo
