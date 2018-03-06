@@ -82,10 +82,10 @@ namespace HistoCoin.Server.ViewModels.Dashboard
                             return values.Reverse().ToArray();
                         }));
 
-            // Regulate data update interval to no less than every 200 msecs.
+            // Regulate data update interval to no less than every 300 msecs.
             this._subscription =
                 Observable
-                    .Interval(TimeSpan.FromMilliseconds(200))
+                    .Interval(TimeSpan.FromMilliseconds(300))
                     .StartWith(0)
                     .Subscribe(_ => PushUpdates());
         }

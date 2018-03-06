@@ -58,14 +58,16 @@ namespace HistoCoin.Server.Data
 
         public static double CalculateDelta(double currentValue, double purchasePrice, Currencies currency)
         {
+            const int Accuracy = 2;
+
             switch (currency)
             {
                 case Currencies.USD:
-                    return Math.Round(currentValue - purchasePrice, 4);
+                    return Math.Round(currentValue - purchasePrice, Digits[Currencies.USD] + Accuracy);
                 case Currencies.BTC:
-                    return Math.Round(BtcToUsd(currentValue) - purchasePrice, 8);
+                    return Math.Round(BtcToUsd(currentValue) - purchasePrice, Digits[Currencies.BTC] + Accuracy);
                 case Currencies.ETH:
-                    return Math.Round(EthToUsd(currentValue) - purchasePrice, 6);
+                    return Math.Round(EthToUsd(currentValue) - purchasePrice, Digits[Currencies.ETH] + Accuracy);
                 default:
                     return 0;
             }
@@ -73,14 +75,16 @@ namespace HistoCoin.Server.Data
 
         public static double CalculateDelta(string handle, double currentValue, double purchasePrice, Currencies currency)
         {
+            const int Accuracy = 2;
+
             switch (currency)
             {
                 case Currencies.USD:
-                    return Math.Round(currentValue - purchasePrice, 4);
+                    return Math.Round(currentValue - purchasePrice, Digits[Currencies.USD] + Accuracy);
                 case Currencies.BTC:
-                    return Math.Round(BtcToUsd(currentValue) - purchasePrice, 8);
+                    return Math.Round(BtcToUsd(currentValue) - purchasePrice, Digits[Currencies.BTC] + Accuracy);
                 case Currencies.ETH:
-                    return Math.Round(EthToUsd(currentValue) - purchasePrice, 6);
+                    return Math.Round(EthToUsd(currentValue) - purchasePrice, Digits[Currencies.ETH] + Accuracy);
                 default:
                     return 0;
             }

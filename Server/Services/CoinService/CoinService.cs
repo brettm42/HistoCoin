@@ -87,7 +87,7 @@
                     coin.CurrentValue =
                         coin.CurrentValue > -1
                             ? coin.CurrentValue
-                            : coin.History?.GetLastValue() ?? -1;
+                            : coin.History?.GetLastEntryValue() ?? -1;
 
                     coin.Delta =
                         coin.Delta > -1
@@ -111,7 +111,7 @@
                             .Where(i => i.Handle.Equals(handle, StringComparison.InvariantCultureIgnoreCase)))
                 .GroupBy(
                     cache =>
-                        (int)(DateTime.Now - cache.FirstOrDefault().LastUpdated).TotalHours / 10)
+                        (int)(DateTime.Now - cache.FirstOrDefault().LastUpdated).TotalHours / DefaultBucketSize)
                 .Select(
                     group =>
                         (Value: group.LastOrDefault()?.LastOrDefault()?.CurrentValue ?? 0,

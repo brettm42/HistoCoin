@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "786df0473eb790afa1fe"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "0657a9812992eb5446b8"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16396,9 +16396,10 @@ var TablePage = function (_React$Component) {
         removeIcon: { fill: _colors.grey500 },
         columns: {
           id: { width: '10%' },
-          handle: { width: '35%' },
+          handle: { width: '25%' },
           count: { width: '35%' },
           startingValue: { width: '35%' },
+          lastUpdate: { width: '40%' },
           remove: { width: '20%' }
         },
         pagination: { marginTop: '1em' }
@@ -16486,7 +16487,7 @@ var TablePage = function (_React$Component) {
                   ),
                   _react2.default.createElement(
                     _Table.TableHeaderColumn,
-                    { style: styles.columns.startingValue },
+                    { style: styles.columns.lastUpdate },
                     'Last Updated'
                   ),
                   _react2.default.createElement(
@@ -16538,8 +16539,8 @@ var TablePage = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                       _Table.TableRowColumn,
-                      { style: styles.columns.startingValue },
-                      new Date().toJSON().slice(0, 10)
+                      { style: styles.columns.lastUpdate },
+                      item.LastUpdate
                     ),
                     _react2.default.createElement(
                       _Table.TableRowColumn,

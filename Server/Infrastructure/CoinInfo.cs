@@ -1,6 +1,7 @@
 ﻿
 namespace HistoCoin.Server.Infrastructure
 {
+    using System;
     using DotNetify.Routing;
 
     public class CoinInfo
@@ -12,6 +13,8 @@ namespace HistoCoin.Server.Infrastructure
         public double? Count { get; set; }
 
         public double? StartingValue { get; set; }
+
+        public DateTimeOffset? LastUpdate { get; set; }
 
         public Route Route { get; set; }
     }

@@ -2,6 +2,7 @@
 namespace HistoCoin.Server.Infrastructure
 {
     using System;
+    using System.Collections.Generic;
 
     public static class Constants
     {
@@ -27,7 +28,16 @@ namespace HistoCoin.Server.Infrastructure
 
         public const int MaxCachedFiles = 5000;
         public const int DefaultHistoryPopulation = 50;
+        public const int DefaultBucketSize = 10;
 
         public static readonly TimeSpan UpdateInterval = TimeSpan.FromSeconds(1);
+
+        public static readonly Dictionary<Currencies, int> Digits = 
+            new Dictionary<Currencies, int>
+            {
+                { Currencies.USD, 2 },
+                { Currencies.ETH, 4 },
+                { Currencies.BTC, 6 },
+            };
     }
 }

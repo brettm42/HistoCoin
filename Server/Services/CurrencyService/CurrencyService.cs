@@ -307,7 +307,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                 switch (currency)
                 {
                     case Currencies.USD:
-                        if (this._valueHistoryUsd.GetLastValue() != output)
+                        if (this._valueHistoryUsd.GetLastEntryValue() != output)
                         {
                             this._valueHistoryUsd.Add(Normalize(DateTime.Now), output);
                         }
@@ -315,7 +315,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                         break;
 
                     case Currencies.BTC:
-                        if (this._valueHistoryBtc.GetLastValue() != output)
+                        if (this._valueHistoryBtc.GetLastEntryValue() != output)
                         {
                             this._valueHistoryBtc.Add(Normalize(DateTime.Now), output);
                         }
@@ -323,7 +323,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                         break;
 
                     case Currencies.ETH:
-                        if (this._valueHistoryEth.GetLastValue() != output)
+                        if (this._valueHistoryEth.GetLastEntryValue() != output)
                         {
                             this._valueHistoryEth.Add(Normalize(DateTime.Now), output);
                         }
@@ -386,7 +386,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                         cache.Get().Where(i => i.BaseCurrency == currency))
                 .GroupBy(
                     cache =>
-                        (int) (DateTime.Now - cache.FirstOrDefault().LastUpdated).TotalHours / 10)
+                        (int) (DateTime.Now - cache.FirstOrDefault().LastUpdated).TotalHours / DefaultBucketSize)
                 .Select(
                     group =>
                         (Sum: group.LastOrDefault()?.Sum(i => i.Worth) ?? 0,

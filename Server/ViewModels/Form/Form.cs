@@ -9,7 +9,8 @@ namespace HistoCoin.Server.ViewModels.Form
     using HistoCoin.Server.Infrastructure;
     using HistoCoin.Server.Services.CoinService;
     using static HistoCoin.Server.Infrastructure.Constants;
-    
+    using static HistoCoin.Server.Infrastructure.Helpers;
+
     [Authorize]
     public class Form : BaseVM, IRoutable
     {
@@ -133,13 +134,13 @@ namespace HistoCoin.Server.ViewModels.Form
             var record = this._coinService.GetById(id);
             if (record != null)
             {
+                this.Id = record.Id;
                 this.Handle = record.Handle;
                 this.Count = record.Count;
-                this.StartingValue = record.StartingValue;
-                this.Id = record.Id;
-                this.CurrentValue = record.CurrentValue;
-                this.Delta = record.Delta;
-                this.Worth = record.Worth;
+                this.StartingValue = Normalize(record.StartingValue, this._coinService.BaseCurrency);
+                this.CurrentValue = Normalize(record.CurrentValue, this._coinService.BaseCurrency);
+                this.Delta = Normalize(record.Delta, this._coinService.BaseCurrency);
+                this.Worth = Normalize(record.Worth, this._coinService.BaseCurrency);
                 this.HistoricalDates = record.History?.GetDates(DefaultHistoryPopulation) ?? new string[0];
                 this.HistoricalValues = record.History?.GetValues(DefaultHistoryPopulation) ?? new double[0];
             }

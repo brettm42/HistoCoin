@@ -35,6 +35,7 @@ namespace HistoCoin.Server.ViewModels.Table
                             Handle = i.Handle,
                             Count = i.Count,
                             StartingValue = i.StartingValue,
+                            LastUpdate = DateTimeOffset.Parse(i.History.GetLastEntryTime()),
                         }));
 
         public Action<string> Add => coinDetails =>
@@ -56,6 +57,7 @@ namespace HistoCoin.Server.ViewModels.Table
                     Handle = newRecord.Handle,
                     Count = newRecord.Count,
                     StartingValue = newRecord.StartingValue,
+                    LastUpdate = DateTimeOffset.MinValue,
                 });
 
             this.SelectedPage = this.GetPageCount(this._coinService.GetAll().Count());
