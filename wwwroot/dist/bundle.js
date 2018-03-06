@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "2b4c60f1cf480f3e8891"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "786df0473eb790afa1fe"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16399,7 +16399,7 @@ var TablePage = function (_React$Component) {
           handle: { width: '35%' },
           count: { width: '35%' },
           startingValue: { width: '35%' },
-          remove: { width: '15%' }
+          remove: { width: '20%' }
         },
         pagination: { marginTop: '1em' }
       };

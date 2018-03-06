@@ -45,7 +45,7 @@ class TablePage extends React.Component {
         handle: { width: '35%' },
         count: { width: '35%' },
         startingValue: { width: '35%' },
-        remove: { width: '15%' }
+        remove: { width: '20%' }
       },
       pagination: { marginTop: '1em' }
     };
