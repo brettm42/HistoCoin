@@ -13,10 +13,15 @@ class AppLayout extends React.Component {
   constructor(props) {
     super(props);
 
-    this.vm = dotnetify.react.connect("AppLayout", this, {
-      headers: { Authorization: "Bearer " + auth.getAccessToken() },
-      exceptionHandler: _ => auth.signOut()
-    });
+      this.vm =
+        dotnetify.react.connect(
+        "AppLayout",
+        this,
+        {
+          headers: { Authorization: "Bearer " + auth.getAccessToken() },
+          exceptionHandler: _ => auth.signOut()
+        });
+
     this.vm.onRouteEnter = (path, template) => template.Target = "Content";
 
     this.state = {
