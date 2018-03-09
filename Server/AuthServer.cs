@@ -127,50 +127,6 @@
                                 }
 
                                 return Task.CompletedTask;
-
-                                //if (context.Request.Password != "dotnetify")
-                                //{
-                                //    context.Reject(
-                                //        error: OpenIdConnectConstants.Errors.InvalidGrant,
-                                //        description: "Invalid user credentials.");
-
-                                //    return Task.CompletedTask;
-                                //}
-
-                                //var identity = 
-                                //    new ClaimsIdentity(
-                                //        context.Scheme.Name,
-                                //        OpenIdConnectConstants.Claims.Name,
-                                //        OpenIdConnectConstants.Claims.Role);
-
-                                //identity.AddClaim(OpenIdConnectConstants.Claims.Name, context.Request.Username);
-                                //identity.AddClaim(OpenIdConnectConstants.Claims.Subject, context.Request.Username);
-
-                                //identity.AddClaim(
-                                //    ClaimTypes.Name, 
-                                //    context.Request.Username,
-                                //    OpenIdConnectConstants.Destinations.AccessToken,
-                                //    OpenIdConnectConstants.Destinations.IdentityToken);
-
-                                //identity.AddClaim(
-                                //    ClaimTypes.Uri,
-                                //    "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png",
-                                //    OpenIdConnectConstants.Destinations.AccessToken,
-                                //    OpenIdConnectConstants.Destinations.IdentityToken);
-
-                                //var ticket = 
-                                //    new AuthenticationTicket(
-                                //        new ClaimsPrincipal(identity),
-                                //        new AuthenticationProperties(),
-                                //        context.Scheme.Name);
-
-                                //ticket.SetScopes(
-                                //    OpenIdConnectConstants.Scopes.Profile,
-                                //    OpenIdConnectConstants.Scopes.OfflineAccess);
-
-                                //context.Validate(ticket);
-
-                                //return Task.CompletedTask;
                             };
                     });
         }
