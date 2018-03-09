@@ -58,7 +58,7 @@ class LoginPage extends React.Component {
           auth.signIn(user, password)
               .then(_ => onAuthenticated())
               .catch(error => {
-                  if (error.message == "400")
+                  if (error.message === "400")
                       this.setState({ error: "Invalid password" });
                   else
                       this.setState({ error: error.message });

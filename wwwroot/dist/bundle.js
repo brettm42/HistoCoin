@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "0657a9812992eb5446b8"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "c76f7a9d93e5d6a6766c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -9736,7 +9736,7 @@ var Auth = function () {
             return fetch(this.url, {
                 method: 'post',
                 mode: 'no-cors',
-                body: "username=" + username + "&password=" + password + "&grant_type=password&client_id=dotnetifydemo",
+                body: "username=" + username + "&password=" + password + "&grant_type=password&client_id=histocoin",
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }
             }).then(function (response) {
                 if (!response.ok) throw new Error(response.status);
@@ -53715,6 +53715,7 @@ var AppLayout = function (_React$Component) {
         return _auth2.default.signOut();
       }
     });
+
     _this.vm.onRouteEnter = function (path, template) {
       return template.Target = "Content";
     };

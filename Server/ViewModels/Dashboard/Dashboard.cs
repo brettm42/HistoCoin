@@ -9,6 +9,7 @@ namespace HistoCoin.Server.ViewModels.Dashboard
     using DotNetify.Routing;
     using DotNetify.Security;
     using HistoCoin.Server.Services.CurrencyService;
+    using HistoCoin.Server.ViewModels.AppLayout;
     using static HistoCoin.Server.Infrastructure.Constants;
     using static HistoCoin.Server.Infrastructure.Helpers;
 

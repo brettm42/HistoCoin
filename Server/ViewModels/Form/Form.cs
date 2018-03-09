@@ -8,6 +8,7 @@ namespace HistoCoin.Server.ViewModels.Form
     using DotNetify.Security;
     using HistoCoin.Server.Infrastructure;
     using HistoCoin.Server.Services.CoinService;
+    using HistoCoin.Server.ViewModels.AppLayout;
     using static HistoCoin.Server.Infrastructure.Constants;
     using static HistoCoin.Server.Infrastructure.Helpers;
 

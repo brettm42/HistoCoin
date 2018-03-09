@@ -5,7 +5,7 @@ class Auth {
         return fetch(this.url, {
             method: 'post',
             mode: 'no-cors',
-            body: "username=" + username + "&password=" + password + "&grant_type=password&client_id=dotnetifydemo",
+            body: "username=" + username + "&password=" + password + "&grant_type=password&client_id=histocoin",
             headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }
         })
         .then(response => {
@@ -27,7 +27,7 @@ class Auth {
     }
 
     hasAccessToken() {
-        return this.getAccessToken() != null;
+        return this.getAccessToken() !== null;
     }
 }
 

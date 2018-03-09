@@ -132,7 +132,8 @@ class TablePage extends React.Component {
             <Pagination style={styles.pagination}
               pages={Pages}
               select={SelectedPage}
-              onSelect={handleSelectPage} />
+              onSelect={handleSelectPage}
+            />
 
             <Snackbar open={ShowNotification} message="Changes saved" autoHideDuration={1000} onRequestClose={hideNotification} />
           </div>

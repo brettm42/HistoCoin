@@ -1,4 +1,4 @@
-namespace HistoCoin.Server.ViewModels
+namespace HistoCoin.Server.ViewModels.AppLayout
 {
     using System.Collections.Generic;
     using System.Linq;
