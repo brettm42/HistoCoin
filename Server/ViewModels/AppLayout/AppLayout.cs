@@ -1,11 +1,13 @@
 namespace HistoCoin.Server.ViewModels.AppLayout
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
     using DotNetify;
     using DotNetify.Routing;
     using DotNetify.Security;
+    using static HistoCoin.Server.Infrastructure.Helpers;
 
     [Authorize]
     public class AppLayout : BaseVM, IRoutable
@@ -34,12 +36,35 @@ namespace HistoCoin.Server.ViewModels.AppLayout
 
         public string UserAvatar { get; set; }
 
+        public string UserBackground { get; set; }
+
+        public string EmailAddress { get; set; }
+
+        public string LastLogin { get; set; }
+
         public AppLayout(IPrincipalAccessor principalAccessor)
         {
             var userIdentity = principalAccessor.Principal.Identity as ClaimsIdentity;
 
-            UserName = userIdentity.Name;
-            UserAvatar = userIdentity.Claims.FirstOrDefault(i => i.Type == ClaimTypes.Uri)?.Value;
+            // TODO: create user object and lookup saved settings for user on login
+
+            this.UserName = 
+                string.IsNullOrWhiteSpace(userIdentity.Name) 
+                    ? "New User" 
+                    : userIdentity.Name;
+
+            this.EmailAddress = 
+                userIdentity.Claims.FirstOrDefault(i => i.Type == ClaimTypes.Email)?.Value;
+
+            this.LastLogin = 
+                TimeOffsetAsString(
+                    DateTimeOffset.Now - TimeSpan.FromHours(new Random().NextDouble() * new Random().NextDouble()), 
+                    DateTimeOffset.Now, 
+                    System.Globalization.CultureInfo.CurrentUICulture);
+
+            this.UserAvatar = User.DefaultAvatar;
+
+            this.UserBackground = User.DefaultBackground;
 
             this.RegisterRoutes(
                 "/", 

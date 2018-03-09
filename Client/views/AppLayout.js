@@ -7,6 +7,7 @@ import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import ThemeDefault from '../styles/theme-default';
 import auth from '../auth';
+import { log } from 'util';
 
 class AppLayout extends React.Component {
 
@@ -41,8 +42,9 @@ class AppLayout extends React.Component {
   }
 
   render() {
-    let { sidebarOpen, Menus, UserAvatar, UserName } = this.state;
-    let userAvatarUrl = UserAvatar ? UserAvatar : null;
+    let { sidebarOpen, Menus, UserAvatar, UserBackground, UserName, EmailAddress, LastLogin } = this.state;
+      let userAvatarUrl = UserAvatar ? UserAvatar : null;
+      let userBackgroundUrl = UserBackground ? UserBackground : '../images/material_bg.png';
 
     const paddingLeftSidebar = 236;
     const styles = {
@@ -65,12 +67,15 @@ class AppLayout extends React.Component {
               onSidebarToggle={handleSidebarToggle}
           />
           <Sidebar
-              vm={this.vm}
-              logoTitle="HistoCoin"
-              open={sidebarOpen}
-              userAvatarUrl={userAvatarUrl}
-              menus={Menus}
-              username={UserName}
+            vm={this.vm}
+            logoTitle="HistoCoin"
+            open={sidebarOpen}
+            userAvatarUrl={userAvatarUrl}
+            userBackgroundUrl={userBackgroundUrl}
+            menus={Menus}
+            username={UserName}
+            emailAddress={EmailAddress}
+            lastLogin={LastLogin}
           />
           <div id="Content" style={styles.container} onFocus={handleSidebarCollapse} onClick={handleSidebarCollapse} />
         </div>

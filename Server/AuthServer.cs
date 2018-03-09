@@ -107,11 +107,9 @@
                                     // By default, claims are not serialized in the access/identity tokens.
                                     // Use the overload taking a "destinations" parameter to make sure
                                     // your claims are correctly inserted in the appropriate tokens.
-                                    //identity.AddClaim(
-                                    //    ClaimTypes.Name,
-                                    //    "testValue",
-                                    //    OpenIdConnectConstants.Destinations.AccessToken,
-                                    //    OpenIdConnectConstants.Destinations.IdentityToken);
+                                    identity.AddClaim(
+                                        ClaimTypes.Email, 
+                                        context.Request.Username + "@histocoin.com");
 
                                     var ticket = 
                                         new AuthenticationTicket(

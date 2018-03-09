@@ -21,5 +21,37 @@ namespace HistoCoin.Server.Infrastructure
         {
             return dateTime.DateTime.ToString(CultureInfo.CurrentCulture);
         }
+
+        public static string TimeOffsetAsString(DateTimeOffset lastTime, DateTimeOffset currentTime, CultureInfo culture = default)
+        {
+            if (currentTime < lastTime)
+            {
+                return "Just now";
+            }
+
+            var difference = currentTime - lastTime;
+
+            if (difference.Days > 1)
+            {
+                return $"{difference.Days} days ago";
+            }
+
+            if (difference.Days == 1)
+            {
+                return $"{difference.Days} day ago";
+            }
+
+            if (difference.Minutes < 1)
+            {
+                return $"{difference.Seconds} seconds ago";
+            }
+
+            if (difference.Minutes == 1)
+            {
+                return $"{difference.Minutes} minute ago";
+            }
+
+            return $"{difference.Minutes} minutes ago";    
+        }
     }
 }

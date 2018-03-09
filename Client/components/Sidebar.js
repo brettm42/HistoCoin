@@ -10,7 +10,7 @@ import { white, blue600 } from 'material-ui/styles/colors';
 
 const Sidebar = (props) => {
 
-  let { vm, logoTitle, open, userAvatarUrl, menus } = props;
+  let { vm, logoTitle, open, userAvatarUrl, userBackgroundUrl, menus } = props;
 
   const styles = {
     logo: {
@@ -30,7 +30,7 @@ const Sidebar = (props) => {
     avatar: {
       div: {
         padding: '15px 0 20px 15px',
-        backgroundImage: 'url(' + require('../images/material_bg.png') + ')',
+        backgroundImage: 'url(' + require(userBackgroundUrl) + ')',
         height: 45
       },
       icon: {
@@ -45,6 +45,18 @@ const Sidebar = (props) => {
         color: 'white',
         fontWeight: 300,
         textShadow: '1px 1px #444'
+      },
+      emailSpan: {
+        paddingTop: 6,
+        display: 'block',
+        color: 'white',
+        fontWeight: 150,
+      },
+      loginSpan: {
+          paddingTop: 6,
+          display: 'block',
+          color: 'white',
+          fontWeight: 150,
       }
     }
   };
@@ -55,6 +67,8 @@ const Sidebar = (props) => {
       <div style={styles.avatar.div}>
         <Avatar src={userAvatarUrl} size={50} style={styles.avatar.icon} />
         <span style={styles.avatar.span}>{props.username}</span>
+        <span style={styles.avatar.emailSpan}>{props.emailAddress}</span>
+        <span style={styles.avatar.loginSpan}>{props.lastLogin}</span>
       </div>
       <div>
         {menus.map((menu, index) =>
@@ -75,7 +89,10 @@ Sidebar.propTypes = {
   sidebarOpen: PropTypes.bool,
   menus: PropTypes.array,
   username: PropTypes.string,
-  userAvatarUrl: PropTypes.string
+  userAvatarUrl: PropTypes.string,
+  userBackgroundUrl: PropTypes.string,
+  emailAddress: PropTypes.string,
+  lastLogin: PropTypes.string,
 };
 
 export default Sidebar;
