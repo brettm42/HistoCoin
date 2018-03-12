@@ -66,10 +66,6 @@
                                 // Note: if Validate() is not explicitly called,
                                 // the request is automatically rejected.
                                 return Task.CompletedTask;
-
-                                //context.Validate();
-
-                                //return Task.CompletedTask;
                             };
 
                         options.Provider.OnHandleTokenRequest = 
@@ -109,7 +105,9 @@
                                     // your claims are correctly inserted in the appropriate tokens.
                                     identity.AddClaim(
                                         ClaimTypes.Email, 
-                                        context.Request.Username + "@histocoin.com");
+                                        context.Request.Username + "@histocoin.com",
+                                        OpenIdConnectConstants.Destinations.AccessToken,
+                                        OpenIdConnectConstants.Destinations.IdentityToken);
 
                                     var ticket = 
                                         new AuthenticationTicket(
