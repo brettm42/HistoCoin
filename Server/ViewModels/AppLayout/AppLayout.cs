@@ -54,7 +54,8 @@ namespace HistoCoin.Server.ViewModels.AppLayout
                     : userIdentity.Name;
 
             this.EmailAddress = 
-                userIdentity.Claims.FirstOrDefault(i => i.Type == ClaimTypes.Email)?.Value;
+                userIdentity.Claims.FirstOrDefault(i => i.Type == ClaimTypes.Email)?.Value 
+                    ?? $"{this.UserName.ToLowerInvariant().Replace(' ', '_')}@histocoin.com";
 
             this.LastLogin = 
                 TimeOffsetAsString(

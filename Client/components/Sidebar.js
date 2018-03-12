@@ -30,7 +30,7 @@ const Sidebar = (props) => {
     avatar: {
       div: {
         padding: '15px 0 20px 15px',
-        backgroundImage: 'url(' + require(userBackgroundUrl) + ')',
+        backgroundImage: 'url(' + userBackgroundUrl + ')',
         height: 45
       },
       icon: {
@@ -65,8 +65,10 @@ const Sidebar = (props) => {
     <Drawer docked={true} open={open}>
       <div style={styles.logo}>{logoTitle}</div>
       <div style={styles.avatar.div}>
-        <Avatar src={userAvatarUrl} size={50} style={styles.avatar.icon} />
-        <span style={styles.avatar.span}>{props.username}</span>
+          <Avatar src={userAvatarUrl} size={50} style={styles.avatar.icon} />
+          <span style={styles.avatar.span}>{props.username}</span>
+      </div>
+      <div style={styles.avatar.div}>
         <span style={styles.avatar.emailSpan}>{props.emailAddress}</span>
         <span style={styles.avatar.loginSpan}>{props.lastLogin}</span>
       </div>
