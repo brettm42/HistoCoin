@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "c908669fec7f9289ae98"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "d7122b3a2d3df1bf3ced"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -52508,7 +52508,12 @@ var Sidebar = function Sidebar(props) {
     },
     avatar: {
       div: {
-        padding: '15px 0 20px 15px',
+        padding: '15px 0 0 15px',
+        backgroundImage: 'url(' + userBackgroundUrl + ')',
+        height: 45
+      },
+      detailDiv: {
+        padding: '15px 0 25px 15px',
         backgroundImage: 'url(' + userBackgroundUrl + ')',
         height: 45
       },
@@ -52560,7 +52565,7 @@ var Sidebar = function Sidebar(props) {
     ),
     _react2.default.createElement(
       'div',
-      { style: styles.avatar.div },
+      { style: styles.avatar.detailDiv },
       _react2.default.createElement(
         'span',
         { style: styles.avatar.emailSpan },

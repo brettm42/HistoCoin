@@ -29,9 +29,14 @@ const Sidebar = (props) => {
     },
     avatar: {
       div: {
-        padding: '15px 0 20px 15px',
+        padding: '15px 0 0 15px',
         backgroundImage: 'url(' + userBackgroundUrl + ')',
         height: 45
+      },
+      detailDiv: {
+          padding: '15px 0 25px 15px',
+          backgroundImage: 'url(' + userBackgroundUrl + ')',
+          height: 45
       },
       icon: {
         float: 'left',
@@ -68,7 +73,7 @@ const Sidebar = (props) => {
           <Avatar src={userAvatarUrl} size={50} style={styles.avatar.icon} />
           <span style={styles.avatar.span}>{props.username}</span>
       </div>
-      <div style={styles.avatar.div}>
+      <div style={styles.avatar.detailDiv}>
         <span style={styles.avatar.emailSpan}>{props.emailAddress}</span>
         <span style={styles.avatar.loginSpan}>{props.lastLogin}</span>
       </div>
