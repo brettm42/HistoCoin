@@ -43,8 +43,8 @@ class AppLayout extends React.Component {
 
   render() {
     let { sidebarOpen, Menus, UserAvatar, UserBackground, UserName, EmailAddress, LastLogin } = this.state;
-      let userAvatarUrl = UserAvatar ? UserAvatar : null;
-      let userBackgroundUrl = UserBackground ? UserBackground : '../images/material_bg.png';
+    let userAvatarUrl = UserAvatar ? UserAvatar : null;
+    let userBackgroundUrl = UserBackground ? UserBackground : '../images/material_bg.png';
 
     const paddingLeftSidebar = 236;
     const styles = {
@@ -70,10 +70,10 @@ class AppLayout extends React.Component {
             vm={this.vm}
             logoTitle="HistoCoin"
             open={sidebarOpen}
-            userAvatarUrl={userAvatarUrl}
-            userBackgroundUrl={userBackgroundUrl}
             menus={Menus}
             username={UserName}
+            userAvatarUrl={userAvatarUrl}
+            userBackgroundUrl={userBackgroundUrl}
             emailAddress={EmailAddress}
             lastLogin={LastLogin}
           />
