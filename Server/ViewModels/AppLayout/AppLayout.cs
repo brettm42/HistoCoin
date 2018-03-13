@@ -48,13 +48,13 @@ namespace HistoCoin.Server.ViewModels.AppLayout
 
             // TODO: create user object and lookup saved settings for user on login
 
-            this.UserName = 
-                string.IsNullOrWhiteSpace(userIdentity.Name) 
-                    ? "New User" 
-                    : userIdentity.Name;
+            this.UserName =
+                userIdentity?.Claims?.FirstOrDefault(i => i.Type == ClaimTypes.NameIdentifier)?.Value 
+                    ?? User.DefaultUsername;
 
             this.EmailAddress = 
-                userIdentity.Claims.FirstOrDefault(i => i.Type == ClaimTypes.Email)?.Value;
+                userIdentity?.Claims?.FirstOrDefault(i => i.Type == ClaimTypes.Email)?.Value 
+                    ?? User.DefaultEmail;
 
             this.LastLogin = 
                 TimeOffsetAsString(
