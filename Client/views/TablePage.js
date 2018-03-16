@@ -74,7 +74,7 @@ class TablePage extends React.Component {
 
     return (
       <MuiThemeProvider muiTheme={ThemeDefault}>
-        <BasePage title="Table Page" navigation="HistoCoin / Table Page">
+        <BasePage title="Coin List" navigation="HistoCoin / Coin List">
           <div>
             <div>
               <FloatingActionButton onClick={handleAdd}

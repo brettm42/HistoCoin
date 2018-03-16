@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "42d81b9b6bfaec2c8994"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "3d4f0f604344dce3ff4c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16494,7 +16494,7 @@ var FormPage = function (_React$Component) {
         { muiTheme: _themeDefault2.default },
         _react2.default.createElement(
           _BasePage2.default,
-          { title: 'Form Page', navigation: 'HistoCoin / Form Page' },
+          { title: 'Coin Details', navigation: 'HistoCoin / Coin Details' },
           _react2.default.createElement(
             'div',
             null,
@@ -16770,7 +16770,7 @@ var TablePage = function (_React$Component) {
         { muiTheme: _themeDefault2.default },
         _react2.default.createElement(
           _BasePage2.default,
-          { title: 'Table Page', navigation: 'HistoCoin / Table Page' },
+          { title: 'Coin List', navigation: 'HistoCoin / Coin List' },
           _react2.default.createElement(
             'div',
             null,

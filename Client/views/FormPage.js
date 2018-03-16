@@ -77,7 +77,7 @@ class FormPage extends React.Component {
 
     return (
       <MuiThemeProvider muiTheme={ThemeDefault}>
-        <BasePage title="Form Page" navigation="HistoCoin / Form Page">
+        <BasePage title="Coin Details" navigation="HistoCoin / Coin Details">
             <div>
           <form style={styles.form}>
             <SelectField
