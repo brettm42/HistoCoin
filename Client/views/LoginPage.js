@@ -81,6 +81,7 @@ class LoginPage extends React.Component {
                   fullWidth={true}
                   value={user}
                   onChange={event => this.setState({ user: event.target.value })}                  
+                  onKeyUp={event => event.key === "Enter" ? handleLogin() : null}
                 />
                 <TextField
                   hintText="Password"
@@ -88,7 +89,8 @@ class LoginPage extends React.Component {
                   fullWidth={true}
                   type="password"
                   value={password}
-                  onChange={event => this.setState({ password: event.target.value })}                  
+                  onChange={event => this.setState({ password: event.target.value })}
+                  onKeyUp={event => event.key === "Enter" ? handleLogin() : null}
                 />
                 {error ? <div style={styles.error}>{error}</div> : null}
                 <div>
