@@ -22,7 +22,13 @@ namespace HistoCoin.Server.Infrastructure
             var average = deltas.TakeLast(depth).Average();
             var sum = deltas.TakeLast(depth).Sum();
 
-            return Math.Abs(average) < 1 ? 0 : average;
+            var totalAverageValue = historicalValues.Average();
+            var totalValueSum = historicalValues.Sum(i => i - totalAverageValue);
+
+            var shallowAverageValue = historicalValues.TakeLast(depth).Average();
+            var shallowValueSum = historicalValues.TakeLast(depth).Sum(i => i - shallowAverageValue);
+
+            return Math.Abs(shallowValueSum) < 1 ? 0 : shallowValueSum;
         }
 
         public static double Normalize(double value, Currencies currency)
