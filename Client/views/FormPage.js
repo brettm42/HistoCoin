@@ -11,7 +11,12 @@ import InfoBar from '../components/form/InfoBar';
 import CoinHistory from '../components/form/CoinHistory';
 import { grey200, grey400, pink400, orange200 } from 'material-ui/styles/colors';
 import BasePage from '../components/BasePage';
+import InlineInfo from '../components/form/InlineInfo';
 import ThemeDefault from '../styles/theme-default';
+import Avatar from 'material-ui/Avatar';
+import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
+import NavigationArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
+import NavigationArrowDropUp from 'material-ui/svg-icons/navigation/arrow-drop-up';
 
 class FormPage extends React.Component {
 
@@ -40,7 +45,7 @@ class FormPage extends React.Component {
   }
 
   render() {
-    let { dirty, Coins, Id, Handle, Count, StartingValue, Worth, CurrentValue, Delta, HistoricalDates, HistoricalValues } = this.state;
+    let { dirty, Coins, Id, Handle, Count, StartingValue, Worth, CurrentValue, Delta, HistoricalDates, HistoricalValues, Trend } = this.state;
 
     const styles = {
         selectLabel: { color: pink400 },
@@ -59,6 +64,9 @@ class FormPage extends React.Component {
       buttons: {
         marginTop: 30,
         float: 'right'
+      }, 
+      trendDiv: {
+        height: 150,
       },
       saveButton: { marginLeft: 5 }
     };
@@ -151,19 +159,35 @@ class FormPage extends React.Component {
                         value={`$ ${this.state.Delta > 0 ? `+${this.state.Delta}` : this.state.Delta}`}
                     />
                 </div>
+            </div>
+
+            <div className="row">
+                <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md m-b-15">
+                <CoinHistory
+                    data={this.state.HistoricalValues}
+                    dates={this.state.HistoricalDates}
+                    color={grey200} />
                     </div>
 
-                <div className="row">
-                  <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md m-b-15">
-                    <CoinHistory
-                        data={this.state.HistoricalValues}
-                        dates={this.state.HistoricalDates}
-                        color={grey200} />
-                    </div>
-                </div>
+            <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-md m-b-15">
+                <InfoBar style={styles.trendDiv}
+                    icon={null}
+                    color={orange200}
+                    title="Trend"
+                    value={<InlineInfo 
+                        leftValue=
+                        {this.state.Trend === 0
+                            ? <Avatar icon={<ContentRemoveCircle />} />
+                            : (this.state.Trend > 0
+                                ? <Avatar icon={<NavigationArrowDropUp />} />
+                                : <Avatar icon={<NavigationArrowDropDown />} />)}
+                        rightValue={this.state.Trend + "%"} />}
+                />
             </div>
-        </BasePage>
-      </MuiThemeProvider>
+          </div>
+        </div>
+      </BasePage>
+    </MuiThemeProvider>
     );
   }
 }

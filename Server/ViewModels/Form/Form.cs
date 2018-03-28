@@ -96,6 +96,13 @@ namespace HistoCoin.Server.ViewModels.Form
 
             set => Set(value);
         }
+
+        public double Trend
+        {
+            get => Get<double>();
+
+            set => Set(value);
+        }
         
         public Form(ICoinService coinService)
         {
@@ -144,6 +151,10 @@ namespace HistoCoin.Server.ViewModels.Form
                 this.Worth = Normalize(record.Worth, this._coinService.BaseCurrency);
                 this.HistoricalDates = record.History?.GetDates(DefaultHistoryPopulation) ?? new string[0];
                 this.HistoricalValues = record.History?.GetValues(DefaultHistoryPopulation) ?? new double[0];
+                this.Trend =
+                    Normalize(
+                        CalculateTrend(this.HistoricalValues, depth: 5), 
+                        this._coinService.BaseCurrency);
             }
         }
     }

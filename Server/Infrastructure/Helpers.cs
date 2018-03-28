@@ -2,11 +2,26 @@
 namespace HistoCoin.Server.Infrastructure
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using static HistoCoin.Server.Infrastructure.Constants;
 
     public static class Helpers
     {
+        public static double CalculateTrend(double[] historicalValues, int depth)
+        {
+            var deltas = new List<double>();
+
+            for (var i = historicalValues.Length - 1; i > 0; i--)
+            {
+                deltas.Add(historicalValues[i] - historicalValues[i - 1]);
+            }
+
+            var average = deltas.Take(depth).Average() * 100;
+
+            return Math.Abs(average) < 5 ? 0 : average;
+        }
 
         public static double Normalize(double value, Currencies currency)
         {
