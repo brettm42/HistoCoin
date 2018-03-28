@@ -20,6 +20,7 @@ namespace HistoCoin.Server.Infrastructure
             }
 
             var average = deltas.TakeLast(depth).Average();
+            var sum = deltas.TakeLast(depth).Sum();
 
             return Math.Abs(average) < 1 ? 0 : average;
         }

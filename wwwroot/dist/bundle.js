@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "f31ed782915716116b43"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "b248fd7d0cb81a98012e"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16519,7 +16519,7 @@ var FormPage = function (_React$Component) {
 
       var handleSelectFieldChange = function handleSelectFieldChange(event, idx, value) {
         return _this2.routeTo(Coins.find(function (i) {
-          return i.Id == value;
+          return i.Id === value;
         }).Route);
       };
 
