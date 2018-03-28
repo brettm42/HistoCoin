@@ -36,7 +36,7 @@ class FormPage extends React.Component {
       CurrentValue: '',
       Delta: '',
       HistoricalValues: [],
-      HistoricalDates: [],
+      HistoricalDates: []
     };
   }
 
@@ -50,7 +50,7 @@ class FormPage extends React.Component {
     const styles = {
         selectLabel: { color: pink400 },
         form: {
-            paddingBottom: 80,
+            paddingBottom: 80
         },
       toggleDiv: {
         maxWidth: 300,
@@ -66,22 +66,22 @@ class FormPage extends React.Component {
         float: 'right'
       }, 
       trendDiv: {
-        height: 150,
+        height: 150
       },
       saveButton: { marginLeft: 5 }
     };
 
-    const handleSelectFieldChange = (event, idx, value) => this.routeTo(Coins.find(i => i.Id == value).Route);
+    const handleSelectFieldChange = (event, idx, value) => this.routeTo(Coins.find(i => i.Id === value).Route);
 
-    const handleCancel = _ => {
-      this.dispatch({ Cancel: Id });
-      this.setState({ dirty: false });
-    }
+      const handleCancel = _ => {
+          this.dispatch({ Cancel: Id });
+          this.setState({ dirty: false });
+      };
 
-    const handleSave = _ => {
-      this.dispatch({ Save: { Id: Id, Handle: Handle, Count: Count, StartingValue: StartingValue } });
-      this.setState({ dirty: false });
-    }
+      const handleSave = _ => {
+          this.dispatch({ Save: { Id: Id, Handle: Handle, Count: Count, StartingValue: StartingValue } });
+          this.setState({ dirty: false });
+      };
 
     return (
       <MuiThemeProvider muiTheme={ThemeDefault}>
@@ -176,12 +176,12 @@ class FormPage extends React.Component {
                     title="Trend"
                     value={<InlineInfo 
                         leftValue=
-                        {this.state.Trend === 0
+                        {this.state.Trend === 0 || this.state.Trend === null
                             ? <Avatar icon={<ContentRemoveCircle />} />
                             : (this.state.Trend > 0
                                 ? <Avatar icon={<NavigationArrowDropUp />} />
                                 : <Avatar icon={<NavigationArrowDropDown />} />)}
-                        rightValue={this.state.Trend + "%"} />}
+                        rightValue={this.state.Trend ? (this.state.Trend + "%") : ""} />}
                 />
             </div>
           </div>

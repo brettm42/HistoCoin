@@ -15,12 +15,13 @@ namespace HistoCoin.Server.Infrastructure
 
             for (var i = historicalValues.Length - 1; i > 0; i--)
             {
-                deltas.Add(historicalValues[i] - historicalValues[i - 1]);
+                deltas.Add(
+                    (historicalValues[i - 1] - historicalValues[i]) / historicalValues[i] * 100);
             }
 
-            var average = deltas.Take(depth).Average() * 100;
+            var average = deltas.TakeLast(depth).Average();
 
-            return Math.Abs(average) < 5 ? 0 : average;
+            return Math.Abs(average) < 1 ? 0 : average;
         }
 
         public static double Normalize(double value, Currencies currency)
