@@ -46,6 +46,16 @@ namespace HistoCoin.Server.Infrastructure
             return slope * 100;
         }
 
+        public static double CalculateFutureValue(double dailyChange, double currentValue, int reach)
+        {
+            return (currentValue * (dailyChange / 100)) * reach;
+        }
+
+        public static double CalculateFutureWorth(double dailyChange, double currentWorth, int reach)
+        {
+            return (currentWorth + dailyChange) * reach;
+        }
+
         private static (double RSquared, double YIntercept, double Slope) LinearRegression(IReadOnlyList<double> values, int depth)
         {
             double sumX = 0;

@@ -14,6 +14,7 @@ import BasePage from '../components/BasePage';
 import InlineInfo from '../components/form/InlineInfo';
 import ThemeDefault from '../styles/theme-default';
 import Avatar from 'material-ui/Avatar';
+import Paper from 'material-ui/Paper';
 import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 import NavigationArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import NavigationArrowDropUp from 'material-ui/svg-icons/navigation/arrow-drop-up';
@@ -54,7 +55,9 @@ class ForecastPage extends React.Component {
     const styles = {
         selectLabel: { color: pink400 },
         form: {
-            paddingBottom: 80
+            padding: '10px 20px',
+            paddingBottom: 50,
+            marginBottom: 15
         },
       toggleDiv: {
         maxWidth: 300,
@@ -81,7 +84,7 @@ class ForecastPage extends React.Component {
       <MuiThemeProvider muiTheme={ThemeDefault}>
         <BasePage title="Forecasting" navigation="HistoCoin / Forecasting">
             <div>
-          <form style={styles.form}>
+          <Paper style={styles.form}>
             <SelectField
               value={Id}
               onChange={handleSelectFieldChange}
@@ -110,7 +113,7 @@ class ForecastPage extends React.Component {
                 floatingLabelText="Cost per coin when purchased"
                 fullWidth={true}
                 value={StartingValue} />
-            </form>
+            </Paper>
                     
           <div className="row">
               <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
@@ -148,7 +151,41 @@ class ForecastPage extends React.Component {
                     color={grey200} />
                 </div>
             </div>
-                    
+
+                <div className="row">
+                    <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-md m-b-15">
+                        <InfoBar style={styles.trendDiv}
+                                 icon={null}
+                                 color={orange200}
+                                 title="Daily Change (USD)"
+                                 value={<InlineInfo
+                                    leftValue=
+                                    {this.state.DailyChange === 0 || this.state.DailyChange === null
+                                        ? <Avatar icon={<ContentRemoveCircle />} />
+                                        : (this.state.DailyChange > 0
+                                            ? <Avatar icon={<NavigationArrowDropUp />} />
+                                            : <Avatar icon={<NavigationArrowDropDown />} />)}
+                                    rightValue={`$ ${this.state.DailyChange > 0 ? `+${this.state.DailyChange}` : this.state.DailyChange}`} />}
+                        />
+                    </div>
+
+                    <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-md m-b-15">
+                        <InfoBar style={styles.trendDiv}
+                                 icon={null}
+                                 color={orange200}
+                                 title="Daily Trend (USD)"
+                                 value={<InlineInfo
+                                    leftValue=
+                                    {this.state.Trend === 0 || this.state.Trend === null
+                                        ? <Avatar icon={<ContentRemoveCircle />} />
+                                        : (this.state.Trend > 0
+                                            ? <Avatar icon={<NavigationArrowDropUp />} />
+                                            : <Avatar icon={<NavigationArrowDropDown />} />)}
+                                    rightValue={`${this.state.Trend > 0 ? `+${this.state.Trend}` : this.state.Trend} %`} />}
+                        />
+                    </div>
+                </div>
+
             <div className="row">
                 <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
                     <InfoBar
@@ -166,40 +203,6 @@ class ForecastPage extends React.Component {
                         value={`$${this.state.ForecastWorth}`}
                     />
                 </div>
-            </div>
-
-            <div className="row">
-              <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-md m-b-15">
-                <InfoBar style={styles.trendDiv}
-                    icon={null}
-                    color={orange200}
-                    title="Daily Change (USD)"
-                    value={<InlineInfo 
-                        leftValue=
-                        {this.state.DailyChange === 0 || this.state.DailyChange === null
-                            ? <Avatar icon={<ContentRemoveCircle />} />
-                            : (this.state.DailyChange > 0
-                                ? <Avatar icon={<NavigationArrowDropUp />} />
-                                : <Avatar icon={<NavigationArrowDropDown />} />)}
-                        rightValue={`$ ${this.state.DailyChange > 0 ? `+${this.state.DailyChange}` : this.state.DailyChange}`} />}
-                />
-            </div>
-
-            <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-md m-b-15">
-                <InfoBar style={styles.trendDiv}
-                    icon={null}
-                    color={orange200}
-                    title="Daily Trend (USD)"
-                    value={<InlineInfo
-                        leftValue=
-                        {this.state.Trend === 0 || this.state.Trend === null
-                            ? <Avatar icon={<ContentRemoveCircle />} />
-                            : (this.state.Trend > 0
-                                ? <Avatar icon={<NavigationArrowDropUp />} />
-                                : <Avatar icon={<NavigationArrowDropDown />} />)}
-                        rightValue={`${this.state.Trend > 0 ? `+${this.state.Trend}` : this.state.Trend} %`} />}
-                />
-            </div>
             </div>
         </div>
       </BasePage>

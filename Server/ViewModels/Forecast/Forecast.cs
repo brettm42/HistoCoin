@@ -18,7 +18,7 @@ namespace HistoCoin.Server.ViewModels.Forecast
     public class Forecast : BaseVM, IRoutable
     {
         private const int PollDepth = 25;
-        private const int ForecastReach = 14;
+        private const int ForecastReach = 7;
 
         private readonly ICoinService _coinService;
         
@@ -170,11 +170,11 @@ namespace HistoCoin.Server.ViewModels.Forecast
                         this._coinService.BaseCurrency);
                 this.ForecastValue =
                     Normalize(
-                        (record.CurrentValue + this.DailyChange) * ForecastReach, 
+                        Numerics.CalculateFutureValue(this.DailyChange, record.CurrentValue, ForecastReach), 
                         this._coinService.BaseCurrency);
                 this.ForecastWorth = 
                     Normalize(
-                        (record.Worth + this.DailyChange) * ForecastReach, 
+                        Numerics.CalculateFutureWorth(this.DailyChange, record.Worth, ForecastReach),
                         this._coinService.BaseCurrency);
                 //this.LowerBound =
                 //this.UpperBound =

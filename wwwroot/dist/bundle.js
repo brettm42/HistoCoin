@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "a95784ad3439b8e12d02"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "5a431b88660fc298380c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16506,6 +16506,10 @@ var _Avatar = __webpack_require__(84);
 
 var _Avatar2 = _interopRequireDefault(_Avatar);
 
+var _Paper = __webpack_require__(23);
+
+var _Paper2 = _interopRequireDefault(_Paper);
+
 var _removeCircle = __webpack_require__(249);
 
 var _removeCircle2 = _interopRequireDefault(_removeCircle);
@@ -16592,7 +16596,9 @@ var ForecastPage = function (_React$Component) {
             var styles = {
                 selectLabel: { color: _colors.pink400 },
                 form: {
-                    paddingBottom: 80
+                    padding: '10px 20px',
+                    paddingBottom: 50,
+                    marginBottom: 15
                 },
                 toggleDiv: {
                     maxWidth: 300,
@@ -16629,7 +16635,7 @@ var ForecastPage = function (_React$Component) {
                         'div',
                         null,
                         _react2.default.createElement(
-                            'form',
+                            _Paper2.default,
                             { style: styles.form },
                             _react2.default.createElement(
                                 _SelectField2.default,
@@ -16710,30 +16716,6 @@ var ForecastPage = function (_React$Component) {
                             { className: 'row' },
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ' },
-                                _react2.default.createElement(_InfoBar2.default, {
-                                    icon: null,
-                                    color: _colors.blue200,
-                                    title: 'Forecast Value (USD)',
-                                    value: '$' + this.state.ForecastValue
-                                })
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ' },
-                                _react2.default.createElement(_InfoBar2.default, {
-                                    icon: null,
-                                    color: _colors.blue200,
-                                    title: 'Forecast Worth (USD)',
-                                    value: '$' + this.state.ForecastWorth
-                                })
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'row' },
-                            _react2.default.createElement(
-                                'div',
                                 { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 col-md m-b-15' },
                                 _react2.default.createElement(_InfoBar2.default, { style: styles.trendDiv,
                                     icon: null,
@@ -16754,6 +16736,30 @@ var ForecastPage = function (_React$Component) {
                                     value: _react2.default.createElement(_InlineInfo2.default, {
                                         leftValue: this.state.Trend === 0 || this.state.Trend === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
                                         rightValue: (this.state.Trend > 0 ? '+' + this.state.Trend : this.state.Trend) + ' %' })
+                                })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'row' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ' },
+                                _react2.default.createElement(_InfoBar2.default, {
+                                    icon: null,
+                                    color: _colors.blue200,
+                                    title: 'Forecast Value (USD)',
+                                    value: '$' + this.state.ForecastValue
+                                })
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ' },
+                                _react2.default.createElement(_InfoBar2.default, {
+                                    icon: null,
+                                    color: _colors.blue200,
+                                    title: 'Forecast Worth (USD)',
+                                    value: '$' + this.state.ForecastWorth
                                 })
                             )
                         )
@@ -16921,7 +16927,7 @@ var FormPage = function (_React$Component) {
       var styles = {
         selectLabel: { color: _colors.pink400 },
         form: {
-          paddingBottom: 80
+          paddingBottom: 90
         },
         toggleDiv: {
           maxWidth: 300,

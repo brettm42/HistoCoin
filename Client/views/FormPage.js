@@ -51,7 +51,7 @@ class FormPage extends React.Component {
     const styles = {
         selectLabel: { color: pink400 },
         form: {
-            paddingBottom: 80
+            paddingBottom: 90
         },
       toggleDiv: {
         maxWidth: 300,
