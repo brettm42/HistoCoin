@@ -35,7 +35,7 @@ namespace HistoCoin.Server.Infrastructure
 
             var totalRms = SquareDeviation(rms, 0, rms.Count);
 
-            return (totalRms / total * 100) * 2;
+            return ((rms.First() - rms.Last()) / depth) * 2;
         }
 
         public static double CalculateLinearTrend(double[] historicalValues, int depth)
@@ -84,8 +84,7 @@ namespace HistoCoin.Server.Infrastructure
 
             var rNum = (depth * sumCod) - (sumX * sumY);
             var rDenom =
-                (depth * sumSqX - Math.Pow(sumX, 2))
-                * (depth * sumSqY - Math.Pow(sumY, 2));
+                (depth * sumSqX - Math.Pow(sumX, 2)) * (depth * sumSqY - Math.Pow(sumY, 2));
 
             sCo = sumCod - (sumX * sumY / depth);
 
