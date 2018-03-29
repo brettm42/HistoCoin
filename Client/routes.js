@@ -4,12 +4,14 @@ import App from 'views/App';
 import Dashboard from 'views/Dashboard';
 import FormPage from 'views/FormPage';
 import TablePage from 'views/TablePage';
+import ForecastPage from 'views/ForecastPage';
 
 // Import all the routeable views into the global window variable.
 Object.assign(window, {
     Dashboard,
     FormPage,
-    TablePage
+    TablePage,
+    ForecastPage
 });
 
 // Hot module replacement.  
@@ -23,6 +25,7 @@ if (module.hot) {
     module.hot.accept('./views/Dashboard.js', _ => render(require('views/Dashboard').default, 'Content'));
     module.hot.accept('./views/FormPage.js', _ => render(require('views/FormPage').default, 'Content'));
     module.hot.accept('./views/TablePage.js', _ => render(require('views/TablePage').default, 'Content'));
+    module.hot.accept('./views/ForecastPage.js', _ => render(require('views/ForecastPage').default, 'Content'));
 }
 
 export default App;

@@ -1,4 +1,5 @@
-namespace HistoCoin.Server.ViewModels.Form
+
+namespace HistoCoin.Server.ViewModels.Forecast
 {
     using System;
     using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace HistoCoin.Server.ViewModels.Form
     using static HistoCoin.Server.Infrastructure.Numerics;
 
     [Authorize]
-    public class Form : BaseVM, IRoutable
+    public class Forecast : BaseVM, IRoutable
     {
         private readonly ICoinService _coinService;
         
@@ -98,14 +99,14 @@ namespace HistoCoin.Server.ViewModels.Form
             set => Set(value);
         }
 
-        public double Trend
+        public double DailyChange
         {
             get => Get<double>();
 
             set => Set(value);
         }
         
-        public Form(ICoinService coinService)
+        public Forecast(ICoinService coinService)
         {
             this._coinService = coinService;
 
@@ -116,27 +117,14 @@ namespace HistoCoin.Server.ViewModels.Form
                     return;
                 }
 
-                this.LoadCoin(id == 1 
-                    ? this._coinService.GetFirstId() 
-                    : id);
+                this.LoadCoin(
+                    id == 1 
+                        ? this._coinService.GetFirstId() 
+                        : id);
             });
         }
         
         public Action<int> Cancel => LoadCoin;
-
-        public Action<SavedCoinInfo> Save => changes =>
-        {
-            var record = this._coinService.GetById(changes.Id);
-            if (record != null)
-            {
-                record.Handle = changes.Handle;
-                record.Count = changes.Count ?? record.Count;
-                record.StartingValue = changes.StartingValue ?? record.StartingValue;
-
-                this._coinService.Update(record);
-                Changed(nameof(this.Coins));
-            }
-        };
 
         private void LoadCoin(int id)
         {
@@ -152,10 +140,13 @@ namespace HistoCoin.Server.ViewModels.Form
                 this.Worth = Normalize(record.Worth, this._coinService.BaseCurrency);
                 this.HistoricalDates = record.History?.GetDates(DefaultHistoryPopulation) ?? new string[0];
                 this.HistoricalValues = record.History?.GetValues(DefaultHistoryPopulation) ?? new double[0];
-                this.Trend =
+                this.DailyChange =
                     Normalize(
                         Numerics.CalculateTrend(this.HistoricalValues, depth: 25), 
                         this._coinService.BaseCurrency);
+                //this.LowerBound
+                //this.UpperBound
+                //this.Forecast
             }
         }
     }

@@ -17,10 +17,13 @@ namespace HistoCoin.Server.ViewModels.AppLayout
             Home,
             Dashboard,
             FormPage,
-            TablePage
+            TablePage,
+            ForecastPage,
         };
 
         public static string FormPagePath => "Form";
+
+        public static string ForecastPagePath => "Forecast";
 
         public RoutingState RoutingState { get; set; }
 
@@ -30,6 +33,7 @@ namespace HistoCoin.Server.ViewModels.AppLayout
                 new { Title = "Dashboard", Icon = "assessment", Route = this.GetRoute(nameof(Route.Dashboard)) },
                 new { Title = "Coin Details", Icon = "web", Route = this.GetRoute(nameof(Route.FormPage), $"{FormPagePath}/1") },
                 new { Title = "Coin List", Icon = "grid_on", Route = this.GetRoute(nameof(Route.TablePage)) },
+                new { Title = "Forecasting", Icon = "timeline", Route = this.GetRoute(nameof(Route.ForecastPage), $"{ForecastPagePath}/1") },
             };
 
         public string UserName { get; set; }
@@ -73,7 +77,8 @@ namespace HistoCoin.Server.ViewModels.AppLayout
                     new RouteTemplate(nameof(Route.Home)) { UrlPattern = string.Empty, ViewUrl = nameof(Route.Dashboard) },
                     new RouteTemplate(nameof(Route.Dashboard)),
                     new RouteTemplate(nameof(Route.FormPage)) { UrlPattern = $"{FormPagePath}(/:id)" },
-                    new RouteTemplate(nameof(Route.TablePage))
+                    new RouteTemplate(nameof(Route.TablePage)),
+                    new RouteTemplate(nameof(Route.ForecastPage)) { UrlPattern = $"{ForecastPagePath}(/:id)" },
                 });
         }
     }
