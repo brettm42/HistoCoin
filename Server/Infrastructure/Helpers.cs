@@ -11,7 +11,7 @@ namespace HistoCoin.Server.Infrastructure
     {
         public static double CalculateTrend(double[] historicalValues, int depth)
         {
-            double SquareDeviation(double[] values, int start, int end)
+            double SquareDeviation(IReadOnlyList<double> values, int start, int end)
             {
                 double sum = 0;
                 int i;
@@ -26,14 +26,17 @@ namespace HistoCoin.Server.Infrastructure
 
             var rms = new List<double>();
 
+            var total = historicalValues.TakeLast(depth).Sum();
             var rootMeanSqr = SquareDeviation(historicalValues.TakeLast(depth).ToArray(), 0, depth);
 
-            for (var i = historicalValues.Length - 1; i > historicalValues.Length - depth; i--)
+            for (var i = historicalValues.Length - 1; i >= historicalValues.Length - depth; i--)
             {
                 rms.Add(SquareDeviation(historicalValues, i, historicalValues.Length));
             }
 
-            return (rms.First() - rms.Last()) / rootMeanSqr;
+            var totalRms = SquareDeviation(rms, 0, rms.Count);
+
+            return totalRms / total * 100;
         }
 
         public static double Normalize(double value, Currencies currency)
