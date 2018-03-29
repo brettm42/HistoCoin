@@ -11,24 +11,29 @@ namespace HistoCoin.Server.Infrastructure
     {
         public static double CalculateTrend(double[] historicalValues, int depth)
         {
-            var deltas = new List<double>();
-
-            for (var i = historicalValues.Length - 1; i > 0; i--)
+            double SquareDeviation(double[] values, int start, int end)
             {
-                deltas.Add(
-                    (historicalValues[i - 1] - historicalValues[i]) / historicalValues[i] * 100);
+                double sum = 0;
+                int i;
+
+                for (i = start; i < end; i++)
+                {
+                    sum += Math.Pow(values[i], 2);
+                }
+
+                return Math.Sqrt(sum / (end - start));
             }
 
-            var average = deltas.TakeLast(depth).Average();
-            var sum = deltas.TakeLast(depth).Sum();
+            var rms = new List<double>();
 
-            var totalAverageValue = historicalValues.Average();
-            var totalValueSum = historicalValues.Sum(i => i - totalAverageValue);
+            var rootMeanSqr = SquareDeviation(historicalValues.TakeLast(depth).ToArray(), 0, depth);
 
-            var shallowAverageValue = historicalValues.TakeLast(depth).Average();
-            var shallowValueSum = historicalValues.TakeLast(depth).Sum(i => i - shallowAverageValue);
+            for (var i = historicalValues.Length - 1; i > historicalValues.Length - depth; i--)
+            {
+                rms.Add(SquareDeviation(historicalValues, i, historicalValues.Length));
+            }
 
-            return Math.Abs(shallowValueSum) < 1 ? 0 : shallowValueSum;
+            return (rms.First() - rms.Last()) / rootMeanSqr;
         }
 
         public static double Normalize(double value, Currencies currency)

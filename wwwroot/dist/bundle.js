@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "b4addc28df651207df31"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "4d85e0687a46d31fe58e"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16645,10 +16645,10 @@ var FormPage = function (_React$Component) {
                 _react2.default.createElement(_InfoBar2.default, { style: styles.trendDiv,
                   icon: null,
                   color: _colors.orange200,
-                  title: 'Two-Week Trend',
+                  title: 'Two-Week Trend (USD)',
                   value: _react2.default.createElement(_InlineInfo2.default, {
                     leftValue: this.state.Trend === 0 || this.state.Trend === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
-                    rightValue: this.state.Trend ? this.state.Trend + "%" : "" })
+                    rightValue: '$ ' + (this.state.Trend > 0 ? '+' + this.state.Trend : this.state.Trend) + ' per day' })
                 })
               )
             )
