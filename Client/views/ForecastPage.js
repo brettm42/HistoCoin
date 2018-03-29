@@ -150,7 +150,7 @@ class ForecastPage extends React.Component {
                 <InfoBar style={styles.trendDiv}
                     icon={null}
                     color={orange200}
-                    title="Daily Trend (USD)"
+                    title="Daily Change (USD)"
                     value={<InlineInfo 
                         leftValue=
                         {this.state.DailyChange === 0 || this.state.DailyChange === null

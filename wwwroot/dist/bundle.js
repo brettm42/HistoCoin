@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "498935c60b99eae1f0e0"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "8159ffd51214cb56970a"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16706,7 +16706,7 @@ var ForecastPage = function (_React$Component) {
                 _react2.default.createElement(_InfoBar2.default, { style: styles.trendDiv,
                   icon: null,
                   color: _colors.orange200,
-                  title: 'Daily Trend (USD)',
+                  title: 'Daily Change (USD)',
                   value: _react2.default.createElement(_InlineInfo2.default, {
                     leftValue: this.state.DailyChange === 0 || this.state.DailyChange === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.DailyChange > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
                     rightValue: '$ ' + (this.state.DailyChange > 0 ? '+' + this.state.DailyChange : this.state.DailyChange) })
