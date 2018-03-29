@@ -36,7 +36,8 @@ class FormPage extends React.Component {
       CurrentValue: '',
       Delta: '',
       HistoricalValues: [],
-      HistoricalDates: []
+      HistoricalDates: [],
+      Trend: ''
     };
   }
 
@@ -181,7 +182,7 @@ class FormPage extends React.Component {
                             : (this.state.Trend > 0
                                 ? <Avatar icon={<NavigationArrowDropUp />} />
                                 : <Avatar icon={<NavigationArrowDropDown />} />)}
-                        rightValue={`$ ${this.state.Trend > 0 ? `+${this.state.Trend}` : this.state.Trend}`} />}
+                        rightValue={`${this.state.Trend > 0 ? `+${this.state.Trend}` : this.state.Trend} %`} />}
                 />
             </div>
           </div>

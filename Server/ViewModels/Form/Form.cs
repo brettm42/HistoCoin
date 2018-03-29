@@ -116,9 +116,8 @@ namespace HistoCoin.Server.ViewModels.Form
                     return;
                 }
 
-                this.LoadCoin(id == 1 
-                    ? this._coinService.GetFirstId() 
-                    : id);
+                this.LoadCoin(
+                    id == 1 ? this._coinService.GetFirstId() : id);
             });
         }
         

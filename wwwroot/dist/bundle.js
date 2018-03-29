@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "6c40872ffdef14e5137a"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "498935c60b99eae1f0e0"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16553,7 +16553,8 @@ var ForecastPage = function (_React$Component) {
       Delta: '',
       HistoricalValues: [],
       HistoricalDates: [],
-      DailyChange: ''
+      DailyChange: '',
+      Trend: ''
     };
     return _this;
   }
@@ -16580,7 +16581,8 @@ var ForecastPage = function (_React$Component) {
           Delta = _state.Delta,
           HistoricalDates = _state.HistoricalDates,
           HistoricalValues = _state.HistoricalValues,
-          DailyChange = _state.DailyChange;
+          DailyChange = _state.DailyChange,
+          Trend = _state.Trend;
 
 
       var styles = {
@@ -16611,16 +16613,6 @@ var ForecastPage = function (_React$Component) {
         return _this2.routeTo(Coins.find(function (i) {
           return i.Id === value;
         }).Route);
-      };
-
-      var handleCancel = function handleCancel(_) {
-        _this2.dispatch({ Cancel: Id });
-        _this2.setState({ dirty: false });
-      };
-
-      var handleSave = function handleSave(_) {
-        _this2.dispatch({ Save: { Id: Id, Handle: Handle, Count: Count, StartingValue: StartingValue } });
-        _this2.setState({ dirty: false });
       };
 
       return _react2.default.createElement(
@@ -16714,10 +16706,22 @@ var ForecastPage = function (_React$Component) {
                 _react2.default.createElement(_InfoBar2.default, { style: styles.trendDiv,
                   icon: null,
                   color: _colors.orange200,
-                  title: 'Two-Week Trend (USD)',
+                  title: 'Daily Trend (USD)',
                   value: _react2.default.createElement(_InlineInfo2.default, {
                     leftValue: this.state.DailyChange === 0 || this.state.DailyChange === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.DailyChange > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
-                    rightValue: '$ ' + (this.state.DailyChange > 0 ? '+' + this.state.DailyChange : this.state.DailyChange) + ' per day' })
+                    rightValue: '$ ' + (this.state.DailyChange > 0 ? '+' + this.state.DailyChange : this.state.DailyChange) })
+                })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 col-md m-b-15' },
+                _react2.default.createElement(_InfoBar2.default, { style: styles.trendDiv,
+                  icon: null,
+                  color: _colors.orange200,
+                  title: 'Daily Trend (USD)',
+                  value: _react2.default.createElement(_InlineInfo2.default, {
+                    leftValue: this.state.Trend === 0 || this.state.Trend === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
+                    rightValue: (this.state.Trend > 0 ? '+' + this.state.Trend : this.state.Trend) + ' %' })
                 })
               )
             )
@@ -16851,7 +16855,8 @@ var FormPage = function (_React$Component) {
       CurrentValue: '',
       Delta: '',
       HistoricalValues: [],
-      HistoricalDates: []
+      HistoricalDates: [],
+      Trend: ''
     };
     return _this;
   }
@@ -17036,7 +17041,7 @@ var FormPage = function (_React$Component) {
                   title: 'Daily Trend (USD)',
                   value: _react2.default.createElement(_InlineInfo2.default, {
                     leftValue: this.state.Trend === 0 || this.state.Trend === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
-                    rightValue: '$ ' + (this.state.Trend > 0 ? '+' + this.state.Trend : this.state.Trend) })
+                    rightValue: (this.state.Trend > 0 ? '+' + this.state.Trend : this.state.Trend) + ' %' })
                 })
               )
             )

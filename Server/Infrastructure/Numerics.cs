@@ -35,14 +35,15 @@ namespace HistoCoin.Server.Infrastructure
 
             var totalRms = SquareDeviation(rms, 0, rms.Count);
 
-            return totalRms / total * 100;
+            return (totalRms / total * 100) * 2;
         }
 
         public static double CalculateLinearTrend(double[] historicalValues, int depth)
         {
-            var (RSquared, YIntercept, Slope) = Numerics.LinearRegression(historicalValues, depth);
+            var (rSquared, yIntercept, slope) = 
+                Numerics.LinearRegression(historicalValues, depth);
 
-            return Slope;
+            return slope * 100;
         }
 
         private static (double RSquared, double YIntercept, double Slope) LinearRegression(IReadOnlyList<double> values, int depth)
@@ -56,9 +57,9 @@ namespace HistoCoin.Server.Infrastructure
             double sumCod = 0;
             double sCo = 0;
 
-            for (var i = 0; i < depth; i++)
+            for (var i = values.Count - depth - 1; i < values.Count; i++)
             {
-                var x = i;
+                var x = i - depth;
                 var y = values[i];
 
                 sumCod += x * y;

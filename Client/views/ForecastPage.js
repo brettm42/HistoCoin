@@ -37,7 +37,8 @@ class ForecastPage extends React.Component {
       Delta: '',
       HistoricalValues: [],
       HistoricalDates: [],
-      DailyChange: ''
+      DailyChange: '',
+      Trend: ''
     };
   }
 
@@ -46,7 +47,7 @@ class ForecastPage extends React.Component {
   }
 
   render() {
-    let { dirty, Coins, Id, Handle, Count, StartingValue, Worth, CurrentValue, Delta, HistoricalDates, HistoricalValues, DailyChange } = this.state;
+    let { dirty, Coins, Id, Handle, Count, StartingValue, Worth, CurrentValue, Delta, HistoricalDates, HistoricalValues, DailyChange, Trend } = this.state;
 
     const styles = {
         selectLabel: { color: pink400 },
@@ -73,17 +74,7 @@ class ForecastPage extends React.Component {
     };
 
     const handleSelectFieldChange = (event, idx, value) => this.routeTo(Coins.find(i => i.Id === value).Route);
-
-      const handleCancel = _ => {
-          this.dispatch({ Cancel: Id });
-          this.setState({ dirty: false });
-      };
-
-      const handleSave = _ => {
-          this.dispatch({ Save: { Id: Id, Handle: Handle, Count: Count, StartingValue: StartingValue } });
-          this.setState({ dirty: false });
-      };
-
+      
     return (
       <MuiThemeProvider muiTheme={ThemeDefault}>
         <BasePage title="Forecasting" navigation="HistoCoin / Forecasting">
@@ -159,7 +150,7 @@ class ForecastPage extends React.Component {
                 <InfoBar style={styles.trendDiv}
                     icon={null}
                     color={orange200}
-                    title="Two-Week Trend (USD)"
+                    title="Daily Trend (USD)"
                     value={<InlineInfo 
                         leftValue=
                         {this.state.DailyChange === 0 || this.state.DailyChange === null
@@ -167,7 +158,23 @@ class ForecastPage extends React.Component {
                             : (this.state.DailyChange > 0
                                 ? <Avatar icon={<NavigationArrowDropUp />} />
                                 : <Avatar icon={<NavigationArrowDropDown />} />)}
-                        rightValue={`$ ${this.state.DailyChange > 0 ? `+${this.state.DailyChange}` : this.state.DailyChange} per day`} />}
+                        rightValue={`$ ${this.state.DailyChange > 0 ? `+${this.state.DailyChange}` : this.state.DailyChange}`} />}
+                />
+            </div>
+
+            <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-md m-b-15">
+                <InfoBar style={styles.trendDiv}
+                    icon={null}
+                    color={orange200}
+                    title="Daily Trend (USD)"
+                    value={<InlineInfo
+                        leftValue=
+                        {this.state.Trend === 0 || this.state.Trend === null
+                            ? <Avatar icon={<ContentRemoveCircle />} />
+                            : (this.state.Trend > 0
+                                ? <Avatar icon={<NavigationArrowDropUp />} />
+                                : <Avatar icon={<NavigationArrowDropDown />} />)}
+                        rightValue={`${this.state.Trend > 0 ? `+${this.state.Trend}` : this.state.Trend} %`} />}
                 />
             </div>
           </div>

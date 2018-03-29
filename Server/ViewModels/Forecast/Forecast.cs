@@ -33,7 +33,7 @@ namespace HistoCoin.Server.ViewModels.Forecast
                         Handle = i.Handle,
                         Count = i.Count,
                         StartingValue = i.StartingValue,
-                        Route = this.Redirect(AppLayout.FormPagePath, i.Id.ToString())
+                        Route = this.Redirect(AppLayout.ForecastPagePath, i.Id.ToString())
                     });
 
         public int Id
@@ -105,6 +105,13 @@ namespace HistoCoin.Server.ViewModels.Forecast
 
             set => Set(value);
         }
+
+        public double Trend
+        {
+            get => Get<double>();
+
+            set => Set(value);
+        }
         
         public Forecast(ICoinService coinService)
         {
@@ -112,20 +119,16 @@ namespace HistoCoin.Server.ViewModels.Forecast
 
             this.OnRouted((sender, e) =>
             {
-                if (!int.TryParse(e?.From?.Replace($"{AppLayout.FormPagePath}/", string.Empty), out var id))
+                if (!int.TryParse(e?.From?.Replace($"{AppLayout.ForecastPagePath}/", string.Empty), out var id))
                 {
                     return;
                 }
 
                 this.LoadCoin(
-                    id == 1 
-                        ? this._coinService.GetFirstId() 
-                        : id);
+                    id == 1 ? this._coinService.GetFirstId() : id);
             });
         }
         
-        public Action<int> Cancel => LoadCoin;
-
         private void LoadCoin(int id)
         {
             var record = this._coinService.GetById(id);
@@ -143,6 +146,10 @@ namespace HistoCoin.Server.ViewModels.Forecast
                 this.DailyChange =
                     Normalize(
                         Numerics.CalculateTrend(this.HistoricalValues, depth: 25), 
+                        this._coinService.BaseCurrency);
+                this.Trend =
+                    Normalize(
+                        Numerics.CalculateLinearTrend(this.HistoricalValues, depth: 25),
                         this._coinService.BaseCurrency);
                 //this.LowerBound
                 //this.UpperBound
