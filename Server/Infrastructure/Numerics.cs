@@ -37,5 +37,53 @@ namespace HistoCoin.Server.Infrastructure
 
             return totalRms / total * 100;
         }
+
+        public static double CalculateLinearTrend(double[] historicalValues, int depth)
+        {
+            var (RSquared, YIntercept, Slope) = Numerics.LinearRegression(historicalValues, depth);
+
+            return Slope;
+        }
+
+        private static (double RSquared, double YIntercept, double Slope) LinearRegression(IReadOnlyList<double> values, int depth)
+        {
+            double sumX = 0;
+            double sumY = 0;
+            double sumSqX = 0;
+            double sumSqY = 0;
+            double ssX = 0;
+            double ssY = 0;
+            double sumCod = 0;
+            double sCo = 0;
+
+            for (var i = 0; i < depth; i++)
+            {
+                var x = i;
+                var y = values[i];
+
+                sumCod += x * y;
+                sumX += x;
+                sumY += y;
+                sumSqX += Math.Pow(x, 2);
+                sumSqY += Math.Pow(y, 2);
+            }
+
+            ssX = sumSqX - (Math.Pow(sumX, 2) / depth);
+            ssY = sumSqY - (Math.Pow(sumY, 2) / depth);
+
+            var rNum = (depth * sumCod) - (sumX * sumY);
+            var rDenom =
+                (depth * sumSqX - Math.Pow(sumX, 2))
+                * (depth * sumSqY - Math.Pow(sumY, 2));
+
+            sCo = sumCod - (sumX * sumY / depth);
+
+            var meanX = sumX / depth;
+            var meanY = sumY / depth;
+
+            var doubleR = rNum / Math.Sqrt(rDenom);
+
+            return (Math.Pow(doubleR, 2), meanY - (sCo / ssX * meanX), sCo / ssX);
+        }
     }
 }

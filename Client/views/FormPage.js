@@ -173,7 +173,7 @@ class FormPage extends React.Component {
                 <InfoBar style={styles.trendDiv}
                     icon={null}
                     color={orange200}
-                    title="Two-Week Trend (USD)"
+                    title="Daily Trend (USD)"
                     value={<InlineInfo 
                         leftValue=
                         {this.state.Trend === 0 || this.state.Trend === null
@@ -181,7 +181,7 @@ class FormPage extends React.Component {
                             : (this.state.Trend > 0
                                 ? <Avatar icon={<NavigationArrowDropUp />} />
                                 : <Avatar icon={<NavigationArrowDropDown />} />)}
-                        rightValue={`$ ${this.state.Trend > 0 ? `+${this.state.Trend}` : this.state.Trend} per day`} />}
+                        rightValue={`$ ${this.state.Trend > 0 ? `+${this.state.Trend}` : this.state.Trend}`} />}
                 />
             </div>
           </div>
