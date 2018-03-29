@@ -9,7 +9,7 @@ import SelectField from 'material-ui/SelectField';
 import TextField from 'material-ui/TextField';
 import InfoBar from '../components/form/InfoBar';
 import CoinHistory from '../components/form/CoinHistory';
-import { grey200, grey400, pink400, orange200 } from 'material-ui/styles/colors';
+import { grey200, grey400, pink400, orange200, blue200 } from 'material-ui/styles/colors';
 import BasePage from '../components/BasePage';
 import InlineInfo from '../components/form/InlineInfo';
 import ThemeDefault from '../styles/theme-default';
@@ -38,7 +38,9 @@ class ForecastPage extends React.Component {
       HistoricalValues: [],
       HistoricalDates: [],
       DailyChange: '',
-      Trend: ''
+      Trend: '',
+      ForecastValue: '',
+      ForecastWorth: ''
     };
   }
 
@@ -47,7 +49,7 @@ class ForecastPage extends React.Component {
   }
 
   render() {
-    let { dirty, Coins, Id, Handle, Count, StartingValue, Worth, CurrentValue, Delta, HistoricalDates, HistoricalValues, DailyChange, Trend } = this.state;
+    let { dirty, Coins, Id, Handle, Count, StartingValue, Worth, CurrentValue, Delta, HistoricalDates, HistoricalValues, DailyChange, Trend, ForecastValue, ForecastWorth } = this.state;
 
     const styles = {
         selectLabel: { color: pink400 },
@@ -139,14 +141,35 @@ class ForecastPage extends React.Component {
             </div>
 
             <div className="row">
-                <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md m-b-15">
+                <div className="col-xs-12 col-sm-9 col-md-9 col-lg-9 col-md m-b-15">
                 <CoinHistory
                     data={this.state.HistoricalValues}
                     dates={this.state.HistoricalDates}
                     color={grey200} />
-                    </div>
+                </div>
+            </div>
+                    
+            <div className="row">
+                <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
+                    <InfoBar
+                        icon={null}
+                        color={blue200}
+                        title="Forecast Value (USD)"
+                        value={`$${this.state.ForecastValue}`}
+                    />
+                </div>
+                <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
+                    <InfoBar
+                        icon={null}
+                        color={blue200}
+                        title="Forecast Worth (USD)"
+                        value={`$${this.state.ForecastWorth}`}
+                    />
+                </div>
+            </div>
 
-            <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-md m-b-15">
+            <div className="row">
+              <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-md m-b-15">
                 <InfoBar style={styles.trendDiv}
                     icon={null}
                     color={orange200}
@@ -177,7 +200,7 @@ class ForecastPage extends React.Component {
                         rightValue={`${this.state.Trend > 0 ? `+${this.state.Trend}` : this.state.Trend} %`} />}
                 />
             </div>
-          </div>
+            </div>
         </div>
       </BasePage>
     </MuiThemeProvider>

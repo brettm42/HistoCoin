@@ -17,6 +17,9 @@ namespace HistoCoin.Server.ViewModels.Forecast
     [Authorize]
     public class Forecast : BaseVM, IRoutable
     {
+        private const int PollDepth = 25;
+        private const int ForecastReach = 14;
+
         private readonly ICoinService _coinService;
         
         public RoutingState RoutingState { get; set; }
@@ -112,7 +115,21 @@ namespace HistoCoin.Server.ViewModels.Forecast
 
             set => Set(value);
         }
-        
+
+        public double ForecastValue
+        {
+            get => Get<double>();
+
+            set => Set(value);
+        }
+
+        public double ForecastWorth
+        {
+            get => Get<double>();
+
+            set => Set(value);
+        }
+
         public Forecast(ICoinService coinService)
         {
             this._coinService = coinService;
@@ -145,15 +162,23 @@ namespace HistoCoin.Server.ViewModels.Forecast
                 this.HistoricalValues = record.History?.GetValues(DefaultHistoryPopulation) ?? new double[0];
                 this.DailyChange =
                     Normalize(
-                        Numerics.CalculateTrend(this.HistoricalValues, depth: 25), 
+                        Numerics.CalculateTrend(this.HistoricalValues, PollDepth), 
                         this._coinService.BaseCurrency);
                 this.Trend =
                     Normalize(
-                        Numerics.CalculateLinearTrend(this.HistoricalValues, depth: 25),
+                        Numerics.CalculateLinearTrend(this.HistoricalValues, PollDepth),
                         this._coinService.BaseCurrency);
-                //this.LowerBound
-                //this.UpperBound
-                //this.Forecast
+                this.ForecastValue =
+                    Normalize(
+                        (record.CurrentValue + this.DailyChange) * ForecastReach, 
+                        this._coinService.BaseCurrency);
+                this.ForecastWorth = 
+                    Normalize(
+                        (record.Worth + this.DailyChange) * ForecastReach, 
+                        this._coinService.BaseCurrency);
+                //this.LowerBound =
+                //this.UpperBound =
+                //this.Forecast =
             }
         }
     }

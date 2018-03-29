@@ -48,7 +48,7 @@ const CoinHistory = (props) => {
 
   return (
     <Paper style={styles.paper}>
-      <div style={{ ...styles.header }}>Value</div>
+      <div style={{ ...styles.header }}>Value History</div>
       <div style={styles.div}>
         <Line data={data} options={options} />
       </div>

@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "8159ffd51214cb56970a"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "a95784ad3439b8e12d02"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16441,7 +16441,7 @@ exports.default = Dashboard;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -16527,211 +16527,243 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var ForecastPage = function (_React$Component) {
-  _inherits(ForecastPage, _React$Component);
+    _inherits(ForecastPage, _React$Component);
 
-  function ForecastPage(props) {
-    _classCallCheck(this, ForecastPage);
+    function ForecastPage(props) {
+        _classCallCheck(this, ForecastPage);
 
-    var _this = _possibleConstructorReturn(this, (ForecastPage.__proto__ || Object.getPrototypeOf(ForecastPage)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (ForecastPage.__proto__ || Object.getPrototypeOf(ForecastPage)).call(this, props));
 
-    _this.vm = _dotnetify2.default.react.connect("Forecast", _this);
-    _this.dispatch = function (state) {
-      return _this.vm.$dispatch(state);
-    };
-    _this.routeTo = function (route) {
-      return _this.vm.$routeTo(route);
-    };
+        _this.vm = _dotnetify2.default.react.connect("Forecast", _this);
+        _this.dispatch = function (state) {
+            return _this.vm.$dispatch(state);
+        };
+        _this.routeTo = function (route) {
+            return _this.vm.$routeTo(route);
+        };
 
-    _this.state = {
-      dirty: false,
-      Coins: [],
-      Handle: '',
-      Count: '',
-      StartingValue: '',
-      Worth: '',
-      CurrentValue: '',
-      Delta: '',
-      HistoricalValues: [],
-      HistoricalDates: [],
-      DailyChange: '',
-      Trend: ''
-    };
-    return _this;
-  }
-
-  _createClass(ForecastPage, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      this.vm.$destroy();
+        _this.state = {
+            dirty: false,
+            Coins: [],
+            Handle: '',
+            Count: '',
+            StartingValue: '',
+            Worth: '',
+            CurrentValue: '',
+            Delta: '',
+            HistoricalValues: [],
+            HistoricalDates: [],
+            DailyChange: '',
+            Trend: '',
+            ForecastValue: '',
+            ForecastWorth: ''
+        };
+        return _this;
     }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
 
-      var _state = this.state,
-          dirty = _state.dirty,
-          Coins = _state.Coins,
-          Id = _state.Id,
-          Handle = _state.Handle,
-          Count = _state.Count,
-          StartingValue = _state.StartingValue,
-          Worth = _state.Worth,
-          CurrentValue = _state.CurrentValue,
-          Delta = _state.Delta,
-          HistoricalDates = _state.HistoricalDates,
-          HistoricalValues = _state.HistoricalValues,
-          DailyChange = _state.DailyChange,
-          Trend = _state.Trend;
+    _createClass(ForecastPage, [{
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            this.vm.$destroy();
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            var _state = this.state,
+                dirty = _state.dirty,
+                Coins = _state.Coins,
+                Id = _state.Id,
+                Handle = _state.Handle,
+                Count = _state.Count,
+                StartingValue = _state.StartingValue,
+                Worth = _state.Worth,
+                CurrentValue = _state.CurrentValue,
+                Delta = _state.Delta,
+                HistoricalDates = _state.HistoricalDates,
+                HistoricalValues = _state.HistoricalValues,
+                DailyChange = _state.DailyChange,
+                Trend = _state.Trend,
+                ForecastValue = _state.ForecastValue,
+                ForecastWorth = _state.ForecastWorth;
 
 
-      var styles = {
-        selectLabel: { color: _colors.pink400 },
-        form: {
-          paddingBottom: 80
-        },
-        toggleDiv: {
-          maxWidth: 300,
-          marginTop: 40,
-          marginBottom: 5
-        },
-        toggleLabel: {
-          color: _colors.grey400,
-          fontWeight: 100
-        },
-        buttons: {
-          marginTop: 30,
-          float: 'right'
-        },
-        trendDiv: {
-          height: 150
-        },
-        saveButton: { marginLeft: 5 }
-      };
-
-      var handleSelectFieldChange = function handleSelectFieldChange(event, idx, value) {
-        return _this2.routeTo(Coins.find(function (i) {
-          return i.Id === value;
-        }).Route);
-      };
-
-      return _react2.default.createElement(
-        _MuiThemeProvider2.default,
-        { muiTheme: _themeDefault2.default },
-        _react2.default.createElement(
-          _BasePage2.default,
-          { title: 'Forecasting', navigation: 'HistoCoin / Forecasting' },
-          _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement(
-              'form',
-              { style: styles.form },
-              _react2.default.createElement(
-                _SelectField2.default,
-                {
-                  value: Id,
-                  onChange: handleSelectFieldChange,
-                  floatingLabelText: 'Select coin for details',
-                  floatingLabelStyle: styles.selectLabel
+            var styles = {
+                selectLabel: { color: _colors.pink400 },
+                form: {
+                    paddingBottom: 80
                 },
-                Coins.map(function (item) {
-                  return _react2.default.createElement(_MenuItem2.default, { key: item.Id, value: item.Id, primaryText: item.Handle + ' (' + item.Count + ')' });
-                })
-              ),
-              _react2.default.createElement(_TextField2.default, {
-                hintText: 'Coin handle',
-                floatingLabelText: 'Coin Handle',
-                fullWidth: true,
-                value: Handle }),
-              _react2.default.createElement(_TextField2.default, {
-                hintText: 'Current wallet holdings',
-                floatingLabelText: 'Number of coins in wallet',
-                fullWidth: true,
-                value: Count }),
-              _react2.default.createElement(_TextField2.default, {
-                hintText: 'Cost in USB per coin on purchase',
-                floatingLabelText: 'Cost per coin when purchased',
-                fullWidth: true,
-                value: StartingValue })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'row' },
-              _react2.default.createElement(
-                'div',
-                { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ' },
-                _react2.default.createElement(_InfoBar2.default, {
-                  icon: null,
-                  color: _colors.orange200,
-                  title: 'Current Value (USD)',
-                  value: '$' + this.state.CurrentValue
-                })
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ' },
-                _react2.default.createElement(_InfoBar2.default, {
-                  icon: null,
-                  color: _colors.orange200,
-                  title: 'Worth (USD)',
-                  value: '$' + this.state.Worth
-                })
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ' },
-                _react2.default.createElement(_InfoBar2.default, {
-                  icon: null,
-                  color: _colors.orange200,
-                  title: 'Delta',
-                  value: '$ ' + (this.state.Delta > 0 ? '+' + this.state.Delta : this.state.Delta)
-                })
-              )
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'row' },
-              _react2.default.createElement(
-                'div',
-                { className: 'col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md m-b-15' },
-                _react2.default.createElement(_CoinHistory2.default, {
-                  data: this.state.HistoricalValues,
-                  dates: this.state.HistoricalDates,
-                  color: _colors.grey200 })
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 col-md m-b-15' },
-                _react2.default.createElement(_InfoBar2.default, { style: styles.trendDiv,
-                  icon: null,
-                  color: _colors.orange200,
-                  title: 'Daily Change (USD)',
-                  value: _react2.default.createElement(_InlineInfo2.default, {
-                    leftValue: this.state.DailyChange === 0 || this.state.DailyChange === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.DailyChange > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
-                    rightValue: '$ ' + (this.state.DailyChange > 0 ? '+' + this.state.DailyChange : this.state.DailyChange) })
-                })
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 col-md m-b-15' },
-                _react2.default.createElement(_InfoBar2.default, { style: styles.trendDiv,
-                  icon: null,
-                  color: _colors.orange200,
-                  title: 'Daily Trend (USD)',
-                  value: _react2.default.createElement(_InlineInfo2.default, {
-                    leftValue: this.state.Trend === 0 || this.state.Trend === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
-                    rightValue: (this.state.Trend > 0 ? '+' + this.state.Trend : this.state.Trend) + ' %' })
-                })
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
+                toggleDiv: {
+                    maxWidth: 300,
+                    marginTop: 40,
+                    marginBottom: 5
+                },
+                toggleLabel: {
+                    color: _colors.grey400,
+                    fontWeight: 100
+                },
+                buttons: {
+                    marginTop: 30,
+                    float: 'right'
+                },
+                trendDiv: {
+                    height: 150
+                },
+                saveButton: { marginLeft: 5 }
+            };
 
-  return ForecastPage;
+            var handleSelectFieldChange = function handleSelectFieldChange(event, idx, value) {
+                return _this2.routeTo(Coins.find(function (i) {
+                    return i.Id === value;
+                }).Route);
+            };
+
+            return _react2.default.createElement(
+                _MuiThemeProvider2.default,
+                { muiTheme: _themeDefault2.default },
+                _react2.default.createElement(
+                    _BasePage2.default,
+                    { title: 'Forecasting', navigation: 'HistoCoin / Forecasting' },
+                    _react2.default.createElement(
+                        'div',
+                        null,
+                        _react2.default.createElement(
+                            'form',
+                            { style: styles.form },
+                            _react2.default.createElement(
+                                _SelectField2.default,
+                                {
+                                    value: Id,
+                                    onChange: handleSelectFieldChange,
+                                    floatingLabelText: 'Select coin for details',
+                                    floatingLabelStyle: styles.selectLabel
+                                },
+                                Coins.map(function (item) {
+                                    return _react2.default.createElement(_MenuItem2.default, { key: item.Id, value: item.Id, primaryText: item.Handle + ' (' + item.Count + ')' });
+                                })
+                            ),
+                            _react2.default.createElement(_TextField2.default, {
+                                hintText: 'Coin handle',
+                                floatingLabelText: 'Coin Handle',
+                                fullWidth: true,
+                                value: Handle }),
+                            _react2.default.createElement(_TextField2.default, {
+                                hintText: 'Current wallet holdings',
+                                floatingLabelText: 'Number of coins in wallet',
+                                fullWidth: true,
+                                value: Count }),
+                            _react2.default.createElement(_TextField2.default, {
+                                hintText: 'Cost in USB per coin on purchase',
+                                floatingLabelText: 'Cost per coin when purchased',
+                                fullWidth: true,
+                                value: StartingValue })
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'row' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ' },
+                                _react2.default.createElement(_InfoBar2.default, {
+                                    icon: null,
+                                    color: _colors.orange200,
+                                    title: 'Current Value (USD)',
+                                    value: '$' + this.state.CurrentValue
+                                })
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ' },
+                                _react2.default.createElement(_InfoBar2.default, {
+                                    icon: null,
+                                    color: _colors.orange200,
+                                    title: 'Worth (USD)',
+                                    value: '$' + this.state.Worth
+                                })
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ' },
+                                _react2.default.createElement(_InfoBar2.default, {
+                                    icon: null,
+                                    color: _colors.orange200,
+                                    title: 'Delta',
+                                    value: '$ ' + (this.state.Delta > 0 ? '+' + this.state.Delta : this.state.Delta)
+                                })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'row' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-xs-12 col-sm-9 col-md-9 col-lg-9 col-md m-b-15' },
+                                _react2.default.createElement(_CoinHistory2.default, {
+                                    data: this.state.HistoricalValues,
+                                    dates: this.state.HistoricalDates,
+                                    color: _colors.grey200 })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'row' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ' },
+                                _react2.default.createElement(_InfoBar2.default, {
+                                    icon: null,
+                                    color: _colors.blue200,
+                                    title: 'Forecast Value (USD)',
+                                    value: '$' + this.state.ForecastValue
+                                })
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ' },
+                                _react2.default.createElement(_InfoBar2.default, {
+                                    icon: null,
+                                    color: _colors.blue200,
+                                    title: 'Forecast Worth (USD)',
+                                    value: '$' + this.state.ForecastWorth
+                                })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'row' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 col-md m-b-15' },
+                                _react2.default.createElement(_InfoBar2.default, { style: styles.trendDiv,
+                                    icon: null,
+                                    color: _colors.orange200,
+                                    title: 'Daily Change (USD)',
+                                    value: _react2.default.createElement(_InlineInfo2.default, {
+                                        leftValue: this.state.DailyChange === 0 || this.state.DailyChange === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.DailyChange > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
+                                        rightValue: '$ ' + (this.state.DailyChange > 0 ? '+' + this.state.DailyChange : this.state.DailyChange) })
+                                })
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 col-md m-b-15' },
+                                _react2.default.createElement(_InfoBar2.default, { style: styles.trendDiv,
+                                    icon: null,
+                                    color: _colors.orange200,
+                                    title: 'Daily Trend (USD)',
+                                    value: _react2.default.createElement(_InlineInfo2.default, {
+                                        leftValue: this.state.Trend === 0 || this.state.Trend === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
+                                        rightValue: (this.state.Trend > 0 ? '+' + this.state.Trend : this.state.Trend) + ' %' })
+                                })
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return ForecastPage;
 }(_react2.default.Component);
 
 exports.default = ForecastPage;
@@ -17019,18 +17051,6 @@ var FormPage = function (_React$Component) {
                   title: 'Delta',
                   value: '$ ' + (this.state.Delta > 0 ? '+' + this.state.Delta : this.state.Delta)
                 })
-              )
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'row' },
-              _react2.default.createElement(
-                'div',
-                { className: 'col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md m-b-15' },
-                _react2.default.createElement(_CoinHistory2.default, {
-                  data: this.state.HistoricalValues,
-                  dates: this.state.HistoricalDates,
-                  color: _colors.grey200 })
               ),
               _react2.default.createElement(
                 'div',
@@ -17043,6 +17063,18 @@ var FormPage = function (_React$Component) {
                     leftValue: this.state.Trend === 0 || this.state.Trend === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
                     rightValue: (this.state.Trend > 0 ? '+' + this.state.Trend : this.state.Trend) + ' %' })
                 })
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'row' },
+              _react2.default.createElement(
+                'div',
+                { className: 'col-xs-12 col-sm-9 col-md-9 col-lg-9 col-md m-b-15' },
+                _react2.default.createElement(_CoinHistory2.default, {
+                  data: this.state.HistoricalValues,
+                  dates: this.state.HistoricalDates,
+                  color: _colors.grey200 })
               )
             )
           )
@@ -22644,7 +22676,7 @@ var CoinHistory = function CoinHistory(props) {
     _react2.default.createElement(
       'div',
       { style: _extends({}, styles.header) },
-      'Value'
+      'Value History'
     ),
     _react2.default.createElement(
       'div',
