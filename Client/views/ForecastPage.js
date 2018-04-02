@@ -155,19 +155,19 @@ class ForecastPage extends React.Component {
 
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-3 col-md m-b-15">
+                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-md m-b-15">
                         <InfoBar style={styles.trendDiv}
-                                 icon={null}
-                                 color={orange200}
-                                 title="Daily Change (USD)"
-                                 value={<InlineInfo
-                                    leftValue=
-                                    {this.state.DailyChange === 0 || this.state.DailyChange === null
-                                        ? <Avatar icon={<ContentRemoveCircle />} />
-                                        : (this.state.DailyChange > 0
-                                            ? <Avatar icon={<NavigationArrowDropUp />} />
-                                            : <Avatar icon={<NavigationArrowDropDown />} />)}
-                                    rightValue={`$ ${this.state.DailyChange > 0 ? `+${this.state.DailyChange}` : this.state.DailyChange}`} />}
+                            icon={null}
+                            color={orange200}
+                            title="Daily Change (USD)"
+                            value={<InlineInfo
+                            leftValue=
+                            {this.state.DailyChange === 0 || this.state.DailyChange === null
+                                ? <Avatar icon={<ContentRemoveCircle />} />
+                                : (this.state.DailyChange > 0
+                                    ? <Avatar icon={<NavigationArrowDropUp />} />
+                                    : <Avatar icon={<NavigationArrowDropDown />} />)}
+                            rightValue={`$ ${this.state.DailyChange > 0 ? `+${this.state.DailyChange}` : this.state.DailyChange}`} />}
                         />
 
                         <InfoBar
@@ -178,19 +178,19 @@ class ForecastPage extends React.Component {
                         />
                         </div>
 
-                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-3 col-md m-b-15">
+                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-md m-b-15">
                         <InfoBar style={styles.trendDiv}
-                                 icon={null}
-                                 color={orange200}
-                                 title="Daily Trend (USD)"
-                                 value={<InlineInfo
-                                    leftValue=
-                                    {this.state.Trend === 0 || this.state.Trend === null
-                                        ? <Avatar icon={<ContentRemoveCircle />} />
-                                        : (this.state.Trend > 0
-                                            ? <Avatar icon={<NavigationArrowDropUp />} />
-                                            : <Avatar icon={<NavigationArrowDropDown />} />)}
-                                    rightValue={`${this.state.Trend > 0 ? `+${this.state.Trend}` : this.state.Trend} %`} />}
+                            icon={null}
+                            color={orange200}
+                            title="Daily Trend (USD)"
+                            value={<InlineInfo
+                            leftValue=
+                            {this.state.Trend === 0 || this.state.Trend === null
+                                ? <Avatar icon={<ContentRemoveCircle />} />
+                                : (this.state.Trend > 0
+                                    ? <Avatar icon={<NavigationArrowDropUp />} />
+                                    : <Avatar icon={<NavigationArrowDropDown />} />)}
+                            rightValue={`${this.state.Trend > 0 ? `+${this.state.Trend}` : this.state.Trend} %`} />}
                             />
 
                   <InfoBar
