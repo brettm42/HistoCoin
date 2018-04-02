@@ -153,7 +153,7 @@ namespace HistoCoin.Server.ViewModels.Form
                 this.HistoricalValues = record.History?.GetValues(DefaultHistoryPopulation) ?? new double[0];
                 this.Trend =
                     Normalize(
-                        Numerics.CalculateLinearTrend(this.HistoricalValues, depth: 25), 
+                        Numerics.CalculateLinearTrend(this.HistoricalValues), 
                         this._coinService.BaseCurrency);
             }
         }

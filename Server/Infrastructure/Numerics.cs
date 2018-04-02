@@ -35,25 +35,25 @@ namespace HistoCoin.Server.Infrastructure
 
             var totalRms = SquareDeviation(rms, 0, rms.Count);
 
-            return ((rms.First() - rms.Last()) / depth) * 2;
+            return (rms.First() - rms.Last()) / depth;
         }
 
-        public static double CalculateLinearTrend(double[] historicalValues, int depth)
+        public static double CalculateLinearTrend(double[] historicalValues, int depth = 25)
         {
             var (rSquared, yIntercept, slope) = 
                 Numerics.LinearRegression(historicalValues, depth);
 
-            return slope * 100;
+            return slope;
         }
 
         public static double CalculateFutureValue(double dailyChange, double currentValue, int reach)
         {
-            return (currentValue * (dailyChange / 100)) * reach;
+            return currentValue + (dailyChange * reach);
         }
 
-        public static double CalculateFutureWorth(double dailyChange, double currentWorth, int reach)
+        public static double CalculateFutureWorth(double futureValue, double walletCount)
         {
-            return (currentWorth + dailyChange) * reach;
+            return futureValue * walletCount;
         }
 
         private static (double RSquared, double YIntercept, double Slope) LinearRegression(IReadOnlyList<double> values, int depth)

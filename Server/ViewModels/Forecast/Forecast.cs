@@ -170,11 +170,11 @@ namespace HistoCoin.Server.ViewModels.Forecast
                         this._coinService.BaseCurrency);
                 this.ForecastValue =
                     Normalize(
-                        Numerics.CalculateFutureValue(this.DailyChange, record.CurrentValue, ForecastReach), 
+                        Numerics.CalculateFutureValue(this.DailyChange, record.CurrentValue, ForecastReach),
                         this._coinService.BaseCurrency);
                 this.ForecastWorth = 
                     Normalize(
-                        Numerics.CalculateFutureWorth(this.DailyChange, record.Worth, ForecastReach),
+                        Numerics.CalculateFutureWorth(this.ForecastValue, this.Count),
                         this._coinService.BaseCurrency);
                 //this.LowerBound =
                 //this.UpperBound =
