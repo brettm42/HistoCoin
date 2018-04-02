@@ -18,6 +18,7 @@ import Paper from 'material-ui/Paper';
 import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 import NavigationArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import NavigationArrowDropUp from 'material-ui/svg-icons/navigation/arrow-drop-up';
+import style from 'material-ui/svg-icons/image/style';
 
 class ForecastPage extends React.Component {
 
@@ -56,7 +57,7 @@ class ForecastPage extends React.Component {
         selectLabel: { color: pink400 },
         form: {
             padding: '10px 20px',
-            paddingBottom: 50,
+            paddingBottom: 35,
             marginBottom: 15
         },
       toggleDiv: {
@@ -74,7 +75,10 @@ class ForecastPage extends React.Component {
       }, 
       trendDiv: {
         height: 150
-      },
+        },
+        infoBar: {
+            padding: '10px 20px',
+        },
       saveButton: { marginLeft: 5 }
     };
 
@@ -83,8 +87,9 @@ class ForecastPage extends React.Component {
     return (
       <MuiThemeProvider muiTheme={ThemeDefault}>
         <BasePage title="Forecasting" navigation="HistoCoin / Forecasting">
-            <div>
-          <Paper style={styles.form}>
+          <div className="container-fluid">
+            <div className="row">
+              <Paper style={styles.form} className="col-xs-12 col-sm-12 col-md-9 col-lg-9 m-b-15 ">
             <SelectField
               value={Id}
               onChange={handleSelectFieldChange}
@@ -115,25 +120,21 @@ class ForecastPage extends React.Component {
                 value={StartingValue} />
             </Paper>
                     
-          <div className="row">
-              <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
-                  <InfoBar
+            <div className="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-b-15 " style={styles.infoBar}>
+                <InfoBar
                       icon={null}
                       color={orange200}
                       title="Current Value (USD)"
                       value={`$${this.state.CurrentValue}`}
-                  />
-              </div>
-                <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
+                            />
+
                     <InfoBar
                         icon={null}
                         color={orange200}
                         title="Worth (USD)"
                         value={`$${this.state.Worth}`}
-                    />
-                </div>
+                            />
 
-                <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
                     <InfoBar
                         icon={null}
                         color={orange200}
@@ -144,7 +145,7 @@ class ForecastPage extends React.Component {
             </div>
 
             <div className="row">
-                <div className="col-xs-12 col-sm-9 col-md-9 col-lg-9 col-md m-b-15">
+                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15">
                 <CoinHistory
                     data={this.state.HistoricalValues}
                     dates={this.state.HistoricalDates}
@@ -152,8 +153,9 @@ class ForecastPage extends React.Component {
                 </div>
             </div>
 
+            <div className="container-fluid">
                 <div className="row">
-                    <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-md m-b-15">
+                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-3 col-md m-b-15">
                         <InfoBar style={styles.trendDiv}
                                  icon={null}
                                  color={orange200}
@@ -167,9 +169,16 @@ class ForecastPage extends React.Component {
                                             : <Avatar icon={<NavigationArrowDropDown />} />)}
                                     rightValue={`$ ${this.state.DailyChange > 0 ? `+${this.state.DailyChange}` : this.state.DailyChange}`} />}
                         />
-                    </div>
 
-                    <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-md m-b-15">
+                        <InfoBar
+                            icon={null}
+                            color={blue200}
+                            title="Forecast Value (USD)"
+                            value={`$${this.state.ForecastValue}`}
+                        />
+                        </div>
+
+                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-3 col-md m-b-15">
                         <InfoBar style={styles.trendDiv}
                                  icon={null}
                                  color={orange200}
@@ -182,28 +191,17 @@ class ForecastPage extends React.Component {
                                             ? <Avatar icon={<NavigationArrowDropUp />} />
                                             : <Avatar icon={<NavigationArrowDropDown />} />)}
                                     rightValue={`${this.state.Trend > 0 ? `+${this.state.Trend}` : this.state.Trend} %`} />}
-                        />
-                    </div>
-                </div>
+                            />
 
-            <div className="row">
-                <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
-                    <InfoBar
-                        icon={null}
-                        color={blue200}
-                        title="Forecast Value (USD)"
-                        value={`$${this.state.ForecastValue}`}
-                    />
-                </div>
-                <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
-                    <InfoBar
-                        icon={null}
-                        color={blue200}
-                        title="Forecast Worth (USD)"
-                        value={`$${this.state.ForecastWorth}`}
-                    />
-                </div>
+                  <InfoBar
+                      icon={null}
+                      color={blue200}
+                      title="Forecast Worth (USD)"
+                      value={`$${this.state.ForecastWorth}`}
+                  />
+              </div>
             </div>
+          </div>
         </div>
       </BasePage>
     </MuiThemeProvider>

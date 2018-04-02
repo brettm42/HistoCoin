@@ -76,7 +76,7 @@ class Dashboard extends React.Component {
             </div>
 
           <div className="row">
-            <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
+            <div className="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-b-15 ">
                 <InfoBox Icon={ActionAccountBalanceWalletIcon}
                     color={orange600}
                     title="Value (USD)"
@@ -84,7 +84,7 @@ class Dashboard extends React.Component {
               />
             </div>
                     
-              <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
+              <div className="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-b-15 ">
                   <InfoBox Icon={ActionAccountBalanceWalletIcon}
                     color={pink600}
                     title="Value (BTC)"
@@ -92,7 +92,7 @@ class Dashboard extends React.Component {
                   />
                     </div>
 
-              <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
+              <div className="col-xs-12 col-sm-6 col-md-4 col-lg-4 m-b-15 ">
                   <InfoBox Icon={ActionTimeline}
                     color={purple600}
                     title="Overall Delta"

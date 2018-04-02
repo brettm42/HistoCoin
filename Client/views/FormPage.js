@@ -179,7 +179,7 @@ class FormPage extends React.Component {
             </div>
 
             <div className="row">
-                <div className="col-xs-12 col-sm-9 col-md-9 col-lg-9 col-md m-b-15">
+                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15">
                     <CoinHistory
                         data={this.state.HistoricalValues}
                         dates={this.state.HistoricalDates}
