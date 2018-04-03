@@ -65,8 +65,8 @@ class ForecastPage extends React.Component {
         selectLabel: { color: pink400 },
         form: {
             padding: '10px 20px',
-            paddingBottom: 35,
-            marginBottom: 15
+            paddingBottom: 15,
+            marginBottom: 10
         },
       toggleDiv: {
         maxWidth: 300,
@@ -97,7 +97,7 @@ class ForecastPage extends React.Component {
         <BasePage title="Forecasting" navigation="HistoCoin / Forecasting">
           <div className="container-fluid">
             <div className="row">
-              <Paper style={styles.form} className="col-xs-12 col-sm-12 col-md-9 col-lg-9 m-b-15 ">
+              <div style={styles.form} className="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-b-15 ">
             <SelectField
               value={Id}
               onChange={handleSelectFieldChange}
@@ -108,27 +108,31 @@ class ForecastPage extends React.Component {
                 <MenuItem key={item.Id} value={item.Id} primaryText={`${item.Handle} (${item.Count})`} />
               )}
             </SelectField>
+            </div>
+            </div>
 
-            <TextField
-              hintText="Coin handle"
-              floatingLabelText="Coin Handle"
-              fullWidth={true}
-              value={Handle} />
+            <div className="row">
+                <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-b-15 " style={styles.infoBar}>
+                    <InfoBar
+                        icon={null}
+                        color={blue200}
+                        title="Coin Handle"
+                        value={Handle} />
 
-            <TextField
-              hintText="Current wallet holdings"
-              floatingLabelText="Number of coins in wallet"
-              fullWidth={true}
-              value={Count} />
+                    <InfoBar
+                        icon={null}
+                        color={blue200}
+                        title="Current wallet count"
+                        value={Count} />
 
-            <TextField
-                hintText="Cost in USB per coin on purchase"
-                floatingLabelText="Cost per coin when purchased"
-                fullWidth={true}
-                value={StartingValue} />
-            </Paper>
+                    <InfoBar
+                        icon={null}
+                        color={blue200}
+                        title="Cost on purchase (USD)"
+                        value={StartingValue} />
+                </div>
                     
-            <div className="col-xs-12 col-sm-12 col-md-3 col-lg-3 m-b-15 " style={styles.infoBar}>
+            <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-b-15 " style={styles.infoBar}>
                 <InfoBar
                       icon={null}
                       color={orange200}
@@ -263,7 +267,7 @@ class ForecastPage extends React.Component {
                         <InfoBar style={styles.trendDiv}
                             icon={null}
                             color={orange200}
-                            title="Skeptic Daily Change (USD)"
+                            title="Skeptical Daily Change (USD)"
                             value={<InlineInfo
                                 leftValue=
                                 {this.state.FarDailyChange === 0 || this.state.FarDailyChange === null
@@ -277,7 +281,7 @@ class ForecastPage extends React.Component {
                         <InfoBar
                             icon={null}
                             color={blue200}
-                            title="Skeptic Forecast Value (USD)"
+                            title="Skeptical Forecast Value (USD)"
                             value={`$${this.state.FarForecastValue}`}
                         />
                     </div>
@@ -286,7 +290,7 @@ class ForecastPage extends React.Component {
                         <InfoBar style={styles.trendDiv}
                             icon={null}
                             color={orange200}
-                            title="Skeptic Daily Trend (USD)"
+                            title="Skeptical Daily Trend (USD)"
                             value={<InlineInfo
                                 leftValue=
                                 {this.state.FarTrend === 0 || this.state.FarTrend === null
@@ -300,7 +304,7 @@ class ForecastPage extends React.Component {
                         <InfoBar
                             icon={null}
                             color={blue200}
-                            title="Skeptic Forecast Worth (USD)"
+                            title="Skeptical Forecast Worth (USD)"
                             value={`$${this.state.FarForecastWorth}`}
                         />
                     </div>

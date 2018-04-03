@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { RouteLink } from 'dotnetify/dist/dotnetify-react.router';
 import Avatar from 'material-ui/Avatar';
 import Drawer from 'material-ui/Drawer';
+import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 import MenuItem from 'material-ui/MenuItem';
 import { spacing, typography } from 'material-ui/styles';
 import { white, blue600 } from 'material-ui/styles/colors';
+import style from 'material-ui/svg-icons/image/style';
 
 const Sidebar = (props) => {
 
@@ -26,6 +28,9 @@ const Sidebar = (props) => {
     menuItem: {
       color: white,
       fontSize: 14
+    },
+    divider: {
+      margin: 15
     },
     avatar: {
       div: {
@@ -77,6 +82,7 @@ const Sidebar = (props) => {
         <span style={styles.avatar.emailSpan}>{props.emailAddress}</span>
         <span style={styles.avatar.loginSpan}>{props.lastLogin}</span>
       </div>
+          <Divider style={styles.divider} />
       <div>
         {menus.map((menu, index) =>
           <MenuItem

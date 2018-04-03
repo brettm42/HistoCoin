@@ -53,6 +53,9 @@ class FormPage extends React.Component {
         form: {
             paddingBottom: 90
         },
+        divider: {
+            marginBottom: 45
+        },
       toggleDiv: {
         maxWidth: 300,
         marginTop: 40,
@@ -133,7 +136,9 @@ class FormPage extends React.Component {
                 primary={true} />
             </div>
         </form>
-                    
+
+        <Divider style={styles.divider} />
+
           <div className="row">
               <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
                   <InfoBar

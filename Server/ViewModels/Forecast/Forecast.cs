@@ -222,6 +222,7 @@ namespace HistoCoin.Server.ViewModels.Forecast
             this.HistoricalDates = record.History?.GetDates(DefaultHistoryPopulation + 1) ?? new string[PollDepth + 1];
             this.HistoricalValues = record.History?.GetValues(DefaultHistoryPopulation + 1) ?? new double[PollDepth + 1];
 
+            // set mean forecasting values
             var dailyChange = Numerics.CalculateTrend(this.HistoricalValues, PollDepth);
             this.DailyChange =
                 Normalize(dailyChange, this._coinService.BaseCurrency);
@@ -238,6 +239,7 @@ namespace HistoCoin.Server.ViewModels.Forecast
                     Numerics.CalculateFutureWorth(forecastValue, this.Count),
                     this._coinService.BaseCurrency);
 
+            // set eager forecasting values
             var nearDailyChange = Numerics.CalculateTrend(this.HistoricalValues, NearPollDepth);
             this.NearDailyChange =
                 Normalize(nearDailyChange, this._coinService.BaseCurrency);
@@ -254,6 +256,7 @@ namespace HistoCoin.Server.ViewModels.Forecast
                     Numerics.CalculateFutureWorth(nearForecastValue, this.Count),
                     this._coinService.BaseCurrency);
 
+            // set skeptical forecasting values
             var farHistoricalValues = record.History?.GetValues(FarPollDepth + 1) ?? new double[FarPollDepth + 1];
             var farDailyChange = Numerics.CalculateTrend(farHistoricalValues, FarPollDepth);
             this.FarDailyChange =
