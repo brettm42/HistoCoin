@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
+import Subheader from 'material-ui/Subheader';
 import { white, grey800 } from 'material-ui/styles/colors';
 import { typography } from 'material-ui/styles';
 
@@ -11,20 +12,20 @@ class InfoBar extends React.Component {
 
     const styles = {
       content: {
-        padding: '5px 10px',
-        height: 80
+        height: 120
       },
       number: {
         display: 'block',
         fontWeight: 'bold',
         fontSize: 18,
-        paddingTop: 10,
-        color: grey800
+        padding: '5px 10px',
+        color: grey800,
       },
       text: {
         fontSize: 18,
         fontWeight: typography.fontWeightLight,
-        color: grey800
+        color: grey800,
+        backgroundColor: color
       },
       iconSpan: {
         float: 'left',
@@ -51,7 +52,7 @@ class InfoBar extends React.Component {
                 : <div />}
             
         <div style={styles.content}>
-          <span style={styles.text}>{title ? title : "-"}</span>
+          <Subheader style={styles.text}>{title ? title : "-"}</Subheader>
           <span style={styles.number}>{value ? value : "-"}</span>
         </div>
       </Paper>
