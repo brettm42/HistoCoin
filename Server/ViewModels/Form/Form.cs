@@ -126,36 +126,40 @@ namespace HistoCoin.Server.ViewModels.Form
         public Action<SavedCoinInfo> Save => changes =>
         {
             var record = this._coinService.GetById(changes.Id);
-            if (record != null)
+            if (record == null)
             {
-                record.Handle = changes.Handle;
-                record.Count = changes.Count ?? record.Count;
-                record.StartingValue = changes.StartingValue ?? record.StartingValue;
-
-                this._coinService.Update(record);
-                Changed(nameof(this.Coins));
+                return;
             }
+
+            record.Handle = changes.Handle;
+            record.Count = changes.Count ?? record.Count;
+            record.StartingValue = changes.StartingValue ?? record.StartingValue;
+
+            this._coinService.Update(record);
+            Changed(nameof(this.Coins));
         };
 
         private void LoadCoin(int id)
         {
             var record = this._coinService.GetById(id);
-            if (record != null)
+            if (record == null)
             {
-                this.Id = record.Id;
-                this.Handle = record.Handle;
-                this.Count = record.Count;
-                this.StartingValue = Normalize(record.StartingValue, this._coinService.BaseCurrency);
-                this.CurrentValue = Normalize(record.CurrentValue, this._coinService.BaseCurrency);
-                this.Delta = Normalize(record.Delta, this._coinService.BaseCurrency);
-                this.Worth = Normalize(record.Worth, this._coinService.BaseCurrency);
-                this.HistoricalDates = record.History?.GetDates(DefaultHistoryPopulation) ?? new string[0];
-                this.HistoricalValues = record.History?.GetValues(DefaultHistoryPopulation) ?? new double[0];
-                this.Trend =
-                    Normalize(
-                        Numerics.CalculateLinearTrend(this.HistoricalValues), 
-                        this._coinService.BaseCurrency);
+                return;
             }
+
+            this.Id = record.Id;
+            this.Handle = record.Handle;
+            this.Count = record.Count;
+            this.StartingValue = Normalize(record.StartingValue, this._coinService.BaseCurrency);
+            this.CurrentValue = Normalize(record.CurrentValue, this._coinService.BaseCurrency);
+            this.Delta = Normalize(record.Delta, this._coinService.BaseCurrency);
+            this.Worth = Normalize(record.Worth, this._coinService.BaseCurrency);
+            this.HistoricalDates = record.History?.GetDates(DefaultHistoryPopulation) ?? new string[0];
+            this.HistoricalValues = record.History?.GetValues(DefaultHistoryPopulation) ?? new double[0];
+            this.Trend =
+                Normalize(
+                    Numerics.CalculateLinearTrend(this.HistoricalValues), 
+                    this._coinService.BaseCurrency);
         }
     }
 }

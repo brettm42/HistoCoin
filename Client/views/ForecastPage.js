@@ -42,7 +42,15 @@ class ForecastPage extends React.Component {
       DailyChange: '',
       Trend: '',
       ForecastValue: '',
-      ForecastWorth: ''
+      ForecastWorth: '',
+      NearDailyChange: '',
+      NearTrend: '',
+      NearForecastValue: '',
+      NearForecastWorth: '',
+      FarDailyChange: '',
+      FarTrend: '',
+      FarForecastValue: '',
+      FarForecastWorth: ''
     };
   }
 
@@ -51,7 +59,7 @@ class ForecastPage extends React.Component {
   }
 
   render() {
-    let { dirty, Coins, Id, Handle, Count, StartingValue, Worth, CurrentValue, Delta, HistoricalDates, HistoricalValues, DailyChange, Trend, ForecastValue, ForecastWorth } = this.state;
+    let { dirty, Coins, Id, Handle, Count, StartingValue, Worth, CurrentValue, Delta, HistoricalDates, HistoricalValues, DailyChange, Trend, ForecastValue, ForecastWorth, NearDailyChange, NearTrend, NearForecastValue, NearForecastWorth, FarDailyChange, FarTrend, FarForecastValue, FarForecastWorth } = this.state;
 
     const styles = {
         selectLabel: { color: pink400 },
@@ -199,8 +207,104 @@ class ForecastPage extends React.Component {
                       title="Forecast Worth (USD)"
                       value={`$${this.state.ForecastWorth}`}
                   />
-              </div>
+                </div>
             </div>
+
+            <div className="row">
+                <div className="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-md m-b-15">
+                    <InfoBar style={styles.trendDiv}
+                        icon={null}
+                        color={orange200}
+                        title="Eager Daily Change (USD)"
+                        value={<InlineInfo
+                            leftValue=
+                            {this.state.NearDailyChange === 0 || this.state.NearDailyChange === null
+                                ? <Avatar icon={<ContentRemoveCircle />} />
+                                : (this.state.NearDailyChange > 0
+                                    ? <Avatar icon={<NavigationArrowDropUp />} />
+                                    : <Avatar icon={<NavigationArrowDropDown />} />)}
+                            rightValue={`$ ${this.state.NearDailyChange > 0 ? `+${this.state.NearDailyChange}` : this.state.NearDailyChange}`} />}
+                    />
+
+                    <InfoBar
+                        icon={null}
+                        color={blue200}
+                        title="Eager Forecast Value (USD)"
+                        value={`$${this.state.NearForecastValue}`}
+                    />
+                </div>
+
+                <div className="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-md m-b-15">
+                    <InfoBar style={styles.trendDiv}
+                        icon={null}
+                        color={orange200}
+                        title="Eager Daily Trend (USD)"
+                        value={<InlineInfo
+                            leftValue=
+                            {this.state.NearTrend === 0 || this.state.NearTrend === null
+                                ? <Avatar icon={<ContentRemoveCircle />} />
+                                : (this.state.NearTrend > 0
+                                    ? <Avatar icon={<NavigationArrowDropUp />} />
+                                    : <Avatar icon={<NavigationArrowDropDown />} />)}
+                            rightValue={`${this.state.NearTrend > 0 ? `+${this.state.NearTrend}` : this.state.NearTrend} %`} />}
+                    />
+
+                    <InfoBar
+                        icon={null}
+                        color={blue200}
+                        title="Eager Forecast Worth (USD)"
+                        value={`$${this.state.NearForecastWorth}`}
+                    />
+                  </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-md m-b-15">
+                        <InfoBar style={styles.trendDiv}
+                            icon={null}
+                            color={orange200}
+                            title="Skeptic Daily Change (USD)"
+                            value={<InlineInfo
+                                leftValue=
+                                {this.state.FarDailyChange === 0 || this.state.FarDailyChange === null
+                                    ? <Avatar icon={<ContentRemoveCircle />} />
+                                    : (this.state.FarDailyChange > 0
+                                        ? <Avatar icon={<NavigationArrowDropUp />} />
+                                        : <Avatar icon={<NavigationArrowDropDown />} />)}
+                                rightValue={`$ ${this.state.FarDailyChange > 0 ? `+${this.state.FarDailyChange}` : this.state.FarDailyChange}`} />}
+                        />
+
+                        <InfoBar
+                            icon={null}
+                            color={blue200}
+                            title="Skeptic Forecast Value (USD)"
+                            value={`$${this.state.FarForecastValue}`}
+                        />
+                    </div>
+
+                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-md m-b-15">
+                        <InfoBar style={styles.trendDiv}
+                            icon={null}
+                            color={orange200}
+                            title="Skeptic Daily Trend (USD)"
+                            value={<InlineInfo
+                                leftValue=
+                                {this.state.FarTrend === 0 || this.state.FarTrend === null
+                                    ? <Avatar icon={<ContentRemoveCircle />} />
+                                    : (this.state.FarTrend > 0
+                                        ? <Avatar icon={<NavigationArrowDropUp />} />
+                                        : <Avatar icon={<NavigationArrowDropDown />} />)}
+                                rightValue={`${this.state.FarTrend > 0 ? `+${this.state.FarTrend}` : this.state.FarTrend} %`} />}
+                        />
+
+                        <InfoBar
+                            icon={null}
+                            color={blue200}
+                            title="Skeptic Forecast Worth (USD)"
+                            value={`$${this.state.FarForecastWorth}`}
+                        />
+                    </div>
+                </div>
           </div>
         </div>
       </BasePage>

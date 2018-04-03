@@ -24,6 +24,10 @@ namespace HistoCoin.Server.Infrastructure
             }
 
             var rms = new List<double>();
+            if (historicalValues.Length < depth)
+            {
+                depth = historicalValues.Length;
+            }
 
             var total = historicalValues.TakeLast(depth).Sum();
             var rootMeanSqr = SquareDeviation(historicalValues.TakeLast(depth).ToArray(), 0, depth);
@@ -66,6 +70,11 @@ namespace HistoCoin.Server.Infrastructure
             double ssY = 0;
             double sumCod = 0;
             double sCo = 0;
+
+            if (values.Count < depth)
+            {
+                depth = values.Count - 1;
+            }
 
             for (var i = values.Count - depth - 1; i < values.Count; i++)
             {
