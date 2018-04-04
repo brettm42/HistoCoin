@@ -167,7 +167,7 @@ class ForecastPage extends React.Component {
 
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-md m-b-15">
+                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-5 col-md m-b-15">
                         <InfoBar style={styles.trendDiv}
                             icon={null}
                             color={orange200}
@@ -190,7 +190,7 @@ class ForecastPage extends React.Component {
                         />
                         </div>
 
-                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-md m-b-15">
+                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-5 col-md m-b-15">
                         <InfoBar style={styles.trendDiv}
                             icon={null}
                             color={orange200}
@@ -215,7 +215,7 @@ class ForecastPage extends React.Component {
             </div>
 
             <div className="row">
-                <div className="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-md m-b-15">
+                <div className="col-xs-6 col-sm-6 col-md-6 col-lg-5 col-md m-b-15">
                     <InfoBar style={styles.trendDiv}
                         icon={null}
                         color={orange200}
@@ -238,7 +238,7 @@ class ForecastPage extends React.Component {
                     />
                 </div>
 
-                <div className="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-md m-b-15">
+                <div className="col-xs-6 col-sm-6 col-md-6 col-lg-5 col-md m-b-15">
                     <InfoBar style={styles.trendDiv}
                         icon={null}
                         color={orange200}
@@ -263,7 +263,7 @@ class ForecastPage extends React.Component {
                 </div>
 
                 <div className="row">
-                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-md m-b-15">
+                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-5 col-md m-b-15">
                         <InfoBar style={styles.trendDiv}
                             icon={null}
                             color={orange200}
@@ -286,7 +286,7 @@ class ForecastPage extends React.Component {
                         />
                     </div>
 
-                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-md m-b-15">
+                    <div className="col-xs-6 col-sm-6 col-md-6 col-lg-5 col-md m-b-15">
                         <InfoBar style={styles.trendDiv}
                             icon={null}
                             color={orange200}
