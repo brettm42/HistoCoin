@@ -9,17 +9,16 @@ const CoinHistory = (props) => {
   const styles = {
     paper: {
         backgroundColor: 'white',
-      height: 150
+      height: 220
     },
     div: {
-      height: 95,
-      padding: '5px 15px 0 15px',
+      padding: '5px 15px 0 15px'
     },
     header: {
       fontSize: 24,
       color: 'black',
       backgroundColor: 'white',
-      padding: 10,
+      padding: 10
     }
   };
 
@@ -59,7 +58,7 @@ const CoinHistory = (props) => {
 CoinHistory.propTypes = {
     data: PropTypes.array,
     dates: PropTypes.array,
-    color: PropTypes.string,
+    color: PropTypes.string
 };
 
 export default CoinHistory;

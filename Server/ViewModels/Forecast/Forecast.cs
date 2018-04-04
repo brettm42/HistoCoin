@@ -23,7 +23,7 @@ namespace HistoCoin.Server.ViewModels.Forecast
         private const int ForecastReach = 7;
 
         private readonly ICoinService _coinService;
-        
+
         public RoutingState RoutingState { get; set; }
 
         public IEnumerable<CoinInfo> Coins =>
@@ -104,86 +104,23 @@ namespace HistoCoin.Server.ViewModels.Forecast
             set => Set(value);
         }
 
-        public double DailyChange
+        public ForecastData ForecastData
         {
-            get => Get<double>();
+            get => Get<ForecastData>();
 
             set => Set(value);
         }
 
-        public double Trend
+        public ForecastData NearForecastData
         {
-            get => Get<double>();
+            get => Get<ForecastData>();
 
             set => Set(value);
         }
 
-        public double ForecastValue
+        public ForecastData FarForecastData
         {
-            get => Get<double>();
-
-            set => Set(value);
-        }
-
-        public double ForecastWorth
-        {
-            get => Get<double>();
-
-            set => Set(value);
-        }
-
-        public double NearDailyChange
-        {
-            get => Get<double>();
-
-            set => Set(value);
-        }
-
-        public double NearTrend
-        {
-            get => Get<double>();
-
-            set => Set(value);
-        }
-
-        public double NearForecastValue
-        {
-            get => Get<double>();
-
-            set => Set(value);
-        }
-
-        public double NearForecastWorth
-        {
-            get => Get<double>();
-
-            set => Set(value);
-        }
-
-        public double FarDailyChange
-        {
-            get => Get<double>();
-
-            set => Set(value);
-        }
-
-        public double FarTrend
-        {
-            get => Get<double>();
-
-            set => Set(value);
-        }
-
-        public double FarForecastValue
-        {
-            get => Get<double>();
-
-            set => Set(value);
-        }
-
-        public double FarForecastWorth
-        {
-            get => Get<double>();
+            get => Get<ForecastData>();
 
             set => Set(value);
         }
@@ -224,55 +161,67 @@ namespace HistoCoin.Server.ViewModels.Forecast
 
             // set mean forecasting values
             var dailyChange = Numerics.CalculateTrend(this.HistoricalValues, PollDepth);
-            this.DailyChange =
-                Normalize(dailyChange, this._coinService.BaseCurrency);
-            this.Trend =
-                Normalize(
-                    Numerics.CalculateLinearTrend(this.HistoricalValues, PollDepth),
-                    this._coinService.BaseCurrency);
-            var forecastValue = 
+            var forecastValue =
                 Numerics.CalculateFutureValue(dailyChange, record.CurrentValue, ForecastReach);
-            this.ForecastValue =
-                Normalize(forecastValue, this._coinService.BaseCurrency);
-            this.ForecastWorth = 
-                Normalize(
-                    Numerics.CalculateFutureWorth(forecastValue, this.Count),
-                    this._coinService.BaseCurrency);
-
+            this.ForecastData = 
+                new ForecastData
+                {
+                    DailyChange = 
+                        Normalize(dailyChange, this._coinService.BaseCurrency),
+                    Trend = 
+                        Normalize(
+                            Numerics.CalculateLinearTrend(this.HistoricalValues, PollDepth),
+                            this._coinService.BaseCurrency),
+                    ForecastValue = 
+                        Normalize(forecastValue, this._coinService.BaseCurrency),
+                    ForecastWorth =
+                        Normalize(
+                            Numerics.CalculateFutureWorth(forecastValue, this.Count),
+                            this._coinService.BaseCurrency),
+                };
+                
             // set eager forecasting values
             var nearDailyChange = Numerics.CalculateTrend(this.HistoricalValues, NearPollDepth);
-            this.NearDailyChange =
-                Normalize(nearDailyChange, this._coinService.BaseCurrency);
-            this.NearTrend =
-                Normalize(
-                    Numerics.CalculateLinearTrend(this.HistoricalValues, NearPollDepth),
-                    this._coinService.BaseCurrency);
             var nearForecastValue =
                 Numerics.CalculateFutureValue(nearDailyChange, record.CurrentValue, ForecastReach);
-            this.NearForecastValue =
-                Normalize(nearForecastValue, this._coinService.BaseCurrency);
-            this.NearForecastWorth =
-                Normalize(
-                    Numerics.CalculateFutureWorth(nearForecastValue, this.Count),
-                    this._coinService.BaseCurrency);
-
+            this.NearForecastData =
+                new ForecastData
+                {
+                    DailyChange = 
+                        Normalize(nearDailyChange, this._coinService.BaseCurrency),
+                    Trend = 
+                        Normalize(
+                            Numerics.CalculateLinearTrend(this.HistoricalValues, NearPollDepth),
+                            this._coinService.BaseCurrency),
+                    ForecastValue =
+                        Normalize(nearForecastValue, this._coinService.BaseCurrency),
+                    ForecastWorth =
+                        Normalize(
+                            Numerics.CalculateFutureWorth(nearForecastValue, this.Count),
+                            this._coinService.BaseCurrency)
+                };
+            
             // set skeptical forecasting values
             var farHistoricalValues = record.History?.GetValues(FarPollDepth + 1) ?? new double[FarPollDepth + 1];
             var farDailyChange = Numerics.CalculateTrend(farHistoricalValues, FarPollDepth);
-            this.FarDailyChange =
-                Normalize(farDailyChange, this._coinService.BaseCurrency);
-            this.FarTrend =
-                Normalize(
-                    Numerics.CalculateLinearTrend(farHistoricalValues, FarPollDepth),
-                    this._coinService.BaseCurrency);
             var farForecastValue =
                 Numerics.CalculateFutureValue(farDailyChange, record.CurrentValue, ForecastReach);
-            this.FarForecastValue =
-                Normalize(farForecastValue, this._coinService.BaseCurrency);
-            this.FarForecastWorth =
-                Normalize(
-                    Numerics.CalculateFutureWorth(farForecastValue, this.Count),
-                    this._coinService.BaseCurrency);
+            this.FarForecastData =
+                new ForecastData
+                {
+                    DailyChange = 
+                        Normalize(farDailyChange, this._coinService.BaseCurrency),
+                    Trend =
+                        Normalize(
+                            Numerics.CalculateLinearTrend(farHistoricalValues, FarPollDepth),
+                            this._coinService.BaseCurrency),
+                    ForecastValue =
+                        Normalize(farForecastValue, this._coinService.BaseCurrency),
+                    ForecastWorth =
+                        Normalize(
+                            Numerics.CalculateFutureWorth(farForecastValue, this.Count),
+                            this._coinService.BaseCurrency),
+                };
         }
     }
 }

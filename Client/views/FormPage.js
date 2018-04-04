@@ -51,7 +51,7 @@ class FormPage extends React.Component {
     const styles = {
         selectLabel: { color: pink400 },
         form: {
-            paddingBottom: 90
+            paddingBottom: 50
         },
         divider: {
             marginBottom: 45
@@ -68,9 +68,12 @@ class FormPage extends React.Component {
       buttons: {
         marginTop: 30,
         float: 'right'
-      }, 
+        }, 
+        infoDiv: {
+            padding: '25px 25px'
+        },
       trendDiv: {
-        height: 150
+        height: '300px'
       },
       saveButton: { marginLeft: 5 }
     };
@@ -88,7 +91,8 @@ class FormPage extends React.Component {
       };
 
     return (
-      <MuiThemeProvider muiTheme={ThemeDefault}>
+        <MuiThemeProvider muiTheme={ThemeDefault}>
+            <div>
         <BasePage title="Coin Details" navigation="HistoCoin / Coin Details">
             <div>
           <form style={styles.form}>
@@ -134,12 +138,12 @@ class FormPage extends React.Component {
                 disabled={!dirty}
                 style={styles.saveButton}
                 primary={true} />
-            </div>
-        </form>
+              </div>
+            </form>
+          </div>
+        </BasePage>
 
-        <Divider style={styles.divider} />
-
-          <div className="row">
+        <div className="row" style={styles.infoDiv}>
               <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
                   <InfoBar
                       icon={null}
@@ -167,32 +171,31 @@ class FormPage extends React.Component {
                 </div>
 
               <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-md m-b-15">
-                  <InfoBar style={styles.trendDiv}
-                           icon={null}
-                           color={orange200}
-                           title="Daily Trend (USD)"
-                           value={<InlineInfo
-                                    leftValue=
-                                    {this.state.Trend === 0 || this.state.Trend === null
-                                        ? <Avatar icon={<ContentRemoveCircle />} />
-                                        : (this.state.Trend > 0
-                                            ? <Avatar icon={<NavigationArrowDropUp />} />
-                                            : <Avatar icon={<NavigationArrowDropDown />} />)}
-                                    rightValue={`${this.state.Trend > 0 ? `+${this.state.Trend}` : this.state.Trend} %`} />}
+                  <InfoBar
+                    icon={null}
+                    color={orange200}
+                    title="Daily Trend (USD)"
+                    value={<InlineInfo
+                          leftValue=
+                            {this.state.Trend === 0 || this.state.Trend === null
+                                ? <Avatar icon={<ContentRemoveCircle />} />
+                                : (this.state.Trend > 0
+                                    ? <Avatar icon={<NavigationArrowDropUp />} />
+                                    : <Avatar icon={<NavigationArrowDropDown />} />)}
+                            rightValue={`${this.state.Trend > 0 ? `+${this.state.Trend}` : this.state.Trend} %`} />}
                   />
               </div>
             </div>
 
-            <div className="row">
-                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15">
-                    <CoinHistory
-                        data={this.state.HistoricalValues}
-                        dates={this.state.HistoricalDates}
-                        color={grey200} />
-                        </div>
+            <div className="row" style={styles.trendDiv}>
+              <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15">
+                <CoinHistory
+                    data={this.state.HistoricalValues}
+                    dates={this.state.HistoricalDates}
+                    color={grey200} />
+              </div>
             </div>
         </div>
-      </BasePage>
     </MuiThemeProvider>
     );
   }
