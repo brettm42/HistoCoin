@@ -37,8 +37,7 @@ class ForecastPage extends React.Component {
       Worth: '',
       CurrentValue: '',
       Delta: '',
-      HistoricalValues: [],
-      HistoricalDates: [],
+      HistoricalGraph: '',
       ForecastData: '',
       NearForecastData: '',
       FarForecastData: ''
@@ -50,7 +49,7 @@ class ForecastPage extends React.Component {
   }
 
   render() {
-    let { dirty, Coins, Id, Handle, Count, StartingValue, Worth, CurrentValue, Delta, HistoricalDates, HistoricalValues, ForecastData, NearForecastData, FarForecastData } = this.state;
+    let { dirty, Coins, Id, Handle, Count, StartingValue, Worth, CurrentValue, Delta, HistoricalGraph, ForecastData, NearForecastData, FarForecastData } = this.state;
 
     const styles = {
         selectLabel: { color: pink400 },
@@ -150,8 +149,8 @@ class ForecastPage extends React.Component {
             <div className="row">
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15">
                 <CoinHistory
-                    data={this.state.HistoricalValues}
-                    dates={this.state.HistoricalDates}
+                    data={this.state.HistoricalGraph.Values}
+                    dates={this.state.HistoricalGraph.Labels}
                     color={grey200} />
                 </div>
             </div>

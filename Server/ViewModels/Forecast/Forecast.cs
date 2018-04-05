@@ -31,15 +31,16 @@ namespace HistoCoin.Server.ViewModels.Forecast
                 .GetAll()
                 .Where(i => i != null)
                 .OrderBy(i => i.Handle)
-                .Select(i =>
-                    new CoinInfo
-                    {
-                        Id = i.Id,
-                        Handle = i.Handle,
-                        Count = i.Count,
-                        StartingValue = i.StartingValue,
-                        Route = this.Redirect(AppLayout.ForecastPagePath, i.Id.ToString())
-                    });
+                .Select(
+                    i =>
+                        new CoinInfo
+                        {
+                            Id = i.Id,
+                            Handle = i.Handle,
+                            Count = i.Count,
+                            StartingValue = i.StartingValue,
+                            Route = this.Redirect(AppLayout.ForecastPagePath, i.Id.ToString())
+                        });
 
         public int Id
         {
@@ -90,16 +91,30 @@ namespace HistoCoin.Server.ViewModels.Forecast
             set => Set(value);
         }
 
-        public double[] HistoricalValues
+        public ForecastGraph HistoricalGraph
         {
-            get => Get<double[]>();
+            get => Get<ForecastGraph>();
 
             set => Set(value);
         }
 
-        public string[] HistoricalDates
+        public ForecastGraph ForecastGraph
         {
-            get => Get<string[]>();
+            get => Get<ForecastGraph>();
+
+            set => Set(value);
+        }
+
+        public ForecastGraph NearForecastGraph
+        {
+            get => Get<ForecastGraph>();
+
+            set => Set(value);
+        }
+
+        public ForecastGraph FarForecastGraph
+        {
+            get => Get<ForecastGraph>();
 
             set => Set(value);
         }
@@ -144,7 +159,7 @@ namespace HistoCoin.Server.ViewModels.Forecast
         private void LoadCoin(int id)
         {
             var record = this._coinService.GetById(id);
-            if (record == null)
+            if (record is null)
             {
                 return;
             }
@@ -152,46 +167,72 @@ namespace HistoCoin.Server.ViewModels.Forecast
             this.Id = record.Id;
             this.Handle = record.Handle;
             this.Count = record.Count;
-            this.StartingValue = Normalize(record.StartingValue, this._coinService.BaseCurrency);
-            this.CurrentValue = Normalize(record.CurrentValue, this._coinService.BaseCurrency);
-            this.Delta = Normalize(record.Delta, this._coinService.BaseCurrency);
-            this.Worth = Normalize(record.Worth, this._coinService.BaseCurrency);
-            this.HistoricalDates = record.History?.GetDates(DefaultHistoryPopulation + 1) ?? new string[PollDepth + 1];
-            this.HistoricalValues = record.History?.GetValues(DefaultHistoryPopulation + 1) ?? new double[PollDepth + 1];
+            this.StartingValue = 
+                Normalize(record.StartingValue, this._coinService.BaseCurrency);
+            this.CurrentValue = 
+                Normalize(record.CurrentValue, this._coinService.BaseCurrency);
+            this.Delta = 
+                Normalize(record.Delta, this._coinService.BaseCurrency);
+            this.Worth = 
+                Normalize(record.Worth, this._coinService.BaseCurrency);
+
+            this.HistoricalGraph = 
+                new ForecastGraph
+                {
+                    Labels = 
+                        record.History?.GetDates(DefaultHistoryPopulation + 1) ?? new string[PollDepth + 1],
+                    Values = 
+                        record.History?.GetValues(DefaultHistoryPopulation + 1) ?? new double[PollDepth + 1],
+                };
 
             // set mean forecasting values
-            var dailyChange = Numerics.CalculateTrend(this.HistoricalValues, PollDepth);
+            this.UpdateForecastData(record);
+                
+            // set eager forecasting values
+            this.UpdateNearForecastData(record);
+            
+            // set skeptical forecasting values
+            this.UpdateFarForecastData(record);
+        }
+
+        private void UpdateForecastData(ICoin record)
+        {
+            var dailyChange =
+                Numerics.CalculateTrend(this.HistoricalGraph.Values, PollDepth);
             var forecastValue =
                 Numerics.CalculateFutureValue(dailyChange, record.CurrentValue, ForecastReach);
-            this.ForecastData = 
+            this.ForecastData =
                 new ForecastData
                 {
-                    DailyChange = 
+                    DailyChange =
                         Normalize(dailyChange, this._coinService.BaseCurrency),
-                    Trend = 
+                    Trend =
                         Normalize(
-                            Numerics.CalculateLinearTrend(this.HistoricalValues, PollDepth),
+                            Numerics.CalculateLinearTrend(this.HistoricalGraph.Values, PollDepth),
                             this._coinService.BaseCurrency),
-                    ForecastValue = 
+                    ForecastValue =
                         Normalize(forecastValue, this._coinService.BaseCurrency),
                     ForecastWorth =
                         Normalize(
                             Numerics.CalculateFutureWorth(forecastValue, this.Count),
                             this._coinService.BaseCurrency),
                 };
-                
-            // set eager forecasting values
-            var nearDailyChange = Numerics.CalculateTrend(this.HistoricalValues, NearPollDepth);
+        }
+
+        private void UpdateNearForecastData(ICoin record)
+        {
+            var nearDailyChange =
+                Numerics.CalculateTrend(this.HistoricalGraph.Values, NearPollDepth);
             var nearForecastValue =
                 Numerics.CalculateFutureValue(nearDailyChange, record.CurrentValue, ForecastReach);
             this.NearForecastData =
                 new ForecastData
                 {
-                    DailyChange = 
+                    DailyChange =
                         Normalize(nearDailyChange, this._coinService.BaseCurrency),
-                    Trend = 
+                    Trend =
                         Normalize(
-                            Numerics.CalculateLinearTrend(this.HistoricalValues, NearPollDepth),
+                            Numerics.CalculateLinearTrend(this.HistoricalGraph.Values, NearPollDepth),
                             this._coinService.BaseCurrency),
                     ForecastValue =
                         Normalize(nearForecastValue, this._coinService.BaseCurrency),
@@ -200,16 +241,20 @@ namespace HistoCoin.Server.ViewModels.Forecast
                             Numerics.CalculateFutureWorth(nearForecastValue, this.Count),
                             this._coinService.BaseCurrency)
                 };
-            
-            // set skeptical forecasting values
-            var farHistoricalValues = record.History?.GetValues(FarPollDepth + 1) ?? new double[FarPollDepth + 1];
-            var farDailyChange = Numerics.CalculateTrend(farHistoricalValues, FarPollDepth);
+        }
+
+        private void UpdateFarForecastData(ICoin record)
+        {
+            var farHistoricalValues =
+                record.History?.GetValues(FarPollDepth + 1) ?? new double[FarPollDepth + 1];
+            var farDailyChange =
+                Numerics.CalculateTrend(farHistoricalValues, FarPollDepth);
             var farForecastValue =
                 Numerics.CalculateFutureValue(farDailyChange, record.CurrentValue, ForecastReach);
             this.FarForecastData =
                 new ForecastData
                 {
-                    DailyChange = 
+                    DailyChange =
                         Normalize(farDailyChange, this._coinService.BaseCurrency),
                     Trend =
                         Normalize(

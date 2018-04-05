@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "ce662fe2ef2c6c387596"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "07b610be80843de6396d"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16579,8 +16579,7 @@ var ForecastPage = function (_React$Component) {
             Worth: '',
             CurrentValue: '',
             Delta: '',
-            HistoricalValues: [],
-            HistoricalDates: [],
+            HistoricalGraph: '',
             ForecastData: '',
             NearForecastData: '',
             FarForecastData: ''
@@ -16608,8 +16607,7 @@ var ForecastPage = function (_React$Component) {
                 Worth = _state.Worth,
                 CurrentValue = _state.CurrentValue,
                 Delta = _state.Delta,
-                HistoricalDates = _state.HistoricalDates,
-                HistoricalValues = _state.HistoricalValues,
+                HistoricalGraph = _state.HistoricalGraph,
                 ForecastData = _state.ForecastData,
                 NearForecastData = _state.NearForecastData,
                 FarForecastData = _state.FarForecastData;
@@ -16687,17 +16685,17 @@ var ForecastPage = function (_React$Component) {
                                 { className: 'col-xs-12 col-sm-12 col-md-5 col-lg-5 m-b-15 ', style: styles.infoBar },
                                 _react2.default.createElement(_InfoBar2.default, {
                                     icon: null,
-                                    color: _colors.blue200,
+                                    color: null,
                                     title: 'Coin Handle',
                                     value: Handle }),
                                 _react2.default.createElement(_InfoBar2.default, {
                                     icon: null,
-                                    color: _colors.blue200,
+                                    color: null,
                                     title: 'Current wallet count',
                                     value: Count }),
                                 _react2.default.createElement(_InfoBar2.default, {
                                     icon: null,
-                                    color: _colors.blue200,
+                                    color: null,
                                     title: 'Cost on purchase (USD)',
                                     value: StartingValue })
                             ),
@@ -16731,8 +16729,8 @@ var ForecastPage = function (_React$Component) {
                                 'div',
                                 { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15' },
                                 _react2.default.createElement(_CoinHistory2.default, {
-                                    data: this.state.HistoricalValues,
-                                    dates: this.state.HistoricalDates,
+                                    data: this.state.HistoricalGraph.Values,
+                                    dates: this.state.HistoricalGraph.Labels,
                                     color: _colors.grey200 })
                             )
                         ),
