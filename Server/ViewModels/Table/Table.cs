@@ -28,15 +28,16 @@ namespace HistoCoin.Server.ViewModels.Table
                 this._coinService
                     .GetAll()
                     .Where(i => i != null)
-                    .Select(i => 
-                        new CoinInfo
-                        {
-                            Id = i.Id,
-                            Handle = i.Handle,
-                            Count = i.Count,
-                            StartingValue = i.StartingValue,
-                            LastUpdate = DateTimeOffset.Parse(i.History.GetLastEntryTime()),
-                        }));
+                    .Select(
+                        i => 
+                            new CoinInfo
+                            {
+                                Id = i.Id,
+                                Handle = i.Handle,
+                                Count = i.Count,
+                                StartingValue = i.StartingValue,
+                                LastUpdate = DateTimeOffset.Parse(i.History.GetLastEntryTime()),
+                            }));
 
         public Action<string> Add => coinDetails =>
         {

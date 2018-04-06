@@ -127,11 +127,7 @@ namespace HistoCoin.Server.Services.CacheService
                             this.StorageLocation, $"*.{DefaultCacheExtension}", SearchOption.AllDirectories)
                         .OrderBy(i => i);
 
-                var deletionQueue =
-                    legacyCache
-                        .Skip(MaxCachedFiles);
-
-                foreach (var file in deletionQueue)
+                foreach (var file in legacyCache.Skip(MaxCachedFiles))
                 {
                     File.Delete(file);
                 }

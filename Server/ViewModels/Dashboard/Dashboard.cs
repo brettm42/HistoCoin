@@ -47,13 +47,15 @@ namespace HistoCoin.Server.ViewModels.Dashboard
             AddProperty<int[]>("DistributionUsd").SubscribeTo(dataService.DistributionUsd);
             AddProperty<int[]>("DistributionBtc").SubscribeTo(dataService.DistributionBtc);
 
-            AddProperty<double[]>("HistValues").SubscribeTo(
-                dataService.ValueHistory
-                    .Select(i => i.GetValues(DefaultHistoryPopulation)));
+            AddProperty<double[]>("HistValues")
+                .SubscribeTo(
+                    dataService.ValueHistory
+                        .Select(i => i.GetValues(DefaultHistoryPopulation)));
 
-            AddProperty<string[]>("HistDates").SubscribeTo(
-                dataService.ValueHistory
-                    .Select(i => i.GetDates(DefaultHistoryPopulation)));
+            AddProperty<string[]>("HistDates")
+                .SubscribeTo(
+                    dataService.ValueHistory
+                        .Select(i => i.GetDates(DefaultHistoryPopulation)));
 
             AddProperty<Currency[]>("CurrentValues")
                 .SubscribeTo(
@@ -62,8 +64,7 @@ namespace HistoCoin.Server.ViewModels.Dashboard
                         {
                             var values =
                                 new Queue<Currency>(
-                                    Get<Currency[]>(nameof(dataService.CurrentValues))?.Reverse() 
-                                ?? new Currency[] { });
+                                    Get<Currency[]>(nameof(dataService.CurrentValues))?.Reverse() ?? new Currency[0]);
 
                             values.Enqueue(
                                 new Currency
@@ -88,7 +89,7 @@ namespace HistoCoin.Server.ViewModels.Dashboard
                 Observable
                     .Interval(TimeSpan.FromMilliseconds(300))
                     .StartWith(0)
-                    .Subscribe(_ => PushUpdates());
+                    .Subscribe(_ => this.PushUpdates());
         }
 
         public Action Sync =>

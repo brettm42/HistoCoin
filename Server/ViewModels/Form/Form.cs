@@ -25,15 +25,16 @@ namespace HistoCoin.Server.ViewModels.Form
                 .GetAll()
                 .Where(i => i != null)
                 .OrderBy(i => i.Handle)
-                .Select(i =>
-                    new CoinInfo
-                    {
-                        Id = i.Id,
-                        Handle = i.Handle,
-                        Count = i.Count,
-                        StartingValue = i.StartingValue,
-                        Route = this.Redirect(AppLayout.FormPagePath, i.Id.ToString())
-                    });
+                .Select(
+                    i =>
+                        new CoinInfo
+                        {
+                            Id = i.Id,
+                            Handle = i.Handle,
+                            Count = i.Count,
+                            StartingValue = i.StartingValue,
+                            Route = this.Redirect(AppLayout.FormPagePath, i.Id.ToString())
+                        });
 
         public int Id
         {
@@ -121,16 +122,16 @@ namespace HistoCoin.Server.ViewModels.Form
             });
         }
         
-        public Action<int> Cancel => LoadCoin;
+        public Action<int> Cancel => this.LoadCoin;
 
         public Action<SavedCoinInfo> Save => changes =>
         {
             var record = this._coinService.GetById(changes.Id);
-            if (record == null)
+            if (record is null)
             {
                 return;
             }
-
+            
             record.Handle = changes.Handle;
             record.Count = changes.Count ?? record.Count;
             record.StartingValue = changes.StartingValue ?? record.StartingValue;
@@ -142,7 +143,7 @@ namespace HistoCoin.Server.ViewModels.Form
         private void LoadCoin(int id)
         {
             var record = this._coinService.GetById(id);
-            if (record == null)
+            if (record is null)
             {
                 return;
             }

@@ -30,7 +30,8 @@ namespace HistoCoin.Server.Services.CurrencyService
 
         public double CurrentValue { get; set; } = -1;
 
-        public double Worth => Normalize(this.CurrentValue < 0 ? 0 : this.CurrentValue * this.Count, this.BaseCurrency);
+        public double Worth => 
+            Normalize(this.CurrentValue < 0 ? 0 : this.CurrentValue * this.Count, this.BaseCurrency);
 
         public double Delta { get; set; } = -1;
 

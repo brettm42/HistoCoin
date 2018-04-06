@@ -21,6 +21,8 @@ namespace HistoCoin.Server.ViewModels.AppLayout
             ForecastPage,
         };
 
+        private const string DefaultUrlPlaceholder = "1";
+
         public static string FormPagePath => "Form";
 
         public static string ForecastPagePath => "Forecast";
@@ -31,9 +33,9 @@ namespace HistoCoin.Server.ViewModels.AppLayout
             new List<object>
             {
                 new { Title = "Dashboard", Icon = "assessment", Route = this.GetRoute(nameof(Route.Dashboard)) },
-                new { Title = "Coin Details", Icon = "web", Route = this.GetRoute(nameof(Route.FormPage), $"{FormPagePath}/1") },
+                new { Title = "Coin Details", Icon = "web", Route = this.GetRoute(nameof(Route.FormPage), $"{FormPagePath}/{DefaultUrlPlaceholder}") },
+                new { Title = "Forecasting", Icon = "timeline", Route = this.GetRoute(nameof(Route.ForecastPage), $"{ForecastPagePath}/{DefaultUrlPlaceholder}") },
                 new { Title = "Coin List", Icon = "grid_on", Route = this.GetRoute(nameof(Route.TablePage)) },
-                new { Title = "Forecasting", Icon = "timeline", Route = this.GetRoute(nameof(Route.ForecastPage), $"{ForecastPagePath}/1") },
             };
 
         public string UserName { get; set; }

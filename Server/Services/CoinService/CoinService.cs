@@ -73,28 +73,32 @@
 
         public CoinService AddCacheService(ICacheService<ConcurrentBag<Currency>> cacheService)
         {
-            if (cacheService != null)
+            if (cacheService is null)
             {
-                foreach (var coin in this._coins)
-                {
-                    coin.History =
-                        new History(
-                            CoinService.LoadHistoricalValue(
-                                cacheService.PollHistoricalCache(),
-                                coin.Handle,
-                                this.BaseCurrency));
+                return this;
+            }
 
-                    coin.CurrentValue =
-                        coin.CurrentValue > -1
-                            ? coin.CurrentValue
-                            : coin.History?.GetLastEntryValue() ?? -1;
+            foreach (var coin in this._coins)
+            {
+                coin.History =
+                    new History(
+                        CoinService.LoadHistoricalValue(
+                            cacheService.PollHistoricalCache(),
+                            coin.Handle,
+                            this.BaseCurrency));
 
-                    coin.Delta =
-                        coin.Delta > -1
-                            ? coin.Delta
-                            : DataFetcher.CalculateDelta(coin.CurrentValue * coin.Count,
-                                coin.StartingValue * coin.Count, coin.BaseCurrency);
-                }
+                coin.CurrentValue =
+                    coin.CurrentValue > -1
+                        ? coin.CurrentValue
+                        : coin.History?.GetLastEntryValue() ?? -1;
+
+                coin.Delta =
+                    coin.Delta > -1
+                        ? coin.Delta
+                        : DataFetcher.CalculateDelta(
+                            coin.CurrentValue * coin.Count,
+                            coin.StartingValue * coin.Count, 
+                            coin.BaseCurrency);
             }
 
             return this;
