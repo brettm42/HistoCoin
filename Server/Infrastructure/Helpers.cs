@@ -18,6 +18,19 @@ namespace HistoCoin.Server.Infrastructure
                     : Digits[Currencies.ETH]);
         }
 
+        public static double[] Normalize(double[] values, Currencies currency)
+        {
+            return
+                values.Select(
+                    value =>
+                        Math.Round(
+                            value,
+                            currency == Currencies.USD
+                                ? Digits[Currencies.USD]
+                                : Digits[Currencies.ETH]))
+                    .ToArray();
+        }
+
         public static string Normalize(DateTimeOffset dateTime)
         {
             return dateTime.DateTime.ToString(CultureInfo.CurrentCulture);
@@ -53,6 +66,18 @@ namespace HistoCoin.Server.Infrastructure
             }
 
             return $"{difference.Minutes} minutes ago";    
+        }
+
+        public static string[] DatesFromNow(DateTimeOffset now, int days, CultureInfo culture = default)
+        {
+            var output = new string[days + 1];
+
+            for (var i = 0; i < output.Length; i++)
+            {
+                output[i] = (now + TimeSpan.FromDays(i)).Date.ToShortDateString();
+            }
+
+            return output;
         }
     }
 }

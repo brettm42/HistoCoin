@@ -9,7 +9,7 @@ import SelectField from 'material-ui/SelectField';
 import TextField from 'material-ui/TextField';
 import InfoBar from '../components/form/InfoBar';
 import CoinHistory from '../components/form/CoinHistory';
-import { grey200, grey400, pink400, orange200, blue200, purple600 } from 'material-ui/styles/colors';
+import { grey200, grey400, pink400, orange200, blue200, purple400 } from 'material-ui/styles/colors';
 import BasePage from '../components/BasePage';
 import InlineInfo from '../components/form/InlineInfo';
 import ThemeDefault from '../styles/theme-default';
@@ -38,6 +38,9 @@ class ForecastPage extends React.Component {
       CurrentValue: '',
       Delta: '',
       HistoricalGraph: '',
+      ForecastGraph: '',
+      NearForecastGraph: '',
+      FarForecastGraph: '',
       ForecastData: '',
       NearForecastData: '',
       FarForecastData: ''
@@ -49,7 +52,7 @@ class ForecastPage extends React.Component {
   }
 
   render() {
-    let { dirty, Coins, Id, Handle, Count, StartingValue, Worth, CurrentValue, Delta, HistoricalGraph, ForecastData, NearForecastData, FarForecastData } = this.state;
+    let { dirty, Coins, Id, Handle, Count, StartingValue, Worth, CurrentValue, Delta, HistoricalGraph, ForecastGraph, NearForecastGraph, FarForecastGraph, ForecastData, NearForecastData, FarForecastData } = this.state;
 
     const styles = {
         selectLabel: { color: pink400 },
@@ -160,7 +163,7 @@ class ForecastPage extends React.Component {
                     <div className="col-xs-6 col-sm-6 col-md-6 col-lg-5 col-md m-b-15">
                         <InfoBar style={styles.trendDiv}
                             icon={null}
-                            color={purple600}
+                            color={purple400}
                             title="Daily Change (USD)"
                             value={<InlineInfo
                             leftValue=
@@ -175,7 +178,7 @@ class ForecastPage extends React.Component {
 
                         <InfoBar
                             icon={null}
-                            color={purple600}
+                            color={purple400}
                             title="Forecast Value (USD)"
                             value={`$${this.state.ForecastData.ForecastValue}`}
                         />
@@ -184,7 +187,7 @@ class ForecastPage extends React.Component {
                     <div className="col-xs-6 col-sm-6 col-md-6 col-lg-5 col-md m-b-15">
                         <InfoBar style={styles.trendDiv}
                             icon={null}
-                            color={purple600}
+                            color={purple400}
                             title="Daily Trend (USD)"
                             value={<InlineInfo
                               leftValue=
@@ -198,11 +201,20 @@ class ForecastPage extends React.Component {
 
                   <InfoBar
                       icon={null}
-                      color={purple600}
+                      color={purple400}
                       title="Forecast Worth (USD)"
                       value={`$${this.state.ForecastData.ForecastWorth}`}
                   />
-                </div>
+                            </div>
+
+                    <div className="row">
+                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15">
+                            <CoinHistory
+                                data={this.state.ForecastGraph.Values}
+                                dates={this.state.ForecastGraph.Labels}
+                                color={grey200} />
+                        </div>
+                    </div>
             </div>
 
             <div className="row">
@@ -252,7 +264,16 @@ class ForecastPage extends React.Component {
                         title="Eager Forecast Worth (USD)"
                         value={`$${this.state.NearForecastData.ForecastWorth}`}
                     />
-                  </div>
+                            </div>
+
+                <div className="row">
+                    <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15">
+                        <CoinHistory
+                            data={this.state.NearForecastGraph.Values}
+                            dates={this.state.NearForecastGraph.Labels}
+                            color={grey200} />
+                    </div>
+                </div>
                 </div>
 
                 <div className="row">
@@ -302,6 +323,15 @@ class ForecastPage extends React.Component {
                             title="Skeptical Forecast Worth (USD)"
                             value={`$${this.state.FarForecastData.ForecastWorth}`}
                         />
+                            </div>
+
+                    <div className="row">
+                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15">
+                            <CoinHistory
+                                data={this.state.FarForecastGraph.Values}
+                                dates={this.state.FarForecastGraph.Labels}
+                                color={grey200} />
+                        </div>
                     </div>
                 </div>
           </div>

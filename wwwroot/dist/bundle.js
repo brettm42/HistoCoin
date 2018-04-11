@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "07b610be80843de6396d"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "83e06e667fe06ac943e6"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16580,6 +16580,9 @@ var ForecastPage = function (_React$Component) {
             CurrentValue: '',
             Delta: '',
             HistoricalGraph: '',
+            ForecastGraph: '',
+            NearForecastGraph: '',
+            FarForecastGraph: '',
             ForecastData: '',
             NearForecastData: '',
             FarForecastData: ''
@@ -16608,6 +16611,9 @@ var ForecastPage = function (_React$Component) {
                 CurrentValue = _state.CurrentValue,
                 Delta = _state.Delta,
                 HistoricalGraph = _state.HistoricalGraph,
+                ForecastGraph = _state.ForecastGraph,
+                NearForecastGraph = _state.NearForecastGraph,
+                FarForecastGraph = _state.FarForecastGraph,
                 ForecastData = _state.ForecastData,
                 NearForecastData = _state.NearForecastData,
                 FarForecastData = _state.FarForecastData;
@@ -16745,7 +16751,7 @@ var ForecastPage = function (_React$Component) {
                                     { className: 'col-xs-6 col-sm-6 col-md-6 col-lg-5 col-md m-b-15' },
                                     _react2.default.createElement(_InfoBar2.default, { style: styles.trendDiv,
                                         icon: null,
-                                        color: _colors.purple600,
+                                        color: _colors.purple400,
                                         title: 'Daily Change (USD)',
                                         value: _react2.default.createElement(_InlineInfo2.default, {
                                             leftValue: this.state.DailyChange === 0 || this.state.DailyChange === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.ForecastData.DailyChange > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
@@ -16753,7 +16759,7 @@ var ForecastPage = function (_React$Component) {
                                     }),
                                     _react2.default.createElement(_InfoBar2.default, {
                                         icon: null,
-                                        color: _colors.purple600,
+                                        color: _colors.purple400,
                                         title: 'Forecast Value (USD)',
                                         value: '$' + this.state.ForecastData.ForecastValue
                                     })
@@ -16763,7 +16769,7 @@ var ForecastPage = function (_React$Component) {
                                     { className: 'col-xs-6 col-sm-6 col-md-6 col-lg-5 col-md m-b-15' },
                                     _react2.default.createElement(_InfoBar2.default, { style: styles.trendDiv,
                                         icon: null,
-                                        color: _colors.purple600,
+                                        color: _colors.purple400,
                                         title: 'Daily Trend (USD)',
                                         value: _react2.default.createElement(_InlineInfo2.default, {
                                             leftValue: this.state.ForecastData.Trend === 0 || this.state.ForecastData.Trend === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.ForecastData.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
@@ -16771,10 +16777,22 @@ var ForecastPage = function (_React$Component) {
                                     }),
                                     _react2.default.createElement(_InfoBar2.default, {
                                         icon: null,
-                                        color: _colors.purple600,
+                                        color: _colors.purple400,
                                         title: 'Forecast Worth (USD)',
                                         value: '$' + this.state.ForecastData.ForecastWorth
                                     })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'row' },
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15' },
+                                        _react2.default.createElement(_CoinHistory2.default, {
+                                            data: this.state.ForecastGraph.Values,
+                                            dates: this.state.ForecastGraph.Labels,
+                                            color: _colors.grey200 })
+                                    )
                                 )
                             ),
                             _react2.default.createElement(
@@ -16815,6 +16833,18 @@ var ForecastPage = function (_React$Component) {
                                         title: 'Eager Forecast Worth (USD)',
                                         value: '$' + this.state.NearForecastData.ForecastWorth
                                     })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'row' },
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15' },
+                                        _react2.default.createElement(_CoinHistory2.default, {
+                                            data: this.state.NearForecastGraph.Values,
+                                            dates: this.state.NearForecastGraph.Labels,
+                                            color: _colors.grey200 })
+                                    )
                                 )
                             ),
                             _react2.default.createElement(
@@ -16855,6 +16885,18 @@ var ForecastPage = function (_React$Component) {
                                         title: 'Skeptical Forecast Worth (USD)',
                                         value: '$' + this.state.FarForecastData.ForecastWorth
                                     })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'row' },
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15' },
+                                        _react2.default.createElement(_CoinHistory2.default, {
+                                            data: this.state.FarForecastGraph.Values,
+                                            dates: this.state.FarForecastGraph.Labels,
+                                            color: _colors.grey200 })
+                                    )
                                 )
                             )
                         )

@@ -55,6 +55,20 @@ namespace HistoCoin.Server.Infrastructure
             return currentValue + (dailyChange * reach);
         }
 
+        public static double[] CalculateFutureValueSteps(double dailyChange, double currentValue, int steps)
+        {
+            var output = new double[steps + 1];
+
+            output[0] = currentValue;
+
+            for (var i = 1; i < output.Length; i++)
+            {
+                output[i] = output[i - 1] + dailyChange;
+            }
+
+            return output;
+        }
+
         public static double CalculateFutureWorth(double futureValue, double walletCount)
         {
             return futureValue * walletCount;
