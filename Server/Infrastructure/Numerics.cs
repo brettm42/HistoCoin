@@ -50,28 +50,45 @@ namespace HistoCoin.Server.Infrastructure
             return slope;
         }
 
-        public static double CalculateFutureValue(double dailyChange, double currentValue, int reach)
+        public static double CalculateFutureValue(double dailyChange, double currentValue, int reach, bool randomEnabled = false)
         {
-            return currentValue + (dailyChange * reach);
+            var random =
+                new Random((int)DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+
+            return currentValue 
+                   + dailyChange 
+                   * reach 
+                   * (randomEnabled ? random.NextDouble() * random.NextDouble() : 1);
         }
 
-        public static double[] CalculateFutureValueSteps(double dailyChange, double currentValue, int steps)
+        public static double[] CalculateFutureValueSteps(double dailyChange, double currentValue, int steps, bool randomEnabled = false)
         {
             var output = new double[steps + 1];
 
             output[0] = currentValue;
 
+            var random = 
+                new Random((int)DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+
             for (var i = 1; i < output.Length; i++)
             {
-                output[i] = output[i - 1] + dailyChange;
+                output[i] = 
+                    output[i - 1] 
+                    + dailyChange 
+                    * (randomEnabled ? random.NextDouble() : 1);
             }
 
             return output;
         }
 
-        public static double CalculateFutureWorth(double futureValue, double walletCount)
+        public static double CalculateFutureWorth(double futureValue, double walletCount, bool randomEnabled = false)
         {
-            return futureValue * walletCount;
+            var random =
+                new Random((int)DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+
+            return futureValue 
+                   * walletCount 
+                   * (randomEnabled ? random.NextDouble() * random.NextDouble() : 1);
         }
 
         private static (double RSquared, double YIntercept, double Slope) LinearRegression(IReadOnlyList<double> values, int depth)

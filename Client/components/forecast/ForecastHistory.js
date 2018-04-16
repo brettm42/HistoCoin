@@ -25,7 +25,8 @@ const ForecastHistory = (props) => {
   const data = {
     labels: props.labelsSet ? props.labelsSet : new Array(0),
     datasets: [
-      {
+        {
+            label: "Linear Forecast",
             data: props.dataSet0 ? props.dataSet0 : new Array(0),
             fill: false,
             backgroundColor: props.color0,
@@ -35,6 +36,7 @@ const ForecastHistory = (props) => {
             cubicInterpolationMode: 'monotone'
         },
         {
+            label: "Eager Forecast",
             data: props.dataSet1 ? props.dataSet1 : new Array(0),
             fill: false,
             backgroundColor: props.color1,
@@ -44,6 +46,7 @@ const ForecastHistory = (props) => {
             cubicInterpolationMode: 'monotone'
         },
         {
+            label: "Skeptical Forecast",
             data: props.dataSet2 ? props.dataSet2 : new Array(0),
             fill: false,
             backgroundColor: props.color2,
@@ -59,8 +62,7 @@ const ForecastHistory = (props) => {
     legend: { display: false },
     scales: { xAxes: [{ display: false }], yAxes: [{ display: true }] },
     layout: { padding: { left: 5, right: 5, top: 5, bottom: 5 } },
-    maintainAspectRatio: false,
-    multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
+    maintainAspectRatio: false
   }
 
   return (

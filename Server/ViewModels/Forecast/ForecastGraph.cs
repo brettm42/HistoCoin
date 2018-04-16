@@ -26,35 +26,5 @@ namespace HistoCoin.Server.ViewModels.Forecast
         public string[] Labels { get; set; }
 
         public double[] Values { get; set; }
-
-        public ForecastGraph Append(ForecastGraph additions)
-        {
-            foreach (var label in additions.Labels)
-            {
-                this.Labels.Append(label);
-            }
-
-            foreach (var value in additions.Values)
-            {
-                this.Values.Append(value);
-            }
-
-            return this;
-        }
-
-        public ForecastGraph Prepend(ForecastGraph additions)
-        {
-            foreach (var label in additions.Labels.Reverse())
-            {
-                this.Labels.Prepend(label);
-            }
-
-            foreach (var value in additions.Values.Reverse())
-            {
-                this.Values.Prepend(value);
-            }
-
-            return this;
-        }
     }
 }

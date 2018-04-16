@@ -41,13 +41,12 @@ const CoinHistory = (props) => {
     legend: { display: false },
     scales: { xAxes: [{ display: false }], yAxes: [{ display: true }] },
     layout: { padding: { left: 5, right: 5, top: 5, bottom: 5 } },
-    maintainAspectRatio: false,
-    multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
+    maintainAspectRatio: false
   }
 
   return (
     <Paper style={styles.paper}>
-      <div style={{ ...styles.header }}>Value History</div>
+      <div style={{ ...styles.header }}>{props.title}</div>
       <div style={styles.div}>
         <Line data={data} options={options} />
       </div>
@@ -56,6 +55,7 @@ const CoinHistory = (props) => {
 };
 
 CoinHistory.propTypes = {
+    title: PropTypes.string,
     data: PropTypes.array,
     dates: PropTypes.array,
     color: PropTypes.string

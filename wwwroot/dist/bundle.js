@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "33c5dbcb2cf82f453fe6"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "6981b48f267abf7bce7f"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16729,6 +16729,7 @@ var ForecastPage = function (_React$Component) {
                                 'div',
                                 { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15' },
                                 _react2.default.createElement(_CoinHistory2.default, {
+                                    title: 'Value History',
                                     data: this.state.HistoricalGraph.Values,
                                     dates: this.state.HistoricalGraph.Labels,
                                     color: _colors.grey200 })
@@ -16742,51 +16743,48 @@ var ForecastPage = function (_React$Component) {
                                 { className: 'row' },
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'col-xs-6 col-sm-6 col-md-6 col-lg-5 col-md m-b-15' },
+                                    { className: 'col-xs-6 col-sm-6 col-md-6 col-lg-3 col-md m-b-15' },
                                     _react2.default.createElement(_InfoBox2.default, { style: styles.trendDiv,
                                         icon: null,
-                                        color: _colors.purple400,
-                                        title: 'Daily Change (USD)',
+                                        color: _colors.purple100,
+                                        title: 'Daily Change',
                                         value: _react2.default.createElement(_InlineInfo2.default, {
                                             leftValue: this.state.DailyChange === 0 || this.state.DailyChange === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.ForecastData.DailyChange > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
                                             rightValue: '$ ' + (this.state.ForecastData.DailyChange > 0 ? '+' + this.state.ForecastData.DailyChange : this.state.ForecastData.DailyChange) })
                                     }),
                                     _react2.default.createElement(_InfoBox2.default, {
                                         icon: null,
-                                        color: _colors.purple400,
-                                        title: 'Forecast Value (USD)',
+                                        color: _colors.purple100,
+                                        title: 'Forecast Value',
                                         value: '$' + this.state.ForecastData.ForecastValue
                                     })
                                 ),
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'col-xs-6 col-sm-6 col-md-6 col-lg-5 col-md m-b-15' },
+                                    { className: 'col-xs-6 col-sm-6 col-md-6 col-lg-3 col-md m-b-15' },
                                     _react2.default.createElement(_InfoBox2.default, { style: styles.trendDiv,
                                         icon: null,
-                                        color: _colors.purple400,
-                                        title: 'Daily Trend (USD)',
+                                        color: _colors.purple100,
+                                        title: 'Daily Trend',
                                         value: _react2.default.createElement(_InlineInfo2.default, {
                                             leftValue: this.state.ForecastData.Trend === 0 || this.state.ForecastData.Trend === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.ForecastData.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
                                             rightValue: (this.state.ForecastData.Trend > 0 ? '+' + this.state.ForecastData.Trend : this.state.ForecastData.Trend) + ' %' })
                                     }),
                                     _react2.default.createElement(_InfoBox2.default, {
                                         icon: null,
-                                        color: _colors.purple400,
-                                        title: 'Forecast Worth (USD)',
+                                        color: _colors.purple100,
+                                        title: 'Forecast Worth',
                                         value: '$' + this.state.ForecastData.ForecastWorth
                                     })
                                 ),
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'row' },
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15' },
-                                        _react2.default.createElement(_CoinHistory2.default, {
-                                            data: this.state.ForecastGraph.Values,
-                                            dates: this.state.ForecastGraph.Labels,
-                                            color: _colors.grey200 })
-                                    )
+                                    { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-6 col-md m-b-15' },
+                                    _react2.default.createElement(_CoinHistory2.default, {
+                                        title: 'Linear Forecast',
+                                        data: this.state.ForecastGraph.Values,
+                                        dates: this.state.ForecastGraph.Labels,
+                                        color: _colors.grey200 })
                                 )
                             ),
                             _react2.default.createElement(
@@ -16794,51 +16792,48 @@ var ForecastPage = function (_React$Component) {
                                 { className: 'row' },
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'col-xs-6 col-sm-6 col-md-6 col-lg-5 col-md m-b-15' },
+                                    { className: 'col-xs-6 col-sm-6 col-md-6 col-lg-3 col-md m-b-15' },
                                     _react2.default.createElement(_InfoBox2.default, { style: styles.trendDiv,
                                         icon: null,
-                                        color: _colors.orange200,
-                                        title: 'Eager Daily Change (USD)',
+                                        color: _colors.orange100,
+                                        title: 'Eager Daily Change',
                                         value: _react2.default.createElement(_InlineInfo2.default, {
                                             leftValue: this.state.NearForecastData.DailyChange === 0 || this.state.NearForecastData.DailyChange === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.NearForecastData.DailyChange > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
                                             rightValue: '$ ' + (this.state.NearForecastData.DailyChange > 0 ? '+' + this.state.NearForecastData.DailyChange : this.state.NearForecastData.DailyChange) })
                                     }),
                                     _react2.default.createElement(_InfoBox2.default, {
                                         icon: null,
-                                        color: _colors.orange200,
-                                        title: 'Eager Forecast Value (USD)',
+                                        color: _colors.orange100,
+                                        title: 'Eager Forecast Value',
                                         value: '$' + this.state.NearForecastData.ForecastValue
                                     })
                                 ),
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'col-xs-6 col-sm-6 col-md-6 col-lg-5 col-md m-b-15' },
+                                    { className: 'col-xs-6 col-sm-6 col-md-6 col-lg-3 col-md m-b-15' },
                                     _react2.default.createElement(_InfoBox2.default, { style: styles.trendDiv,
                                         icon: null,
-                                        color: _colors.orange200,
-                                        title: 'Eager Daily Trend (USD)',
+                                        color: _colors.orange100,
+                                        title: 'Eager Daily Trend',
                                         value: _react2.default.createElement(_InlineInfo2.default, {
                                             leftValue: this.state.NearForecastData.Trend === 0 || this.state.NearForecastData.Trend === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.NearForecastData.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
                                             rightValue: (this.state.NearForecastData.Trend > 0 ? '+' + this.state.NearForecastData.Trend : this.state.NearForecastData.Trend) + ' %' })
                                     }),
                                     _react2.default.createElement(_InfoBox2.default, {
                                         icon: null,
-                                        color: _colors.orange200,
-                                        title: 'Eager Forecast Worth (USD)',
+                                        color: _colors.orange100,
+                                        title: 'Eager Forecast Worth',
                                         value: '$' + this.state.NearForecastData.ForecastWorth
                                     })
                                 ),
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'row' },
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15' },
-                                        _react2.default.createElement(_CoinHistory2.default, {
-                                            data: this.state.NearForecastGraph.Values,
-                                            dates: this.state.NearForecastGraph.Labels,
-                                            color: _colors.grey200 })
-                                    )
+                                    { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-6 col-md m-b-15' },
+                                    _react2.default.createElement(_CoinHistory2.default, {
+                                        title: 'Eager Forecast',
+                                        data: this.state.NearForecastGraph.Values,
+                                        dates: this.state.NearForecastGraph.Labels,
+                                        color: _colors.grey200 })
                                 )
                             ),
                             _react2.default.createElement(
@@ -16846,51 +16841,48 @@ var ForecastPage = function (_React$Component) {
                                 { className: 'row' },
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'col-xs-6 col-sm-6 col-md-6 col-lg-5 col-md m-b-15' },
+                                    { className: 'col-xs-6 col-sm-6 col-md-6 col-lg-3 col-md m-b-15' },
                                     _react2.default.createElement(_InfoBox2.default, { style: styles.trendDiv,
                                         icon: null,
-                                        color: _colors.pink400,
-                                        title: 'Skeptical Daily Change (USD)',
+                                        color: _colors.pink100,
+                                        title: 'Skeptical Daily Change',
                                         value: _react2.default.createElement(_InlineInfo2.default, {
                                             leftValue: this.state.FarForecastData.DailyChange === 0 || this.state.FarForecastData.DailyChange === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.FarForecastData.DailyChange > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
                                             rightValue: '$ ' + (this.state.FarForecastData.DailyChange > 0 ? '+' + this.state.FarForecastData.DailyChange : this.state.FarForecastData.DailyChange) })
                                     }),
                                     _react2.default.createElement(_InfoBox2.default, {
                                         icon: null,
-                                        color: _colors.pink400,
-                                        title: 'Skeptical Forecast Value (USD)',
+                                        color: _colors.pink100,
+                                        title: 'Skeptical Forecast Value',
                                         value: '$' + this.state.FarForecastData.ForecastValue
                                     })
                                 ),
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'col-xs-6 col-sm-6 col-md-6 col-lg-5 col-md m-b-15' },
+                                    { className: 'col-xs-6 col-sm-6 col-md-6 col-lg-3 col-md m-b-15' },
                                     _react2.default.createElement(_InfoBox2.default, { style: styles.trendDiv,
                                         icon: null,
-                                        color: _colors.pink400,
-                                        title: 'Skeptical Daily Trend (USD)',
+                                        color: _colors.pink100,
+                                        title: 'Skeptical Daily Trend',
                                         value: _react2.default.createElement(_InlineInfo2.default, {
                                             leftValue: this.state.FarForecastData.Trend === 0 || this.state.FarForecastData.Trend === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.FarForecastData.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
                                             rightValue: (this.state.FarForecastData.Trend > 0 ? '+' + this.state.FarForecastData.Trend : this.state.FarForecastData.Trend) + ' %' })
                                     }),
                                     _react2.default.createElement(_InfoBox2.default, {
                                         icon: null,
-                                        color: _colors.pink400,
-                                        title: 'Skeptical Forecast Worth (USD)',
+                                        color: _colors.pink100,
+                                        title: 'Skeptical Forecast Worth',
                                         value: '$' + this.state.FarForecastData.ForecastWorth
                                     })
                                 ),
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'row' },
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15' },
-                                        _react2.default.createElement(_CoinHistory2.default, {
-                                            data: this.state.FarForecastGraph.Values,
-                                            dates: this.state.FarForecastGraph.Labels,
-                                            color: _colors.grey200 })
-                                    )
+                                    { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-6 col-md m-b-15' },
+                                    _react2.default.createElement(_CoinHistory2.default, {
+                                        title: 'Skeptical Forecast',
+                                        data: this.state.FarForecastGraph.Values,
+                                        dates: this.state.FarForecastGraph.Labels,
+                                        color: _colors.grey200 })
                                 )
                             ),
                             _react2.default.createElement(
@@ -16905,7 +16897,7 @@ var ForecastPage = function (_React$Component) {
                                         dataSet2: this.state.FarForecastGraph.Values,
                                         labelsSet: this.state.ForecastGraph.Labels,
                                         color0: _colors.purple400,
-                                        color1: _colors.orange200,
+                                        color1: _colors.orange400,
                                         color2: _colors.pink400 })
                                 )
                             )
@@ -55427,8 +55419,7 @@ var CoinHistory = function CoinHistory(props) {
     legend: { display: false },
     scales: { xAxes: [{ display: false }], yAxes: [{ display: true }] },
     layout: { padding: { left: 5, right: 5, top: 5, bottom: 5 } },
-    maintainAspectRatio: false,
-    multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
+    maintainAspectRatio: false
   };
 
   return _react2.default.createElement(
@@ -55437,7 +55428,7 @@ var CoinHistory = function CoinHistory(props) {
     _react2.default.createElement(
       'div',
       { style: _extends({}, styles.header) },
-      'Value History'
+      props.title
     ),
     _react2.default.createElement(
       'div',
@@ -55448,6 +55439,7 @@ var CoinHistory = function CoinHistory(props) {
 };
 
 CoinHistory.propTypes = {
+  title: _propTypes2.default.string,
   data: _propTypes2.default.array,
   dates: _propTypes2.default.array,
   color: _propTypes2.default.string
@@ -55507,6 +55499,7 @@ var ForecastHistory = function ForecastHistory(props) {
   var data = {
     labels: props.labelsSet ? props.labelsSet : new Array(0),
     datasets: [{
+      label: "Linear Forecast",
       data: props.dataSet0 ? props.dataSet0 : new Array(0),
       fill: false,
       backgroundColor: props.color0,
@@ -55515,6 +55508,7 @@ var ForecastHistory = function ForecastHistory(props) {
       pointBorderWidth: 2,
       cubicInterpolationMode: 'monotone'
     }, {
+      label: "Eager Forecast",
       data: props.dataSet1 ? props.dataSet1 : new Array(0),
       fill: false,
       backgroundColor: props.color1,
@@ -55523,6 +55517,7 @@ var ForecastHistory = function ForecastHistory(props) {
       pointBorderWidth: 2,
       cubicInterpolationMode: 'monotone'
     }, {
+      label: "Skeptical Forecast",
       data: props.dataSet2 ? props.dataSet2 : new Array(0),
       fill: false,
       backgroundColor: props.color2,
@@ -55537,8 +55532,7 @@ var ForecastHistory = function ForecastHistory(props) {
     legend: { display: false },
     scales: { xAxes: [{ display: false }], yAxes: [{ display: true }] },
     layout: { padding: { left: 5, right: 5, top: 5, bottom: 5 } },
-    maintainAspectRatio: false,
-    multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
+    maintainAspectRatio: false
   };
 
   return _react2.default.createElement(
