@@ -230,6 +230,8 @@ namespace HistoCoin.Server.ViewModels.Forecast
                             Numerics.CalculateFutureValueSteps(dailyChange, record.CurrentValue, DefaultForecastPopulation), 
                             this._coinService.BaseCurrency),
                 };
+
+            this.ForecastGraph.Prepend(this.HistoricalGraph);
         }
 
         private void UpdateNearForecastData(ICoin record)
@@ -265,6 +267,8 @@ namespace HistoCoin.Server.ViewModels.Forecast
                             Numerics.CalculateFutureValueSteps(nearDailyChange, record.CurrentValue, DefaultForecastPopulation), 
                             this._coinService.BaseCurrency),
                 };
+
+            this.NearForecastGraph.Prepend(this.HistoricalGraph);
         }
 
         private void UpdateFarForecastData(ICoin record)
@@ -302,6 +306,8 @@ namespace HistoCoin.Server.ViewModels.Forecast
                             Numerics.CalculateFutureValueSteps(farDailyChange, record.CurrentValue, DefaultForecastPopulation), 
                             this._coinService.BaseCurrency),
                 };
-    }
+
+            this.FarForecastGraph.Prepend(this.HistoricalGraph);
+        }
     }
 }

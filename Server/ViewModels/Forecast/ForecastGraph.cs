@@ -23,5 +23,18 @@ namespace HistoCoin.Server.ViewModels.Forecast
                 this.Values.Append(value);
             }
         }
+
+        public void Prepend(ForecastGraph additions)
+        {
+            foreach (var label in additions.Labels.Reverse())
+            {
+                this.Labels.Prepend(label);
+            }
+
+            foreach (var value in additions.Values.Reverse())
+            {
+                this.Values.Prepend(value);
+            }
+        }
     }
 }
