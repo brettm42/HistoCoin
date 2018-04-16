@@ -331,6 +331,7 @@ class ForecastPage extends React.Component {
                                 color={grey200} />
                         </div>
                     </div>
+                </div>
 
                     <div className="row">
                         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15">
@@ -344,8 +345,7 @@ class ForecastPage extends React.Component {
                                 color2={pink400} />
                         </div>
                     </div>
-                </div>
-          </div>
+            </div>
         </div>
       </BasePage>
     </MuiThemeProvider>

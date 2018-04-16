@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "c73934756401dcef3afa"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "33c5dbcb2cf82f453fe6"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16891,22 +16891,22 @@ var ForecastPage = function (_React$Component) {
                                             dates: this.state.FarForecastGraph.Labels,
                                             color: _colors.grey200 })
                                     )
-                                ),
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'row' },
                                 _react2.default.createElement(
                                     'div',
-                                    { className: 'row' },
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15' },
-                                        _react2.default.createElement(_ForecastHistory2.default, {
-                                            dataSet0: this.state.ForecastGraph.Values,
-                                            dataSet1: this.state.NearForecastGraph.Values,
-                                            dataSet2: this.state.FarForecastGraph.Values,
-                                            labelsSet: this.state.ForecastGraph.Labels,
-                                            color0: _colors.purple400,
-                                            color1: _colors.orange200,
-                                            color2: _colors.pink400 })
-                                    )
+                                    { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15' },
+                                    _react2.default.createElement(_ForecastHistory2.default, {
+                                        dataSet0: this.state.ForecastGraph.Values,
+                                        dataSet1: this.state.NearForecastGraph.Values,
+                                        dataSet2: this.state.FarForecastGraph.Values,
+                                        labelsSet: this.state.ForecastGraph.Labels,
+                                        color0: _colors.purple400,
+                                        color1: _colors.orange200,
+                                        color2: _colors.pink400 })
                                 )
                             )
                         )
