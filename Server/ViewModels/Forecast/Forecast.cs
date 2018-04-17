@@ -188,7 +188,7 @@ namespace HistoCoin.Server.ViewModels.Forecast
                             this._coinService.BaseCurrency),
                 };
 
-            // set mean forecasting values
+            // set linear forecasting values
             this.UpdateForecastData(record);
                 
             // set eager forecasting values
@@ -202,8 +202,21 @@ namespace HistoCoin.Server.ViewModels.Forecast
         {
             var dailyChange =
                 Numerics.CalculateTrend(this.HistoricalGraph.Values, PollDepth);
-            var forecastValue =
-                Numerics.CalculateFutureValue(dailyChange, record.CurrentValue, ForecastReach, Randomization);
+            //var forecastValue =
+            //    Numerics.CalculateFutureValue(dailyChange, record.CurrentValue, ForecastReach, Randomization);
+            
+            this.ForecastGraph =
+                new ForecastGraph(
+                    this.HistoricalGraph,
+                    labels:
+                        Helpers.DatesFromNow(DateTimeOffset.Now, DefaultForecastPopulation),
+                    values:
+                        Normalize(
+                            Numerics.CalculateFutureValueSteps(dailyChange, record.CurrentValue, DefaultForecastPopulation, Randomization), 
+                            this._coinService.BaseCurrency));
+
+            var forecastValue = this.ForecastGraph.Values.LastOrDefault();
+
             this.ForecastData =
                 new ForecastData
                 {
@@ -217,27 +230,30 @@ namespace HistoCoin.Server.ViewModels.Forecast
                         Normalize(forecastValue, this._coinService.BaseCurrency),
                     ForecastWorth =
                         Normalize(
-                            Numerics.CalculateFutureWorth(forecastValue, this.Count, Randomization),
+                            Numerics.CalculateFutureWorth(forecastValue, this.Count),
                             this._coinService.BaseCurrency),
                 };
-
-            this.ForecastGraph =
-                new ForecastGraph(
-                    this.HistoricalGraph,
-                    labels:
-                        Helpers.DatesFromNow(DateTimeOffset.Now, DefaultForecastPopulation),
-                    values:
-                        Normalize(
-                            Numerics.CalculateFutureValueSteps(dailyChange, record.CurrentValue, DefaultForecastPopulation, Randomization), 
-                            this._coinService.BaseCurrency));
         }
 
         private void UpdateNearForecastData(ICoin record)
         {
             var nearDailyChange =
                 Numerics.CalculateTrend(this.HistoricalGraph.Values, NearPollDepth);
-            var nearForecastValue =
-                Numerics.CalculateFutureValue(nearDailyChange, record.CurrentValue, ForecastReach, Randomization);
+            //var nearForecastValue =
+            //    Numerics.CalculateFutureValue(nearDailyChange, record.CurrentValue, ForecastReach, Randomization);
+
+            this.NearForecastGraph =
+                new ForecastGraph(
+                this.HistoricalGraph,
+                    labels:
+                        Helpers.DatesFromNow(DateTimeOffset.Now, DefaultForecastPopulation),
+                    values:
+                        Normalize(
+                            Numerics.CalculateFutureValueSteps(nearDailyChange, record.CurrentValue, DefaultForecastPopulation, Randomization), 
+                            this._coinService.BaseCurrency));
+
+            var nearForecastValue = this.NearForecastGraph.Values.LastOrDefault();
+
             this.NearForecastData =
                 new ForecastData
                 {
@@ -251,19 +267,9 @@ namespace HistoCoin.Server.ViewModels.Forecast
                         Normalize(nearForecastValue, this._coinService.BaseCurrency),
                     ForecastWorth =
                         Normalize(
-                            Numerics.CalculateFutureWorth(nearForecastValue, this.Count, Randomization),
+                            Numerics.CalculateFutureWorth(nearForecastValue, this.Count),
                             this._coinService.BaseCurrency)
                 };
-
-            this.NearForecastGraph =
-                new ForecastGraph(
-                this.HistoricalGraph,
-                    labels:
-                        Helpers.DatesFromNow(DateTimeOffset.Now, DefaultForecastPopulation),
-                    values:
-                        Normalize(
-                            Numerics.CalculateFutureValueSteps(nearDailyChange, record.CurrentValue, DefaultForecastPopulation, Randomization), 
-                            this._coinService.BaseCurrency));
         }
 
         private void UpdateFarForecastData(ICoin record)
@@ -272,8 +278,21 @@ namespace HistoCoin.Server.ViewModels.Forecast
                 record.History?.GetValues(FarPollDepth + 1) ?? new double[FarPollDepth + 1];
             var farDailyChange =
                 Numerics.CalculateTrend(farHistoricalValues, FarPollDepth);
-            var farForecastValue =
-                Numerics.CalculateFutureValue(farDailyChange, record.CurrentValue, ForecastReach, Randomization);
+            //var farForecastValue =
+            //    Numerics.CalculateFutureValue(farDailyChange, record.CurrentValue, ForecastReach, Randomization);
+            
+            this.FarForecastGraph =
+                new ForecastGraph(
+                    this.HistoricalGraph,
+                    labels:
+                        Helpers.DatesFromNow(DateTimeOffset.Now, DefaultForecastPopulation),
+                    values:
+                        Normalize(
+                            Numerics.CalculateFutureValueSteps(farDailyChange, record.CurrentValue, DefaultForecastPopulation, Randomization), 
+                            this._coinService.BaseCurrency));
+
+            var farForecastValue = this.FarForecastGraph.Values.LastOrDefault();
+
             this.FarForecastData =
                 new ForecastData
                 {
@@ -287,19 +306,9 @@ namespace HistoCoin.Server.ViewModels.Forecast
                         Normalize(farForecastValue, this._coinService.BaseCurrency),
                     ForecastWorth =
                         Normalize(
-                            Numerics.CalculateFutureWorth(farForecastValue, this.Count, Randomization),
+                            Numerics.CalculateFutureWorth(farForecastValue, this.Count),
                             this._coinService.BaseCurrency),
                 };
-
-            this.FarForecastGraph =
-                new ForecastGraph(
-                    this.HistoricalGraph,
-                    labels:
-                        Helpers.DatesFromNow(DateTimeOffset.Now, DefaultForecastPopulation),
-                    values:
-                        Normalize(
-                            Numerics.CalculateFutureValueSteps(farDailyChange, record.CurrentValue, DefaultForecastPopulation, Randomization), 
-                            this._coinService.BaseCurrency));
         }
     }
 }

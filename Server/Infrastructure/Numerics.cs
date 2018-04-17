@@ -58,7 +58,7 @@ namespace HistoCoin.Server.Infrastructure
             return currentValue 
                    + dailyChange 
                    * reach 
-                   * (randomEnabled ? random.NextDouble() * random.NextDouble() : 1);
+                   * (randomEnabled ? (random.NextDouble() + random.NextDouble()) + random.NextDouble() : 1);
         }
 
         public static double[] CalculateFutureValueSteps(double dailyChange, double currentValue, int steps, bool randomEnabled = false)
@@ -81,14 +81,9 @@ namespace HistoCoin.Server.Infrastructure
             return output;
         }
 
-        public static double CalculateFutureWorth(double futureValue, double walletCount, bool randomEnabled = false)
+        public static double CalculateFutureWorth(double futureValue, double walletCount)
         {
-            var random =
-                new Random((int)DateTimeOffset.UtcNow.ToUnixTimeSeconds());
-
-            return futureValue 
-                   * walletCount 
-                   * (randomEnabled ? random.NextDouble() * random.NextDouble() : 1);
+            return futureValue * walletCount;
         }
 
         private static (double RSquared, double YIntercept, double Slope) LinearRegression(IReadOnlyList<double> values, int depth)

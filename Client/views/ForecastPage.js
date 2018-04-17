@@ -103,7 +103,7 @@ class ForecastPage extends React.Component {
             </div>
 
             <div className="row">
-                <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 m-b-15 " style={styles.infoBox}>
+                <div className="col-xs-12 col-sm-12 col-md-6 col-lg-3 m-b-15 " style={styles.infoBox}>
                     <InfoBox
                         icon={null}
                         color={null}
@@ -119,22 +119,22 @@ class ForecastPage extends React.Component {
                     <InfoBox
                         icon={null}
                         color={null}
-                        title="Cost on purchase (USD)"
-                        value={StartingValue} />
+                        title="Cost on purchase"
+                        value={`$${this.state.StartingValue}`} />
                 </div>
                     
-            <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 m-b-15 " style={styles.infoBox}>
+            <div className="col-xs-12 col-sm-12 col-md-6 col-lg-3 m-b-15 " style={styles.infoBox}>
                 <InfoBox
                       icon={null}
                       color={null}
-                      title="Current Value (USD)"
+                      title="Current Value"
                       value={`$${this.state.CurrentValue}`}
                     />
 
                     <InfoBox
                         icon={null}
                         color={null}
-                        title="Worth (USD)"
+                        title="Worth"
                         value={`$${this.state.Worth}`}
                     />
 
@@ -147,17 +147,16 @@ class ForecastPage extends React.Component {
                 </div>
             </div>
 
-            <div className="row">
-                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15">
+                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-md m-b-15">
                 <CoinHistory
                     title="Value History"
                     data={this.state.HistoricalGraph.Values}
                     dates={this.state.HistoricalGraph.Labels}
                     color={grey200} />
                 </div>
-            </div>
 
             <div className="container-fluid">
+
                 <div className="row">
                     <div className="col-xs-6 col-sm-6 col-md-6 col-lg-3 col-md m-b-15">
                         <InfoBox style={styles.trendDiv}
@@ -206,13 +205,13 @@ class ForecastPage extends React.Component {
                   />
                 </div>
 
-                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-md m-b-15">
-                            <CoinHistory
-                                title="Linear Forecast"
-                                data={this.state.ForecastGraph.Values}
-                                dates={this.state.ForecastGraph.Labels}
-                                color={grey200} />
-                        </div>
+                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-md m-b-15">
+                    <CoinHistory
+                        title="Linear Forecast"
+                        data={this.state.ForecastGraph.Values}
+                        dates={this.state.ForecastGraph.Labels}
+                        color={grey200} />
+                </div>
             </div>
 
             <div className="row">

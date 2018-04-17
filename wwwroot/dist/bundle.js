@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "6981b48f267abf7bce7f"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "596528e46a342ef949c7"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16682,7 +16682,7 @@ var ForecastPage = function (_React$Component) {
                             { className: 'row' },
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-xs-12 col-sm-12 col-md-5 col-lg-5 m-b-15 ', style: styles.infoBox },
+                                { className: 'col-xs-12 col-sm-12 col-md-6 col-lg-3 m-b-15 ', style: styles.infoBox },
                                 _react2.default.createElement(_InfoBox2.default, {
                                     icon: null,
                                     color: null,
@@ -16696,22 +16696,22 @@ var ForecastPage = function (_React$Component) {
                                 _react2.default.createElement(_InfoBox2.default, {
                                     icon: null,
                                     color: null,
-                                    title: 'Cost on purchase (USD)',
-                                    value: StartingValue })
+                                    title: 'Cost on purchase',
+                                    value: '$' + this.state.StartingValue })
                             ),
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-xs-12 col-sm-12 col-md-5 col-lg-5 m-b-15 ', style: styles.infoBox },
+                                { className: 'col-xs-12 col-sm-12 col-md-6 col-lg-3 m-b-15 ', style: styles.infoBox },
                                 _react2.default.createElement(_InfoBox2.default, {
                                     icon: null,
                                     color: null,
-                                    title: 'Current Value (USD)',
+                                    title: 'Current Value',
                                     value: '$' + this.state.CurrentValue
                                 }),
                                 _react2.default.createElement(_InfoBox2.default, {
                                     icon: null,
                                     color: null,
-                                    title: 'Worth (USD)',
+                                    title: 'Worth',
                                     value: '$' + this.state.Worth
                                 }),
                                 _react2.default.createElement(_InfoBox2.default, {
@@ -16724,16 +16724,12 @@ var ForecastPage = function (_React$Component) {
                         ),
                         _react2.default.createElement(
                             'div',
-                            { className: 'row' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md m-b-15' },
-                                _react2.default.createElement(_CoinHistory2.default, {
-                                    title: 'Value History',
-                                    data: this.state.HistoricalGraph.Values,
-                                    dates: this.state.HistoricalGraph.Labels,
-                                    color: _colors.grey200 })
-                            )
+                            { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-6 col-md m-b-15' },
+                            _react2.default.createElement(_CoinHistory2.default, {
+                                title: 'Value History',
+                                data: this.state.HistoricalGraph.Values,
+                                dates: this.state.HistoricalGraph.Labels,
+                                color: _colors.grey200 })
                         ),
                         _react2.default.createElement(
                             'div',
@@ -55395,7 +55391,7 @@ var CoinHistory = function CoinHistory(props) {
       padding: '5px 15px 0 15px'
     },
     header: {
-      fontSize: 24,
+      fontSize: 18,
       color: 'black',
       backgroundColor: 'white',
       padding: 10
@@ -55489,7 +55485,7 @@ var ForecastHistory = function ForecastHistory(props) {
       padding: '5px 15px 0 15px'
     },
     header: {
-      fontSize: 24,
+      fontSize: 18,
       color: 'black',
       backgroundColor: 'white',
       padding: 10
@@ -55635,7 +55631,7 @@ var InfoBox = function (_React$Component) {
           color: _colors.grey800
         },
         text: {
-          fontSize: 18,
+          fontSize: 16,
           fontWeight: _styles.typography.fontWeightLight,
           color: _colors.grey800,
           backgroundColor: color
