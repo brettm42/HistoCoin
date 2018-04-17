@@ -145,15 +145,15 @@ class ForecastPage extends React.Component {
                         value={`$ ${this.state.Delta > 0 ? `+${this.state.Delta}` : this.state.Delta}`}
                     />
                 </div>
-            </div>
-
+            
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-md m-b-15">
                 <CoinHistory
                     title="Value History"
                     data={this.state.HistoricalGraph.Values}
                     dates={this.state.HistoricalGraph.Labels}
                     color={grey200} />
-                </div>
+              </div>
+            </div>
 
             <div className="container-fluid">
                 <div className="row">

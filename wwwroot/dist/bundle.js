@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "b7b6fe5f6075591012ac"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "115acec33423fab5ce3c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16720,16 +16720,16 @@ var ForecastPage = function (_React$Component) {
                                     title: 'Delta',
                                     value: '$ ' + (this.state.Delta > 0 ? '+' + this.state.Delta : this.state.Delta)
                                 })
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-6 col-md m-b-15' },
+                                _react2.default.createElement(_CoinHistory2.default, {
+                                    title: 'Value History',
+                                    data: this.state.HistoricalGraph.Values,
+                                    dates: this.state.HistoricalGraph.Labels,
+                                    color: _colors.grey200 })
                             )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-6 col-md m-b-15' },
-                            _react2.default.createElement(_CoinHistory2.default, {
-                                title: 'Value History',
-                                data: this.state.HistoricalGraph.Values,
-                                dates: this.state.HistoricalGraph.Labels,
-                                color: _colors.grey200 })
                         ),
                         _react2.default.createElement(
                             'div',
@@ -17210,7 +17210,7 @@ var FormPage = function (_React$Component) {
               _react2.default.createElement(_InfoBar2.default, {
                 icon: null,
                 color: _colors.orange200,
-                title: 'Daily Trend (USD)',
+                title: 'Overall Trend',
                 value: _react2.default.createElement(_InlineInfo2.default, {
                   leftValue: this.state.Trend === 0 || this.state.Trend === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
                   rightValue: (this.state.Trend > 0 ? '+' + this.state.Trend : this.state.Trend) + ' %' })
