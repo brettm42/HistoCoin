@@ -147,7 +147,7 @@ class ForecastPage extends React.Component {
                 </div>
             </div>
 
-                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-md m-b-15">
+            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-md m-b-15">
                 <CoinHistory
                     title="Value History"
                     data={this.state.HistoricalGraph.Values}
