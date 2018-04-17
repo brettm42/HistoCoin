@@ -174,7 +174,7 @@ class FormPage extends React.Component {
                   <InfoBar
                     icon={null}
                     color={orange200}
-                    title="Daily Trend (USD)"
+                    title="Overall Trend"
                     value={<InlineInfo
                           leftValue=
                             {this.state.Trend === 0 || this.state.Trend === null
