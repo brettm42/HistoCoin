@@ -198,10 +198,10 @@ class ForecastPage extends React.Component {
                               color={purple600}
                               leftValue=
                                 {this.state.ForecastData.Trend === 0 || this.state.ForecastData.Trend === null
-                                ? <Avatar icon={<ContentRemoveCircle />} />
+                                  ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<ContentRemoveCircle />} />
                                 : (this.state.ForecastData.Trend > 0
-                                    ? <Avatar icon={<NavigationArrowDropUp />} />
-                                    : <Avatar icon={<NavigationArrowDropDown />} />)}
+                                      ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropUp />} />
+                                      : <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropDown />} />)}
                             rightValue={`${this.state.ForecastData.Trend > 0 ? `+${this.state.ForecastData.Trend}` : this.state.ForecastData.Trend} %`} />}
                         />
 
@@ -234,10 +234,10 @@ class ForecastPage extends React.Component {
                                 color={orange600}
                           leftValue=
                             {this.state.NearForecastData.DailyChange === 0 || this.state.NearForecastData.DailyChange === null
-                                ? <Avatar icon={<ContentRemoveCircle />} />
+                              ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<ContentRemoveCircle />} />
                                 : (this.state.NearForecastData.DailyChange > 0
-                                    ? <Avatar icon={<NavigationArrowDropUp />} />
-                                    : <Avatar icon={<NavigationArrowDropDown />} />)}
+                                  ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropUp />} />
+                                  : <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropDown />} />)}
                             rightValue=
                               {`$ ${this.state.NearForecastData.DailyChange > 0 ? `+${this.state.NearForecastData.DailyChange}` : this.state.NearForecastData.DailyChange}`} />}
                     />
@@ -261,10 +261,10 @@ class ForecastPage extends React.Component {
                                     color={orange600}
                           leftValue=
                             {this.state.NearForecastData.Trend === 0 || this.state.NearForecastData.Trend === null
-                                ? <Avatar icon={<ContentRemoveCircle />} />
+                              ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<ContentRemoveCircle />} />
                                 : (this.state.NearForecastData.Trend > 0
-                                    ? <Avatar icon={<NavigationArrowDropUp />} />
-                                    : <Avatar icon={<NavigationArrowDropDown />} />)}
+                                  ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropUp />} />
+                                  : <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropDown />} />)}
                             rightValue=
                               {`${this.state.NearForecastData.Trend > 0 ? `+${this.state.NearForecastData.Trend}` : this.state.NearForecastData.Trend} %`} />}
                     />
@@ -298,10 +298,10 @@ class ForecastPage extends React.Component {
                                                color={pink600}
                               leftValue=
                                 {this.state.FarForecastData.DailyChange === 0 || this.state.FarForecastData.DailyChange === null
-                                    ? <Avatar icon={<ContentRemoveCircle />} />
+                                  ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<ContentRemoveCircle />} />
                                     : (this.state.FarForecastData.DailyChange > 0
-                                        ? <Avatar icon={<NavigationArrowDropUp />} />
-                                        : <Avatar icon={<NavigationArrowDropDown />} />)}
+                                      ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropUp />} />
+                                      : <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropDown />} />)}
                                 rightValue=
                                   {`$ ${this.state.FarForecastData.DailyChange > 0 ? `+${this.state.FarForecastData.DailyChange}` : this.state.FarForecastData.DailyChange}`} />}
                         />
@@ -322,13 +322,13 @@ class ForecastPage extends React.Component {
                                  titleColor={pink500}
                             title="Skeptical Daily Trend"
                                     value={<InlineInfo
-                                                      color={pink600}
+                                    color={pink600}
                               leftValue=
                                 {this.state.FarForecastData.Trend === 0 || this.state.FarForecastData.Trend === null
-                                    ? <Avatar icon={<ContentRemoveCircle />} />
+                                  ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<ContentRemoveCircle />} />
                                     : (this.state.FarForecastData.Trend > 0
-                                        ? <Avatar icon={<NavigationArrowDropUp />} />
-                                        : <Avatar icon={<NavigationArrowDropDown />} />)}
+                                      ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropUp />} />
+                                      : <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropDown />} />)}
                                 rightValue=
                                   {`${this.state.FarForecastData.Trend > 0 ? `+${this.state.FarForecastData.Trend}` : this.state.FarForecastData.Trend} %`} />}
                         />

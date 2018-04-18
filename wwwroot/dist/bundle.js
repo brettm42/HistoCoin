@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "0c0ec1425699145ebd86"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "efbb88e8d8cc2f2949c0"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16640,7 +16640,10 @@ var ForecastPage = function (_React$Component) {
                     padding: '10px 20px'
                 },
                 saveButton: { marginLeft: 5 },
-                statusIcon: { backgroundColor: _colors.blue400 }
+                statusIcon: { backgroundColor: _colors.blue400 },
+                forecastRow0: { titleColor: _colors.purple600, color: _colors.purple500 },
+                forecastRow1: { titleColor: _colors.purple600, color: _colors.purple500 },
+                forecastRow2: { titleColor: _colors.purple600, color: _colors.purple500 }
             };
 
             var handleSelectFieldChange = function handleSelectFieldChange(event, idx, value) {
@@ -16769,7 +16772,7 @@ var ForecastPage = function (_React$Component) {
                                         title: 'Daily Trend',
                                         value: _react2.default.createElement(_InlineInfo2.default, {
                                             color: _colors.purple600,
-                                            leftValue: this.state.ForecastData.Trend === 0 || this.state.ForecastData.Trend === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.ForecastData.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
+                                            leftValue: this.state.ForecastData.Trend === 0 || this.state.ForecastData.Trend === null ? _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.statusIcon.backgroundColor, icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.ForecastData.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.statusIcon.backgroundColor, icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.statusIcon.backgroundColor, icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
                                             rightValue: (this.state.ForecastData.Trend > 0 ? '+' + this.state.ForecastData.Trend : this.state.ForecastData.Trend) + ' %' })
                                     }),
                                     _react2.default.createElement(_InfoBox2.default, {
@@ -16803,7 +16806,7 @@ var ForecastPage = function (_React$Component) {
                                         title: 'Eager Daily Change',
                                         value: _react2.default.createElement(_InlineInfo2.default, {
                                             color: _colors.orange600,
-                                            leftValue: this.state.NearForecastData.DailyChange === 0 || this.state.NearForecastData.DailyChange === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.NearForecastData.DailyChange > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
+                                            leftValue: this.state.NearForecastData.DailyChange === 0 || this.state.NearForecastData.DailyChange === null ? _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.statusIcon.backgroundColor, icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.NearForecastData.DailyChange > 0 ? _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.statusIcon.backgroundColor, icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.statusIcon.backgroundColor, icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
                                             rightValue: '$ ' + (this.state.NearForecastData.DailyChange > 0 ? '+' + this.state.NearForecastData.DailyChange : this.state.NearForecastData.DailyChange) })
                                     }),
                                     _react2.default.createElement(_InfoBox2.default, {
@@ -16824,7 +16827,7 @@ var ForecastPage = function (_React$Component) {
                                         title: 'Eager Daily Trend',
                                         value: _react2.default.createElement(_InlineInfo2.default, {
                                             color: _colors.orange600,
-                                            leftValue: this.state.NearForecastData.Trend === 0 || this.state.NearForecastData.Trend === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.NearForecastData.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
+                                            leftValue: this.state.NearForecastData.Trend === 0 || this.state.NearForecastData.Trend === null ? _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.statusIcon.backgroundColor, icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.NearForecastData.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.statusIcon.backgroundColor, icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.statusIcon.backgroundColor, icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
                                             rightValue: (this.state.NearForecastData.Trend > 0 ? '+' + this.state.NearForecastData.Trend : this.state.NearForecastData.Trend) + ' %' })
                                     }),
                                     _react2.default.createElement(_InfoBox2.default, {
@@ -16858,7 +16861,7 @@ var ForecastPage = function (_React$Component) {
                                         title: 'Skeptical Daily Change',
                                         value: _react2.default.createElement(_InlineInfo2.default, {
                                             color: _colors.pink600,
-                                            leftValue: this.state.FarForecastData.DailyChange === 0 || this.state.FarForecastData.DailyChange === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.FarForecastData.DailyChange > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
+                                            leftValue: this.state.FarForecastData.DailyChange === 0 || this.state.FarForecastData.DailyChange === null ? _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.statusIcon.backgroundColor, icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.FarForecastData.DailyChange > 0 ? _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.statusIcon.backgroundColor, icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.statusIcon.backgroundColor, icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
                                             rightValue: '$ ' + (this.state.FarForecastData.DailyChange > 0 ? '+' + this.state.FarForecastData.DailyChange : this.state.FarForecastData.DailyChange) })
                                     }),
                                     _react2.default.createElement(_InfoBox2.default, {
@@ -16879,7 +16882,7 @@ var ForecastPage = function (_React$Component) {
                                         title: 'Skeptical Daily Trend',
                                         value: _react2.default.createElement(_InlineInfo2.default, {
                                             color: _colors.pink600,
-                                            leftValue: this.state.FarForecastData.Trend === 0 || this.state.FarForecastData.Trend === null ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.FarForecastData.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
+                                            leftValue: this.state.FarForecastData.Trend === 0 || this.state.FarForecastData.Trend === null ? _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.statusIcon.backgroundColor, icon: _react2.default.createElement(_removeCircle2.default, null) }) : this.state.FarForecastData.Trend > 0 ? _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.statusIcon.backgroundColor, icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.statusIcon.backgroundColor, icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
                                             rightValue: (this.state.FarForecastData.Trend > 0 ? '+' + this.state.FarForecastData.Trend : this.state.FarForecastData.Trend) + ' %' })
                                     }),
                                     _react2.default.createElement(_InfoBox2.default, {
