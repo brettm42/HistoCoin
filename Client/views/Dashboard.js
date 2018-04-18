@@ -49,7 +49,7 @@ class Dashboard extends React.Component {
   render() {
       const styles = {
           syncButton: {
-              marginTop: "-50",
+              marginTop: -50,
               float: "right"
           }
       };

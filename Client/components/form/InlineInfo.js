@@ -19,12 +19,12 @@ class InlineInfo extends React.Component {
         fontWeight: 'bold',
         fontSize: 18,
         paddingTop: 10,
-        color: grey800
+        color: color ? white : grey800
       },
       text: {
         fontSize: 18,
         fontWeight: typography.fontWeightLight,
-        color: grey800,
+        color: color ? white : grey800,
         padding: '5px 10px'
       },
       iconSpan: {

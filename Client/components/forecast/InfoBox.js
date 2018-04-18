@@ -2,30 +2,31 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Subheader from 'material-ui/Subheader';
-import { white, grey800 } from 'material-ui/styles/colors';
+import { white, grey800, green400 } from 'material-ui/styles/colors';
 import { typography } from 'material-ui/styles';
 
 class InfoBox extends React.Component {
 
   render() {
-    const { color, title, value, Icon } = this.props;
+    const { color, title, titleColor, value, Icon } = this.props;
 
     const styles = {
       content: {
-        height: 120
+          height: 120,
+          backgroundColor: color
       },
       number: {
         display: 'block',
         fontWeight: 'bold',
         fontSize: 18,
         padding: '5px 10px',
-        color: grey800
+        color: color ? white : grey800
       },
       text: {
         fontSize: 16,
         fontWeight: typography.fontWeightLight,
-        color: grey800,
-        backgroundColor: color
+        color: titleColor ? white : grey800,
+        backgroundColor: titleColor
       },
       iconSpan: {
         float: 'left',
@@ -64,6 +65,7 @@ InfoBox.propTypes = {
   Icon: PropTypes.any,
   color: PropTypes.string,
   title: PropTypes.string,
+  titleColor: PropTypes.string,
   value: PropTypes.any
 };
 
