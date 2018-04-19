@@ -39,7 +39,6 @@ class InfoBar extends React.Component {
         width: 48,
         marginTop: 20,
         maxWidth: '100%'
-
       }
     };
 

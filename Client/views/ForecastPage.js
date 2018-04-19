@@ -8,15 +8,10 @@ import SelectField from 'material-ui/SelectField';
 import InfoBox from '../components/forecast/InfoBox';
 import CoinHistory from '../components/forecast/CoinHistory';
 import ForecastHistory from '../components/forecast/ForecastHistory';
-import { grey200, grey400, pink400, pink500, pink600, orange500, orange600, blue200, blue400, purple500, purple600 } from 'material-ui/styles/colors';
+import StackedTile from '../components/forecast/StackedTile';
+import { grey200, grey400, pink400, pink500, pink600, orange500, orange600, blue200, blue400, purple500, purple600, purple400 } from 'material-ui/styles/colors';
 import BasePage from '../components/BasePage';
-import InlineInfo from '../components/form/InlineInfo';
 import ThemeDefault from '../styles/theme-default';
-import Avatar from 'material-ui/Avatar';
-import Paper from 'material-ui/Paper';
-import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
-import NavigationArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
-import NavigationArrowDropUp from 'material-ui/svg-icons/navigation/arrow-drop-up';
 import style from 'material-ui/svg-icons/image/style';
 
 class ForecastPage extends React.Component {
@@ -79,15 +74,14 @@ class ForecastPage extends React.Component {
           padding: '10px 20px'
         },
         saveButton: { marginLeft: 5 },
-        statusIcon: { backgroundColor: blue400 },
         forecastRow0: { titleColor: purple600, color: purple500 },
         forecastRow1: { titleColor: purple600, color: purple500 },
         forecastRow2: { titleColor: purple600, color: purple500 }
     };
 
     const handleSelectFieldChange = (event, idx, value) => this.routeTo(Coins.find(i => i.Id === value).Route);
-      
-    return (
+
+      return (
       <MuiThemeProvider muiTheme={ThemeDefault}>
         <BasePage title="Forecasting" navigation="HistoCoin / Forecasting">
           <div className="container-fluid">
@@ -162,53 +156,34 @@ class ForecastPage extends React.Component {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-xs-6 col-sm-6 col-md-6 col-lg-3 col-md m-b-15">
-                        <InfoBox style={styles.trendDiv}
-                            icon={null}
-                            color={purple600}
-                            title="Daily Change"
-                            titleColor={purple500}
-                            value={<InlineInfo
-                                color={purple600}
-                                leftValue=
-                                {this.state.DailyChange === 0 || this.state.DailyChange === null
-                                    ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<ContentRemoveCircle />} />
-                                    : (this.state.ForecastData.DailyChange > 0
-                                        ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropUp />} />
-                                        : <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropDown />} />)}
-                                rightValue=
-                                  {`$ ${this.state.ForecastData.DailyChange > 0 ? `+${this.state.ForecastData.DailyChange}` : this.state.ForecastData.DailyChange}`} />}
-                        />
+                          <StackedTile
+                              color={styles.forecastRow0.color}
+                              titleColor={styles.forecastRow0.titleColor}
+                              title="Daily Change"
+                              value={this.state.ForecastData.DailyChange}
+                          />
 
                         <InfoBox
                             icon={null}
-                            color={purple600}
+                            color={styles.forecastRow0.color}
                             title="Forecast Value"
-                            titleColor={purple500}
+                            titleColor={styles.forecastRow0.titleColor}
                             value={`$${this.state.ForecastData.ForecastValue}`}
                         />
                     </div>
 
                     <div className="col-xs-6 col-sm-6 col-md-6 col-lg-3 col-md m-b-15">
-                        <InfoBox style={styles.trendDiv}
-                            icon={null}
-                            color={purple600}
-                            titleColor={purple500}
+                        <StackedTile
+                            color={styles.forecastRow0.color}
+                            titleColor={styles.forecastRow0.titleColor}
                             title="Daily Trend"
-                            value={<InlineInfo
-                              color={purple600}
-                              leftValue=
-                                {this.state.ForecastData.Trend === 0 || this.state.ForecastData.Trend === null
-                                  ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<ContentRemoveCircle />} />
-                                : (this.state.ForecastData.Trend > 0
-                                      ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropUp />} />
-                                      : <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropDown />} />)}
-                            rightValue={`${this.state.ForecastData.Trend > 0 ? `+${this.state.ForecastData.Trend}` : this.state.ForecastData.Trend} %`} />}
+                            value={this.state.ForecastData.Trend}
                         />
 
                   <InfoBox
                       icon={null}
-                      color={purple600}
-                      titleColor={purple500}
+                      color={styles.forecastRow0.color}
+                      titleColor={styles.forecastRow0.titleColor}
                       title="Forecast Worth"
                       value={`$${this.state.ForecastData.ForecastWorth}`}
                   />
@@ -225,54 +200,34 @@ class ForecastPage extends React.Component {
 
             <div className="row">
                 <div className="col-xs-6 col-sm-6 col-md-6 col-lg-3 col-md m-b-15">
-                    <InfoBox style={styles.trendDiv}
-                        icon={null}
-                         color={orange600}
-                         titleColor={orange500}
+                    <StackedTile
+                        color={styles.forecastRow1.color}
+                        titleColor={styles.forecastRow1.titleColor}
                         title="Eager Daily Change"
-                            value={<InlineInfo
-                                color={orange600}
-                          leftValue=
-                            {this.state.NearForecastData.DailyChange === 0 || this.state.NearForecastData.DailyChange === null
-                              ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<ContentRemoveCircle />} />
-                                : (this.state.NearForecastData.DailyChange > 0
-                                  ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropUp />} />
-                                  : <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropDown />} />)}
-                            rightValue=
-                              {`$ ${this.state.NearForecastData.DailyChange > 0 ? `+${this.state.NearForecastData.DailyChange}` : this.state.NearForecastData.DailyChange}`} />}
+                        value={this.state.NearForecastData.DailyChange}
                     />
 
                     <InfoBox
                         icon={null}
-                        color={orange600}
-                        titleColor={orange500}
+                        color={styles.forecastRow1.color}
+                        titleColor={styles.forecastRow1.titleColor}
                         title="Eager Forecast Value"
                         value={`$${this.state.NearForecastData.ForecastValue}`}
                     />
                 </div>
 
                 <div className="col-xs-6 col-sm-6 col-md-6 col-lg-3 col-md m-b-15">
-                    <InfoBox style={styles.trendDiv}
-                        icon={null}
-                             color={orange600}
-                             titleColor={orange500}
+                    <StackedTile
+                        color={styles.forecastRow1.color}
+                        titleColor={styles.forecastRow1.titleColor}
                         title="Eager Daily Trend"
-                                    value={<InlineInfo
-                                    color={orange600}
-                          leftValue=
-                            {this.state.NearForecastData.Trend === 0 || this.state.NearForecastData.Trend === null
-                              ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<ContentRemoveCircle />} />
-                                : (this.state.NearForecastData.Trend > 0
-                                  ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropUp />} />
-                                  : <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropDown />} />)}
-                            rightValue=
-                              {`${this.state.NearForecastData.Trend > 0 ? `+${this.state.NearForecastData.Trend}` : this.state.NearForecastData.Trend} %`} />}
+                        value={this.state.NearForecastData.Trend}
                     />
 
                     <InfoBox
                         icon={null}
-                        color={orange600}
-                        titleColor={orange500}
+                        color={styles.forecastRow1.color}
+                        titleColor={styles.forecastRow1.titleColor}
                         title="Eager Forecast Worth"
                         value={`$${this.state.NearForecastData.ForecastWorth}`}
                     />
@@ -289,54 +244,34 @@ class ForecastPage extends React.Component {
 
                 <div className="row">
                     <div className="col-xs-6 col-sm-6 col-md-6 col-lg-3 col-md m-b-15">
-                        <InfoBox style={styles.trendDiv}
-                            icon={null}
-                                 color={pink600}
-                                 titleColor={pink500}
+                        <StackedTile
+                            color={styles.forecastRow2.color}
+                            titleColor={styles.forecastRow2.titleColor}
                             title="Skeptical Daily Change"
-                                    value={<InlineInfo
-                                               color={pink600}
-                              leftValue=
-                                {this.state.FarForecastData.DailyChange === 0 || this.state.FarForecastData.DailyChange === null
-                                  ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<ContentRemoveCircle />} />
-                                    : (this.state.FarForecastData.DailyChange > 0
-                                      ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropUp />} />
-                                      : <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropDown />} />)}
-                                rightValue=
-                                  {`$ ${this.state.FarForecastData.DailyChange > 0 ? `+${this.state.FarForecastData.DailyChange}` : this.state.FarForecastData.DailyChange}`} />}
+                            value={this.state.FarForecastData.DailyChange}
                         />
 
                         <InfoBox
                             icon={null}
-                            color={pink600}
-                            titleColor={pink500}
+                            color={styles.forecastRow2.color}
+                            titleColor={styles.forecastRow2.titleColor}
                             title="Skeptical Forecast Value"
                             value={`$${this.state.FarForecastData.ForecastValue}`}
                         />
                     </div>
 
                     <div className="col-xs-6 col-sm-6 col-md-6 col-lg-3 col-md m-b-15">
-                        <InfoBox style={styles.trendDiv}
-                            icon={null}
-                                 color={pink600}
-                                 titleColor={pink500}
-                            title="Skeptical Daily Trend"
-                                    value={<InlineInfo
-                                    color={pink600}
-                              leftValue=
-                                {this.state.FarForecastData.Trend === 0 || this.state.FarForecastData.Trend === null
-                                  ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<ContentRemoveCircle />} />
-                                    : (this.state.FarForecastData.Trend > 0
-                                      ? <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropUp />} />
-                                      : <Avatar backgroundColor={styles.statusIcon.backgroundColor} icon={<NavigationArrowDropDown />} />)}
-                                rightValue=
-                                  {`${this.state.FarForecastData.Trend > 0 ? `+${this.state.FarForecastData.Trend}` : this.state.FarForecastData.Trend} %`} />}
+                        <StackedTile
+                            color={styles.forecastRow2.color}
+                            titleColor={styles.forecastRow2.titleColor}
+                            title="Skeptical Daily Change"
+                            value={this.state.FarForecastData.DailyChange}
                         />
-
+                                  
                         <InfoBox
                             icon={null}
-                            color={pink600}
-                            titleColor={pink500}
+                            color={styles.forecastRow2.color}
+                            titleColor={styles.forecastRow2.titleColor}
                             title="Skeptical Forecast Worth"
                             value={`$${this.state.FarForecastData.ForecastWorth}`}
                         />
@@ -358,9 +293,9 @@ class ForecastPage extends React.Component {
                                 dataSet1={this.state.NearForecastGraph.Values}
                                 dataSet2={this.state.FarForecastGraph.Values}
                                 labelsSet={this.state.ForecastGraph.Labels}
-                                color0={purple500} 
-                                color1={orange500}
-                                color2={pink500} />
+                                color0={styles.forecastRow0.color} 
+                                color1={styles.forecastRow1.color}
+                                color2={styles.forecastRow2.color} />
                         </div>
                     </div>
             </div>
