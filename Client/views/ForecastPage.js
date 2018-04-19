@@ -69,8 +69,8 @@ class ForecastPage extends React.Component {
       trendDiv: {
         height: 150
         },
-      infoBox: {
-          padding: '10px 20px'
+        infoBox: {
+            padding: '10px 20px'
         },
         saveButton: { marginLeft: 5 },
         forecastRow0: { titleColor: purple600, color: purple500 },

@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "366f59c97fea5b0e9974"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "6d3ca13d5c06cb3e0d97"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -48175,6 +48175,9 @@ var StackedTile = function (_React$Component) {
                     positive: _colors.blue400,
                     neutral: _colors.grey400,
                     negative: _colors.pink400
+                },
+                value: {
+                    padding: '10px 20px'
                 }
             };
 
@@ -48185,6 +48188,7 @@ var StackedTile = function (_React$Component) {
                 title: title,
                 titleColor: titleColor,
                 value: _react2.default.createElement(_InlineInfo2.default, {
+                    style: styles.value,
                     color: color,
                     leftValue: value === 0 || value === null ? _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.status.neutral, icon: _react2.default.createElement(_removeCircle2.default, null) }) : value > 0 ? _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.status.positive, icon: _react2.default.createElement(_arrowDropUp2.default, null) }) : _react2.default.createElement(_Avatar2.default, { backgroundColor: styles.status.negative, icon: _react2.default.createElement(_arrowDropDown2.default, null) }),
                     rightValue: '$ ' + (value > 0 ? '+' + value : value)

@@ -20,6 +20,9 @@ class StackedTile extends React.Component {
             positive: blue400,
             neutral: grey400,
             negative: pink400
+        },
+        value: {
+            padding: '10px 20px'
         }
     };
 
@@ -32,6 +35,7 @@ return (
         titleColor={titleColor}
         value={
             <InlineInfo
+                style={styles.value}
                 color={color}
                 leftValue=
                     {value === 0 || value === null
