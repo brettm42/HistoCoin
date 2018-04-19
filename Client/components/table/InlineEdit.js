@@ -33,7 +33,7 @@ class InlineEdit extends React.Component {
 
         const handleBlur = event => {
             this.setState({ edit: false });
-            if (value.length > 0 && value != originalValue)
+            if (value.length > 0 && value !== originalValue)
                 this.props.onChange(value);
             else
                 this.setState({ value: originalValue });
