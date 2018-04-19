@@ -46,7 +46,7 @@ class FormPage extends React.Component {
   }
 
   render() {
-    let { dirty, Coins, Id, Handle, Count, StartingValue, Worth, CurrentValue, Delta, HistoricalDates, HistoricalValues, Trend } = this.state;
+    let { dirty, Coins, Id, Handle, Count, StartingValue } = this.state;
 
     const styles = {
         selectLabel: { color: pink400 },

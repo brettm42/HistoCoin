@@ -13,7 +13,7 @@ const themeDefault = getMuiTheme({
     color: grey900
   },
   raisedButton: {
-    primaryColor: blue600,
+    primaryColor: blue600
   }
 });
 

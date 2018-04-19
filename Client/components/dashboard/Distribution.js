@@ -58,7 +58,7 @@ const Distribution = (props) => {
         { color: cyan600, icon: <MemoryIcon /> },
         { color: pink600, icon: <DiskIcon /> },
         { color: purple600, icon: <NetworkIcon /> },
-        { color: blueGrey200, icon: <LinkIcon /> },
+        { color: blueGrey200, icon: <LinkIcon /> }
     ];
 
   const data = {

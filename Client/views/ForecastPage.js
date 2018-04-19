@@ -3,7 +3,6 @@ import dotnetify from 'dotnetify';
 import { RouteLink } from 'dotnetify/dist/dotnetify-react.router';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import InfoBox from '../components/forecast/InfoBox';
 import CoinHistory from '../components/forecast/CoinHistory';
@@ -45,7 +44,7 @@ class ForecastPage extends React.Component {
   }
 
   render() {
-    let { Coins, Id, Handle, Count, StartingValue, Worth, CurrentValue, Delta, HistoricalGraph, ForecastGraph, NearForecastGraph, FarForecastGraph, ForecastData, NearForecastData, FarForecastData } = this.state;
+    let { Coins, Id, Handle, Count } = this.state;
 
     const styles = {
         selectLabel: { color: pink400 },

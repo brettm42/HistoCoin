@@ -19,7 +19,7 @@ class InfoBar extends React.Component {
         fontWeight: 'bold',
         fontSize: 18,
         padding: '5px 10px',
-        color: grey800,
+        color: grey800
       },
       text: {
         fontSize: 18,

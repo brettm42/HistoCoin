@@ -329,6 +329,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                         }
 
                         break;
+
                     default:
                         break;
                 }

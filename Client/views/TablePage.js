@@ -3,7 +3,6 @@ import dotnetify from 'dotnetify';
 import { RouteLink } from 'dotnetify/dist/dotnetify-react.router';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import TextField from 'material-ui/TextField';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
@@ -139,8 +138,8 @@ class TablePage extends React.Component {
           </div>
         </BasePage>
       </MuiThemeProvider>
-    )
-  };
+    );
+  }
 }
 
 export default TablePage;

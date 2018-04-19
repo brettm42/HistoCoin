@@ -2,7 +2,6 @@
 namespace HistoCoin.Server.Infrastructure
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using static HistoCoin.Server.Infrastructure.Constants;

@@ -23,7 +23,7 @@ const Sidebar = (props) => {
       fontWeight: typography.fontWeightLight,
       backgroundColor: blue600,
       paddingLeft: 70,
-      height: 56,
+      height: 56
     },
     menuItem: {
       color: white,
@@ -60,13 +60,13 @@ const Sidebar = (props) => {
         paddingTop: 6,
         display: 'block',
         color: 'white',
-        fontWeight: 150,
+        fontWeight: 150
       },
       loginSpan: {
           paddingTop: 6,
           display: 'block',
           color: 'white',
-          fontWeight: 150,
+          fontWeight: 150
       }
     }
   };
@@ -105,7 +105,7 @@ Sidebar.propTypes = {
   userAvatarUrl: PropTypes.string,
   userBackgroundUrl: PropTypes.string,
   emailAddress: PropTypes.string,
-  lastLogin: PropTypes.string,
+  lastLogin: PropTypes.string
 };
 
 export default Sidebar;

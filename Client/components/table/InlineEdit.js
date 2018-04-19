@@ -20,7 +20,7 @@ class InlineEdit extends React.Component {
         const styles = {
             label: { minHeight: '2em', marginTop: '10px' },
             editIcon: { width: 20, height: 20, fill: grey400, marginLeft: 8 },
-            editIconHidden: { width: 20, height: 20, fill: 'none', marginLeft: 8 },
+            editIconHidden: { width: 20, height: 20, fill: 'none', marginLeft: 8 }
         };
 
         const handleClick = event => {

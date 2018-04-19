@@ -16,7 +16,7 @@ const Pagination = (props) => {
     <Paper key={page} style={styles.paper}>
       <FlatButton style={styles.button}
         label={page}
-        disabled={props.select == page}
+        disabled={props.select === page}
         onClick={() => props.onSelect(page)} />
     </Paper>
   );

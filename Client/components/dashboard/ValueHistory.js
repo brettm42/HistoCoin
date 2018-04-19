@@ -13,13 +13,13 @@ const ValueHistory = (props) => {
     },
     div: {
       height: 95,
-      padding: '5px 15px 0 15px',
+      padding: '5px 15px 0 15px'
     },
     header: {
       fontSize: 24,
       color: white,
       backgroundColor: purple600,
-      padding: 10,
+      padding: 10
     }
   };
 
