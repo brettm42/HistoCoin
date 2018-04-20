@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "695c72b72ae2074727aa"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "2f5437f55af6300d2b5b"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -48371,7 +48371,7 @@ var InfoBar = function (_React$Component) {
           display: 'block',
           fontWeight: 'bold',
           fontSize: 18,
-          padding: '5px 10px',
+          padding: '15px 0 25px 15px',
           color: _colors.grey800
         },
         text: {
