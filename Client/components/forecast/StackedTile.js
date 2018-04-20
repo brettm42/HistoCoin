@@ -22,7 +22,7 @@ class StackedTile extends React.Component {
             negative: pink400
         },
         value: {
-            padding: '10px 20px'
+            padding: '10px 0 25px 10px'
         }
     };
 

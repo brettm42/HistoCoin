@@ -70,7 +70,7 @@ class ForecastPage extends React.Component {
         height: 150
         },
         infoBox: {
-            padding: '10px 20px'
+            padding: '15px 0 25px 15px'
         },
         saveButton: { marginLeft: 5 },
         forecastRow0: { titleColor: purple600, color: purple500 },

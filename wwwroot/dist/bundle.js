@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "6d3ca13d5c06cb3e0d97"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "695c72b72ae2074727aa"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16582,7 +16582,7 @@ var ForecastPage = function (_React$Component) {
                     height: 150
                 },
                 infoBox: {
-                    padding: '10px 20px'
+                    padding: '15px 0 25px 15px'
                 },
                 saveButton: { marginLeft: 5 },
                 forecastRow0: { titleColor: _colors.purple600, color: _colors.purple500 },
@@ -22752,7 +22752,7 @@ var InfoBox = function (_React$Component) {
           display: 'block',
           fontWeight: 'bold',
           fontSize: 18,
-          padding: '5px 10px',
+          padding: '15px 0 25px 15px',
           color: color ? _colors.white : _colors.grey800
         },
         text: {
@@ -48177,7 +48177,7 @@ var StackedTile = function (_React$Component) {
                     negative: _colors.pink400
                 },
                 value: {
-                    padding: '10px 20px'
+                    padding: '10px 0 25px 10px'
                 }
             };
 
