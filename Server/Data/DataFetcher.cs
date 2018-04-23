@@ -63,11 +63,11 @@ namespace HistoCoin.Server.Data
             switch (currency)
             {
                 case Currencies.USD:
-                    return Math.Round(currentValue - purchasePrice, Digits[Currencies.USD] + Accuracy);
+                    return Math.Round(currentValue - purchasePrice, Digits[currency] + Accuracy);
                 case Currencies.BTC:
-                    return Math.Round(BtcToUsd(currentValue) - purchasePrice, Digits[Currencies.BTC] + Accuracy);
+                    return Math.Round(BtcToUsd(currentValue) - purchasePrice, Digits[currency] + Accuracy);
                 case Currencies.ETH:
-                    return Math.Round(EthToUsd(currentValue) - purchasePrice, Digits[Currencies.ETH] + Accuracy);
+                    return Math.Round(EthToUsd(currentValue) - purchasePrice, Digits[currency] + Accuracy);
                 default:
                     return 0;
             }
@@ -80,11 +80,11 @@ namespace HistoCoin.Server.Data
             switch (currency)
             {
                 case Currencies.USD:
-                    return Math.Round(currentValue - purchasePrice, Digits[Currencies.USD] + Accuracy);
+                    return Math.Round(currentValue - purchasePrice, Digits[currency] + Accuracy);
                 case Currencies.BTC:
-                    return Math.Round(BtcToUsd(currentValue) - purchasePrice, Digits[Currencies.BTC] + Accuracy);
+                    return Math.Round(BtcToUsd(currentValue) - purchasePrice, Digits[currency] + Accuracy);
                 case Currencies.ETH:
-                    return Math.Round(EthToUsd(currentValue) - purchasePrice, Digits[Currencies.ETH] + Accuracy);
+                    return Math.Round(EthToUsd(currentValue) - purchasePrice, Digits[currency] + Accuracy);
                 default:
                     return 0;
             }

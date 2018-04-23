@@ -22,6 +22,8 @@ namespace HistoCoin.Server.Infrastructure
             USD,
             BTC,
             ETH,
+            XLM,
+            TRX,
         }
 
         public const string NoneValue = "n/a";
@@ -38,7 +40,9 @@ namespace HistoCoin.Server.Infrastructure
             {
                 { Currencies.USD, 2 },
                 { Currencies.ETH, 4 },
-                { Currencies.BTC, 6 },
+                { Currencies.BTC, 5 },
+                { Currencies.XLM, 5 },
+                { Currencies.TRX, 5 },
             };
     }
 }

@@ -16,6 +16,8 @@ namespace HistoCoin.Server.ViewModels.Form
     [Authorize]
     public class Form : BaseVM, IRoutable
     {
+        private const int DefaultAccuracyAdjust = 1;
+
         private readonly ICoinService _coinService;
         
         public RoutingState RoutingState { get; set; }
@@ -160,7 +162,8 @@ namespace HistoCoin.Server.ViewModels.Form
             this.Trend =
                 Normalize(
                     Numerics.CalculateLinearTrend(this.HistoricalValues), 
-                    this._coinService.BaseCurrency);
+                    this._coinService.BaseCurrency,
+                    DefaultAccuracyAdjust);
         }
     }
 }

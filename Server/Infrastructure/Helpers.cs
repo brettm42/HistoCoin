@@ -8,25 +8,20 @@ namespace HistoCoin.Server.Infrastructure
 
     public static class Helpers
     {
-        public static double Normalize(double value, Currencies currency)
+        public static double Normalize(double value, Currencies currency, int shift = 0)
         {
             return Math.Round(
-                value, 
-                currency == Currencies.USD 
-                    ? Digits[Currencies.USD] 
-                    : Digits[Currencies.ETH]);
+                value,
+                Digits[currency] + shift);
         }
 
-        public static double[] Normalize(double[] values, Currencies currency)
+        public static double[] Normalize(double[] values, Currencies currency, int shift = 0)
         {
             return
                 values.Select(
                     value =>
                         Math.Round(
-                            value,
-                            currency == Currencies.USD
-                                ? Digits[Currencies.USD]
-                                : Digits[Currencies.ETH]))
+                            value, Digits[currency] + shift))
                     .ToArray();
         }
 
