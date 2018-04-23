@@ -29,8 +29,9 @@ namespace HistoCoin.Server.Infrastructure
                 depth = historicalValues.Length;
             }
 
-            var total = historicalValues.TakeLast(depth).Sum();
-            var rootMeanSqr = SquareDeviation(historicalValues.TakeLast(depth).ToArray(), 0, depth);
+            var sample = historicalValues.TakeLast(depth).ToArray();
+            var total = sample.Sum();
+            var rootMeanSqr = SquareDeviation(sample, 0, depth);
 
             for (var i = historicalValues.Length - 1; i >= historicalValues.Length - depth; i--)
             {
@@ -39,6 +40,7 @@ namespace HistoCoin.Server.Infrastructure
 
             var totalRms = SquareDeviation(rms, 0, rms.Count);
 
+            //return (rms.Last() - rms.First()) / depth;
             return (rms.First() - rms.Last()) / depth;
         }
 
@@ -129,6 +131,11 @@ namespace HistoCoin.Server.Infrastructure
             var doubleR = rNum / Math.Sqrt(rDenom);
 
             return (Math.Pow(doubleR, 2), meanY - (sCo / ssX * meanX), sCo / ssX);
+        }
+
+        public static double AverageTrends(double trend0, double trend1)
+        {
+            return (trend0 + trend1) / 2;
         }
     }
 }

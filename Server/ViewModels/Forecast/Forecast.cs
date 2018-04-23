@@ -18,8 +18,8 @@ namespace HistoCoin.Server.ViewModels.Forecast
     public class Forecast : BaseVM, IRoutable
     {
         private const int PollDepth = 25;
-        private const int NearPollDepth = PollDepth / 3;
-        private const int FarPollDepth = PollDepth * 3;
+        private const int NearPollDepth = PollDepth / 4;
+        private const int FarPollDepth = PollDepth * 4;
         private const int ForecastReach = 7;
         private const bool Randomization = true;
 
