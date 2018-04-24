@@ -55,5 +55,21 @@ namespace HistoCoin.Server.Services.CoinService
 
             return this;
         }
+
+        public ICoin Touch(ICoin coin)
+        {
+            this.Count =
+                this.Count.Equals(coin.Count)
+                    ? this.Count
+                    : coin.Count;
+            this.StartingValue =
+                this.StartingValue.Equals(coin.StartingValue)
+                    ? this.StartingValue
+                    : coin.StartingValue;
+
+            this.IsModified = true;
+
+            return this;
+        }
     }
 }

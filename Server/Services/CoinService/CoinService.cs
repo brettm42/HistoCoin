@@ -65,6 +65,13 @@
                 record.IsModified = true;
                 this._coins[idx].Update(record);
             }
+
+            var alternates = 
+                this._coins.Where(
+                    c =>
+                        c.Handle.Equals(record.Handle, StringComparison.InvariantCultureIgnoreCase));
+
+            alternates.Select(c => c.Touch(record));
         }
         
         public void Delete(int id) => 
