@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "3184663a13203dc7de03"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "c26976a2c05e194edc79"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16802,8 +16802,8 @@ var ForecastPage = function (_React$Component) {
                                     _react2.default.createElement(_StackedTile2.default, {
                                         color: styles.forecastRow2.color,
                                         titleColor: styles.forecastRow2.titleColor,
-                                        title: 'Skeptical Daily Change',
-                                        value: this.state.FarForecastData.DailyChange
+                                        title: 'Skeptical Daily Trend',
+                                        value: this.state.FarForecastData.Trend
                                     }),
                                     _react2.default.createElement(_InfoBox2.default, {
                                         icon: null,

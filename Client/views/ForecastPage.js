@@ -263,8 +263,8 @@ class ForecastPage extends React.Component {
                         <StackedTile
                             color={styles.forecastRow2.color}
                             titleColor={styles.forecastRow2.titleColor}
-                            title="Skeptical Daily Change"
-                            value={this.state.FarForecastData.DailyChange}
+                            title="Skeptical Daily Trend"
+                            value={this.state.FarForecastData.Trend}
                         />
                                   
                         <InfoBox
