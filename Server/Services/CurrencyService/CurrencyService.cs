@@ -225,12 +225,14 @@ namespace HistoCoin.Server.Services.CurrencyService
                 foreach (var coin in coins.Where(c => c?.IsModified ?? false))
                 {
                     var update = cache.FirstOrDefault(c => c.Id == coin.Id);
-                    if (update != null)
+                    if (update is null)
                     {
-                        update.Update(coin);
-
-                        coin.IsModified = false;
+                        continue;
                     }
+
+                    update.Update(coin);
+
+                    coin.IsModified = false;
                 }
             }
 
