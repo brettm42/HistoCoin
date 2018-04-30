@@ -99,7 +99,7 @@ namespace HistoCoin.Server.Infrastructure
             double sumCod = 0;
             double sCo = 0;
 
-            if (values.Count < depth)
+            if (values.Count <= depth)
             {
                 depth = values.Count - 1;
             }
