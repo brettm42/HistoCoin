@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "ccc55a87ac9eaf54168c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "bc4cfe4a5463878b0921"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16671,7 +16671,7 @@ var ForecastPage = function (_React$Component) {
                             ),
                             _react2.default.createElement(
                                 'div',
-                                { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-6 col-md m-b-15' },
+                                { className: 'col-xs-12 col-sm-12 col-md-12 col-lg-6 col-md m-b-15 ', style: styles.infoBox },
                                 _react2.default.createElement(_CoinHistory2.default, {
                                     title: 'Value History',
                                     data: this.state.HistoricalGraph.Values,
