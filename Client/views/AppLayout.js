@@ -44,7 +44,7 @@ class AppLayout extends React.Component {
   render() {
     let { sidebarOpen, Menus, UserAvatar, UserBackground, UserName, EmailAddress, LastLogin } = this.state;
     let userAvatarUrl = UserAvatar ? UserAvatar : null;
-    let userBackgroundUrl = UserBackground ? UserBackground : '../images/material_bg.png';
+    let userBackgroundUrl = UserBackground ? UserBackground : "../images/material_bg.png";
 
     const paddingLeftSidebar = 236;
     const styles = {
