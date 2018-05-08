@@ -2,7 +2,7 @@
 namespace HistoCoin.Server.Services.CacheService
 {
     using System.Collections.Generic;
-    using HistoCoin.Server.Infrastructure;
+    using HistoCoin.Server.Infrastructure.Models;
 
     public interface ICacheService<T>
     {

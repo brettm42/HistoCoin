@@ -1,5 +1,5 @@
 ﻿
-namespace HistoCoin.Server.Infrastructure
+namespace HistoCoin.Server.Infrastructure.Models
 {
     using System;
     using DotNetify.Routing;

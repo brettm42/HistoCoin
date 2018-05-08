@@ -2,7 +2,8 @@
 namespace HistoCoin.Server.Services.UserService
 {
     using System.Collections.Generic;
-    using HistoCoin.Server.Infrastructure;
+    using HistoCoin.Server.Infrastructure.Interfaces;
+    using HistoCoin.Server.Infrastructure.Models;
 
     public interface IUserService
     {

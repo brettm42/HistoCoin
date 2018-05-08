@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "bc4cfe4a5463878b0921"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "b34eeca576f0376dfa17"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -48802,7 +48802,7 @@ var AppLayout = function (_React$Component) {
           LastLogin = _state.LastLogin;
 
       var userAvatarUrl = UserAvatar ? UserAvatar : null;
-      var userBackgroundUrl = UserBackground ? UserBackground : '../images/material_bg.png';
+      var userBackgroundUrl = UserBackground ? UserBackground : "../images/material_bg.png";
 
       var paddingLeftSidebar = 236;
       var styles = {

@@ -2,7 +2,7 @@
 namespace HistoCoin.Server.Services.CoinService
 {
     using System.Collections.Generic;
-    using HistoCoin.Server.Infrastructure;
+    using HistoCoin.Server.Infrastructure.Interfaces;
     using static HistoCoin.Server.Infrastructure.Constants;
     
     public interface ICoinService

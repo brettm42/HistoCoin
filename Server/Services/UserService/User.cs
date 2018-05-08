@@ -3,7 +3,7 @@ namespace HistoCoin.Server.Services.UserService
 {
     using System;
     using System.Security;
-    using HistoCoin.Server.Infrastructure;
+    using HistoCoin.Server.Infrastructure.Interfaces;
 
     public class User : IUser
     {

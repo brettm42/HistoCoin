@@ -8,6 +8,8 @@ namespace HistoCoin.Server.ViewModels.Forecast
     using DotNetify.Routing;
     using DotNetify.Security;
     using HistoCoin.Server.Infrastructure;
+    using HistoCoin.Server.Infrastructure.Interfaces;
+    using HistoCoin.Server.Infrastructure.Models;
     using HistoCoin.Server.Services.CoinService;
     using HistoCoin.Server.ViewModels.AppLayout;
     using static HistoCoin.Server.Infrastructure.Constants;

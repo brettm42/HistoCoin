@@ -8,6 +8,8 @@ namespace HistoCoin.Server.Services.CurrencyService
     using System.Reactive.Linq;
     using HistoCoin.Server.Data;
     using HistoCoin.Server.Infrastructure;
+    using HistoCoin.Server.Infrastructure.Interfaces;
+    using HistoCoin.Server.Infrastructure.Models;
     using HistoCoin.Server.Services.CacheService;
     using HistoCoin.Server.Services.CoinService;
     using static HistoCoin.Server.Infrastructure.Constants;

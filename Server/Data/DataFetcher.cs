@@ -7,7 +7,7 @@ namespace HistoCoin.Server.Data
     using System.Linq;
     using System.Net.Http;
     using Newtonsoft.Json;
-    using HistoCoin.Server.Infrastructure;
+    using HistoCoin.Server.Infrastructure.Models;
     using static HistoCoin.Server.Infrastructure.Constants;
 
     public static class DataFetcher

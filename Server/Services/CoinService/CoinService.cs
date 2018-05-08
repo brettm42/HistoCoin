@@ -6,6 +6,7 @@
     using System.Linq;
     using HistoCoin.Server.Data;
     using HistoCoin.Server.Infrastructure;
+    using HistoCoin.Server.Infrastructure.Interfaces;
     using HistoCoin.Server.Services.CacheService;
     using HistoCoin.Server.Services.CurrencyService;
     using static HistoCoin.Server.Infrastructure.Constants;

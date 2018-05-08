@@ -5,7 +5,7 @@ namespace HistoCoin.Server.ViewModels.Table
     using System.Linq;
     using DotNetify;
     using DotNetify.Security;
-    using HistoCoin.Server.Infrastructure;
+    using HistoCoin.Server.Infrastructure.Models;
     using HistoCoin.Server.Services.CoinService;
 
     [Authorize]

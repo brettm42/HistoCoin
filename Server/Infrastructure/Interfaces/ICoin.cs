@@ -1,5 +1,5 @@
 ﻿
-namespace HistoCoin.Server.Infrastructure
+namespace HistoCoin.Server.Infrastructure.Interfaces
 {
     using static HistoCoin.Server.Infrastructure.Constants;
     using Newtonsoft.Json;

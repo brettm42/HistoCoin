@@ -3,6 +3,7 @@ namespace HistoCoin.Server.Services.CurrencyService
 {
     using System;
     using HistoCoin.Server.Infrastructure;
+    using HistoCoin.Server.Infrastructure.Interfaces;
     using static HistoCoin.Server.Infrastructure.Constants;
     using static HistoCoin.Server.Infrastructure.Helpers;
 

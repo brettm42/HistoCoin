@@ -7,7 +7,7 @@ namespace HistoCoin.Server.Services.CacheService
     using System.IO;
     using System.Linq;
     using Newtonsoft.Json;
-    using HistoCoin.Server.Infrastructure;
+    using HistoCoin.Server.Infrastructure.Models;
     using static HistoCoin.Server.Infrastructure.Constants;
     
     public class CacheService<T> : ICacheService<T>
