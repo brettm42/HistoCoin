@@ -8,6 +8,7 @@ namespace HistoCoin.Server.ViewModels.Dashboard
     using DotNetify;
     using DotNetify.Routing;
     using DotNetify.Security;
+    using HistoCoin.Server.Infrastructure.Models;
     using HistoCoin.Server.Services.CurrencyService;
     using HistoCoin.Server.ViewModels.AppLayout;
     using static HistoCoin.Server.Infrastructure.Constants;
@@ -46,6 +47,18 @@ namespace HistoCoin.Server.ViewModels.Dashboard
             AddProperty<double>("OverallDelta").SubscribeTo(dataService.OverallDelta);
             AddProperty<int[]>("DistributionUsd").SubscribeTo(dataService.DistributionUsd);
             AddProperty<int[]>("DistributionBtc").SubscribeTo(dataService.DistributionBtc);
+
+            //AddProperty<DataGraph>("HistoricalGraph")
+            //    .SubscribeTo(
+            //        Observable
+            //            .Interval(UpdateInterval)
+            //            .StartWith(0)
+            //            .Select(_ =>
+            //                new DataGraph(
+            //                    dataService.ValueHistory
+            //                        .Select(i => i.GetDates(DefaultHistoryPopulation)),
+            //                    dataService.ValueHistory
+            //                        .Select(i => i.GetValues(DefaultHistoryPopulation)))));
 
             AddProperty<double[]>("HistValues")
                 .SubscribeTo(

@@ -100,30 +100,30 @@ namespace HistoCoin.Server.ViewModels.Forecast
             set => Set(value);
         }
 
-        public ForecastGraph HistoricalGraph
+        public DataGraph HistoricalGraph
         {
-            get => Get<ForecastGraph>();
+            get => Get<DataGraph>();
 
             set => Set(value);
         }
 
-        public ForecastGraph ForecastGraph
+        public DataGraph ForecastGraph
         {
-            get => Get<ForecastGraph>();
+            get => Get<DataGraph>();
 
             set => Set(value);
         }
 
-        public ForecastGraph NearForecastGraph
+        public DataGraph NearForecastGraph
         {
-            get => Get<ForecastGraph>();
+            get => Get<DataGraph>();
 
             set => Set(value);
         }
 
-        public ForecastGraph FarForecastGraph
+        public DataGraph FarForecastGraph
         {
-            get => Get<ForecastGraph>();
+            get => Get<DataGraph>();
 
             set => Set(value);
         }
@@ -186,7 +186,7 @@ namespace HistoCoin.Server.ViewModels.Forecast
                 Normalize(record.Worth, this._coinService.BaseCurrency);
 
             this.HistoricalGraph =
-                new ForecastGraph
+                new DataGraph
                 {
                     Labels =
                         record.History?.GetDates(DefaultHistoryPopulation + 1) ?? new string[PollDepth + 1],
@@ -215,7 +215,7 @@ namespace HistoCoin.Server.ViewModels.Forecast
             //    Numerics.CalculateFutureValue(dailyChange, record.CurrentValue, ForecastReach, Randomization);
             
             this.ForecastGraph =
-                new ForecastGraph(
+                new DataGraph(
                     this.HistoricalGraph,
                     labels:
                         Helpers.DatesFromNow(DateTimeOffset.Now, DefaultForecastPopulation),
@@ -254,7 +254,7 @@ namespace HistoCoin.Server.ViewModels.Forecast
             //    Numerics.CalculateFutureValue(nearDailyChange, record.CurrentValue, ForecastReach, Randomization);
 
             this.NearForecastGraph =
-                new ForecastGraph(
+                new DataGraph(
                 this.HistoricalGraph,
                     labels:
                         Helpers.DatesFromNow(DateTimeOffset.Now, DefaultForecastPopulation),
@@ -295,7 +295,7 @@ namespace HistoCoin.Server.ViewModels.Forecast
             //    Numerics.CalculateFutureValue(farDailyChange, record.CurrentValue, ForecastReach, Randomization);
             
             this.FarForecastGraph =
-                new ForecastGraph(
+                new DataGraph(
                     this.HistoricalGraph,
                     labels:
                         Helpers.DatesFromNow(DateTimeOffset.Now, DefaultForecastPopulation),

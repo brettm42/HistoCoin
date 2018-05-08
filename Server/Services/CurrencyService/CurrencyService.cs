@@ -27,7 +27,7 @@ namespace HistoCoin.Server.Services.CurrencyService
 
         private ICoinService _coinService;
 
-        private readonly TimeSpan _maxDataAge = TimeSpan.FromMinutes(1);
+        private readonly TimeSpan _maxDataAge = TimeSpan.FromMinutes(7);
         
         public IObservable<double[]> CurrentDeltas { get; }
 

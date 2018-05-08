@@ -103,7 +103,7 @@ class Dashboard extends React.Component {
 
           <div className="row">
             <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md m-b-15">
-                <ValueHistory data={this.state.HistValues} dates={this.state.HistDates} />
+                <ValueHistory data={this.state.HistValues} dates={this.state.HistDates} />        
               </div>
 
             <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 m-b-15">

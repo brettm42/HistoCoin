@@ -1,15 +1,22 @@
 ﻿
-namespace HistoCoin.Server.ViewModels.Forecast
+namespace HistoCoin.Server.Infrastructure.Models
 {
+    using System.Collections.Generic;
     using System.Linq;
 
-    public class ForecastGraph
+    public class DataGraph
     {
-        public ForecastGraph()
+        public DataGraph()
         {
         }
 
-        public ForecastGraph(ForecastGraph initialValues, string[] labels, double[] values)
+        public DataGraph(IEnumerable<string> labels, IEnumerable<double> values)
+        {
+            this.Labels = labels.ToArray();
+            this.Values = values.ToArray();
+        }
+        
+        public DataGraph(DataGraph initialValues, IEnumerable<string> labels, IEnumerable<double> values)
         {
             var labelSet = initialValues.Labels.ToList();
             var valueSet = initialValues.Values.ToList();
