@@ -16,5 +16,7 @@ namespace HistoCoin.Server.Services.UserService
         Result RemoveUser(int userId);
 
         string GetUserStoreCacheLocation(int userId);
+
+        string GetUserStoreCacheLocation(IUser user);
     }
 }

@@ -5,7 +5,9 @@ namespace HistoCoin.Server.Services.UserService
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Security;
     using Newtonsoft.Json;
+    using HistoCoin.Server.Infrastructure.Extensions;
     using HistoCoin.Server.Infrastructure.Interfaces;
     using HistoCoin.Server.Infrastructure.Models;
     using static HistoCoin.Server.Infrastructure.Constants;
@@ -40,6 +42,20 @@ namespace HistoCoin.Server.Services.UserService
 
         public IUser GetServiceUser(int userId)
         {
+            // debug user ID
+            if (userId == 0)
+            {
+                return new User
+                {
+                    Id = 0,
+                    Email = new SecureString().AppendString("dev@histocoin.com"),
+                    Password = new SecureString().AppendString("devDebugTest"),
+                    Username = new SecureString().AppendString("debug"),
+                    LocalCache = new SecureString().AppendString(DefaultCacheStoreLocation),
+                    LastLoginTime = DateTimeOffset.Now - TimeSpan.FromMinutes(37),
+                };
+            }
+
             return default;
         }
 
@@ -56,6 +72,11 @@ namespace HistoCoin.Server.Services.UserService
         public string GetUserStoreCacheLocation(int userId)
         {
             return default;
+        }
+
+        public string GetUserStoreCacheLocation(IUser user)
+        {
+            return user.LocalCache.ToString();
         }
 
         private static IUser LoadUser(string filePath)
