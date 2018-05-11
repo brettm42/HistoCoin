@@ -15,6 +15,7 @@
     using HistoCoin.Server.Services.CacheService;
     using HistoCoin.Server.Services.CoinService;
     using HistoCoin.Server.Services.CurrencyService;
+    using HistoCoin.Server.Services.UserService;
     using static HistoCoin.Server.Infrastructure.Constants;
 
     public class Startup
@@ -28,8 +29,14 @@
             services.AddSignalR();
             services.AddDotNetify();
 
-            var cacheService = 
-                new CacheService<ConcurrentBag<Currency>>(DefaultCacheStoreLocation);
+            var userService =
+                new UserService(DefaultUserStoreLocation);
+
+            var cacheService =
+                new CacheService<ConcurrentBag<Currency>>()
+                    .AddUserService(
+                        userService, 
+                        userService.GetServiceUser(0));
 
             var coinService = 
                 new CoinService()

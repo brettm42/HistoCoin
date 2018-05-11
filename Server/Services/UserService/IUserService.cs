@@ -7,12 +7,14 @@ namespace HistoCoin.Server.Services.UserService
 
     public interface IUserService
     {
-        List<IUser> GetAllServiceUsers();
+        IEnumerable<IUser> GetAllServiceUsers();
 
         IUser GetServiceUser(int userId);
 
         Result AddUser(IUser newUser);
 
         Result RemoveUser(int userId);
+
+        string GetUserStoreCacheLocation(int userId);
     }
 }

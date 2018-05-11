@@ -7,14 +7,21 @@ namespace HistoCoin.Server.Services.CacheService
     using System.IO;
     using System.Linq;
     using Newtonsoft.Json;
+    using HistoCoin.Server.Infrastructure.Interfaces;
     using HistoCoin.Server.Infrastructure.Models;
+    using HistoCoin.Server.Services.UserService;
     using static HistoCoin.Server.Infrastructure.Constants;
     
     public class CacheService<T> : ICacheService<T>
     {
+        public CacheService()
+        {
+            this.Username = CacheService<T>.GetUsername();
+        }
+
         public CacheService(string cacheLocation)
         {
-            this.Username = GetUsername();
+            this.Username = CacheService<T>.GetUsername();
             this.StorageLocation = Path.GetFullPath(cacheLocation);
             this.Load();
         }
@@ -138,6 +145,21 @@ namespace HistoCoin.Server.Services.CacheService
             {
                 return new Result(false, ex.ToString());
             }
+        }
+
+        public CacheService<T> AddUserService(IUserService userService, IUser user)
+        {
+            if (userService is null || user is null)
+            {
+                return this;
+            }
+
+            this.StorageLocation = 
+                userService.GetUserStoreCacheLocation(user.Id) ?? DefaultCacheStoreLocation;
+
+            this.Load();
+
+            return this;
         }
 
         public IEnumerable<Cache<T>> PollHistoricalCache()
