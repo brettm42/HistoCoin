@@ -52,7 +52,7 @@ namespace HistoCoin.Server.Services.UserService
                     Password = new SecureString().AppendString("devDebugTest"),
                     Username = new SecureString().AppendString("debug"),
                     LocalCache = new SecureString().AppendString(DefaultCacheStoreLocation),
-                    LastLoginTime = DateTimeOffset.Now - TimeSpan.FromMinutes(37),
+                    LastLoginTime = DateTimeOffset.Now - TimeSpan.FromHours(new Random().NextDouble()),
                 };
             }
 
