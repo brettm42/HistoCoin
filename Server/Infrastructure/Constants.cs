@@ -7,7 +7,7 @@ namespace HistoCoin.Server.Infrastructure
     public static class Constants
     {
         public const string DefaultCacheStoreLocation = @"C:\Temp\HistoCoin";
-        public const string DefaultUserStoreLocation = @"C:\Temp\Histocoin.Users";
+        public const string DefaultUserStoreLocation = @"C:\Temp\HistoCoin.Users";
 
         public const string DefaultWalletExtension = "hcw";
         public const string DefaultWalletPrefix = "_currencies";
@@ -32,6 +32,7 @@ namespace HistoCoin.Server.Infrastructure
             TRX,
         }
 
+        public const int DebugUserId = 0;
         public const string NoneValue = "n/a";
 
         public const int MaxCachedFiles = 5000;

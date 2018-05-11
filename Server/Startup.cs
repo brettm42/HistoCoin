@@ -36,7 +36,7 @@
                 new CacheService<ConcurrentBag<Currency>>()
                     .AddUserService(
                         userService, 
-                        userService.GetServiceUser(0));
+                        userService.GetServiceUser(DebugUserId));
 
             var coinService = 
                 new CoinService()
