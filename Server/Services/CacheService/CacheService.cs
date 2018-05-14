@@ -156,8 +156,10 @@ namespace HistoCoin.Server.Services.CacheService
 
             userService.AddUser(user);
 
-            this.StorageLocation = 
-                userService.GetUserStoreCacheLocation(user) ?? DefaultCacheStoreLocation;
+            this.StorageLocation =
+                Path.Combine(
+                    DefaultCacheStoreLocation,
+                    userService.GetUserStoreCacheLocation(user));
 
             this.Load();
 

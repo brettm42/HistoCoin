@@ -2,7 +2,7 @@
 namespace HistoCoin.Server.Infrastructure.Interfaces
 {
     using System;
-    using System.Security;
+    using HistoCoin.Server.Infrastructure.Models;
 
     public interface IUser
     {
@@ -10,12 +10,12 @@ namespace HistoCoin.Server.Infrastructure.Interfaces
 
         DateTimeOffset LastLoginTime { get; set; }
 
-        SecureString Username { get; set; }
+        Securable Username { get; set; }
 
-        SecureString Email { get; set; }
+        Securable Email { get; set; }
 
-        SecureString Password { get; set; }
+        Securable Password { get; set; }
 
-        SecureString LocalCache { get; set; }
+        string LocalCache { get; set; }
     }
 }

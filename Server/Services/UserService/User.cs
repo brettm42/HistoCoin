@@ -4,6 +4,7 @@ namespace HistoCoin.Server.Services.UserService
     using System;
     using System.Security;
     using HistoCoin.Server.Infrastructure.Interfaces;
+    using HistoCoin.Server.Infrastructure.Models;
 
     public class User : IUser
     {
@@ -11,12 +12,12 @@ namespace HistoCoin.Server.Services.UserService
 
         public DateTimeOffset LastLoginTime { get; set; }
 
-        public SecureString Username { get; set; }
+        public Securable Username { get; set; }
 
-        public SecureString Email { get; set; }
+        public Securable Email { get; set; }
 
-        public SecureString Password { get; set; }
+        public Securable Password { get; set; }
 
-        public SecureString LocalCache { get; set; }
+        public string LocalCache { get; set; }
     }
 }

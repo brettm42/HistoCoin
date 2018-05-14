@@ -48,10 +48,10 @@ namespace HistoCoin.Server.Services.UserService
                 return new User
                 {
                     Id = DebugUserId,
-                    Email = new SecureString().AppendString("dev@histocoin.com"),
-                    Password = new SecureString().AppendString("devDebugTest"),
-                    Username = new SecureString().AppendString("debug"),
-                    LocalCache = new SecureString().AppendString(DefaultCacheStoreLocation),
+                    Email = new Securable("dev@histocoin.com"),
+                    Password = new Securable("devDebugT3ST"),
+                    Username = new Securable("debug"),
+                    LocalCache = string.Empty, // typcially the user's ID
                     LastLoginTime = DateTimeOffset.Now - TimeSpan.FromHours(new Random().NextDouble()),
                 };
             }
@@ -114,7 +114,7 @@ namespace HistoCoin.Server.Services.UserService
                 : new Result(true, $"User {userId} deleted.");
         }
 
-        public string GetUserStoreCacheLocation(int userId)
+        public string GetUserStoreCacheLocation(int userId, string username, string password)
         {
             if (userId == DebugUserId)
             {
@@ -124,14 +124,25 @@ namespace HistoCoin.Server.Services.UserService
             var filename = DefaultServiceUserFilename.Replace(DefaultServiceUserPlaceholder, userId.ToString());
             var filePath = Path.Combine(this._localUserStoreLocation, filename);
 
-            return File.Exists(filePath)
-                ? filePath
-                : default;
+            if (!File.Exists(filePath))
+            {
+                return default;
+            }
+
+            var user =
+                UserService.LoadUser(filePath);
+
+            if (user.Username.Equals(username) && user.Password.Equals(password))
+            {
+                return user.LocalCache;
+            }
+
+            return default;
         }
 
         public string GetUserStoreCacheLocation(IUser user)
         {
-            return user.LocalCache.ToString();
+            return user.LocalCache;
         }
 
         private static IUser LoadUser(string filePath)
