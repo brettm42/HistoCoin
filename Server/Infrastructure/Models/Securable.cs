@@ -68,8 +68,8 @@ namespace HistoCoin.Server.Infrastructure.Models
             var bytes = Encoding.UTF8.GetBytes(text.Text);
 
             var hash = sha.ComputeHash(bytes);
-
-            return (text.Salt, hash.ToString());
+            
+            return (text.Salt, Convert.ToBase64String(hash));
         }
     }
 }

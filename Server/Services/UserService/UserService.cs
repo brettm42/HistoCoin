@@ -73,7 +73,7 @@ namespace HistoCoin.Server.Services.UserService
 
             try
             {
-                if (!Directory.Exists(filePath))
+                if (!Directory.Exists(Path.GetDirectoryName(filePath)))
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(filePath));
                 }
