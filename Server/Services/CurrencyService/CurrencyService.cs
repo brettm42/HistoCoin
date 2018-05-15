@@ -113,7 +113,12 @@ namespace HistoCoin.Server.Services.CurrencyService
                     .StartWith(0)
                     .Select(_ => this._valueHistoryUsd);
         }
-        
+
+        public CurrencyService(ICoinService coinService) : this()
+        {
+            this.AddCoinService(coinService);
+        }
+
         public CurrencyService AddCoinService(ICoinService coinService)
         {
             if (coinService is null)

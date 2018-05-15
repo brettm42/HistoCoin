@@ -19,18 +19,22 @@ namespace HistoCoin.Server.Services.CacheService
             this.Username = CacheService<T>.GetUsername();
         }
 
-        public CacheService(string cacheLocation)
+        public CacheService(string cacheLocation) : this()
         {
-            this.Username = CacheService<T>.GetUsername();
             this.StorageLocation = Path.GetFullPath(cacheLocation);
             this.Load();
         }
 
-        public CacheService(string cacheLocation, T store)
+        public CacheService(string cacheLocation, T store) : this(cacheLocation)
         {
-            this.Username = GetUsername();
-            this.StorageLocation = Path.GetFullPath(cacheLocation);
             this.Cache = new Cache<T>(store);
+        }
+
+        public CacheService(IUserService userService) : this()
+        {
+            this.AddUserService(
+                userService, 
+                userService.GetServiceUser(DebugUserId));
         }
 
         public string Username { get; set; }

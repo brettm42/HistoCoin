@@ -31,6 +31,11 @@
                         })
                     .ToList();
         }
+
+        public CoinService(ICacheService<ConcurrentBag<Currency>> cacheService) : this()
+        {
+            this.AddCacheService(cacheService);
+        }
         
         public Currencies BaseCurrency { get; set; } = Currencies.USD;
 

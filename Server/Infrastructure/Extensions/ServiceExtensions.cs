@@ -15,13 +15,10 @@ namespace HistoCoin.Server.Infrastructure.Extensions
     {
         public static IServiceCollection AddUserService(this IServiceCollection services, string userStoreLocation)
         {
-            //services
-            //    .AddSingleton<IUserService, UserService>(
-            //        service => 
-            //            new UserService(userStoreLocation ?? DefaultUserStoreLocation));
-
             services
-                .AddSingleton<IUserService, UserService>();
+                .AddSingleton<IUserService, UserService>(
+                    service =>
+                        new UserService(userStoreLocation ?? DefaultUserStoreLocation));
 
             return services;
         }
