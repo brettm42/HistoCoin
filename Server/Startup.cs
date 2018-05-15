@@ -12,6 +12,7 @@
     using Microsoft.IdentityModel.Tokens;
     using DotNetify;
     using DotNetify.Security;
+    using HistoCoin.Server.Infrastructure.Extensions;
     using HistoCoin.Server.Services.CacheService;
     using HistoCoin.Server.Services.CoinService;
     using HistoCoin.Server.Services.CurrencyService;
@@ -29,33 +30,10 @@
             services.AddSignalR();
             services.AddDotNetify();
 
-            var userService =
-                new UserService(DefaultUserStoreLocation);
-
-            var cacheService =
-                new CacheService<ConcurrentBag<Currency>>()
-                    .AddUserService(
-                        userService, 
-                        userService.GetServiceUser(DebugUserId));
-
-            var coinService = 
-                new CoinService()
-                    .AddCacheService(cacheService);
-
-            var currencyService =
-                new CurrencyService()
-                    .AddCacheService(cacheService)
-                    .AddCoinService(coinService);
-
-            services
-                .AddSingleton<ICacheService<ConcurrentBag<Currency>>, CacheService<ConcurrentBag<Currency>>>(
-                    service => cacheService);
-            services
-                .AddSingleton<ICoinService, CoinService>(
-                    service => coinService);
-            services
-                .AddSingleton<ICurrencyService, CurrencyService>(
-                    service => currencyService);
+            services.AddUserService(DefaultUserStoreLocation);
+            services.AddCacheService(DebugUserId);
+            services.AddCoinService();
+            services.AddCurrencyService();
         }
 
         public void Configure(IApplicationBuilder app)

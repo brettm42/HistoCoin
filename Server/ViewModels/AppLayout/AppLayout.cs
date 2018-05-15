@@ -61,9 +61,7 @@ namespace HistoCoin.Server.ViewModels.AppLayout
             this.EmailAddress = 
                 userIdentity?.Claims?.FirstOrDefault(i => i.Type == ClaimTypes.Email)?.Value 
                     ?? User.DefaultEmail;
-
-
-
+            
             this.LastLogin = 
                 TimeOffsetAsString(
                     DateTimeOffset.Now - TimeSpan.FromHours(new Random().NextDouble() * new Random().NextDouble()), 
