@@ -34,7 +34,9 @@ namespace HistoCoin.Server.Services.CacheService
         {
             this.AddUserService(
                 userService, 
-                userService.GetServiceUser(DebugUserId));
+                new Credential(
+                    DebugUsername, 
+                    $"{DebugUserId}"));
         }
 
         public string Username { get; set; }
@@ -151,9 +153,9 @@ namespace HistoCoin.Server.Services.CacheService
             }
         }
 
-        public CacheService<T> AddUserService(IUserService userService, IUser user)
+        public CacheService<T> AddUserService(IUserService userService, Credential credentials)
         {
-            if (userService is null || user is null)
+            if (userService is null || credentials is null)
             {
                 return this;
             }
@@ -163,7 +165,9 @@ namespace HistoCoin.Server.Services.CacheService
             this.StorageLocation =
                 Path.Combine(
                     DefaultCacheStoreLocation,
-                    userService.GetUserStoreCacheLocation(user));
+                    userService.GetUserStoreCacheLocation(
+                        userService.GetServiceUser(credentials),
+                        credentials));
 
             this.Load();
 

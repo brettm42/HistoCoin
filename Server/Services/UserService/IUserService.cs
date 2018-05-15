@@ -9,14 +9,16 @@ namespace HistoCoin.Server.Services.UserService
     {
         IEnumerable<IUser> GetAllServiceUsers();
 
-        IUser GetServiceUser(int userId);
+        IUser GetServiceUser(Credential credentials);
+
+        IUser GetServiceUser(int userId, Credential credentials);
 
         Result AddUser(IUser newUser);
 
-        Result RemoveUser(int userId);
+        Result RemoveUser(int userId, Credential credentials);
 
-        string GetUserStoreCacheLocation(int userId, string username, string password);
+        string GetUserStoreCacheLocation(int userId, Credential credentials);
 
-        string GetUserStoreCacheLocation(IUser user);
+        string GetUserStoreCacheLocation(IUser user, Credential credentials);
     }
 }

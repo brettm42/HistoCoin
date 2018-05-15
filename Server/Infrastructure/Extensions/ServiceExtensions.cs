@@ -5,6 +5,7 @@ namespace HistoCoin.Server.Infrastructure.Extensions
     using System.Collections.Concurrent;
     using System.Linq;
     using Microsoft.Extensions.DependencyInjection;
+    using HistoCoin.Server.Infrastructure.Models;
     using HistoCoin.Server.Services.CacheService;
     using HistoCoin.Server.Services.CoinService;
     using HistoCoin.Server.Services.CurrencyService;
@@ -13,6 +14,39 @@ namespace HistoCoin.Server.Infrastructure.Extensions
 
     public static class ServiceExtensions
     {
+        public static IServiceCollection AddCurrencyServices(this IServiceCollection services)
+        {
+            var userService = 
+                new UserService(DefaultUserStoreLocation);
+            var cacheService = 
+                new CacheService<ConcurrentBag<Currency>>()
+                    .AddUserService(
+                        userService,
+                        new Credential(DebugUsername, $"{DebugUserId}"));
+            var coinService =
+                new CoinService()
+                    .AddCacheService(cacheService);
+            var currencyService =
+                new CurrencyService()
+                    .AddCacheService(cacheService)
+                    .AddCoinService(coinService);
+
+            services
+                .AddSingleton<IUserService, UserService>(
+                    service => userService);
+            services
+                .AddSingleton<ICacheService<ConcurrentBag<Currency>>, CacheService<ConcurrentBag<Currency>>>(
+                    service => cacheService);
+            services
+                .AddSingleton<ICoinService, CoinService>(
+                    service => coinService);
+            services
+                .AddSingleton<ICurrencyService, CurrencyService>(
+                    service => currencyService);
+
+            return services;
+        }
+
         public static IServiceCollection AddUserService(this IServiceCollection services, string userStoreLocation)
         {
             services
@@ -25,18 +59,6 @@ namespace HistoCoin.Server.Infrastructure.Extensions
 
         public static IServiceCollection AddCacheService(this IServiceCollection services, int userId)
         {
-            //var userService = services.GetRequiredService<IUserService>();
-
-            //var cacheService =
-            //    new CacheService<ConcurrentBag<Currency>>()
-            //        .AddUserService(
-            //            userService,
-            //            userService.GetServiceUser(userId < 0 ? DebugUserId : userId));
-
-            //services
-            //    .AddSingleton<ICacheService<ConcurrentBag<Currency>>, CacheService<ConcurrentBag<Currency>>>(
-            //        service => cacheService);
-
             services
                 .AddSingleton<ICacheService<ConcurrentBag<Currency>>, CacheService<ConcurrentBag<Currency>>>();
 
@@ -45,16 +67,6 @@ namespace HistoCoin.Server.Infrastructure.Extensions
 
         public static IServiceCollection AddCoinService(this IServiceCollection services)
         {
-            //var cacheService = services.GetRequiredService<ICacheService<ConcurrentBag<Currency>>>();
-
-            //var coinService =
-            //    new CoinService()
-            //        .AddCacheService(cacheService);
-
-            //services
-            //    .AddSingleton<ICoinService, CoinService>(
-            //        service => coinService);
-
             services
                 .AddSingleton<ICoinService, CoinService>();
 
@@ -63,19 +75,6 @@ namespace HistoCoin.Server.Infrastructure.Extensions
 
         public static IServiceCollection AddCurrencyService(this IServiceCollection services)
         {
-            //var cacheService = services.GetRequiredService<ICacheService<ConcurrentBag<Currency>>>();
-
-            //var coinService = services.GetRequiredService<ICoinService>();
-
-            //var currencyService =
-            //    new CurrencyService()
-            //        .AddCacheService(cacheService)
-            //        .AddCoinService(coinService);
-
-            //services
-            //    .AddSingleton<ICurrencyService, CurrencyService>(
-            //        service => currencyService);
-
             services
                 .AddSingleton<ICurrencyService, CurrencyService>();
 

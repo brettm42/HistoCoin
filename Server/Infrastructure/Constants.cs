@@ -33,6 +33,7 @@ namespace HistoCoin.Server.Infrastructure
         }
 
         public const int DebugUserId = 0;
+        public const string DebugUsername = "debugDev";
         public const string NoneValue = "n/a";
 
         public const int MaxCachedFiles = 5000;

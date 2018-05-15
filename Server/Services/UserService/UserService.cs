@@ -40,7 +40,23 @@ namespace HistoCoin.Server.Services.UserService
             return default;
         }
 
-        public IUser GetServiceUser(int userId)
+        public IEnumerable<IUser> GetAllServiceUsers(string filter)
+        {
+            if (Directory.Exists(this._localUserStoreLocation))
+            {
+                return
+                    Directory.EnumerateFiles(
+                        this._localUserStoreLocation,
+                        $"*{filter}*.{DefaultServiceUserExtension}",
+                        SearchOption.TopDirectoryOnly)
+                    .Select(LoadUser);
+            }
+
+            return default;
+        }
+
+
+        public IUser GetServiceUser(int userId, Credential credentials)
         {
             // debug user ID
             if (userId == DebugUserId)
@@ -48,15 +64,47 @@ namespace HistoCoin.Server.Services.UserService
                 return new User
                 {
                     Id = DebugUserId,
-                    Email = new Securable("dev@histocoin.com"),
-                    Password = new Securable("devDebugT3ST"),
-                    Username = new Securable("debug"),
+                    Email = new Securable($"{DebugUsername}@histocoin.com"),
+                    Password = new Securable($"{DebugUsername}_!#T3ST"),
+                    Username = new Securable(DebugUsername),
                     LocalCache = string.Empty, // typcially the user's ID
                     LastLoginTime = DateTimeOffset.Now - TimeSpan.FromHours(new Random().NextDouble()),
                 };
             }
 
-            return default;
+            return
+                this.GetAllServiceUsers(userId.ToString())
+                    .FirstOrDefault(
+                        user => 
+                            UserService.Authenticate(user, credentials));
+        }
+
+        public IUser GetServiceUser(Credential credentials)
+        {
+            if (credentials is null)
+            {
+                return default;
+            }
+
+            // debug user ID
+            if (credentials.Username.Equals(DebugUsername, StringComparison.InvariantCulture))
+            {
+                return new User
+                {
+                    Id = DebugUserId,
+                    Email = new Securable($"{DebugUsername}@histocoin.com"),
+                    Password = new Securable($"{DebugUsername}_!#T3ST"),
+                    Username = new Securable(DebugUsername),
+                    LocalCache = string.Empty, // typcially the user's ID
+                    LastLoginTime = DateTimeOffset.Now - TimeSpan.FromHours(new Random().NextDouble()),
+                };
+            }
+
+            return
+                this.GetAllServiceUsers()
+                    .FirstOrDefault(
+                        user =>
+                            UserService.Authenticate(user, credentials));
         }
 
         public Result AddUser(IUser newUser)
@@ -90,7 +138,7 @@ namespace HistoCoin.Server.Services.UserService
                 : new Result(false, default);
         }
 
-        public Result RemoveUser(int userId)
+        public Result RemoveUser(int userId, Credential credentials)
         {
             if (userId == DebugUserId)
             {
@@ -99,6 +147,13 @@ namespace HistoCoin.Server.Services.UserService
 
             var filename = DefaultServiceUserFilename.Replace(DefaultServiceUserPlaceholder, userId.ToString());
             var filePath = Path.Combine(this._localUserStoreLocation, filename);
+
+            var user = UserService.LoadUser(filePath);
+
+            if (!UserService.Authenticate(user, credentials))
+            {
+                return new Result(false, "Unable to authenticate request!");
+            }
 
             try
             {
@@ -114,7 +169,7 @@ namespace HistoCoin.Server.Services.UserService
                 : new Result(true, $"User {userId} deleted.");
         }
 
-        public string GetUserStoreCacheLocation(int userId, string username, string password)
+        public string GetUserStoreCacheLocation(int userId, Credential credentials)
         {
             if (userId == DebugUserId)
             {
@@ -132,17 +187,17 @@ namespace HistoCoin.Server.Services.UserService
             var user =
                 UserService.LoadUser(filePath);
 
-            if (user.Username.Equals(username) && user.Password.Equals(password))
-            {
-                return user.LocalCache;
-            }
-
-            return default;
+            return UserService.Authenticate(user, credentials) ? user.LocalCache : default;
         }
 
-        public string GetUserStoreCacheLocation(IUser user)
+        public string GetUserStoreCacheLocation(IUser user, Credential credentials)
         {
-            return user.LocalCache;
+            if (user is null)
+            {
+                return default;
+            }
+
+            return UserService.Authenticate(user, credentials) ? user.LocalCache : default;
         }
 
         private static IUser LoadUser(string filePath)
@@ -150,6 +205,17 @@ namespace HistoCoin.Server.Services.UserService
             var json = File.ReadAllText(filePath);
 
             return JsonConvert.DeserializeObject<User>(json);
+        }
+
+        private static bool Authenticate(IUser user, Credential credentials)
+        {
+            if (user is null || string.IsNullOrWhiteSpace(credentials.Username) || string.IsNullOrWhiteSpace(credentials.Password))
+            {
+                return false;
+            }
+
+            return user.Username.Equals(credentials.Username) 
+                && user.Password.Equals(credentials.Password);
         }
     }
 }

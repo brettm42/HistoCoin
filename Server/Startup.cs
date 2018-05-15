@@ -1,7 +1,6 @@
 ﻿namespace HistoCoin.Server
 {
     using System;
-    using System.Collections.Concurrent;
     using System.IO;
     using System.Text;
     using Microsoft.AspNetCore.Builder;
@@ -13,10 +12,6 @@
     using DotNetify;
     using DotNetify.Security;
     using HistoCoin.Server.Infrastructure.Extensions;
-    using HistoCoin.Server.Services.CacheService;
-    using HistoCoin.Server.Services.CoinService;
-    using HistoCoin.Server.Services.CurrencyService;
-    using HistoCoin.Server.Services.UserService;
     using static HistoCoin.Server.Infrastructure.Constants;
 
     public class Startup
@@ -30,10 +25,13 @@
             services.AddSignalR();
             services.AddDotNetify();
 
-            services.AddUserService(DefaultUserStoreLocation);
-            services.AddCacheService(DebugUserId);
-            services.AddCoinService();
-            services.AddCurrencyService();
+            //services.AddUserService(DefaultUserStoreLocation);
+            //services.AddCacheService(DebugUserId);
+            //services.AddCoinService();
+            //services.AddCurrencyService();
+
+            // TODO: dependency container until service inheritance is fixed
+            services.AddCurrencyServices();
         }
 
         public void Configure(IApplicationBuilder app)
