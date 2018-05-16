@@ -14,7 +14,7 @@ namespace HistoCoin.Server.Services.UserService
         IUser GetServiceUser(int userId, Credential credentials);
 
         Result AddUser(IUser newUser);
-
+        
         Result RemoveUser(int userId, Credential credentials);
 
         string GetUserStoreCacheLocation(int userId, Credential credentials);

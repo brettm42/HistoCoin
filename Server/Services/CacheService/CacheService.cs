@@ -160,7 +160,8 @@ namespace HistoCoin.Server.Services.CacheService
                 return this;
             }
 
-            //userService.AddUser(user);
+            //userService.AddUser(
+            //    userService.GetServiceUser(credentials));
 
             this.StorageLocation =
                 Path.Combine(
