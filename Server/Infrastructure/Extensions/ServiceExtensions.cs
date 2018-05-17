@@ -22,7 +22,7 @@ namespace HistoCoin.Server.Infrastructure.Extensions
                 new CacheService<ConcurrentBag<Currency>>()
                     .AddUserService(
                         userService,
-                        new Credential(DebugUsername, $"{DebugUserId}"));
+                        new Credential(DebugUsername, $"{DebugUsername}_!#T3ST"));
             var coinService =
                 new CoinService()
                     .AddCacheService(cacheService);

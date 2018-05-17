@@ -163,12 +163,20 @@ namespace HistoCoin.Server.Services.CacheService
             //userService.AddUser(
             //    userService.GetServiceUser(credentials));
 
-            this.StorageLocation =
-                Path.Combine(
-                    DefaultCacheStoreLocation,
-                    userService.GetUserStoreCacheLocation(
-                        userService.GetServiceUser(credentials),
-                        credentials));
+            try
+            {
+                this.StorageLocation =
+                    Path.Combine(
+                        DefaultCacheStoreLocation,
+                        userService.GetUserStoreCacheLocation(
+                            userService.GetServiceUser(credentials),
+                            credentials));
+            }
+            catch (Exception ex)
+            {
+                // TODO: report unauthorized credentials
+                return this;
+            }
 
             this.Load();
 
