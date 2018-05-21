@@ -14,7 +14,7 @@
   <ItemGroup>
     <PackageReference Include="DotNetify.Core" Version="3.0.0-pre" />
     <PackageReference Include="DotNetify.SignalR" Version="3.0.0-pre" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="System.Reactive" Version="3.1.1" />
     <PackageReference Include="AspNet.Security.OpenIdConnect.Server" Version="2.0.0-rc2-final" />    
