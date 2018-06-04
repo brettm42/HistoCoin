@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "04fba7ecd3dfe6457a10"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "68733281d00ea122b7ef"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -16995,7 +16995,8 @@ var FormPage = function (_React$Component) {
       Delta: '',
       HistoricalValues: [],
       HistoricalDates: [],
-      Trend: ''
+      Trend: '',
+      Ath: ''
     };
     return _this;
   }
@@ -17152,6 +17153,16 @@ var FormPage = function (_React$Component) {
                 color: _colors.orange200,
                 title: 'Worth (USD)',
                 value: '$' + this.state.Worth
+              })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ' },
+              _react2.default.createElement(_InfoBar2.default, {
+                icon: null,
+                color: _colors.orange200,
+                title: 'Historical High (USD)',
+                value: '$' + this.state.Ath
               })
             ),
             _react2.default.createElement(

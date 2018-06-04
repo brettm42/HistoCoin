@@ -88,6 +88,34 @@ namespace HistoCoin.Server.Infrastructure
             return futureValue * walletCount;
         }
 
+        public static (string Label, double value) CalculateBest(double[] values, string[] labels)
+        {
+            if (values is null || labels is null)
+            {
+                return ("-", 0);
+            }
+
+            var (index, maxValue) = (0, 0.0);
+
+            for (var i = 0; i < values.Length; i++)
+            {
+                if (values[i] > maxValue)
+                {
+                    index = i;
+                    maxValue = values[i];
+                }
+            }
+
+            return (labels[index], maxValue);
+        }
+
+        public static string CalculateBestAsString(double[] values, string[] labels)
+        {
+            var (label, maxValue) = Numerics.CalculateBest(values, labels);
+
+            return $"{maxValue}\r\n({label.Substring(0, label.IndexOf(' '))})";
+        }
+
         private static (double RSquared, double YIntercept, double Slope) LinearRegression(IReadOnlyList<double> values, int depth)
         {
             double sumX = 0;
@@ -121,7 +149,8 @@ namespace HistoCoin.Server.Infrastructure
 
             var rNum = (depth * sumCod) - (sumX * sumY);
             var rDenom =
-                (depth * sumSqX - Math.Pow(sumX, 2)) * (depth * sumSqY - Math.Pow(sumY, 2));
+                (depth * sumSqX - Math.Pow(sumX, 2)) 
+                * (depth * sumSqY - Math.Pow(sumY, 2));
 
             sCo = sumCod - (sumX * sumY / depth);
 
@@ -130,7 +159,8 @@ namespace HistoCoin.Server.Infrastructure
 
             var doubleR = rNum / Math.Sqrt(rDenom);
 
-            return (Math.Pow(doubleR, 2), meanY - (sCo / ssX * meanX), sCo / ssX);
+            return 
+                (Math.Pow(doubleR, 2), meanY - (sCo / ssX * meanX), sCo / ssX);
         }
 
         public static double AverageTrends(double trend0, double trend1)

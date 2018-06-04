@@ -37,7 +37,8 @@ class FormPage extends React.Component {
       Delta: '',
       HistoricalValues: [],
       HistoricalDates: [],
-      Trend: ''
+      Trend: '',
+      Ath: ''
     };
   }
 
@@ -151,7 +152,8 @@ class FormPage extends React.Component {
                       title="Current Value (USD)"
                       value={`$${this.state.CurrentValue}`}
                   />
-              </div>
+                </div>
+
                 <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
                     <InfoBar
                         icon={null}
@@ -160,6 +162,15 @@ class FormPage extends React.Component {
                         value={`$${this.state.Worth}`}
                     />
                 </div>
+
+            <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
+                <InfoBar
+                    icon={null}
+                    color={orange200}
+                    title="Historical High (USD)"
+                    value={`$${this.state.Ath}`}
+                />
+            </div>
 
                 <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 m-b-15 ">
                     <InfoBar
