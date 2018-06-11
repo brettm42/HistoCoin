@@ -7,12 +7,14 @@ namespace HistoCoin.Server.ViewModels.Table
     using DotNetify.Security;
     using HistoCoin.Server.Infrastructure.Models;
     using HistoCoin.Server.Services.CoinService;
+    using static HistoCoin.Server.Infrastructure.Constants;
+    using static HistoCoin.Server.Infrastructure.Helpers;
 
     [Authorize]
     public class Table : BaseVM
     {
         private readonly ICoinService _coinService;
-        private const int _recordsPerPage = 15;
+        private const int RecordsPerPage = 15;
         
         public Table(ICoinService coinService)
         {
@@ -36,6 +38,7 @@ namespace HistoCoin.Server.ViewModels.Table
                                 Handle = i.Handle,
                                 Count = i.Count,
                                 StartingValue = i.StartingValue,
+                                Investment = Normalize(i.Count * i.StartingValue, Currencies.USD),
                                 LastUpdate = DateTimeOffset.Parse(i.History.GetLastEntryTime()),
                             }));
 
@@ -58,10 +61,11 @@ namespace HistoCoin.Server.ViewModels.Table
                     Handle = newRecord.Handle,
                     Count = newRecord.Count,
                     StartingValue = newRecord.StartingValue,
+                    Investment = Normalize(newRecord.Count * newRecord.StartingValue, Currencies.USD),
                     LastUpdate = DateTimeOffset.MinValue,
                 });
 
-            this.SelectedPage = this.GetPageCount(this._coinService.GetAll().Count());
+            this.SelectedPage = Table.GetPageCount(this._coinService.GetAll().Count());
         };
 
         public Action<CoinInfo> Update => changes =>
@@ -140,16 +144,16 @@ namespace HistoCoin.Server.ViewModels.Table
             if (this.HasChanged(nameof(this.SelectedPage)))
             {
                 return coins
-                    .Skip(_recordsPerPage * (this.SelectedPage - 1))
-                    .Take(_recordsPerPage);
+                    .Skip(RecordsPerPage * (this.SelectedPage - 1))
+                    .Take(RecordsPerPage);
             }
 
             this.Pages = 
-                Enumerable.Range(1, this.GetPageCount(coins.Count())).ToArray();
+                Enumerable.Range(1, Table.GetPageCount(coins.Count())).ToArray();
 
-            return coins.Take(_recordsPerPage);
+            return coins.Take(RecordsPerPage);
         }
 
-        private int GetPageCount(int records) => (int)Math.Ceiling(records / (double)_recordsPerPage);
+        private static int GetPageCount(int records) => (int)Math.Ceiling(records / (double)RecordsPerPage);
     }
 }

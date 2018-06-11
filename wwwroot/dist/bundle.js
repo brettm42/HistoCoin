@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "68733281d00ea122b7ef"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "8c9df05c925798efd3d6"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -17333,6 +17333,7 @@ var TablePage = function (_React$Component) {
           handle: { width: '25%' },
           count: { width: '35%' },
           startingValue: { width: '35%' },
+          invested: { width: '35%' },
           lastUpdate: { width: '40%' },
           remove: { width: '20%' }
         },
@@ -17421,6 +17422,11 @@ var TablePage = function (_React$Component) {
                   ),
                   _react2.default.createElement(
                     _Table.TableHeaderColumn,
+                    { style: styles.columns.invested },
+                    'Investment (USD)'
+                  ),
+                  _react2.default.createElement(
+                    _Table.TableHeaderColumn,
                     { style: styles.columns.lastUpdate },
                     'Last Updated'
                   ),
@@ -17470,6 +17476,11 @@ var TablePage = function (_React$Component) {
                           } },
                         item.StartingValue
                       )
+                    ),
+                    _react2.default.createElement(
+                      _Table.TableRowColumn,
+                      { style: styles.columns.invested },
+                      '$' + item.Investment
                     ),
                     _react2.default.createElement(
                       _Table.TableRowColumn,

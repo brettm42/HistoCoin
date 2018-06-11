@@ -44,6 +44,7 @@ class TablePage extends React.Component {
         handle: { width: '25%' },
         count: { width: '35%' },
         startingValue: { width: '35%' },
+        invested: { width: '35%' },
         lastUpdate: {width: '40%'},
         remove: { width: '20%' }
       },
@@ -96,6 +97,7 @@ class TablePage extends React.Component {
                   <TableHeaderColumn style={styles.columns.handle}>Handle</TableHeaderColumn>
                   <TableHeaderColumn style={styles.columns.count}>Count</TableHeaderColumn>
                   <TableHeaderColumn style={styles.columns.startingValue}>Starting Value</TableHeaderColumn>
+                  <TableHeaderColumn style={styles.columns.invested}>Investment (USD)</TableHeaderColumn>
                   <TableHeaderColumn style={styles.columns.lastUpdate}>Last Updated</TableHeaderColumn>
                   <TableHeaderColumn style={styles.columns.remove}>Remove</TableHeaderColumn>
                 </TableRow>
@@ -112,6 +114,7 @@ class TablePage extends React.Component {
                     <TableRowColumn style={styles.columns.startingValue}>
                       <InlineEdit onChange={value => handleUpdate({ Id: item.Id, StartingValue: value })}>{item.StartingValue}</InlineEdit>
                     </TableRowColumn>
+                    <TableRowColumn style={styles.columns.invested}>{`$${item.Investment}`}</TableRowColumn>
                     <TableRowColumn style={styles.columns.lastUpdate}>{item.LastUpdate}</TableRowColumn>
                     <TableRowColumn style={styles.columns.remove}>
                       <FloatingActionButton onClick={_ => this.dispatch({ Remove: item.Id })}

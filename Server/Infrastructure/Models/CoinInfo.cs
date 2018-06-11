@@ -14,6 +14,8 @@ namespace HistoCoin.Server.Infrastructure.Models
 
         public double? StartingValue { get; set; }
 
+        public double? Investment { get; set; }
+
         public DateTimeOffset? LastUpdate { get; set; }
 
         public Route Route { get; set; }
