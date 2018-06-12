@@ -126,6 +126,7 @@
                         cache.Get()
                             .Where(i => i.BaseCurrency == currency)
                             .Where(i => i.Handle.Equals(handle, StringComparison.InvariantCultureIgnoreCase)))
+                .Where(cache => cache.Any())
                 .GroupBy(
                     cache =>
                         (int)(DateTime.Now - cache.FirstOrDefault().LastUpdated).TotalHours / DefaultBucketSize)

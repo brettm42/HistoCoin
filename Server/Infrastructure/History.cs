@@ -28,9 +28,9 @@ namespace HistoCoin.Server.Infrastructure
 
         public double[] GetValues(int count) => this._backingDict.Values.TakeLast(count).ToArray();
 
-        public double GetLastEntryValue() => this._backingDict.LastOrDefault().Value;
+        public double GetLastEntryValue() => this._backingDict?.LastOrDefault().Value ?? 0;
 
-        public string GetLastEntryTime() => this._backingDict.LastOrDefault().Key;
+        public string GetLastEntryTime() => this._backingDict?.LastOrDefault().Key ?? string.Empty;
         
         public History Add(string key, double value)
         {

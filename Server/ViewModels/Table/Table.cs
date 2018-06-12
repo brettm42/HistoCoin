@@ -39,7 +39,7 @@ namespace HistoCoin.Server.ViewModels.Table
                                 Count = i.Count,
                                 StartingValue = i.StartingValue,
                                 Investment = Normalize(i.Count * i.StartingValue, Currencies.USD),
-                                LastUpdate = DateTimeOffset.Parse(i.History.GetLastEntryTime()),
+                                LastUpdate = DateTimeOffset.Parse(i.History?.GetLastEntryTime()),
                             }));
 
         public Action<string> Add => coinDetails =>
