@@ -77,7 +77,10 @@
                     c =>
                         c.Handle.Equals(record.Handle, StringComparison.InvariantCultureIgnoreCase));
 
-            alternates.Select(c => c.Touch(record));
+            foreach (var alt in alternates)
+            {
+                alt.Touch(record);
+            }
         }
         
         public void Delete(int id) => 
