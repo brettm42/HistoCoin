@@ -6,6 +6,7 @@ import withWidth, { LARGE, SMALL } from 'material-ui/utils/withWidth';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import ThemeDefault from '../styles/theme-default';
+import { white, blue600, grey400 } from 'material-ui/styles/colors';
 import auth from '../auth';
 import { log } from 'util';
 
@@ -49,6 +50,7 @@ class AppLayout extends React.Component {
     const paddingLeftSidebar = 236;
     const styles = {
       header: { paddingLeft: sidebarOpen ? paddingLeftSidebar : 0 },
+      sidebar: { backgroundColor: grey400 },
       container: {
         margin: '80px 20px 20px 15px',
         paddingLeft: sidebarOpen && this.props.width !== SMALL ? paddingLeftSidebar : 0

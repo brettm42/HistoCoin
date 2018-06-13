@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "8c9df05c925798efd3d6"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "392f937be9ff706a0657"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -5829,25 +5829,6 @@ module.exports = reactProdInvariant;
 "use strict";
 
 
-var helpers = __webpack_require__(14);
-
-module.exports = {
-	/**
-	 * @private
-	 */
-	_set: function(scope, values) {
-		return helpers.merge(this[scope] || (this[scope] = {}), values);
-	}
-};
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -6136,6 +6117,25 @@ var faintBlack = exports.faintBlack = 'rgba(0, 0, 0, 0.12)';
 var fullWhite = exports.fullWhite = 'rgba(255, 255, 255, 1)';
 var darkWhite = exports.darkWhite = 'rgba(255, 255, 255, 0.87)';
 var lightWhite = exports.lightWhite = 'rgba(255, 255, 255, 0.54)';
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var helpers = __webpack_require__(14);
+
+module.exports = {
+	/**
+	 * @private
+	 */
+	_set: function(scope, values) {
+		return helpers.merge(this[scope] || (this[scope] = {}), values);
+	}
+};
+
 
 /***/ }),
 /* 18 */
@@ -7663,7 +7663,7 @@ var _MuiThemeProvider2 = __webpack_require__(51);
 
 var _MuiThemeProvider3 = _interopRequireDefault(_MuiThemeProvider2);
 
-var _colors2 = __webpack_require__(17);
+var _colors2 = __webpack_require__(16);
 
 var _colors = _interopRequireWildcard(_colors2);
 
@@ -9214,7 +9214,7 @@ var _getMuiTheme = __webpack_require__(113);
 
 var _getMuiTheme2 = _interopRequireDefault(_getMuiTheme);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13650,7 +13650,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _styles = __webpack_require__(38);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 var styles = {
   navigation: {
@@ -14529,7 +14529,7 @@ var _typography = __webpack_require__(246);
 
 var _typography2 = _interopRequireDefault(_typography);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16259,7 +16259,7 @@ var _accountBalanceWallet = __webpack_require__(735);
 
 var _accountBalanceWallet2 = _interopRequireDefault(_accountBalanceWallet);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 var _InfoBox = __webpack_require__(420);
 
@@ -16508,7 +16508,7 @@ var _StackedTile = __webpack_require__(425);
 
 var _StackedTile2 = _interopRequireDefault(_StackedTile);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 var _BasePage = __webpack_require__(123);
 
@@ -16930,7 +16930,7 @@ var _CoinHistory = __webpack_require__(426);
 
 var _CoinHistory2 = _interopRequireDefault(_CoinHistory);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 var _BasePage = __webpack_require__(123);
 
@@ -17259,7 +17259,7 @@ var _add = __webpack_require__(739);
 
 var _add2 = _interopRequireDefault(_add);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 var _BasePage = __webpack_require__(123);
 
@@ -22757,7 +22757,7 @@ var _Subheader = __webpack_require__(87);
 
 var _Subheader2 = _interopRequireDefault(_Subheader);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 var _styles = __webpack_require__(38);
 
@@ -22882,7 +22882,7 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 var _styles = __webpack_require__(38);
 
@@ -23355,7 +23355,7 @@ module.exports = {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var helpers = __webpack_require__(14);
 
 defaults._set('global', {
@@ -31098,7 +31098,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 var _colorManipulator = __webpack_require__(44);
 
@@ -31153,7 +31153,7 @@ var _classCallCheck2 = __webpack_require__(4);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47653,7 +47653,7 @@ var _viewModule = __webpack_require__(738);
 
 var _viewModule2 = _interopRequireDefault(_viewModule);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 var _FontIcon = __webpack_require__(111);
 
@@ -47769,7 +47769,7 @@ var _MenuItem2 = _interopRequireDefault(_MenuItem);
 
 var _styles = __webpack_require__(38);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 var _style = __webpack_require__(249);
 
@@ -47935,7 +47935,7 @@ var _Paper = __webpack_require__(22);
 
 var _Paper2 = _interopRequireDefault(_Paper);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 var _styles = __webpack_require__(96);
 
@@ -48062,7 +48062,7 @@ var _link = __webpack_require__(742);
 
 var _link2 = _interopRequireDefault(_link);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 var _styles = __webpack_require__(38);
 
@@ -48197,7 +48197,7 @@ var _Paper = __webpack_require__(22);
 
 var _Paper2 = _interopRequireDefault(_Paper);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 var _styles = __webpack_require__(38);
 
@@ -48354,7 +48354,7 @@ var _MenuItem = __webpack_require__(86);
 
 var _MenuItem2 = _interopRequireDefault(_MenuItem);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 var _styles = __webpack_require__(38);
 
@@ -48459,7 +48459,7 @@ var _Paper = __webpack_require__(22);
 
 var _Paper2 = _interopRequireDefault(_Paper);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -48553,7 +48553,7 @@ var _Paper = __webpack_require__(22);
 
 var _Paper2 = _interopRequireDefault(_Paper);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -48647,7 +48647,7 @@ var _Paper = __webpack_require__(22);
 
 var _Paper2 = _interopRequireDefault(_Paper);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -48769,7 +48769,7 @@ var _InlineInfo = __webpack_require__(183);
 
 var _InlineInfo2 = _interopRequireDefault(_InlineInfo);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 var _styles = __webpack_require__(38);
 
@@ -48879,7 +48879,7 @@ var _Paper = __webpack_require__(22);
 
 var _Paper2 = _interopRequireDefault(_Paper);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -48975,7 +48975,7 @@ var _Subheader = __webpack_require__(87);
 
 var _Subheader2 = _interopRequireDefault(_Subheader);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 var _styles = __webpack_require__(38);
 
@@ -49105,7 +49105,7 @@ var _TextField = __webpack_require__(88);
 
 var _TextField2 = _interopRequireDefault(_TextField);
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49378,6 +49378,8 @@ var _themeDefault = __webpack_require__(55);
 
 var _themeDefault2 = _interopRequireDefault(_themeDefault);
 
+var _colors = __webpack_require__(16);
+
 var _auth = __webpack_require__(70);
 
 var _auth2 = _interopRequireDefault(_auth);
@@ -49450,6 +49452,7 @@ var AppLayout = function (_React$Component) {
       var paddingLeftSidebar = 236;
       var styles = {
         header: { paddingLeft: sidebarOpen ? paddingLeftSidebar : 0 },
+        sidebar: { backgroundColor: _colors.grey400 },
         container: {
           margin: '80px 20px 20px 15px',
           paddingLeft: sidebarOpen && this.props.width !== _withWidth.SMALL ? paddingLeftSidebar : 0
@@ -50398,7 +50401,7 @@ Chart.helpers = __webpack_require__(14);
 // @todo dispatch these helpers into appropriated helpers/helpers.* file and write unit tests!
 __webpack_require__(457)(Chart);
 
-Chart.defaults = __webpack_require__(16);
+Chart.defaults = __webpack_require__(17);
 Chart.Element = __webpack_require__(32);
 Chart.elements = __webpack_require__(40);
 Chart.Interaction = __webpack_require__(188);
@@ -50641,7 +50644,7 @@ module.exports = function(Chart) {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var elements = __webpack_require__(40);
 var helpers = __webpack_require__(14);
 
@@ -51152,7 +51155,7 @@ module.exports = function(Chart) {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var elements = __webpack_require__(40);
 var helpers = __webpack_require__(14);
 
@@ -51339,7 +51342,7 @@ module.exports = function(Chart) {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var elements = __webpack_require__(40);
 var helpers = __webpack_require__(14);
 
@@ -51645,7 +51648,7 @@ module.exports = function(Chart) {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var elements = __webpack_require__(40);
 var helpers = __webpack_require__(14);
 
@@ -51985,7 +51988,7 @@ module.exports = function(Chart) {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var elements = __webpack_require__(40);
 var helpers = __webpack_require__(14);
 
@@ -52214,7 +52217,7 @@ module.exports = function(Chart) {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var elements = __webpack_require__(40);
 var helpers = __webpack_require__(14);
 
@@ -52389,7 +52392,7 @@ module.exports = function(Chart) {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 
 defaults._set('scatter', {
 	hover: {
@@ -52439,7 +52442,7 @@ module.exports = function(Chart) {
 /* global window: false */
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var Element = __webpack_require__(32);
 var helpers = __webpack_require__(14);
 
@@ -52617,7 +52620,7 @@ module.exports = function(Chart) {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var helpers = __webpack_require__(14);
 var Interaction = __webpack_require__(188);
 var layouts = __webpack_require__(71);
@@ -53911,7 +53914,7 @@ module.exports = function(Chart) {
 
 
 var color = __webpack_require__(191);
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var helpers = __webpack_require__(14);
 
 module.exports = function(Chart) {
@@ -54526,7 +54529,7 @@ module.exports = function(Chart) {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 
 defaults._set('global', {
 	responsive: true,
@@ -54582,7 +54585,7 @@ module.exports = function() {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var Element = __webpack_require__(32);
 var helpers = __webpack_require__(14);
 var Ticks = __webpack_require__(72);
@@ -55525,7 +55528,7 @@ module.exports = function(Chart) {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var helpers = __webpack_require__(14);
 var layouts = __webpack_require__(71);
 
@@ -55578,7 +55581,7 @@ module.exports = function(Chart) {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var Element = __webpack_require__(32);
 var helpers = __webpack_require__(14);
 
@@ -56533,7 +56536,7 @@ module.exports = function(Chart) {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var Element = __webpack_require__(32);
 var helpers = __webpack_require__(14);
 
@@ -56647,7 +56650,7 @@ module.exports = Element.extend({
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var Element = __webpack_require__(32);
 var helpers = __webpack_require__(14);
 
@@ -56745,7 +56748,7 @@ module.exports = Element.extend({
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var Element = __webpack_require__(32);
 var helpers = __webpack_require__(14);
 
@@ -56858,7 +56861,7 @@ module.exports = Element.extend({
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var Element = __webpack_require__(32);
 
 defaults._set('global', {
@@ -58167,7 +58170,7 @@ module.exports.title = __webpack_require__(474);
 
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var elements = __webpack_require__(40);
 var helpers = __webpack_require__(14);
 
@@ -58486,7 +58489,7 @@ module.exports = {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var Element = __webpack_require__(32);
 var helpers = __webpack_require__(14);
 var layouts = __webpack_require__(71);
@@ -59069,7 +59072,7 @@ module.exports = {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var Element = __webpack_require__(32);
 var helpers = __webpack_require__(14);
 var layouts = __webpack_require__(71);
@@ -59468,7 +59471,7 @@ module.exports = function(Chart) {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var helpers = __webpack_require__(14);
 var Ticks = __webpack_require__(72);
 
@@ -60213,7 +60216,7 @@ module.exports = function(Chart) {
 "use strict";
 
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var helpers = __webpack_require__(14);
 var Ticks = __webpack_require__(72);
 
@@ -60753,7 +60756,7 @@ module.exports = function(Chart) {
 var moment = __webpack_require__(1);
 moment = typeof moment === 'function' ? moment : window.moment;
 
-var defaults = __webpack_require__(16);
+var defaults = __webpack_require__(17);
 var helpers = __webpack_require__(14);
 
 // Integer constants are from the ES6 spec.
@@ -84539,7 +84542,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _colors = __webpack_require__(17);
+var _colors = __webpack_require__(16);
 
 var _colorManipulator = __webpack_require__(44);
 

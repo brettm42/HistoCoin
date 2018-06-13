@@ -7,7 +7,7 @@ import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 import MenuItem from 'material-ui/MenuItem';
 import { spacing, typography } from 'material-ui/styles';
-import { white, blue600 } from 'material-ui/styles/colors';
+import { white, blue600, grey400 } from 'material-ui/styles/colors';
 import style from 'material-ui/svg-icons/image/style';
 
 const Sidebar = (props) => {
