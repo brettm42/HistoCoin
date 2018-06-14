@@ -30,18 +30,6 @@ namespace HistoCoin.Server.Infrastructure.Models
             this.Content = hash;
         }
 
-        //public string GetString(string salt)
-        //{
-        //    if (!this.Salt.Equals(salt, StringComparison.InvariantCulture))
-        //    {
-        //        return default;
-        //    }
-
-        //    var sha = SHA256.Create();
-
-        //    var hash = 
-        //}
-
         public bool Equals(string message)
         {
             var (_, hash) = 

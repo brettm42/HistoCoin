@@ -214,8 +214,7 @@ namespace HistoCoin.Server.Services.UserService
                 return false;
             }
 
-            return user.Username.Equals(credentials.Username) 
-                && user.Password.Equals(credentials.Password);
+            return user.Username.Equals(credentials.Username) && user.Password.Equals(credentials.Password);
         }
     }
 }

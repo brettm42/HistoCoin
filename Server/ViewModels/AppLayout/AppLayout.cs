@@ -2,6 +2,7 @@ namespace HistoCoin.Server.ViewModels.AppLayout
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Security.Claims;
     using DotNetify;
@@ -66,7 +67,7 @@ namespace HistoCoin.Server.ViewModels.AppLayout
                 TimeOffsetAsString(
                     DateTimeOffset.Now - TimeSpan.FromHours(new Random().NextDouble() * new Random().NextDouble()), 
                     DateTimeOffset.Now, 
-                    System.Globalization.CultureInfo.CurrentUICulture);
+                    CultureInfo.CurrentUICulture);
 
             this.UserAvatar = User.DefaultAvatar;
 

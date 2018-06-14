@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "190765fdecf3b7e9faa6"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "5d73b45c976a2ceb5417"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -47795,6 +47795,9 @@ var Sidebar = function Sidebar(props) {
       backgroundColor: _colors.blue600,
       paddingLeft: 70,
       height: 56
+    },
+    menu: {
+      backgroundColor: _colors.grey400
     },
     menuItem: {
       color: _colors.white,

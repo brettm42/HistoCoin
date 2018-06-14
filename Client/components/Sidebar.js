@@ -25,6 +25,9 @@ const Sidebar = (props) => {
       paddingLeft: 70,
       height: 56
     },
+    menu: {
+      backgroundColor: grey400
+    },
     menuItem: {
       color: white,
       fontSize: 14
@@ -89,7 +92,7 @@ const Sidebar = (props) => {
 
         <Divider style={styles.divider} />
 
-    <div>
+      <div>
         {menus.map((menu, index) =>
           <MenuItem
             key={index}
