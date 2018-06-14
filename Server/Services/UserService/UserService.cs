@@ -68,7 +68,7 @@ namespace HistoCoin.Server.Services.UserService
                     Password = new Securable($"{DebugUsername}_!#T3ST"),
                     Username = new Securable(DebugUsername),
                     LocalCache = string.Empty, // typcially the user's ID
-                    LastLoginTime = DateTimeOffset.Now - TimeSpan.FromHours(new Random().NextDouble()),
+                    LastLoginTime = DateTimeOffset.Now - TimeSpan.FromHours(new Random().NextDouble() * new Random().NextDouble()),
                 };
             }
 

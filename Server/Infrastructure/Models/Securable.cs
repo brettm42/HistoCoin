@@ -35,7 +35,7 @@ namespace HistoCoin.Server.Infrastructure.Models
             var (_, hash) = 
                 Securable.HashString((this.Salt, this.Salt + message));
 
-            return this.Content.Equals(hash, StringComparison.InvariantCulture);
+            return this.Content?.Equals(hash, StringComparison.InvariantCulture) ?? false;
         }
 
         public override string ToString() => this.Salt + '_' + this.Content;

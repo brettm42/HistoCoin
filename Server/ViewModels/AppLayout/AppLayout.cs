@@ -8,6 +8,7 @@ namespace HistoCoin.Server.ViewModels.AppLayout
     using DotNetify;
     using DotNetify.Routing;
     using DotNetify.Security;
+    using HistoCoin.Server.Services.UserService;
     using static HistoCoin.Server.Infrastructure.Helpers;
 
     [Authorize]
@@ -49,12 +50,12 @@ namespace HistoCoin.Server.ViewModels.AppLayout
 
         public string LastLogin { get; set; }
 
-        public AppLayout(IPrincipalAccessor principalAccessor)
+        public AppLayout(IPrincipalAccessor principalAccessor, IUserService userService)
         {
             var userIdentity = principalAccessor.Principal.Identity as ClaimsIdentity;
 
             // TODO: create user object and lookup saved settings for user on login
-
+            
             this.UserName =
                 userIdentity?.Claims?.FirstOrDefault(i => i.Type == ClaimTypes.NameIdentifier)?.Value 
                     ?? User.DefaultUsername;
@@ -62,10 +63,15 @@ namespace HistoCoin.Server.ViewModels.AppLayout
             this.EmailAddress = 
                 userIdentity?.Claims?.FirstOrDefault(i => i.Type == ClaimTypes.Email)?.Value 
                     ?? User.DefaultEmail;
-            
+
+            var user =
+                userService.GetServiceUser(
+                    new Infrastructure.Models.Credential(this.UserName, this.EmailAddress));
+
             this.LastLogin = 
                 TimeOffsetAsString(
-                    DateTimeOffset.Now - TimeSpan.FromHours(new Random().NextDouble() * new Random().NextDouble()), 
+                    //DateTimeOffset.Now - TimeSpan.FromHours(new Random().NextDouble() * new Random().NextDouble()), 
+                    user.LastLoginTime,
                     DateTimeOffset.Now, 
                     CultureInfo.CurrentUICulture);
 

@@ -25,12 +25,12 @@
             services.AddSignalR();
             services.AddDotNetify();
 
+            // TODO: dependency container until service inheritance is fixed
             //services.AddUserService(DefaultUserStoreLocation);
             //services.AddCacheService(DebugUserId);
             //services.AddCoinService();
             //services.AddCurrencyService();
 
-            // TODO: dependency container until service inheritance is fixed
             services.AddCurrencyServices();
         }
 
