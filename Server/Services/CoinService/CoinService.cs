@@ -82,7 +82,7 @@
                 alt.Touch(record);
             }
         }
-        
+    
         public void Delete(int id) => 
             this._coins.Remove(
                 this._coins.FirstOrDefault(i => i.Id == id));
