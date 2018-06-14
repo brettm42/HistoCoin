@@ -43,14 +43,12 @@ class AppLayout extends React.Component {
   }
 
   render() {
-    let { sidebarOpen, Menus, UserAvatar, UserBackground, UserName, EmailAddress, LastLogin } = this.state;
+    let { sidebarOpen, Menus, UserAvatar, UserName, EmailAddress, LastLogin } = this.state;
     let userAvatarUrl = UserAvatar ? UserAvatar : null;
-    let userBackgroundUrl = UserBackground ? UserBackground : "../images/material_bg.png";
 
     const paddingLeftSidebar = 236;
     const styles = {
       header: { paddingLeft: sidebarOpen ? paddingLeftSidebar : 0 },
-      sidebar: { backgroundColor: grey400 },
       container: {
         margin: '80px 20px 20px 15px',
         paddingLeft: sidebarOpen && this.props.width !== SMALL ? paddingLeftSidebar : 0
@@ -75,7 +73,6 @@ class AppLayout extends React.Component {
             menus={Menus}
             username={UserName}
             userAvatarUrl={userAvatarUrl}
-            userBackgroundUrl={userBackgroundUrl}
             emailAddress={EmailAddress}
             lastLogin={LastLogin}
           />

@@ -12,7 +12,7 @@ import style from 'material-ui/svg-icons/image/style';
 
 const Sidebar = (props) => {
 
-  let { vm, logoTitle, open, userAvatarUrl, userBackgroundUrl, menus } = props;
+  let { vm, logoTitle, open, userAvatarUrl, menus } = props;
 
   const styles = {
     logo: {
@@ -30,17 +30,17 @@ const Sidebar = (props) => {
       fontSize: 14
     },
     divider: {
-      margin: 15
+        margin: 15,
+        marginLeft: 30
     },
     avatar: {
       div: {
         padding: '15px 0 0 15px',
-        backgroundImage: 'url(' + userBackgroundUrl + ')',
-        height: 45
+        backgroundImage: 'url(' + require('../images/material_bg.png') + ')',
+        height: 90
       },
       detailDiv: {
           padding: '15px 0 25px 15px',
-          backgroundImage: 'url(' + userBackgroundUrl + ')',
           height: 45
       },
       icon: {
@@ -74,16 +74,22 @@ const Sidebar = (props) => {
   return (
     <Drawer docked={true} open={open}>
       <div style={styles.logo}>{logoTitle}</div>
+
       <div style={styles.avatar.div}>
+        <div style={styles.avatar.detailDiv}>
           <Avatar src={userAvatarUrl} size={50} style={styles.avatar.icon} />
           <span style={styles.avatar.span}>{props.username}</span>
+        </div>
       </div>
-      <div style={styles.avatar.detailDiv}>
-        <span style={styles.avatar.emailSpan}>{props.emailAddress}</span>
-        <span style={styles.avatar.loginSpan}>{props.lastLogin}</span>
-      </div>
-          <Divider style={styles.divider} />
-      <div>
+        
+        <div style={styles.avatar.detailDiv}>
+            <span style={styles.avatar.emailSpan}>{props.emailAddress}</span>
+            <span style={styles.avatar.loginSpan}>{props.lastLogin}</span>
+        </div>
+
+        <Divider style={styles.divider} />
+
+    <div>
         {menus.map((menu, index) =>
           <MenuItem
             key={index}
@@ -103,7 +109,6 @@ Sidebar.propTypes = {
   menus: PropTypes.array,
   username: PropTypes.string,
   userAvatarUrl: PropTypes.string,
-  userBackgroundUrl: PropTypes.string,
   emailAddress: PropTypes.string,
   lastLogin: PropTypes.string
 };
