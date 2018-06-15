@@ -70,8 +70,8 @@ namespace HistoCoin.Server.ViewModels.AppLayout
 
             this.LastLogin = 
                 TimeOffsetAsString(
-                    //DateTimeOffset.Now - TimeSpan.FromHours(new Random().NextDouble() * new Random().NextDouble()), 
-                    user.LastLoginTime,
+                    user?.LastLoginTime 
+                        ?? DateTimeOffset.Now - TimeSpan.FromHours(new Random().NextDouble() * new Random().NextDouble()),
                     DateTimeOffset.Now, 
                     CultureInfo.CurrentUICulture);
 
