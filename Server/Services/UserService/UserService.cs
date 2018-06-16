@@ -101,7 +101,7 @@ namespace HistoCoin.Server.Services.UserService
             }
 
             return
-                this.GetAllServiceUsers()
+                this.GetAllServiceUsers()?
                     .FirstOrDefault(
                         user =>
                             UserService.Authenticate(user, credentials));
