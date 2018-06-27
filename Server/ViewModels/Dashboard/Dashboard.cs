@@ -71,13 +71,13 @@ namespace HistoCoin.Server.ViewModels.Dashboard
                                 new Currency
                                 {
                                     Handle = value.Handle,
-                                    Name = ,
+                                    Name = "",
                                     Value = $"{Normalize(value.CurrentValue, dataService.BaseCurrency)}",
                                     Worth = $"{value.Worth}",
                                     Count = $"{value.Count}",
                                     Route = this.Redirect(AppLayout.FormPagePath, value.Id.ToString()),
-                                    Icon = ,
-                                    Url = ,
+                                    Icon = "",
+                                    Url = "",
                                 });
 
                             if (values.Count > Get<string[]>("Currencies").Length)
