@@ -34,7 +34,9 @@ const RecentActivities = (props) => {
     </IconButton>
   );
 
-  const handleMenuClick = route => props.vm.$routeTo(route);
+    const handleMenuClick = route => props.vm.$routeTo(route);
+
+    const handleLinkClick = url => window.open(url);
 
   return (
     <Paper>
@@ -44,13 +46,14 @@ const RecentActivities = (props) => {
           <div key={idx}>
             <ListItem
               leftAvatar={<Avatar icon={<Wallpaper />} />}
-              primaryText={item.Handle}
+              primaryText={`${item.Name} (${item.Handle})`}
               secondaryText={item.Value < 0
                   ? "Loading..."
                   : `$${item.Value} x ${item.Count} ($${item.Worth})`}
               rightIconButton={
                 <IconMenu iconButtonElement={iconButtonElement}>
-                  <MenuItem onClick={_ => handleMenuClick(item.Route)}>View</MenuItem>
+                    <MenuItem onClick={_ => handleMenuClick(item.Route)}>View</MenuItem>
+                    <MenuItem onClick={_ => handleLinkClick(item.Url)}>CoinMarketCap</MenuItem>
                 </IconMenu>
               }
             />

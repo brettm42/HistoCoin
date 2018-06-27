@@ -48,18 +48,6 @@ namespace HistoCoin.Server.ViewModels.Dashboard
             AddProperty<int[]>("DistributionUsd").SubscribeTo(dataService.DistributionUsd);
             AddProperty<int[]>("DistributionBtc").SubscribeTo(dataService.DistributionBtc);
 
-            //AddProperty<DataGraph>("HistoricalGraph")
-            //    .SubscribeTo(
-            //        Observable
-            //            .Interval(UpdateInterval)
-            //            .StartWith(0)
-            //            .Select(_ =>
-            //                new DataGraph(
-            //                    dataService.ValueHistory
-            //                        .Select(i => i.GetDates(DefaultHistoryPopulation)),
-            //                    dataService.ValueHistory
-            //                        .Select(i => i.GetValues(DefaultHistoryPopulation)))));
-
             AddProperty<double[]>("HistValues")
                 .SubscribeTo(
                     dataService.ValueHistory
@@ -83,10 +71,13 @@ namespace HistoCoin.Server.ViewModels.Dashboard
                                 new Currency
                                 {
                                     Handle = value.Handle,
+                                    Name = ,
                                     Value = $"{Normalize(value.CurrentValue, dataService.BaseCurrency)}",
                                     Worth = $"{value.Worth}",
                                     Count = $"{value.Count}",
-                                    Route = this.Redirect(AppLayout.FormPagePath, value.Id.ToString())
+                                    Route = this.Redirect(AppLayout.FormPagePath, value.Id.ToString()),
+                                    Icon = ,
+                                    Url = ,
                                 });
 
                             if (values.Count > Get<string[]>("Currencies").Length)
