@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "13efc469f0f26f33b753"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "48e1d46b5e144da6af0c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -48393,6 +48393,10 @@ var RecentActivities = function RecentActivities(props) {
     return props.vm.$routeTo(route);
   };
 
+  var handleLinkClick = function handleLinkClick(url) {
+    return window.open(url);
+  };
+
   return _react2.default.createElement(
     _Paper2.default,
     null,
@@ -48410,7 +48414,7 @@ var RecentActivities = function RecentActivities(props) {
           { key: idx },
           _react2.default.createElement(_List.ListItem, {
             leftAvatar: _react2.default.createElement(_Avatar2.default, { icon: _react2.default.createElement(_wallpaper2.default, null) }),
-            primaryText: item.Handle,
+            primaryText: item.Name + ' (' + item.Handle + ')',
             secondaryText: item.Value < 0 ? "Loading..." : '$' + item.Value + ' x ' + item.Count + ' ($' + item.Worth + ')',
             rightIconButton: _react2.default.createElement(
               _IconMenu2.default,
@@ -48421,6 +48425,13 @@ var RecentActivities = function RecentActivities(props) {
                     return handleMenuClick(item.Route);
                   } },
                 'View'
+              ),
+              _react2.default.createElement(
+                _MenuItem2.default,
+                { onClick: function onClick(_) {
+                    return handleLinkClick(item.Url);
+                  } },
+                'CoinMarketCap'
               )
             )
           }),
