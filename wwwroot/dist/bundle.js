@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "48e1d46b5e144da6af0c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "e8b9228d81aeaf428b0e"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -10256,7 +10256,7 @@ module.exports = isObjectLike;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Doughnut", function() { return Doughnut; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Doughnut", function() { return Doughnut; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Pie", function() { return Pie; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Line", function() { return Line; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Bar", function() { return Bar; });
@@ -10295,8 +10295,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-
-var NODE_ENV = typeof process !== 'undefined' && process.env && process.env.NODE_ENV;
 
 var ChartComponent = function (_React$Component) {
   _inherits(ChartComponent, _React$Component);
@@ -10424,25 +10422,6 @@ var ChartComponent = function (_React$Component) {
     return data;
   };
 
-  ChartComponent.prototype.checkDatasets = function checkDatasets(datasets) {
-    var isDev = NODE_ENV !== 'production' && NODE_ENV !== 'prod';
-    var usingCustomKeyProvider = this.props.datasetKeyProvider !== ChartComponent.getLabelAsKey;
-    var multipleDatasets = datasets.length > 1;
-
-    if (isDev && multipleDatasets && !usingCustomKeyProvider) {
-      var shouldWarn = false;
-      datasets.forEach(function (dataset) {
-        if (!dataset.label) {
-          shouldWarn = true;
-        }
-      });
-
-      if (shouldWarn) {
-        console.error('[react-chartjs-2] Warning: Each dataset needs a unique key. By default, the "label" property on each dataset is used. Alternatively, you may provide a "datasetKeyProvider" as a prop that returns a unique key.');
-      }
-    }
-  };
-
   ChartComponent.prototype.updateChart = function updateChart() {
     var _this2 = this;
 
@@ -10461,7 +10440,6 @@ var ChartComponent = function (_React$Component) {
     // seamless transitions
     var currentDatasets = this.chartInstance.config.data && this.chartInstance.config.data.datasets || [];
     var nextDatasets = data.datasets || [];
-    this.checkDatasets(currentDatasets);
 
     var currentDatasetsIndexed = __WEBPACK_IMPORTED_MODULE_5_lodash_keyBy___default()(currentDatasets, this.props.datasetKeyProvider);
 
@@ -10469,7 +10447,6 @@ var ChartComponent = function (_React$Component) {
     // on each dataset.
     this.chartInstance.config.data.datasets = nextDatasets.map(function (next) {
       var current = currentDatasetsIndexed[_this2.props.datasetKeyProvider(next)];
-
       if (current && current.type === next.type) {
         // The data array must be edited in place. As chart.js adds listeners to it.
         current.data.splice(next.data.length);
@@ -10787,7 +10764,6 @@ var Scatter = function (_React$Component10) {
 
 var defaults = __WEBPACK_IMPORTED_MODULE_2_chart_js___default.a.defaults;
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
 /* 66 */
@@ -17943,10 +17919,13 @@ var reIsUint = /^(?:0|[1-9]\d*)$/;
  * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
  */
 function isIndex(value, length) {
+  var type = typeof value;
   length = length == null ? MAX_SAFE_INTEGER : length;
+
   return !!length &&
-    (typeof value == 'number' || reIsUint.test(value)) &&
-    (value > -1 && value % 1 == 0 && value < length);
+    (type == 'number' ||
+      (type != 'symbol' && reIsUint.test(value))) &&
+        (value > -1 && value % 1 == 0 && value < length);
 }
 
 module.exports = isIndex;
@@ -24833,6 +24812,27 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
      */
     componentWillUnmount: 'DEFINE_MANY',
 
+    /**
+     * Replacement for (deprecated) `componentWillMount`.
+     *
+     * @optional
+     */
+    UNSAFE_componentWillMount: 'DEFINE_MANY',
+
+    /**
+     * Replacement for (deprecated) `componentWillReceiveProps`.
+     *
+     * @optional
+     */
+    UNSAFE_componentWillReceiveProps: 'DEFINE_MANY',
+
+    /**
+     * Replacement for (deprecated) `componentWillUpdate`.
+     *
+     * @optional
+     */
+    UNSAFE_componentWillUpdate: 'DEFINE_MANY',
+
     // ==== Advanced methods ====
 
     /**
@@ -24846,6 +24846,23 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
      * @overridable
      */
     updateComponent: 'OVERRIDE_BASE'
+  };
+
+  /**
+   * Similar to ReactClassInterface but for static methods.
+   */
+  var ReactClassStaticInterface = {
+    /**
+     * This method is invoked after a component is instantiated and when it
+     * receives new props. Return an object to update state in response to
+     * prop changes. Return null to indicate no change to state.
+     *
+     * If an object is returned, its keys will be merged into the existing state.
+     *
+     * @return {object || null}
+     * @optional
+     */
+    getDerivedStateFromProps: 'DEFINE_MANY_MERGED'
   };
 
   /**
@@ -25082,6 +25099,7 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     if (!statics) {
       return;
     }
+
     for (var name in statics) {
       var property = statics[name];
       if (!statics.hasOwnProperty(name)) {
@@ -25098,14 +25116,25 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
         name
       );
 
-      var isInherited = name in Constructor;
-      _invariant(
-        !isInherited,
-        'ReactClass: You are attempting to define ' +
-          '`%s` on your component more than once. This conflict may be ' +
-          'due to a mixin.',
-        name
-      );
+      var isAlreadyDefined = name in Constructor;
+      if (isAlreadyDefined) {
+        var specPolicy = ReactClassStaticInterface.hasOwnProperty(name)
+          ? ReactClassStaticInterface[name]
+          : null;
+
+        _invariant(
+          specPolicy === 'DEFINE_MANY_MERGED',
+          'ReactClass: You are attempting to define ' +
+            '`%s` on your component more than once. This conflict may be ' +
+            'due to a mixin.',
+          name
+        );
+
+        Constructor[name] = createMergedResultFunction(Constructor[name], property);
+
+        return;
+      }
+
       Constructor[name] = property;
     }
   }
@@ -25415,6 +25444,12 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
           'componentWillRecieveProps(). Did you mean componentWillReceiveProps()?',
         spec.displayName || 'A component'
       );
+      warning(
+        !Constructor.prototype.UNSAFE_componentWillRecieveProps,
+        '%s has a method called UNSAFE_componentWillRecieveProps(). ' +
+          'Did you mean UNSAFE_componentWillReceiveProps()?',
+        spec.displayName || 'A component'
+      );
     }
 
     // Reduce time spent doing lookups by setting these on the prototype.
@@ -25461,10 +25496,7 @@ module.exports = exports['default'];
 /* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global, process) {/** 
- * @overview ASP.NET Core SignalR JavaScript Client.
- * @version 1.0.0.
- * @license
+/* WEBPACK VAR INJECTION */(function(global, process) {/* @license
  * Copyright (c) .NET Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
  */
@@ -25488,208 +25520,6 @@ module.exports = exports['default'];
    function createCommonjsModule(fn, module) {
       return module = { exports: {} }, fn(module, module.exports), module.exports;
    }
-
-   /*! *****************************************************************************
-   Copyright (c) Microsoft Corporation. All rights reserved.
-   Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-   this file except in compliance with the License. You may obtain a copy of the
-   License at http://www.apache.org/licenses/LICENSE-2.0
-   
-   THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-   KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-   WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-   MERCHANTABLITY OR NON-INFRINGEMENT.
-   
-   See the Apache Version 2.0 License for specific language governing permissions
-   and limitations under the License.
-   ***************************************************************************** */
-   /* global Reflect, Promise */
-
-   var extendStatics = Object.setPrototypeOf ||
-      ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-      function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-
-   function __extends(d, b) {
-      extendStatics(d, b);
-      function __() { this.constructor = d; }
-      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-   }
-
-   var __assign = Object.assign || function __assign(t) {
-      for (var s, i = 1, n = arguments.length; i < n; i++) {
-         s = arguments[i];
-         for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-      return t;
-   };
-
-   function __rest(s, e) {
-      var t = {};
-      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-         t[p] = s[p];
-      if (s != null && typeof Object.getOwnPropertySymbols === "function")
-         for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
-            t[p[i]] = s[p[i]];
-      return t;
-   }
-
-   function __decorate(decorators, target, key, desc) {
-      var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-      if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-      else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-      return c > 3 && r && Object.defineProperty(target, key, r), r;
-   }
-
-   function __param(paramIndex, decorator) {
-      return function (target, key) { decorator(target, key, paramIndex); }
-   }
-
-   function __metadata(metadataKey, metadataValue) {
-      if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
-   }
-
-   function __awaiter(thisArg, _arguments, P, generator) {
-      return new (P || (P = Promise))(function (resolve, reject) {
-         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-         function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-         step((generator = generator.apply(thisArg, _arguments || [])).next());
-      });
-   }
-
-   function __generator(thisArg, body) {
-      var _ = { label: 0, sent: function () { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-      return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function () { return this; }), g;
-      function verb(n) { return function (v) { return step([n, v]); }; }
-      function step(op) {
-         if (f) throw new TypeError("Generator is already executing.");
-         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
-            switch (op[0]) {
-               case 0: case 1: t = op; break;
-               case 4: _.label++; return { value: op[1], done: false };
-               case 5: _.label++; y = op[1]; op = [0]; continue;
-               case 7: op = _.ops.pop(); _.trys.pop(); continue;
-               default:
-                  if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                  if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                  if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                  if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                  if (t[2]) _.ops.pop();
-                  _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-         } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-      }
-   }
-
-   function __exportStar(m, exports) {
-      for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-   }
-
-   function __values(o) {
-      var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
-      if (m) return m.call(o);
-      return {
-         next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-         }
-      };
-   }
-
-   function __read(o, n) {
-      var m = typeof Symbol === "function" && o[Symbol.iterator];
-      if (!m) return o;
-      var i = m.call(o), r, ar = [], e;
-      try {
-         while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-      }
-      catch (error) { e = { error: error }; }
-      finally {
-         try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-         }
-         finally { if (e) throw e.error; }
-      }
-      return ar;
-   }
-
-   function __spread() {
-      for (var ar = [], i = 0; i < arguments.length; i++)
-         ar = ar.concat(__read(arguments[i]));
-      return ar;
-   }
-
-   function __await(v) {
-      return this instanceof __await ? (this.v = v, this) : new __await(v);
-   }
-
-   function __asyncGenerator(thisArg, _arguments, generator) {
-      if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-      var g = generator.apply(thisArg, _arguments || []), i, q = [];
-      return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-      function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-      function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-      function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
-      function fulfill(value) { resume("next", value); }
-      function reject(value) { resume("throw", value); }
-      function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-   }
-
-   function __asyncDelegator(o) {
-      var i, p;
-      return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
-      function verb(n, f) { if (o[n]) i[n] = function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; }; }
-   }
-
-   function __asyncValues(o) {
-      if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-      var m = o[Symbol.asyncIterator];
-      return m ? m.call(o) : typeof __values === "function" ? __values(o) : o[Symbol.iterator]();
-   }
-
-   function __makeTemplateObject(cooked, raw) {
-      if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-      return cooked;
-   }
-
-   function __importStar(mod) {
-      if (mod && mod.__esModule) return mod;
-      var result = {};
-      if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-      result.default = mod;
-      return result;
-   }
-
-   function __importDefault(mod) {
-      return (mod && mod.__esModule) ? mod : { default: mod };
-   }
-
-
-   var tslib_1 = Object.freeze({
-      __extends: __extends,
-      __assign: __assign,
-      __rest: __rest,
-      __decorate: __decorate,
-      __param: __param,
-      __metadata: __metadata,
-      __awaiter: __awaiter,
-      __generator: __generator,
-      __exportStar: __exportStar,
-      __values: __values,
-      __read: __read,
-      __spread: __spread,
-      __await: __await,
-      __asyncGenerator: __asyncGenerator,
-      __asyncDelegator: __asyncDelegator,
-      __asyncValues: __asyncValues,
-      __makeTemplateObject: __makeTemplateObject,
-      __importStar: __importStar,
-      __importDefault: __importDefault
-   });
 
    var es6Promise_auto = createCommonjsModule(function (module, exports) {
       /*!
@@ -26884,16 +26714,19 @@ module.exports = exports['default'];
    });
 
    var Errors = createCommonjsModule(function (module, exports) {
+      var __extends = (commonjsGlobal && commonjsGlobal.__extends) || (function () {
+         var extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+         return function (d, b) {
+            extendStatics(d, b);
+            function __() { this.constructor = d; }
+            d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+         };
+      })();
       Object.defineProperty(exports, "__esModule", { value: true });
-
-      /** Error thrown when an HTTP request fails. */
       var HttpError = /** @class */ (function (_super) {
-         tslib_1.__extends(HttpError, _super);
-         /** Constructs a new instance of {@link HttpError}.
-          *
-          * @param {string} errorMessage A descriptive error message.
-          * @param {number} statusCode The HTTP status code represented by this error.
-          */
+         __extends(HttpError, _super);
          function HttpError(errorMessage, statusCode) {
             var _newTarget = this.constructor;
             var _this = this;
@@ -26908,13 +26741,8 @@ module.exports = exports['default'];
          return HttpError;
       }(Error));
       exports.HttpError = HttpError;
-      /** Error thrown when a timeout elapses. */
       var TimeoutError = /** @class */ (function (_super) {
-         tslib_1.__extends(TimeoutError, _super);
-         /** Constructs a new instance of {@link TimeoutError}.
-          *
-          * @param {string} errorMessage A descriptive error message.
-          */
+         __extends(TimeoutError, _super);
          function TimeoutError(errorMessage) {
             var _newTarget = this.constructor;
             if (errorMessage === void 0) { errorMessage = "A timeout occurred."; }
@@ -26938,27 +26766,13 @@ module.exports = exports['default'];
 
    var ILogger = createCommonjsModule(function (module, exports) {
       Object.defineProperty(exports, "__esModule", { value: true });
-      // These values are designed to match the ASP.NET Log Levels since that's the pattern we're emulating here.
-      /** Indicates the severity of a log message.
-       *
-       * Log Levels are ordered in increasing severity. So `Debug` is more severe than `Trace`, etc.
-       */
       var LogLevel;
       (function (LogLevel) {
-         /** Log level for very low severity diagnostic messages. */
          LogLevel[LogLevel["Trace"] = 0] = "Trace";
-         /** Log level for low severity diagnostic messages. */
-         LogLevel[LogLevel["Debug"] = 1] = "Debug";
-         /** Log level for informational diagnostic messages. */
-         LogLevel[LogLevel["Information"] = 2] = "Information";
-         /** Log level for diagnostic messages that indicate a non-fatal problem. */
-         LogLevel[LogLevel["Warning"] = 3] = "Warning";
-         /** Log level for diagnostic messages that indicate a failure in the current operation. */
-         LogLevel[LogLevel["Error"] = 4] = "Error";
-         /** Log level for diagnostic messages that indicate a failure that will terminate the entire application. */
-         LogLevel[LogLevel["Critical"] = 5] = "Critical";
-         /** The highest possible log level. Used when configuring logging to indicate that no log messages should be emitted. */
-         LogLevel[LogLevel["None"] = 6] = "None";
+         LogLevel[LogLevel["Information"] = 1] = "Information";
+         LogLevel[LogLevel["Warning"] = 2] = "Warning";
+         LogLevel[LogLevel["Error"] = 3] = "Error";
+         LogLevel[LogLevel["None"] = 4] = "None";
       })(LogLevel = exports.LogLevel || (exports.LogLevel = {}));
 
    });
@@ -26967,11 +26781,27 @@ module.exports = exports['default'];
    var ILogger_1 = ILogger.LogLevel;
 
    var HttpClient_1 = createCommonjsModule(function (module, exports) {
+      var __extends = (commonjsGlobal && commonjsGlobal.__extends) || (function () {
+         var extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+         return function (d, b) {
+            extendStatics(d, b);
+            function __() { this.constructor = d; }
+            d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+         };
+      })();
+      var __assign = (commonjsGlobal && commonjsGlobal.__assign) || Object.assign || function (t) {
+         for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+               t[p] = s[p];
+         }
+         return t;
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
 
 
-
-      /** Represents an HTTP response. */
       var HttpResponse = /** @class */ (function () {
          function HttpResponse(statusCode, statusText, content) {
             this.statusCode = statusCode;
@@ -26981,35 +26811,25 @@ module.exports = exports['default'];
          return HttpResponse;
       }());
       exports.HttpResponse = HttpResponse;
-      /** Abstraction over an HTTP client.
-       *
-       * This class provides an abstraction over an HTTP client so that a different implementation can be provided on different platforms.
-       */
       var HttpClient = /** @class */ (function () {
          function HttpClient() {
          }
          HttpClient.prototype.get = function (url, options) {
-            return this.send(tslib_1.__assign({}, options, { method: "GET", url: url }));
+            return this.send(__assign({}, options, { method: "GET", url: url }));
          };
          HttpClient.prototype.post = function (url, options) {
-            return this.send(tslib_1.__assign({}, options, { method: "POST", url: url }));
-         };
-         HttpClient.prototype.delete = function (url, options) {
-            return this.send(tslib_1.__assign({}, options, { method: "DELETE", url: url }));
+            return this.send(__assign({}, options, { method: "POST", url: url }));
          };
          return HttpClient;
       }());
       exports.HttpClient = HttpClient;
-      /** Default implementation of {@link HttpClient}. */
       var DefaultHttpClient = /** @class */ (function (_super) {
-         tslib_1.__extends(DefaultHttpClient, _super);
-         /** Creates a new instance of the {@link DefaultHttpClient}, using the provided {@link ILogger} to log messages. */
+         __extends(DefaultHttpClient, _super);
          function DefaultHttpClient(logger) {
             var _this = _super.call(this) || this;
             _this.logger = logger;
             return _this;
          }
-         /** @inheritDoc */
          DefaultHttpClient.prototype.send = function (request) {
             var _this = this;
             return new Promise(function (resolve, reject) {
@@ -27065,275 +26885,17 @@ module.exports = exports['default'];
    var HttpClient_3 = HttpClient_1.HttpClient;
    var HttpClient_4 = HttpClient_1.DefaultHttpClient;
 
-   var TextMessageFormat_1 = createCommonjsModule(function (module, exports) {
-      Object.defineProperty(exports, "__esModule", { value: true });
-      // Not exported from index
-      var TextMessageFormat = /** @class */ (function () {
-         function TextMessageFormat() {
-         }
-         TextMessageFormat.write = function (output) {
-            return "" + output + TextMessageFormat.RecordSeparator;
-         };
-         TextMessageFormat.parse = function (input) {
-            if (input[input.length - 1] !== TextMessageFormat.RecordSeparator) {
-               throw new Error("Message is incomplete.");
-            }
-            var messages = input.split(TextMessageFormat.RecordSeparator);
-            messages.pop();
-            return messages;
-         };
-         TextMessageFormat.RecordSeparatorCode = 0x1e;
-         TextMessageFormat.RecordSeparator = String.fromCharCode(TextMessageFormat.RecordSeparatorCode);
-         return TextMessageFormat;
-      }());
-      exports.TextMessageFormat = TextMessageFormat;
-
-   });
-
-   unwrapExports(TextMessageFormat_1);
-   var TextMessageFormat_2 = TextMessageFormat_1.TextMessageFormat;
-
-   var HandshakeProtocol_1 = createCommonjsModule(function (module, exports) {
-      Object.defineProperty(exports, "__esModule", { value: true });
-
-      var HandshakeProtocol = /** @class */ (function () {
-         function HandshakeProtocol() {
-         }
-         // Handshake request is always JSON
-         HandshakeProtocol.prototype.writeHandshakeRequest = function (handshakeRequest) {
-            return TextMessageFormat_1.TextMessageFormat.write(JSON.stringify(handshakeRequest));
-         };
-         HandshakeProtocol.prototype.parseHandshakeResponse = function (data) {
-            var responseMessage;
-            var messageData;
-            var remainingData;
-            if (data instanceof ArrayBuffer) {
-               // Format is binary but still need to read JSON text from handshake response
-               var binaryData = new Uint8Array(data);
-               var separatorIndex = binaryData.indexOf(TextMessageFormat_1.TextMessageFormat.RecordSeparatorCode);
-               if (separatorIndex === -1) {
-                  throw new Error("Message is incomplete.");
-               }
-               // content before separator is handshake response
-               // optional content after is additional messages
-               var responseLength = separatorIndex + 1;
-               messageData = String.fromCharCode.apply(null, binaryData.slice(0, responseLength));
-               remainingData = (binaryData.byteLength > responseLength) ? binaryData.slice(responseLength).buffer : null;
-            }
-            else {
-               var textData = data;
-               var separatorIndex = textData.indexOf(TextMessageFormat_1.TextMessageFormat.RecordSeparator);
-               if (separatorIndex === -1) {
-                  throw new Error("Message is incomplete.");
-               }
-               // content before separator is handshake response
-               // optional content after is additional messages
-               var responseLength = separatorIndex + 1;
-               messageData = textData.substring(0, responseLength);
-               remainingData = (textData.length > responseLength) ? textData.substring(responseLength) : null;
-            }
-            // At this point we should have just the single handshake message
-            var messages = TextMessageFormat_1.TextMessageFormat.parse(messageData);
-            responseMessage = JSON.parse(messages[0]);
-            // multiple messages could have arrived with handshake
-            // return additional data to be parsed as usual, or null if all parsed
-            return [remainingData, responseMessage];
-         };
-         return HandshakeProtocol;
-      }());
-      exports.HandshakeProtocol = HandshakeProtocol;
-
-   });
-
-   unwrapExports(HandshakeProtocol_1);
-   var HandshakeProtocol_2 = HandshakeProtocol_1.HandshakeProtocol;
-
-   var IHubProtocol = createCommonjsModule(function (module, exports) {
-      Object.defineProperty(exports, "__esModule", { value: true });
-      /** Defines the type of a Hub Message. */
-      var MessageType;
-      (function (MessageType) {
-         /** Indicates the message is an Invocation message and implements the {@link InvocationMessage} interface. */
-         MessageType[MessageType["Invocation"] = 1] = "Invocation";
-         /** Indicates the message is a StreamItem message and implements the {@link StreamItemMessage} interface. */
-         MessageType[MessageType["StreamItem"] = 2] = "StreamItem";
-         /** Indicates the message is a Completion message and implements the {@link CompletionMessage} interface. */
-         MessageType[MessageType["Completion"] = 3] = "Completion";
-         /** Indicates the message is a Stream Invocation message and implements the {@link StreamInvocationMessage} interface. */
-         MessageType[MessageType["StreamInvocation"] = 4] = "StreamInvocation";
-         /** Indicates the message is a Cancel Invocation message and implements the {@link CancelInvocationMessage} interface. */
-         MessageType[MessageType["CancelInvocation"] = 5] = "CancelInvocation";
-         /** Indicates the message is a Ping message and implements the {@link PingMessage} interface. */
-         MessageType[MessageType["Ping"] = 6] = "Ping";
-         /** Indicates the message is a Close message and implements the {@link CloseMessage} interface. */
-         MessageType[MessageType["Close"] = 7] = "Close";
-      })(MessageType = exports.MessageType || (exports.MessageType = {}));
-
-   });
-
-   unwrapExports(IHubProtocol);
-   var IHubProtocol_1 = IHubProtocol.MessageType;
-
    var Loggers = createCommonjsModule(function (module, exports) {
       Object.defineProperty(exports, "__esModule", { value: true });
-      /** A logger that does nothing when log messages are sent to it. */
+
       var NullLogger = /** @class */ (function () {
          function NullLogger() {
          }
-         /** @inheritDoc */
          NullLogger.prototype.log = function (logLevel, message) {
          };
-         /** The singleton instance of the {@link NullLogger}. */
-         NullLogger.instance = new NullLogger();
          return NullLogger;
       }());
       exports.NullLogger = NullLogger;
-
-   });
-
-   unwrapExports(Loggers);
-   var Loggers_1 = Loggers.NullLogger;
-
-   var Utils = createCommonjsModule(function (module, exports) {
-      Object.defineProperty(exports, "__esModule", { value: true });
-
-
-
-      var Arg = /** @class */ (function () {
-         function Arg() {
-         }
-         Arg.isRequired = function (val, name) {
-            if (val === null || val === undefined) {
-               throw new Error("The '" + name + "' argument is required.");
-            }
-         };
-         Arg.isIn = function (val, values, name) {
-            // TypeScript enums have keys for **both** the name and the value of each enum member on the type itself.
-            if (!(val in values)) {
-               throw new Error("Unknown " + name + " value: " + val + ".");
-            }
-         };
-         return Arg;
-      }());
-      exports.Arg = Arg;
-      function getDataDetail(data, includeContent) {
-         var length = null;
-         if (data instanceof ArrayBuffer) {
-            length = "Binary data of length " + data.byteLength;
-            if (includeContent) {
-               length += ". Content: '" + formatArrayBuffer(data) + "'";
-            }
-         }
-         else if (typeof data === "string") {
-            length = "String data of length " + data.length;
-            if (includeContent) {
-               length += ". Content: '" + data + "'.";
-            }
-         }
-         return length;
-      }
-      exports.getDataDetail = getDataDetail;
-      function formatArrayBuffer(data) {
-         var view = new Uint8Array(data);
-         // Uint8Array.map only supports returning another Uint8Array?
-         var str = "";
-         view.forEach(function (num) {
-            var pad = num < 16 ? "0" : "";
-            str += "0x" + pad + num.toString(16) + " ";
-         });
-         // Trim of trailing space.
-         return str.substr(0, str.length - 1);
-      }
-      exports.formatArrayBuffer = formatArrayBuffer;
-      function sendMessage(logger, transportName, httpClient, url, accessTokenFactory, content, logMessageContent) {
-         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var headers, token, response, _a;
-            return tslib_1.__generator(this, function (_b) {
-               switch (_b.label) {
-                  case 0: return [4 /*yield*/, accessTokenFactory()];
-                  case 1:
-                     token = _b.sent();
-                     if (token) {
-                        headers = (_a = {}, _a["Authorization"] = "Bearer " + token, _a);
-                     }
-                     logger.log(ILogger.LogLevel.Trace, "(" + transportName + " transport) sending data. " + getDataDetail(content, logMessageContent) + ".");
-                     return [4 /*yield*/, httpClient.post(url, {
-                        content: content,
-                        headers: headers,
-                     })];
-                  case 2:
-                     response = _b.sent();
-                     logger.log(ILogger.LogLevel.Trace, "(" + transportName + " transport) request complete. Response status: " + response.statusCode + ".");
-                     return [2 /*return*/];
-               }
-            });
-         });
-      }
-      exports.sendMessage = sendMessage;
-      function createLogger(logger) {
-         if (logger === undefined) {
-            return new ConsoleLogger(ILogger.LogLevel.Information);
-         }
-         if (logger === null) {
-            return Loggers.NullLogger.instance;
-         }
-         if (logger.log) {
-            return logger;
-         }
-         return new ConsoleLogger(logger);
-      }
-      exports.createLogger = createLogger;
-      var Subject = /** @class */ (function () {
-         function Subject(cancelCallback) {
-            this.observers = [];
-            this.cancelCallback = cancelCallback;
-         }
-         Subject.prototype.next = function (item) {
-            for (var _i = 0, _a = this.observers; _i < _a.length; _i++) {
-               var observer = _a[_i];
-               observer.next(item);
-            }
-         };
-         Subject.prototype.error = function (err) {
-            for (var _i = 0, _a = this.observers; _i < _a.length; _i++) {
-               var observer = _a[_i];
-               if (observer.error) {
-                  observer.error(err);
-               }
-            }
-         };
-         Subject.prototype.complete = function () {
-            for (var _i = 0, _a = this.observers; _i < _a.length; _i++) {
-               var observer = _a[_i];
-               if (observer.complete) {
-                  observer.complete();
-               }
-            }
-         };
-         Subject.prototype.subscribe = function (observer) {
-            this.observers.push(observer);
-            return new SubjectSubscription(this, observer);
-         };
-         return Subject;
-      }());
-      exports.Subject = Subject;
-      var SubjectSubscription = /** @class */ (function () {
-         function SubjectSubscription(subject, observer) {
-            this.subject = subject;
-            this.observer = observer;
-         }
-         SubjectSubscription.prototype.dispose = function () {
-            var index = this.subject.observers.indexOf(this.observer);
-            if (index > -1) {
-               this.subject.observers.splice(index, 1);
-            }
-            if (this.subject.observers.length === 0) {
-               this.subject.cancelCallback().catch(function (_) { });
-            }
-         };
-         return SubjectSubscription;
-      }());
-      exports.SubjectSubscription = SubjectSubscription;
       var ConsoleLogger = /** @class */ (function () {
          function ConsoleLogger(minimumLogLevel) {
             this.minimumLogLevel = minimumLogLevel;
@@ -27341,7 +26903,6 @@ module.exports = exports['default'];
          ConsoleLogger.prototype.log = function (logLevel, message) {
             if (logLevel >= this.minimumLogLevel) {
                switch (logLevel) {
-                  case ILogger.LogLevel.Critical:
                   case ILogger.LogLevel.Error:
                      console.error(ILogger.LogLevel[logLevel] + ": " + message);
                      break;
@@ -27352,7 +26913,6 @@ module.exports = exports['default'];
                      console.info(ILogger.LogLevel[logLevel] + ": " + message);
                      break;
                   default:
-                     // console.debug only goes to attached debuggers in Node, so we use console.log for Trace and Debug
                      console.log(ILogger.LogLevel[logLevel] + ": " + message);
                      break;
                }
@@ -27361,444 +26921,37 @@ module.exports = exports['default'];
          return ConsoleLogger;
       }());
       exports.ConsoleLogger = ConsoleLogger;
-
-   });
-
-   unwrapExports(Utils);
-   var Utils_1 = Utils.Arg;
-   var Utils_2 = Utils.getDataDetail;
-   var Utils_3 = Utils.formatArrayBuffer;
-   var Utils_4 = Utils.sendMessage;
-   var Utils_5 = Utils.createLogger;
-   var Utils_6 = Utils.Subject;
-   var Utils_7 = Utils.SubjectSubscription;
-   var Utils_8 = Utils.ConsoleLogger;
-
-   var HubConnection_1 = createCommonjsModule(function (module, exports) {
-      Object.defineProperty(exports, "__esModule", { value: true });
-
-
-
-
-
-      var DEFAULT_TIMEOUT_IN_MS = 30 * 1000;
-      /** Represents a connection to a SignalR Hub. */
-      var HubConnection = /** @class */ (function () {
-         function HubConnection(connection, logger, protocol) {
-            var _this = this;
-            Utils.Arg.isRequired(connection, "connection");
-            Utils.Arg.isRequired(logger, "logger");
-            Utils.Arg.isRequired(protocol, "protocol");
-            this.serverTimeoutInMilliseconds = DEFAULT_TIMEOUT_IN_MS;
-            this.logger = logger;
-            this.protocol = protocol;
-            this.connection = connection;
-            this.handshakeProtocol = new HandshakeProtocol_1.HandshakeProtocol();
-            this.connection.onreceive = function (data) { return _this.processIncomingData(data); };
-            this.connection.onclose = function (error) { return _this.connectionClosed(error); };
-            this.callbacks = {};
-            this.methods = {};
-            this.closedCallbacks = [];
-            this.id = 0;
+      var LoggerFactory = /** @class */ (function () {
+         function LoggerFactory() {
          }
-         /** @internal */
-         // Using a public static factory method means we can have a private constructor and an _internal_
-         // create method that can be used by HubConnectionBuilder. An "internal" constructor would just
-         // be stripped away and the '.d.ts' file would have no constructor, which is interpreted as a
-         // public parameter-less constructor.
-         HubConnection.create = function (connection, logger, protocol) {
-            return new HubConnection(connection, logger, protocol);
+         LoggerFactory.createLogger = function (logging) {
+            if (logging === undefined) {
+               return new ConsoleLogger(ILogger.LogLevel.Information);
+            }
+            if (logging === null) {
+               return new NullLogger();
+            }
+            if (logging.log) {
+               return logging;
+            }
+            return new ConsoleLogger(logging);
          };
-         /** Starts the connection.
-          *
-          * @returns {Promise<void>} A Promise that resolves when the connection has been successfully established, or rejects with an error.
-          */
-         HubConnection.prototype.start = function () {
-            return tslib_1.__awaiter(this, void 0, void 0, function () {
-               var handshakeRequest;
-               return tslib_1.__generator(this, function (_a) {
-                  switch (_a.label) {
-                     case 0:
-                        handshakeRequest = {
-                           protocol: this.protocol.name,
-                           version: this.protocol.version,
-                        };
-                        this.logger.log(ILogger.LogLevel.Debug, "Starting HubConnection.");
-                        this.receivedHandshakeResponse = false;
-                        return [4 /*yield*/, this.connection.start(this.protocol.transferFormat)];
-                     case 1:
-                        _a.sent();
-                        this.logger.log(ILogger.LogLevel.Debug, "Sending handshake request.");
-                        return [4 /*yield*/, this.connection.send(this.handshakeProtocol.writeHandshakeRequest(handshakeRequest))];
-                     case 2:
-                        _a.sent();
-                        this.logger.log(ILogger.LogLevel.Information, "Using HubProtocol '" + this.protocol.name + "'.");
-                        // defensively cleanup timeout in case we receive a message from the server before we finish start
-                        this.cleanupTimeout();
-                        this.configureTimeout();
-                        return [2 /*return*/];
-                  }
-               });
-            });
-         };
-         /** Stops the connection.
-          *
-          * @returns {Promise<void>} A Promise that resolves when the connection has been successfully terminated, or rejects with an error.
-          */
-         HubConnection.prototype.stop = function () {
-            this.logger.log(ILogger.LogLevel.Debug, "Stopping HubConnection.");
-            this.cleanupTimeout();
-            return this.connection.stop();
-         };
-         /** Invokes a streaming hub method on the server using the specified name and arguments.
-          *
-          * @typeparam T The type of the items returned by the server.
-          * @param {string} methodName The name of the server method to invoke.
-          * @param {any[]} args The arguments used to invoke the server method.
-          * @returns {IStreamResult<T>} An object that yields results from the server as they are received.
-          */
-         HubConnection.prototype.stream = function (methodName) {
-            var _this = this;
-            var args = [];
-            for (var _i = 1; _i < arguments.length; _i++) {
-               args[_i - 1] = arguments[_i];
-            }
-            var invocationDescriptor = this.createStreamInvocation(methodName, args);
-            var subject = new Utils.Subject(function () {
-               var cancelInvocation = _this.createCancelInvocation(invocationDescriptor.invocationId);
-               var cancelMessage = _this.protocol.writeMessage(cancelInvocation);
-               delete _this.callbacks[invocationDescriptor.invocationId];
-               return _this.connection.send(cancelMessage);
-            });
-            this.callbacks[invocationDescriptor.invocationId] = function (invocationEvent, error) {
-               if (error) {
-                  subject.error(error);
-                  return;
-               }
-               if (invocationEvent.type === IHubProtocol.MessageType.Completion) {
-                  if (invocationEvent.error) {
-                     subject.error(new Error(invocationEvent.error));
-                  }
-                  else {
-                     subject.complete();
-                  }
-               }
-               else {
-                  subject.next((invocationEvent.item));
-               }
-            };
-            var message = this.protocol.writeMessage(invocationDescriptor);
-            this.connection.send(message)
-               .catch(function (e) {
-                  subject.error(e);
-                  delete _this.callbacks[invocationDescriptor.invocationId];
-               });
-            return subject;
-         };
-         /** Invokes a hub method on the server using the specified name and arguments. Does not wait for a response from the receiver.
-          *
-          * The Promise returned by this method resolves when the client has sent the invocation to the server. The server may still
-          * be processing the invocation.
-          *
-          * @param {string} methodName The name of the server method to invoke.
-          * @param {any[]} args The arguments used to invoke the server method.
-          * @returns {Promise<void>} A Promise that resolves when the invocation has been successfully sent, or rejects with an error.
-          */
-         HubConnection.prototype.send = function (methodName) {
-            var args = [];
-            for (var _i = 1; _i < arguments.length; _i++) {
-               args[_i - 1] = arguments[_i];
-            }
-            var invocationDescriptor = this.createInvocation(methodName, args, true);
-            var message = this.protocol.writeMessage(invocationDescriptor);
-            return this.connection.send(message);
-         };
-         /** Invokes a hub method on the server using the specified name and arguments.
-          *
-          * The Promise returned by this method resolves when the server indicates it has finished invoking the method. When the promise
-          * resolves, the server has finished invoking the method. If the server method returns a result, it is produced as the result of
-          * resolving the Promise.
-          *
-          * @typeparam T The expected return type.
-          * @param {string} methodName The name of the server method to invoke.
-          * @param {any[]} args The arguments used to invoke the server method.
-          * @returns {Promise<T>} A Promise that resolves with the result of the server method (if any), or rejects with an error.
-          */
-         HubConnection.prototype.invoke = function (methodName) {
-            var _this = this;
-            var args = [];
-            for (var _i = 1; _i < arguments.length; _i++) {
-               args[_i - 1] = arguments[_i];
-            }
-            var invocationDescriptor = this.createInvocation(methodName, args, false);
-            var p = new Promise(function (resolve, reject) {
-               _this.callbacks[invocationDescriptor.invocationId] = function (invocationEvent, error) {
-                  if (error) {
-                     reject(error);
-                     return;
-                  }
-                  if (invocationEvent.type === IHubProtocol.MessageType.Completion) {
-                     var completionMessage = invocationEvent;
-                     if (completionMessage.error) {
-                        reject(new Error(completionMessage.error));
-                     }
-                     else {
-                        resolve(completionMessage.result);
-                     }
-                  }
-                  else {
-                     reject(new Error("Unexpected message type: " + invocationEvent.type));
-                  }
-               };
-               var message = _this.protocol.writeMessage(invocationDescriptor);
-               _this.connection.send(message)
-                  .catch(function (e) {
-                     reject(e);
-                     delete _this.callbacks[invocationDescriptor.invocationId];
-                  });
-            });
-            return p;
-         };
-         /** Registers a handler that will be invoked when the hub method with the specified method name is invoked.
-          *
-          * @param {string} methodName The name of the hub method to define.
-          * @param {Function} newMethod The handler that will be raised when the hub method is invoked.
-          */
-         HubConnection.prototype.on = function (methodName, newMethod) {
-            if (!methodName || !newMethod) {
-               return;
-            }
-            methodName = methodName.toLowerCase();
-            if (!this.methods[methodName]) {
-               this.methods[methodName] = [];
-            }
-            // Preventing adding the same handler multiple times.
-            if (this.methods[methodName].indexOf(newMethod) !== -1) {
-               return;
-            }
-            this.methods[methodName].push(newMethod);
-         };
-         HubConnection.prototype.off = function (methodName, method) {
-            if (!methodName) {
-               return;
-            }
-            methodName = methodName.toLowerCase();
-            var handlers = this.methods[methodName];
-            if (!handlers) {
-               return;
-            }
-            if (method) {
-               var removeIdx = handlers.indexOf(method);
-               if (removeIdx !== -1) {
-                  handlers.splice(removeIdx, 1);
-                  if (handlers.length === 0) {
-                     delete this.methods[methodName];
-                  }
-               }
-            }
-            else {
-               delete this.methods[methodName];
-            }
-         };
-         /** Registers a handler that will be invoked when the connection is closed.
-          *
-          * @param {Function} callback The handler that will be invoked when the connection is closed. Optionally receives a single argument containing the error that caused the connection to close (if any).
-          */
-         HubConnection.prototype.onclose = function (callback) {
-            if (callback) {
-               this.closedCallbacks.push(callback);
-            }
-         };
-         HubConnection.prototype.processIncomingData = function (data) {
-            this.cleanupTimeout();
-            if (!this.receivedHandshakeResponse) {
-               data = this.processHandshakeResponse(data);
-               this.receivedHandshakeResponse = true;
-            }
-            // Data may have all been read when processing handshake response
-            if (data) {
-               // Parse the messages
-               var messages = this.protocol.parseMessages(data, this.logger);
-               for (var _i = 0, messages_1 = messages; _i < messages_1.length; _i++) {
-                  var message = messages_1[_i];
-                  switch (message.type) {
-                     case IHubProtocol.MessageType.Invocation:
-                        this.invokeClientMethod(message);
-                        break;
-                     case IHubProtocol.MessageType.StreamItem:
-                     case IHubProtocol.MessageType.Completion:
-                        var callback = this.callbacks[message.invocationId];
-                        if (callback != null) {
-                           if (message.type === IHubProtocol.MessageType.Completion) {
-                              delete this.callbacks[message.invocationId];
-                           }
-                           callback(message);
-                        }
-                        break;
-                     case IHubProtocol.MessageType.Ping:
-                        // Don't care about pings
-                        break;
-                     case IHubProtocol.MessageType.Close:
-                        this.logger.log(ILogger.LogLevel.Information, "Close message received from server.");
-                        this.connection.stop(message.error ? new Error("Server returned an error on close: " + message.error) : null);
-                        break;
-                     default:
-                        this.logger.log(ILogger.LogLevel.Warning, "Invalid message type: " + message.type);
-                        break;
-                  }
-               }
-            }
-            this.configureTimeout();
-         };
-         HubConnection.prototype.processHandshakeResponse = function (data) {
-            var responseMessage;
-            var remainingData;
-            try {
-               _a = this.handshakeProtocol.parseHandshakeResponse(data), remainingData = _a[0], responseMessage = _a[1];
-            }
-            catch (e) {
-               var message = "Error parsing handshake response: " + e;
-               this.logger.log(ILogger.LogLevel.Error, message);
-               var error = new Error(message);
-               this.connection.stop(error);
-               throw error;
-            }
-            if (responseMessage.error) {
-               var message = "Server returned handshake error: " + responseMessage.error;
-               this.logger.log(ILogger.LogLevel.Error, message);
-               this.connection.stop(new Error(message));
-            }
-            else {
-               this.logger.log(ILogger.LogLevel.Debug, "Server handshake complete.");
-            }
-            return remainingData;
-            var _a;
-         };
-         HubConnection.prototype.configureTimeout = function () {
-            var _this = this;
-            if (!this.connection.features || !this.connection.features.inherentKeepAlive) {
-               // Set the timeout timer
-               this.timeoutHandle = setTimeout(function () { return _this.serverTimeout(); }, this.serverTimeoutInMilliseconds);
-            }
-         };
-         HubConnection.prototype.serverTimeout = function () {
-            // The server hasn't talked to us in a while. It doesn't like us anymore ... :(
-            // Terminate the connection
-            this.connection.stop(new Error("Server timeout elapsed without receiving a message from the server."));
-         };
-         HubConnection.prototype.invokeClientMethod = function (invocationMessage) {
-            var _this = this;
-            var methods = this.methods[invocationMessage.target.toLowerCase()];
-            if (methods) {
-               methods.forEach(function (m) { return m.apply(_this, invocationMessage.arguments); });
-               if (invocationMessage.invocationId) {
-                  // This is not supported in v1. So we return an error to avoid blocking the server waiting for the response.
-                  var message = "Server requested a response, which is not supported in this version of the client.";
-                  this.logger.log(ILogger.LogLevel.Error, message);
-                  this.connection.stop(new Error(message));
-               }
-            }
-            else {
-               this.logger.log(ILogger.LogLevel.Warning, "No client method with the name '" + invocationMessage.target + "' found.");
-            }
-         };
-         HubConnection.prototype.connectionClosed = function (error) {
-            var _this = this;
-            var callbacks = this.callbacks;
-            this.callbacks = {};
-            Object.keys(callbacks)
-               .forEach(function (key) {
-                  var callback = callbacks[key];
-                  callback(undefined, error ? error : new Error("Invocation canceled due to connection being closed."));
-               });
-            this.cleanupTimeout();
-            this.closedCallbacks.forEach(function (c) { return c.apply(_this, [error]); });
-         };
-         HubConnection.prototype.cleanupTimeout = function () {
-            if (this.timeoutHandle) {
-               clearTimeout(this.timeoutHandle);
-            }
-         };
-         HubConnection.prototype.createInvocation = function (methodName, args, nonblocking) {
-            if (nonblocking) {
-               return {
-                  arguments: args,
-                  target: methodName,
-                  type: IHubProtocol.MessageType.Invocation,
-               };
-            }
-            else {
-               var id = this.id;
-               this.id++;
-               return {
-                  arguments: args,
-                  invocationId: id.toString(),
-                  target: methodName,
-                  type: IHubProtocol.MessageType.Invocation,
-               };
-            }
-         };
-         HubConnection.prototype.createStreamInvocation = function (methodName, args) {
-            var id = this.id;
-            this.id++;
-            return {
-               arguments: args,
-               invocationId: id.toString(),
-               target: methodName,
-               type: IHubProtocol.MessageType.StreamInvocation,
-            };
-         };
-         HubConnection.prototype.createCancelInvocation = function (id) {
-            return {
-               invocationId: id,
-               type: IHubProtocol.MessageType.CancelInvocation,
-            };
-         };
-         return HubConnection;
+         return LoggerFactory;
       }());
-      exports.HubConnection = HubConnection;
+      exports.LoggerFactory = LoggerFactory;
 
    });
 
-   unwrapExports(HubConnection_1);
-   var HubConnection_2 = HubConnection_1.HubConnection;
-
-   var ITransport = createCommonjsModule(function (module, exports) {
-      Object.defineProperty(exports, "__esModule", { value: true });
-      // This will be treated as a bit flag in the future, so we keep it using power-of-two values.
-      /** Specifies a specific HTTP transport type. */
-      var HttpTransportType;
-      (function (HttpTransportType) {
-         /** Specifies no transport preference. */
-         HttpTransportType[HttpTransportType["None"] = 0] = "None";
-         /** Specifies the WebSockets transport. */
-         HttpTransportType[HttpTransportType["WebSockets"] = 1] = "WebSockets";
-         /** Specifies the Server-Sent Events transport. */
-         HttpTransportType[HttpTransportType["ServerSentEvents"] = 2] = "ServerSentEvents";
-         /** Specifies the Long Polling transport. */
-         HttpTransportType[HttpTransportType["LongPolling"] = 4] = "LongPolling";
-      })(HttpTransportType = exports.HttpTransportType || (exports.HttpTransportType = {}));
-      /** Specifies the transfer format for a connection. */
-      var TransferFormat;
-      (function (TransferFormat) {
-         /** Specifies that only text data will be transmitted over the connection. */
-         TransferFormat[TransferFormat["Text"] = 1] = "Text";
-         /** Specifies that binary data will be transmitted over the connection. */
-         TransferFormat[TransferFormat["Binary"] = 2] = "Binary";
-      })(TransferFormat = exports.TransferFormat || (exports.TransferFormat = {}));
-
-   });
-
-   unwrapExports(ITransport);
-   var ITransport_1 = ITransport.HttpTransportType;
-   var ITransport_2 = ITransport.TransferFormat;
+   unwrapExports(Loggers);
+   var Loggers_1 = Loggers.NullLogger;
+   var Loggers_2 = Loggers.ConsoleLogger;
+   var Loggers_3 = Loggers.LoggerFactory;
 
    var AbortController_1 = createCommonjsModule(function (module, exports) {
       Object.defineProperty(exports, "__esModule", { value: true });
       // Rough polyfill of https://developer.mozilla.org/en-US/docs/Web/API/AbortController
       // We don't actually ever use the API being polyfilled, we always use the polyfill because
       // it's a very new API right now.
-      // Not exported from index.
       var AbortController = /** @class */ (function () {
          function AbortController() {
             this.isAborted = false;
@@ -27834,416 +26987,138 @@ module.exports = exports['default'];
    unwrapExports(AbortController_1);
    var AbortController_2 = AbortController_1.AbortController;
 
-   var LongPollingTransport_1 = createCommonjsModule(function (module, exports) {
+   var Utils = createCommonjsModule(function (module, exports) {
       Object.defineProperty(exports, "__esModule", { value: true });
-
-
-
-
-
-
-      var SHUTDOWN_TIMEOUT = 5 * 1000;
-      // Not exported from 'index', this type is internal.
-      var LongPollingTransport = /** @class */ (function () {
-         function LongPollingTransport(httpClient, accessTokenFactory, logger, logMessageContent, shutdownTimeout) {
-            this.httpClient = httpClient;
-            this.accessTokenFactory = accessTokenFactory || (function () { return null; });
-            this.logger = logger;
-            this.pollAbort = new AbortController_1.AbortController();
-            this.logMessageContent = logMessageContent;
-            this.shutdownTimeout = shutdownTimeout || SHUTDOWN_TIMEOUT;
+      var Arg = /** @class */ (function () {
+         function Arg() {
          }
-         Object.defineProperty(LongPollingTransport.prototype, "pollAborted", {
-            // This is an internal type, not exported from 'index' so this is really just internal.
-            get: function () {
-               return this.pollAbort.aborted;
-            },
-            enumerable: true,
-            configurable: true
+         Arg.isRequired = function (val, name) {
+            if (val === null || val === undefined) {
+               throw new Error("The '" + name + "' argument is required.");
+            }
+         };
+         Arg.isIn = function (val, values, name) {
+            // TypeScript enums have keys for **both** the name and the value of each enum member on the type itself.
+            if (!(val in values)) {
+               throw new Error("Unknown " + name + " value: " + val + ".");
+            }
+         };
+         return Arg;
+      }());
+      exports.Arg = Arg;
+
+   });
+
+   unwrapExports(Utils);
+   var Utils_1 = Utils.Arg;
+
+   var Transports = createCommonjsModule(function (module, exports) {
+      var __awaiter = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisArg, _arguments, P, generator) {
+         return new (P || (P = Promise))(function (resolve, reject) {
+            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+            function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
          });
-         LongPollingTransport.prototype.connect = function (url, transferFormat) {
-            return tslib_1.__awaiter(this, void 0, void 0, function () {
-               var pollOptions, token, closeError, pollUrl, response;
-               return tslib_1.__generator(this, function (_a) {
-                  switch (_a.label) {
-                     case 0:
-                        Utils.Arg.isRequired(url, "url");
-                        Utils.Arg.isRequired(transferFormat, "transferFormat");
-                        Utils.Arg.isIn(transferFormat, ITransport.TransferFormat, "transferFormat");
-                        this.url = url;
-                        this.logger.log(ILogger.LogLevel.Trace, "(LongPolling transport) Connecting");
-                        if (transferFormat === ITransport.TransferFormat.Binary && (typeof new XMLHttpRequest().responseType !== "string")) {
-                           // This will work if we fix: https://github.com/aspnet/SignalR/issues/742
-                           throw new Error("Binary protocols over XmlHttpRequest not implementing advanced features are not supported.");
-                        }
-                        pollOptions = {
-                           abortSignal: this.pollAbort.signal,
-                           headers: {},
-                           timeout: 90000,
-                        };
-                        if (transferFormat === ITransport.TransferFormat.Binary) {
-                           pollOptions.responseType = "arraybuffer";
-                        }
-                        return [4 /*yield*/, this.accessTokenFactory()];
-                     case 1:
-                        token = _a.sent();
-                        this.updateHeaderToken(pollOptions, token);
-                        pollUrl = url + "&_=" + Date.now();
-                        this.logger.log(ILogger.LogLevel.Trace, "(LongPolling transport) polling: " + pollUrl);
-                        return [4 /*yield*/, this.httpClient.get(pollUrl, pollOptions)];
-                     case 2:
-                        response = _a.sent();
-                        if (response.statusCode !== 200) {
-                           this.logger.log(ILogger.LogLevel.Error, "(LongPolling transport) Unexpected response code: " + response.statusCode);
-                           // Mark running as false so that the poll immediately ends and runs the close logic
-                           closeError = new Errors.HttpError(response.statusText, response.statusCode);
-                           this.running = false;
-                        }
-                        else {
-                           this.running = true;
-                        }
-                        this.poll(this.url, pollOptions, closeError);
-                        return [2 /*return*/, Promise.resolve()];
-                  }
-               });
-            });
-         };
-         LongPollingTransport.prototype.updateHeaderToken = function (request, token) {
-            if (token) {
-               // tslint:disable-next-line:no-string-literal
-               request.headers["Authorization"] = "Bearer " + token;
-               return;
-            }
-            // tslint:disable-next-line:no-string-literal
-            if (request.headers["Authorization"]) {
-               // tslint:disable-next-line:no-string-literal
-               delete request.headers["Authorization"];
-            }
-         };
-         LongPollingTransport.prototype.poll = function (url, pollOptions, closeError) {
-            return tslib_1.__awaiter(this, void 0, void 0, function () {
-               var token, pollUrl, response, e_1;
-               return tslib_1.__generator(this, function (_a) {
-                  switch (_a.label) {
-                     case 0:
-                        _a.trys.push([0, , 8, 9]);
-                        _a.label = 1;
-                     case 1:
-                        if (!this.running) return [3 /*break*/, 7];
-                        return [4 /*yield*/, this.accessTokenFactory()];
-                     case 2:
-                        token = _a.sent();
-                        this.updateHeaderToken(pollOptions, token);
-                        _a.label = 3;
-                     case 3:
-                        _a.trys.push([3, 5, , 6]);
-                        pollUrl = url + "&_=" + Date.now();
-                        this.logger.log(ILogger.LogLevel.Trace, "(LongPolling transport) polling: " + pollUrl);
-                        return [4 /*yield*/, this.httpClient.get(pollUrl, pollOptions)];
-                     case 4:
-                        response = _a.sent();
-                        if (response.statusCode === 204) {
-                           this.logger.log(ILogger.LogLevel.Information, "(LongPolling transport) Poll terminated by server");
-                           this.running = false;
-                        }
-                        else if (response.statusCode !== 200) {
-                           this.logger.log(ILogger.LogLevel.Error, "(LongPolling transport) Unexpected response code: " + response.statusCode);
-                           // Unexpected status code
-                           closeError = new Errors.HttpError(response.statusText, response.statusCode);
-                           this.running = false;
-                        }
-                        else {
-                           // Process the response
-                           if (response.content) {
-                              this.logger.log(ILogger.LogLevel.Trace, "(LongPolling transport) data received. " + Utils.getDataDetail(response.content, this.logMessageContent));
-                              if (this.onreceive) {
-                                 this.onreceive(response.content);
-                              }
-                           }
-                           else {
-                              // This is another way timeout manifest.
-                              this.logger.log(ILogger.LogLevel.Trace, "(LongPolling transport) Poll timed out, reissuing.");
-                           }
-                        }
-                        return [3 /*break*/, 6];
-                     case 5:
-                        e_1 = _a.sent();
-                        if (!this.running) {
-                           // Log but disregard errors that occur after we were stopped by DELETE
-                           this.logger.log(ILogger.LogLevel.Trace, "(LongPolling transport) Poll errored after shutdown: " + e_1.message);
-                        }
-                        else {
-                           if (e_1 instanceof Errors.TimeoutError) {
-                              // Ignore timeouts and reissue the poll.
-                              this.logger.log(ILogger.LogLevel.Trace, "(LongPolling transport) Poll timed out, reissuing.");
-                           }
-                           else {
-                              // Close the connection with the error as the result.
-                              closeError = e_1;
-                              this.running = false;
-                           }
-                        }
-                        return [3 /*break*/, 6];
-                     case 6: return [3 /*break*/, 1];
-                     case 7: return [3 /*break*/, 9];
-                     case 8:
-                        // Indicate that we've stopped so the shutdown timer doesn't get registered.
-                        this.stopped = true;
-                        // Clean up the shutdown timer if it was registered
-                        if (this.shutdownTimer) {
-                           clearTimeout(this.shutdownTimer);
-                        }
-                        // Fire our onclosed event
-                        if (this.onclose) {
-                           this.logger.log(ILogger.LogLevel.Trace, "(LongPolling transport) Firing onclose event. Error: " + (closeError || "<undefined>"));
-                           this.onclose(closeError);
-                        }
-                        this.logger.log(ILogger.LogLevel.Trace, "(LongPolling transport) Transport finished.");
-                        return [7 /*endfinally*/];
-                     case 9: return [2 /*return*/];
-                  }
-               });
-            });
-         };
-         LongPollingTransport.prototype.send = function (data) {
-            return tslib_1.__awaiter(this, void 0, void 0, function () {
-               return tslib_1.__generator(this, function (_a) {
-                  if (!this.running) {
-                     return [2 /*return*/, Promise.reject(new Error("Cannot send until the transport is connected"))];
-                  }
-                  return [2 /*return*/, Utils.sendMessage(this.logger, "LongPolling", this.httpClient, this.url, this.accessTokenFactory, data, this.logMessageContent)];
-               });
-            });
-         };
-         LongPollingTransport.prototype.stop = function () {
-            return tslib_1.__awaiter(this, void 0, void 0, function () {
-               var _this = this;
-               var deleteOptions, token, response;
-               return tslib_1.__generator(this, function (_a) {
-                  switch (_a.label) {
-                     case 0:
-                        _a.trys.push([0, , 3, 4]);
-                        this.running = false;
-                        this.logger.log(ILogger.LogLevel.Trace, "(LongPolling transport) sending DELETE request to " + this.url + ".");
-                        deleteOptions = {
-                           headers: {},
-                        };
-                        return [4 /*yield*/, this.accessTokenFactory()];
-                     case 1:
-                        token = _a.sent();
-                        this.updateHeaderToken(deleteOptions, token);
-                        return [4 /*yield*/, this.httpClient.delete(this.url, deleteOptions)];
-                     case 2:
-                        response = _a.sent();
-                        this.logger.log(ILogger.LogLevel.Trace, "(LongPolling transport) DELETE request accepted.");
-                        return [3 /*break*/, 4];
-                     case 3:
-                        // Abort the poll after the shutdown timeout if the server doesn't stop the poll.
-                        if (!this.stopped) {
-                           this.shutdownTimer = setTimeout(function () {
-                              _this.logger.log(ILogger.LogLevel.Warning, "(LongPolling transport) server did not terminate after DELETE request, canceling poll.");
-                              // Abort any outstanding poll
-                              _this.pollAbort.abort();
-                           }, this.shutdownTimeout);
-                        }
-                        return [7 /*endfinally*/];
-                     case 4: return [2 /*return*/];
-                  }
-               });
-            });
-         };
-         return LongPollingTransport;
-      }());
-      exports.LongPollingTransport = LongPollingTransport;
-
-   });
-
-   unwrapExports(LongPollingTransport_1);
-   var LongPollingTransport_2 = LongPollingTransport_1.LongPollingTransport;
-
-   var ServerSentEventsTransport_1 = createCommonjsModule(function (module, exports) {
-      Object.defineProperty(exports, "__esModule", { value: true });
-
-
-
-
-      var ServerSentEventsTransport = /** @class */ (function () {
-         function ServerSentEventsTransport(httpClient, accessTokenFactory, logger, logMessageContent) {
-            this.httpClient = httpClient;
-            this.accessTokenFactory = accessTokenFactory || (function () { return null; });
-            this.logger = logger;
-            this.logMessageContent = logMessageContent;
-         }
-         ServerSentEventsTransport.prototype.connect = function (url, transferFormat) {
-            return tslib_1.__awaiter(this, void 0, void 0, function () {
-               var _this = this;
-               var token;
-               return tslib_1.__generator(this, function (_a) {
-                  switch (_a.label) {
-                     case 0:
-                        Utils.Arg.isRequired(url, "url");
-                        Utils.Arg.isRequired(transferFormat, "transferFormat");
-                        Utils.Arg.isIn(transferFormat, ITransport.TransferFormat, "transferFormat");
-                        if (typeof (EventSource) === "undefined") {
-                           throw new Error("'EventSource' is not supported in your environment.");
-                        }
-                        this.logger.log(ILogger.LogLevel.Trace, "(SSE transport) Connecting");
-                        return [4 /*yield*/, this.accessTokenFactory()];
-                     case 1:
-                        token = _a.sent();
-                        if (token) {
-                           url += (url.indexOf("?") < 0 ? "?" : "&") + ("access_token=" + encodeURIComponent(token));
-                        }
-                        this.url = url;
-                        return [2 /*return*/, new Promise(function (resolve, reject) {
-                           var opened = false;
-                           if (transferFormat !== ITransport.TransferFormat.Text) {
-                              reject(new Error("The Server-Sent Events transport only supports the 'Text' transfer format"));
-                           }
-                           var eventSource = new EventSource(url, { withCredentials: true });
-                           try {
-                              eventSource.onmessage = function (e) {
-                                 if (_this.onreceive) {
-                                    try {
-                                       _this.logger.log(ILogger.LogLevel.Trace, "(SSE transport) data received. " + Utils.getDataDetail(e.data, _this.logMessageContent) + ".");
-                                       _this.onreceive(e.data);
-                                    }
-                                    catch (error) {
-                                       if (_this.onclose) {
-                                          _this.onclose(error);
-                                       }
-                                       return;
-                                    }
-                                 }
-                              };
-                              eventSource.onerror = function (e) {
-                                 var error = new Error(e.message || "Error occurred");
-                                 if (opened) {
-                                    _this.close(error);
-                                 }
-                                 else {
-                                    reject(error);
-                                 }
-                              };
-                              eventSource.onopen = function () {
-                                 _this.logger.log(ILogger.LogLevel.Information, "SSE connected to " + _this.url);
-                                 _this.eventSource = eventSource;
-                                 opened = true;
-                                 resolve();
-                              };
-                           }
-                           catch (e) {
-                              return Promise.reject(e);
-                           }
-                        })];
-                  }
-               });
-            });
-         };
-         ServerSentEventsTransport.prototype.send = function (data) {
-            return tslib_1.__awaiter(this, void 0, void 0, function () {
-               return tslib_1.__generator(this, function (_a) {
-                  if (!this.eventSource) {
-                     return [2 /*return*/, Promise.reject(new Error("Cannot send until the transport is connected"))];
-                  }
-                  return [2 /*return*/, Utils.sendMessage(this.logger, "SSE", this.httpClient, this.url, this.accessTokenFactory, data, this.logMessageContent)];
-               });
-            });
-         };
-         ServerSentEventsTransport.prototype.stop = function () {
-            this.close();
-            return Promise.resolve();
-         };
-         ServerSentEventsTransport.prototype.close = function (e) {
-            if (this.eventSource) {
-               this.eventSource.close();
-               this.eventSource = null;
-               if (this.onclose) {
-                  this.onclose(e);
+      };
+      var __generator = (commonjsGlobal && commonjsGlobal.__generator) || function (thisArg, body) {
+         var _ = { label: 0, sent: function () { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+         return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function () { return this; }), g;
+         function verb(n) { return function (v) { return step([n, v]); }; }
+         function step(op) {
+            if (f) throw new TypeError("Generator is already executing.");
+            while (_) try {
+               if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+               if (y = 0, t) op = [0, t.value];
+               switch (op[0]) {
+                  case 0: case 1: t = op; break;
+                  case 4: _.label++; return { value: op[1], done: false };
+                  case 5: _.label++; y = op[1]; op = [0]; continue;
+                  case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                  default:
+                     if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                     if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                     if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                     if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                     if (t[2]) _.ops.pop();
+                     _.trys.pop(); continue;
                }
-            }
-         };
-         return ServerSentEventsTransport;
-      }());
-      exports.ServerSentEventsTransport = ServerSentEventsTransport;
-
-   });
-
-   unwrapExports(ServerSentEventsTransport_1);
-   var ServerSentEventsTransport_2 = ServerSentEventsTransport_1.ServerSentEventsTransport;
-
-   var WebSocketTransport_1 = createCommonjsModule(function (module, exports) {
+               op = body.call(thisArg, _);
+            } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+            if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+         }
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
 
 
 
 
+      var TransportType;
+      (function (TransportType) {
+         TransportType[TransportType["WebSockets"] = 0] = "WebSockets";
+         TransportType[TransportType["ServerSentEvents"] = 1] = "ServerSentEvents";
+         TransportType[TransportType["LongPolling"] = 2] = "LongPolling";
+      })(TransportType = exports.TransportType || (exports.TransportType = {}));
+      var TransferFormat;
+      (function (TransferFormat) {
+         TransferFormat[TransferFormat["Text"] = 1] = "Text";
+         TransferFormat[TransferFormat["Binary"] = 2] = "Binary";
+      })(TransferFormat = exports.TransferFormat || (exports.TransferFormat = {}));
       var WebSocketTransport = /** @class */ (function () {
-         function WebSocketTransport(accessTokenFactory, logger, logMessageContent) {
+         function WebSocketTransport(accessTokenFactory, logger) {
             this.logger = logger;
             this.accessTokenFactory = accessTokenFactory || (function () { return null; });
-            this.logMessageContent = logMessageContent;
          }
-         WebSocketTransport.prototype.connect = function (url, transferFormat) {
-            return tslib_1.__awaiter(this, void 0, void 0, function () {
-               var _this = this;
-               var token;
-               return tslib_1.__generator(this, function (_a) {
-                  switch (_a.label) {
-                     case 0:
-                        Utils.Arg.isRequired(url, "url");
-                        Utils.Arg.isRequired(transferFormat, "transferFormat");
-                        Utils.Arg.isIn(transferFormat, ITransport.TransferFormat, "transferFormat");
-                        if (typeof (WebSocket) === "undefined") {
-                           throw new Error("'WebSocket' is not supported in your environment.");
-                        }
-                        this.logger.log(ILogger.LogLevel.Trace, "(WebSockets transport) Connecting");
-                        return [4 /*yield*/, this.accessTokenFactory()];
-                     case 1:
-                        token = _a.sent();
-                        if (token) {
-                           url += (url.indexOf("?") < 0 ? "?" : "&") + ("access_token=" + encodeURIComponent(token));
-                        }
-                        return [2 /*return*/, new Promise(function (resolve, reject) {
-                           url = url.replace(/^http/, "ws");
-                           var webSocket = new WebSocket(url);
-                           if (transferFormat === ITransport.TransferFormat.Binary) {
-                              webSocket.binaryType = "arraybuffer";
-                           }
-                           webSocket.onopen = function (event) {
-                              _this.logger.log(ILogger.LogLevel.Information, "WebSocket connected to " + url);
-                              _this.webSocket = webSocket;
-                              resolve();
-                           };
-                           webSocket.onerror = function (event) {
-                              reject(event.error);
-                           };
-                           webSocket.onmessage = function (message) {
-                              _this.logger.log(ILogger.LogLevel.Trace, "(WebSockets transport) data received. " + Utils.getDataDetail(message.data, _this.logMessageContent) + ".");
-                              if (_this.onreceive) {
-                                 _this.onreceive(message.data);
-                              }
-                           };
-                           webSocket.onclose = function (event) {
-                              // webSocket will be null if the transport did not start successfully
-                              _this.logger.log(ILogger.LogLevel.Trace, "(WebSockets transport) socket closed.");
-                              if (_this.onclose) {
-                                 if (event.wasClean === false || event.code !== 1000) {
-                                    _this.onclose(new Error("Websocket closed with status code: " + event.code + " (" + event.reason + ")"));
-                                 }
-                                 else {
-                                    _this.onclose();
-                                 }
-                              }
-                           };
-                        })];
+         WebSocketTransport.prototype.connect = function (url, transferFormat, connection) {
+            var _this = this;
+            Utils.Arg.isRequired(url, "url");
+            Utils.Arg.isRequired(transferFormat, "transferFormat");
+            Utils.Arg.isIn(transferFormat, TransferFormat, "transferFormat");
+            Utils.Arg.isRequired(connection, "connection");
+            if (typeof (WebSocket) === "undefined") {
+               throw new Error("'WebSocket' is not supported in your environment.");
+            }
+            this.logger.log(ILogger.LogLevel.Trace, "(WebSockets transport) Connecting");
+            return new Promise(function (resolve, reject) {
+               url = url.replace(/^http/, "ws");
+               var token = _this.accessTokenFactory();
+               if (token) {
+                  url += (url.indexOf("?") < 0 ? "?" : "&") + ("access_token=" + encodeURIComponent(token));
+               }
+               var webSocket = new WebSocket(url);
+               if (transferFormat === TransferFormat.Binary) {
+                  webSocket.binaryType = "arraybuffer";
+               }
+               webSocket.onopen = function (event) {
+                  _this.logger.log(ILogger.LogLevel.Information, "WebSocket connected to " + url);
+                  _this.webSocket = webSocket;
+                  resolve();
+               };
+               webSocket.onerror = function (event) {
+                  reject(event.error);
+               };
+               webSocket.onmessage = function (message) {
+                  _this.logger.log(ILogger.LogLevel.Trace, "(WebSockets transport) data received. " + getDataDetail(message.data) + ".");
+                  if (_this.onreceive) {
+                     _this.onreceive(message.data);
                   }
-               });
+               };
+               webSocket.onclose = function (event) {
+                  // webSocket will be null if the transport did not start successfully
+                  if (_this.onclose && _this.webSocket) {
+                     if (event.wasClean === false || event.code !== 1000) {
+                        _this.onclose(new Error("Websocket closed with status code: " + event.code + " (" + event.reason + ")"));
+                     }
+                     else {
+                        _this.onclose();
+                     }
+                  }
+               };
             });
          };
          WebSocketTransport.prototype.send = function (data) {
             if (this.webSocket && this.webSocket.readyState === WebSocket.OPEN) {
-               this.logger.log(ILogger.LogLevel.Trace, "(WebSockets transport) sending data. " + Utils.getDataDetail(data, this.logMessageContent) + ".");
+               this.logger.log(ILogger.LogLevel.Trace, "(WebSockets transport) sending data. " + getDataDetail(data) + ".");
                this.webSocket.send(data);
                return Promise.resolve();
             }
@@ -28259,41 +27134,302 @@ module.exports = exports['default'];
          return WebSocketTransport;
       }());
       exports.WebSocketTransport = WebSocketTransport;
+      var ServerSentEventsTransport = /** @class */ (function () {
+         function ServerSentEventsTransport(httpClient, accessTokenFactory, logger) {
+            this.httpClient = httpClient;
+            this.accessTokenFactory = accessTokenFactory || (function () { return null; });
+            this.logger = logger;
+         }
+         ServerSentEventsTransport.prototype.connect = function (url, transferFormat, connection) {
+            var _this = this;
+            Utils.Arg.isRequired(url, "url");
+            Utils.Arg.isRequired(transferFormat, "transferFormat");
+            Utils.Arg.isIn(transferFormat, TransferFormat, "transferFormat");
+            Utils.Arg.isRequired(connection, "connection");
+            if (typeof (EventSource) === "undefined") {
+               throw new Error("'EventSource' is not supported in your environment.");
+            }
+            this.logger.log(ILogger.LogLevel.Trace, "(SSE transport) Connecting");
+            this.url = url;
+            return new Promise(function (resolve, reject) {
+               if (transferFormat !== TransferFormat.Text) {
+                  reject(new Error("The Server-Sent Events transport only supports the 'Text' transfer format"));
+               }
+               var token = _this.accessTokenFactory();
+               if (token) {
+                  url += (url.indexOf("?") < 0 ? "?" : "&") + ("access_token=" + encodeURIComponent(token));
+               }
+               var eventSource = new EventSource(url, { withCredentials: true });
+               try {
+                  eventSource.onmessage = function (e) {
+                     if (_this.onreceive) {
+                        try {
+                           _this.logger.log(ILogger.LogLevel.Trace, "(SSE transport) data received. " + getDataDetail(e.data) + ".");
+                           _this.onreceive(e.data);
+                        }
+                        catch (error) {
+                           if (_this.onclose) {
+                              _this.onclose(error);
+                           }
+                           return;
+                        }
+                     }
+                  };
+                  eventSource.onerror = function (e) {
+                     reject(new Error(e.message || "Error occurred"));
+                     // don't report an error if the transport did not start successfully
+                     if (_this.eventSource && _this.onclose) {
+                        _this.onclose(new Error(e.message || "Error occurred"));
+                     }
+                  };
+                  eventSource.onopen = function () {
+                     _this.logger.log(ILogger.LogLevel.Information, "SSE connected to " + _this.url);
+                     _this.eventSource = eventSource;
+                     // SSE is a text protocol
+                     resolve();
+                  };
+               }
+               catch (e) {
+                  return Promise.reject(e);
+               }
+            });
+         };
+         ServerSentEventsTransport.prototype.send = function (data) {
+            return __awaiter(this, void 0, void 0, function () {
+               return __generator(this, function (_a) {
+                  return [2 /*return*/, send(this.logger, "SSE", this.httpClient, this.url, this.accessTokenFactory, data)];
+               });
+            });
+         };
+         ServerSentEventsTransport.prototype.stop = function () {
+            if (this.eventSource) {
+               this.eventSource.close();
+               this.eventSource = null;
+            }
+            return Promise.resolve();
+         };
+         return ServerSentEventsTransport;
+      }());
+      exports.ServerSentEventsTransport = ServerSentEventsTransport;
+      var LongPollingTransport = /** @class */ (function () {
+         function LongPollingTransport(httpClient, accessTokenFactory, logger) {
+            this.httpClient = httpClient;
+            this.accessTokenFactory = accessTokenFactory || (function () { return null; });
+            this.logger = logger;
+            this.pollAbort = new AbortController_1.AbortController();
+         }
+         LongPollingTransport.prototype.connect = function (url, transferFormat, connection) {
+            Utils.Arg.isRequired(url, "url");
+            Utils.Arg.isRequired(transferFormat, "transferFormat");
+            Utils.Arg.isIn(transferFormat, TransferFormat, "transferFormat");
+            Utils.Arg.isRequired(connection, "connection");
+            this.url = url;
+            this.logger.log(ILogger.LogLevel.Trace, "(LongPolling transport) Connecting");
+            // Set a flag indicating we have inherent keep-alive in this transport.
+            connection.features.inherentKeepAlive = true;
+            if (transferFormat === TransferFormat.Binary && (typeof new XMLHttpRequest().responseType !== "string")) {
+               // This will work if we fix: https://github.com/aspnet/SignalR/issues/742
+               throw new Error("Binary protocols over XmlHttpRequest not implementing advanced features are not supported.");
+            }
+            this.poll(this.url, transferFormat);
+            return Promise.resolve();
+         };
+         LongPollingTransport.prototype.poll = function (url, transferFormat) {
+            return __awaiter(this, void 0, void 0, function () {
+               var pollOptions, token, pollUrl, response, e_1;
+               return __generator(this, function (_a) {
+                  switch (_a.label) {
+                     case 0:
+                        pollOptions = {
+                           abortSignal: this.pollAbort.signal,
+                           headers: {},
+                           timeout: 90000,
+                        };
+                        if (transferFormat === TransferFormat.Binary) {
+                           pollOptions.responseType = "arraybuffer";
+                        }
+                        token = this.accessTokenFactory();
+                        if (token) {
+                           // tslint:disable-next-line:no-string-literal
+                           pollOptions.headers["Authorization"] = "Bearer " + token;
+                        }
+                        _a.label = 1;
+                     case 1:
+                        if (!!this.pollAbort.signal.aborted) return [3 /*break*/, 6];
+                        _a.label = 2;
+                     case 2:
+                        _a.trys.push([2, 4, , 5]);
+                        pollUrl = url + "&_=" + Date.now();
+                        this.logger.log(ILogger.LogLevel.Trace, "(LongPolling transport) polling: " + pollUrl);
+                        return [4 /*yield*/, this.httpClient.get(pollUrl, pollOptions)];
+                     case 3:
+                        response = _a.sent();
+                        if (response.statusCode === 204) {
+                           this.logger.log(ILogger.LogLevel.Information, "(LongPolling transport) Poll terminated by server");
+                           // Poll terminated by server
+                           if (this.onclose) {
+                              this.onclose();
+                           }
+                           this.pollAbort.abort();
+                        }
+                        else if (response.statusCode !== 200) {
+                           this.logger.log(ILogger.LogLevel.Error, "(LongPolling transport) Unexpected response code: " + response.statusCode);
+                           // Unexpected status code
+                           if (this.onclose) {
+                              this.onclose(new Errors.HttpError(response.statusText, response.statusCode));
+                           }
+                           this.pollAbort.abort();
+                        }
+                        else {
+                           // Process the response
+                           if (response.content) {
+                              this.logger.log(ILogger.LogLevel.Trace, "(LongPolling transport) data received. " + getDataDetail(response.content) + ".");
+                              if (this.onreceive) {
+                                 this.onreceive(response.content);
+                              }
+                           }
+                           else {
+                              // This is another way timeout manifest.
+                              this.logger.log(ILogger.LogLevel.Trace, "(LongPolling transport) Poll timed out, reissuing.");
+                           }
+                        }
+                        return [3 /*break*/, 5];
+                     case 4:
+                        e_1 = _a.sent();
+                        if (e_1 instanceof Errors.TimeoutError) {
+                           // Ignore timeouts and reissue the poll.
+                           this.logger.log(ILogger.LogLevel.Trace, "(LongPolling transport) Poll timed out, reissuing.");
+                        }
+                        else {
+                           // Close the connection with the error as the result.
+                           if (this.onclose) {
+                              this.onclose(e_1);
+                           }
+                           this.pollAbort.abort();
+                        }
+                        return [3 /*break*/, 5];
+                     case 5: return [3 /*break*/, 1];
+                     case 6: return [2 /*return*/];
+                  }
+               });
+            });
+         };
+         LongPollingTransport.prototype.send = function (data) {
+            return __awaiter(this, void 0, void 0, function () {
+               return __generator(this, function (_a) {
+                  return [2 /*return*/, send(this.logger, "LongPolling", this.httpClient, this.url, this.accessTokenFactory, data)];
+               });
+            });
+         };
+         LongPollingTransport.prototype.stop = function () {
+            this.pollAbort.abort();
+            return Promise.resolve();
+         };
+         return LongPollingTransport;
+      }());
+      exports.LongPollingTransport = LongPollingTransport;
+      function getDataDetail(data) {
+         var length = null;
+         if (data instanceof ArrayBuffer) {
+            length = "Binary data of length " + data.byteLength;
+         }
+         else if (typeof data === "string") {
+            length = "String data of length " + data.length;
+         }
+         return length;
+      }
+      function send(logger, transportName, httpClient, url, accessTokenFactory, content) {
+         return __awaiter(this, void 0, void 0, function () {
+            var headers, token, response, _a;
+            return __generator(this, function (_b) {
+               switch (_b.label) {
+                  case 0:
+                     token = accessTokenFactory();
+                     if (token) {
+                        headers = (_a = {}, _a["Authorization"] = "Bearer " + accessTokenFactory(), _a);
+                     }
+                     logger.log(ILogger.LogLevel.Trace, "(" + transportName + " transport) sending data. " + getDataDetail(content) + ".");
+                     return [4 /*yield*/, httpClient.post(url, {
+                        content: content,
+                        headers: headers,
+                     })];
+                  case 1:
+                     response = _b.sent();
+                     logger.log(ILogger.LogLevel.Trace, "(" + transportName + " transport) request complete. Response status: " + response.statusCode + ".");
+                     return [2 /*return*/];
+               }
+            });
+         });
+      }
 
    });
 
-   unwrapExports(WebSocketTransport_1);
-   var WebSocketTransport_2 = WebSocketTransport_1.WebSocketTransport;
+   unwrapExports(Transports);
+   var Transports_1 = Transports.TransportType;
+   var Transports_2 = Transports.TransferFormat;
+   var Transports_3 = Transports.WebSocketTransport;
+   var Transports_4 = Transports.ServerSentEventsTransport;
+   var Transports_5 = Transports.LongPollingTransport;
 
    var HttpConnection_1 = createCommonjsModule(function (module, exports) {
+      var __awaiter = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisArg, _arguments, P, generator) {
+         return new (P || (P = Promise))(function (resolve, reject) {
+            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+            function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
+         });
+      };
+      var __generator = (commonjsGlobal && commonjsGlobal.__generator) || function (thisArg, body) {
+         var _ = { label: 0, sent: function () { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+         return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function () { return this; }), g;
+         function verb(n) { return function (v) { return step([n, v]); }; }
+         function step(op) {
+            if (f) throw new TypeError("Generator is already executing.");
+            while (_) try {
+               if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+               if (y = 0, t) op = [0, t.value];
+               switch (op[0]) {
+                  case 0: case 1: t = op; break;
+                  case 4: _.label++; return { value: op[1], done: false };
+                  case 5: _.label++; y = op[1]; op = [0]; continue;
+                  case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                  default:
+                     if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                     if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                     if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                     if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                     if (t[2]) _.ops.pop();
+                     _.trys.pop(); continue;
+               }
+               op = body.call(thisArg, _);
+            } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+            if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+         }
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
 
 
 
 
 
-
-
-
-      var MAX_REDIRECTS = 100;
       var HttpConnection = /** @class */ (function () {
          function HttpConnection(url, options) {
             if (options === void 0) { options = {}; }
             this.features = {};
             Utils.Arg.isRequired(url, "url");
-            this.logger = Utils.createLogger(options.logger);
+            this.logger = Loggers.LoggerFactory.createLogger(options.logger);
             this.baseUrl = this.resolveUrl(url);
             options = options || {};
             options.accessTokenFactory = options.accessTokenFactory || (function () { return null; });
-            options.logMessageContent = options.logMessageContent || false;
             this.httpClient = options.httpClient || new HttpClient_1.DefaultHttpClient(this.logger);
             this.connectionState = 2 /* Disconnected */;
             this.options = options;
          }
          HttpConnection.prototype.start = function (transferFormat) {
-            transferFormat = transferFormat || ITransport.TransferFormat.Binary;
-            Utils.Arg.isIn(transferFormat, ITransport.TransferFormat, "transferFormat");
-            this.logger.log(ILogger.LogLevel.Debug, "Starting connection with transfer format '" + ITransport.TransferFormat[transferFormat] + "'.");
+            Utils.Arg.isRequired(transferFormat, "transferFormat");
+            Utils.Arg.isIn(transferFormat, Transports.TransferFormat, "transferFormat");
+            this.logger.log(ILogger.LogLevel.Trace, "Starting connection with transfer format '" + Transports.TransferFormat[transferFormat] + "'.");
             if (this.connectionState !== 2 /* Disconnected */) {
                return Promise.reject(new Error("Cannot start a connection that is not in the 'Disconnected' state."));
             }
@@ -28301,183 +27437,103 @@ module.exports = exports['default'];
             this.startPromise = this.startInternal(transferFormat);
             return this.startPromise;
          };
-         HttpConnection.prototype.send = function (data) {
-            if (this.connectionState !== 1 /* Connected */) {
-               throw new Error("Cannot send data if the connection is not in the 'Connected' State.");
-            }
-            return this.transport.send(data);
-         };
-         HttpConnection.prototype.stop = function (error) {
-            return tslib_1.__awaiter(this, void 0, void 0, function () {
-               var e_1;
-               return tslib_1.__generator(this, function (_a) {
-                  switch (_a.label) {
-                     case 0:
-                        this.connectionState = 2 /* Disconnected */;
-                        _a.label = 1;
-                     case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, this.startPromise];
-                     case 2:
-                        _a.sent();
-                        return [3 /*break*/, 4];
-                     case 3:
-                        e_1 = _a.sent();
-                        return [3 /*break*/, 4];
-                     case 4:
-                        if (!this.transport) return [3 /*break*/, 6];
-                        this.stopError = error;
-                        return [4 /*yield*/, this.transport.stop()];
-                     case 5:
-                        _a.sent();
-                        this.transport = null;
-                        _a.label = 6;
-                     case 6: return [2 /*return*/];
-                  }
-               });
-            });
-         };
          HttpConnection.prototype.startInternal = function (transferFormat) {
-            return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return __awaiter(this, void 0, void 0, function () {
                var _this = this;
-               var url, negotiateResponse, redirects, _loop_1, this_1, state_1, e_2;
-               return tslib_1.__generator(this, function (_a) {
-                  switch (_a.label) {
-                     case 0:
-                        url = this.baseUrl;
-                        this.accessTokenFactory = this.options.accessTokenFactory;
-                        _a.label = 1;
-                     case 1:
-                        _a.trys.push([1, 12, , 13]);
-                        if (!this.options.skipNegotiation) return [3 /*break*/, 5];
-                        if (!(this.options.transport === ITransport.HttpTransportType.WebSockets)) return [3 /*break*/, 3];
-                        // No need to add a connection ID in this case
-                        this.transport = this.constructTransport(ITransport.HttpTransportType.WebSockets);
-                        // We should just call connect directly in this case.
-                        // No fallback or negotiate in this case.
-                        return [4 /*yield*/, this.transport.connect(url, transferFormat)];
-                     case 2:
-                        // We should just call connect directly in this case.
-                        // No fallback or negotiate in this case.
-                        _a.sent();
-                        return [3 /*break*/, 4];
-                     case 3: throw Error("Negotiation can only be skipped when using the WebSocket transport directly.");
-                     case 4: return [3 /*break*/, 11];
-                     case 5:
-                        negotiateResponse = null;
-                        redirects = 0;
-                        _loop_1 = function () {
-                           var accessToken_1;
-                           return tslib_1.__generator(this, function (_a) {
-                              switch (_a.label) {
-                                 case 0: return [4 /*yield*/, this_1.getNegotiationResponse(url)];
-                                 case 1:
-                                    negotiateResponse = _a.sent();
-                                    // the user tries to stop the connection when it is being started
-                                    if (this_1.connectionState === 2 /* Disconnected */) {
-                                       return [2 /*return*/, { value: void 0 }];
-                                    }
-                                    if (negotiateResponse.url) {
-                                       url = negotiateResponse.url;
-                                    }
-                                    if (negotiateResponse.accessToken) {
-                                       accessToken_1 = negotiateResponse.accessToken;
-                                       this_1.accessTokenFactory = function () { return accessToken_1; };
-                                    }
-                                    redirects++;
-                                    return [2 /*return*/];
-                              }
-                           });
-                        };
-                        this_1 = this;
-                        _a.label = 6;
-                     case 6: return [5 /*yield**/, _loop_1()];
-                     case 7:
-                        state_1 = _a.sent();
-                        if (typeof state_1 === "object")
-                           return [2 /*return*/, state_1.value];
-                        _a.label = 8;
-                     case 8:
-                        if (negotiateResponse.url && redirects < MAX_REDIRECTS) return [3 /*break*/, 6];
-                        _a.label = 9;
-                     case 9:
-                        if (redirects === MAX_REDIRECTS && negotiateResponse.url) {
-                           throw Error("Negotiate redirection limit exceeded.");
-                        }
-                        return [4 /*yield*/, this.createTransport(url, this.options.transport, negotiateResponse, transferFormat)];
-                     case 10:
-                        _a.sent();
-                        _a.label = 11;
-                     case 11:
-                        if (this.transport instanceof LongPollingTransport_1.LongPollingTransport) {
-                           this.features.inherentKeepAlive = true;
-                        }
-                        this.transport.onreceive = this.onreceive;
-                        this.transport.onclose = function (e) { return _this.stopConnection(e); };
-                        // only change the state if we were connecting to not overwrite
-                        // the state if the connection is already marked as Disconnected
-                        this.changeState(0 /* Connecting */, 1 /* Connected */);
-                        return [3 /*break*/, 13];
-                     case 12:
-                        e_2 = _a.sent();
-                        this.logger.log(ILogger.LogLevel.Error, "Failed to start the connection: " + e_2);
-                        this.connectionState = 2 /* Disconnected */;
-                        this.transport = null;
-                        throw e_2;
-                     case 13: return [2 /*return*/];
-                  }
-               });
-            });
-         };
-         HttpConnection.prototype.getNegotiationResponse = function (url) {
-            return tslib_1.__awaiter(this, void 0, void 0, function () {
-               var token, headers, negotiateUrl, response, e_3, _a;
-               return tslib_1.__generator(this, function (_b) {
+               var token, headers, negotiateResponse, e_1, _a;
+               return __generator(this, function (_b) {
                   switch (_b.label) {
-                     case 0: return [4 /*yield*/, this.accessTokenFactory()];
+                     case 0:
+                        _b.trys.push([0, 6, , 7]);
+                        if (!(this.options.transport === Transports.TransportType.WebSockets)) return [3 /*break*/, 2];
+                        // No need to add a connection ID in this case
+                        this.url = this.baseUrl;
+                        this.transport = this.constructTransport(Transports.TransportType.WebSockets);
+                        // We should just call connect directly in this case.
+                        // No fallback or negotiate in this case.
+                        return [4 /*yield*/, this.transport.connect(this.url, transferFormat, this)];
                      case 1:
-                        token = _b.sent();
+                        // We should just call connect directly in this case.
+                        // No fallback or negotiate in this case.
+                        _b.sent();
+                        return [3 /*break*/, 5];
+                     case 2:
+                        token = this.options.accessTokenFactory();
+                        headers = void 0;
                         if (token) {
                            headers = (_a = {}, _a["Authorization"] = "Bearer " + token, _a);
                         }
-                        negotiateUrl = this.resolveNegotiateUrl(url);
-                        this.logger.log(ILogger.LogLevel.Debug, "Sending negotiation request: " + negotiateUrl);
-                        _b.label = 2;
-                     case 2:
-                        _b.trys.push([2, 4, , 5]);
+                        return [4 /*yield*/, this.getNegotiationResponse(headers)];
+                     case 3:
+                        negotiateResponse = _b.sent();
+                        // the user tries to stop the the connection when it is being started
+                        if (this.connectionState === 2 /* Disconnected */) {
+                           return [2 /*return*/];
+                        }
+                        return [4 /*yield*/, this.createTransport(this.options.transport, negotiateResponse, transferFormat, headers)];
+                     case 4:
+                        _b.sent();
+                        _b.label = 5;
+                     case 5:
+                        this.transport.onreceive = this.onreceive;
+                        this.transport.onclose = function (e) { return _this.stopConnection(true, e); };
+                        // only change the state if we were connecting to not overwrite
+                        // the state if the connection is already marked as Disconnected
+                        this.changeState(0 /* Connecting */, 1 /* Connected */);
+                        return [3 /*break*/, 7];
+                     case 6:
+                        e_1 = _b.sent();
+                        this.logger.log(ILogger.LogLevel.Error, "Failed to start the connection: " + e_1);
+                        this.connectionState = 2 /* Disconnected */;
+                        this.transport = null;
+                        throw e_1;
+                     case 7: return [2 /*return*/];
+                  }
+               });
+            });
+         };
+         HttpConnection.prototype.getNegotiationResponse = function (headers) {
+            return __awaiter(this, void 0, void 0, function () {
+               var negotiateUrl, response, e_2;
+               return __generator(this, function (_a) {
+                  switch (_a.label) {
+                     case 0:
+                        negotiateUrl = this.resolveNegotiateUrl(this.baseUrl);
+                        this.logger.log(ILogger.LogLevel.Trace, "Sending negotiation request: " + negotiateUrl);
+                        _a.label = 1;
+                     case 1:
+                        _a.trys.push([1, 3, , 4]);
                         return [4 /*yield*/, this.httpClient.post(negotiateUrl, {
                            content: "",
                            headers: headers,
                         })];
-                     case 3:
-                        response = _b.sent();
-                        if (response.statusCode !== 200) {
-                           throw Error("Unexpected status code returned from negotiate " + response.statusCode);
-                        }
+                     case 2:
+                        response = _a.sent();
                         return [2 /*return*/, JSON.parse(response.content)];
-                     case 4:
-                        e_3 = _b.sent();
-                        this.logger.log(ILogger.LogLevel.Error, "Failed to complete negotiation with the server: " + e_3);
-                        throw e_3;
-                     case 5: return [2 /*return*/];
+                     case 3:
+                        e_2 = _a.sent();
+                        this.logger.log(ILogger.LogLevel.Error, "Failed to complete negotiation with the server: " + e_2);
+                        throw e_2;
+                     case 4: return [2 /*return*/];
                   }
                });
             });
          };
-         HttpConnection.prototype.createConnectUrl = function (url, connectionId) {
-            return url + (url.indexOf("?") === -1 ? "?" : "&") + ("id=" + connectionId);
+         HttpConnection.prototype.updateConnectionId = function (negotiateResponse) {
+            this.connectionId = negotiateResponse.connectionId;
+            this.url = this.baseUrl + (this.baseUrl.indexOf("?") === -1 ? "?" : "&") + ("id=" + this.connectionId);
          };
-         HttpConnection.prototype.createTransport = function (url, requestedTransport, negotiateResponse, requestedTransferFormat) {
-            return tslib_1.__awaiter(this, void 0, void 0, function () {
-               var connectUrl, transports, _i, transports_1, endpoint, transport, ex_1;
-               return tslib_1.__generator(this, function (_a) {
+         HttpConnection.prototype.createTransport = function (requestedTransport, negotiateResponse, requestedTransferFormat, headers) {
+            return __awaiter(this, void 0, void 0, function () {
+               var transports, _i, transports_1, endpoint, transport, ex_1;
+               return __generator(this, function (_a) {
                   switch (_a.label) {
                      case 0:
-                        connectUrl = this.createConnectUrl(url, negotiateResponse.connectionId);
+                        this.updateConnectionId(negotiateResponse);
                         if (!this.isITransport(requestedTransport)) return [3 /*break*/, 2];
-                        this.logger.log(ILogger.LogLevel.Debug, "Connection was provided an instance of ITransport, using that directly.");
+                        this.logger.log(ILogger.LogLevel.Trace, "Connection was provided an instance of ITransport, using that directly.");
                         this.transport = requestedTransport;
-                        return [4 /*yield*/, this.transport.connect(connectUrl, requestedTransferFormat)];
+                        return [4 /*yield*/, this.transport.connect(this.url, requestedTransferFormat, this)];
                      case 1:
                         _a.sent();
                         // only change the state if we were connecting to not overwrite
@@ -28496,21 +27552,21 @@ module.exports = exports['default'];
                         if (!(typeof transport === "number")) return [3 /*break*/, 8];
                         this.transport = this.constructTransport(transport);
                         if (!(negotiateResponse.connectionId === null)) return [3 /*break*/, 5];
-                        return [4 /*yield*/, this.getNegotiationResponse(url)];
+                        return [4 /*yield*/, this.getNegotiationResponse(headers)];
                      case 4:
                         negotiateResponse = _a.sent();
-                        connectUrl = this.createConnectUrl(url, negotiateResponse.connectionId);
+                        this.updateConnectionId(negotiateResponse);
                         _a.label = 5;
                      case 5:
                         _a.trys.push([5, 7, , 8]);
-                        return [4 /*yield*/, this.transport.connect(connectUrl, requestedTransferFormat)];
+                        return [4 /*yield*/, this.transport.connect(this.url, requestedTransferFormat, this)];
                      case 6:
                         _a.sent();
                         this.changeState(0 /* Connecting */, 1 /* Connected */);
                         return [2 /*return*/];
                      case 7:
                         ex_1 = _a.sent();
-                        this.logger.log(ILogger.LogLevel.Error, "Failed to start the transport '" + ITransport.HttpTransportType[transport] + "': " + ex_1);
+                        this.logger.log(ILogger.LogLevel.Error, "Failed to start the transport '" + Transports.TransportType[transport] + "': " + ex_1);
                         this.connectionState = 2 /* Disconnected */;
                         negotiateResponse.connectionId = null;
                         return [3 /*break*/, 8];
@@ -28524,46 +27580,46 @@ module.exports = exports['default'];
          };
          HttpConnection.prototype.constructTransport = function (transport) {
             switch (transport) {
-               case ITransport.HttpTransportType.WebSockets:
-                  return new WebSocketTransport_1.WebSocketTransport(this.accessTokenFactory, this.logger, this.options.logMessageContent);
-               case ITransport.HttpTransportType.ServerSentEvents:
-                  return new ServerSentEventsTransport_1.ServerSentEventsTransport(this.httpClient, this.accessTokenFactory, this.logger, this.options.logMessageContent);
-               case ITransport.HttpTransportType.LongPolling:
-                  return new LongPollingTransport_1.LongPollingTransport(this.httpClient, this.accessTokenFactory, this.logger, this.options.logMessageContent);
+               case Transports.TransportType.WebSockets:
+                  return new Transports.WebSocketTransport(this.options.accessTokenFactory, this.logger);
+               case Transports.TransportType.ServerSentEvents:
+                  return new Transports.ServerSentEventsTransport(this.httpClient, this.options.accessTokenFactory, this.logger);
+               case Transports.TransportType.LongPolling:
+                  return new Transports.LongPollingTransport(this.httpClient, this.options.accessTokenFactory, this.logger);
                default:
                   throw new Error("Unknown transport: " + transport + ".");
             }
          };
          HttpConnection.prototype.resolveTransport = function (endpoint, requestedTransport, requestedTransferFormat) {
-            var transport = ITransport.HttpTransportType[endpoint.transport];
+            var transport = Transports.TransportType[endpoint.transport];
             if (transport === null || transport === undefined) {
-               this.logger.log(ILogger.LogLevel.Debug, "Skipping transport '" + endpoint.transport + "' because it is not supported by this client.");
+               this.logger.log(ILogger.LogLevel.Trace, "Skipping transport '" + endpoint.transport + "' because it is not supported by this client.");
             }
             else {
-               var transferFormats = endpoint.transferFormats.map(function (s) { return ITransport.TransferFormat[s]; });
-               if (transportMatches(requestedTransport, transport)) {
+               var transferFormats = endpoint.transferFormats.map(function (s) { return Transports.TransferFormat[s]; });
+               if (!requestedTransport || transport === requestedTransport) {
                   if (transferFormats.indexOf(requestedTransferFormat) >= 0) {
-                     if ((transport === ITransport.HttpTransportType.WebSockets && typeof WebSocket === "undefined") ||
-                        (transport === ITransport.HttpTransportType.ServerSentEvents && typeof EventSource === "undefined")) {
-                        this.logger.log(ILogger.LogLevel.Debug, "Skipping transport '" + ITransport.HttpTransportType[transport] + "' because it is not supported in your environment.'");
+                     if ((transport === Transports.TransportType.WebSockets && typeof WebSocket === "undefined") ||
+                        (transport === Transports.TransportType.ServerSentEvents && typeof EventSource === "undefined")) {
+                        this.logger.log(ILogger.LogLevel.Trace, "Skipping transport '" + Transports.TransportType[transport] + "' because it is not supported in your environment.'");
                      }
                      else {
-                        this.logger.log(ILogger.LogLevel.Debug, "Selecting transport '" + ITransport.HttpTransportType[transport] + "'");
+                        this.logger.log(ILogger.LogLevel.Trace, "Selecting transport '" + Transports.TransportType[transport] + "'");
                         return transport;
                      }
                   }
                   else {
-                     this.logger.log(ILogger.LogLevel.Debug, "Skipping transport '" + ITransport.HttpTransportType[transport] + "' because it does not support the requested transfer format '" + ITransport.TransferFormat[requestedTransferFormat] + "'.");
+                     this.logger.log(ILogger.LogLevel.Trace, "Skipping transport '" + Transports.TransportType[transport] + "' because it does not support the requested transfer format '" + Transports.TransferFormat[requestedTransferFormat] + "'.");
                   }
                }
                else {
-                  this.logger.log(ILogger.LogLevel.Debug, "Skipping transport '" + ITransport.HttpTransportType[transport] + "' because it was disabled by the client.");
+                  this.logger.log(ILogger.LogLevel.Trace, "Skipping transport '" + Transports.TransportType[transport] + "' because it was disabled by the client.");
                }
             }
             return null;
          };
          HttpConnection.prototype.isITransport = function (transport) {
-            return transport && typeof (transport) === "object" && "connect" in transport;
+            return typeof (transport) === "object" && "connect" in transport;
          };
          HttpConnection.prototype.changeState = function (from, to) {
             if (this.connectionState === from) {
@@ -28572,25 +27628,52 @@ module.exports = exports['default'];
             }
             return false;
          };
-         HttpConnection.prototype.stopConnection = function (error) {
-            return tslib_1.__awaiter(this, void 0, void 0, function () {
-               return tslib_1.__generator(this, function (_a) {
-                  this.transport = null;
-                  // If we have a stopError, it takes precedence over the error from the transport
-                  error = this.stopError || error;
-                  if (error) {
-                     this.logger.log(ILogger.LogLevel.Error, "Connection disconnected with error '" + error + "'.");
+         HttpConnection.prototype.send = function (data) {
+            if (this.connectionState !== 1 /* Connected */) {
+               throw new Error("Cannot send data if the connection is not in the 'Connected' State.");
+            }
+            return this.transport.send(data);
+         };
+         HttpConnection.prototype.stop = function (error) {
+            return __awaiter(this, void 0, void 0, function () {
+               var previousState, e_3;
+               return __generator(this, function (_a) {
+                  switch (_a.label) {
+                     case 0:
+                        previousState = this.connectionState;
+                        this.connectionState = 2 /* Disconnected */;
+                        _a.label = 1;
+                     case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.startPromise];
+                     case 2:
+                        _a.sent();
+                        return [3 /*break*/, 4];
+                     case 3:
+                        e_3 = _a.sent();
+                        return [3 /*break*/, 4];
+                     case 4:
+                        this.stopConnection(/*raiseClosed*/ previousState === 1 /* Connected */, error);
+                        return [2 /*return*/];
                   }
-                  else {
-                     this.logger.log(ILogger.LogLevel.Information, "Connection disconnected.");
-                  }
-                  this.connectionState = 2 /* Disconnected */;
-                  if (this.onclose) {
-                     this.onclose(error);
-                  }
-                  return [2 /*return*/];
                });
             });
+         };
+         HttpConnection.prototype.stopConnection = function (raiseClosed, error) {
+            if (this.transport) {
+               this.transport.stop();
+               this.transport = null;
+            }
+            if (error) {
+               this.logger.log(ILogger.LogLevel.Error, "Connection disconnected with error '" + error + "'.");
+            }
+            else {
+               this.logger.log(ILogger.LogLevel.Information, "Connection disconnected.");
+            }
+            this.connectionState = 2 /* Disconnected */;
+            if (raiseClosed && this.onclose) {
+               this.onclose(error);
+            }
          };
          HttpConnection.prototype.resolveUrl = function (url) {
             // startsWith is not supported in IE
@@ -28600,15 +27683,17 @@ module.exports = exports['default'];
             if (typeof window === "undefined" || !window || !window.document) {
                throw new Error("Cannot resolve '" + url + "'.");
             }
-            // Setting the url to the href propery of an anchor tag handles normalization
-            // for us. There are 3 main cases.
-            // 1. Relative  path normalization e.g "b" -> "http://localhost:5000/a/b"
-            // 2. Absolute path normalization e.g "/a/b" -> "http://localhost:5000/a/b"
-            // 3. Networkpath reference normalization e.g "//localhost:5000/a/b" -> "http://localhost:5000/a/b"
-            var aTag = window.document.createElement("a");
-            aTag.href = url;
-            this.logger.log(ILogger.LogLevel.Information, "Normalizing '" + url + "' to '" + aTag.href + "'.");
-            return aTag.href;
+            var parser = window.document.createElement("a");
+            parser.href = url;
+            var baseUrl = (!parser.protocol || parser.protocol === ":")
+               ? window.document.location.protocol + "//" + (parser.host || window.document.location.host)
+               : parser.protocol + "//" + parser.host;
+            if (!url || url[0] !== "/") {
+               url = "/" + url;
+            }
+            var normalizedUrl = baseUrl + url;
+            this.logger.log(ILogger.LogLevel.Information, "Normalizing '" + url + "' to '" + normalizedUrl + "'.");
+            return normalizedUrl;
          };
          HttpConnection.prototype.resolveNegotiateUrl = function (url) {
             var index = url.indexOf("?");
@@ -28623,14 +27708,38 @@ module.exports = exports['default'];
          return HttpConnection;
       }());
       exports.HttpConnection = HttpConnection;
-      function transportMatches(requestedTransport, actualTransport) {
-         return !requestedTransport || ((actualTransport & requestedTransport) !== 0);
-      }
 
    });
 
    unwrapExports(HttpConnection_1);
    var HttpConnection_2 = HttpConnection_1.HttpConnection;
+
+   var TextMessageFormat_1 = createCommonjsModule(function (module, exports) {
+      Object.defineProperty(exports, "__esModule", { value: true });
+      var TextMessageFormat = /** @class */ (function () {
+         function TextMessageFormat() {
+         }
+         TextMessageFormat.write = function (output) {
+            return "" + output + TextMessageFormat.RecordSeparator;
+         };
+         TextMessageFormat.parse = function (input) {
+            if (input[input.length - 1] !== TextMessageFormat.RecordSeparator) {
+               throw new Error("Message is incomplete.");
+            }
+            var messages = input.split(TextMessageFormat.RecordSeparator);
+            messages.pop();
+            return messages;
+         };
+         TextMessageFormat.RecordSeparatorCode = 0x1e;
+         TextMessageFormat.RecordSeparator = String.fromCharCode(TextMessageFormat.RecordSeparatorCode);
+         return TextMessageFormat;
+      }());
+      exports.TextMessageFormat = TextMessageFormat;
+
+   });
+
+   unwrapExports(TextMessageFormat_1);
+   var TextMessageFormat_2 = TextMessageFormat_1.TextMessageFormat;
 
    var JsonHubProtocol_1 = createCommonjsModule(function (module, exports) {
       Object.defineProperty(exports, "__esModule", { value: true });
@@ -28638,33 +27747,19 @@ module.exports = exports['default'];
 
 
 
-
-      var JSON_HUB_PROTOCOL_NAME = "json";
-      /** Implements the JSON Hub Protocol. */
+      exports.JSON_HUB_PROTOCOL_NAME = "json";
       var JsonHubProtocol = /** @class */ (function () {
          function JsonHubProtocol() {
-            /** @inheritDoc */
-            this.name = JSON_HUB_PROTOCOL_NAME;
-            /** @inheritDoc */
+            this.name = exports.JSON_HUB_PROTOCOL_NAME;
             this.version = 1;
-            /** @inheritDoc */
-            this.transferFormat = ITransport.TransferFormat.Text;
+            this.transferFormat = Transports.TransferFormat.Text;
          }
-         /** Creates an array of {@link HubMessage} objects from the specified serialized representation.
-          *
-          * @param {string} input A string containing the serialized representation.
-          * @param {ILogger} logger A logger that will be used to log messages that occur during parsing.
-          */
          JsonHubProtocol.prototype.parseMessages = function (input, logger) {
-            // The interface does allow "ArrayBuffer" to be passed in, but this implementation does not. So let's throw a useful error.
-            if (typeof input !== "string") {
-               throw new Error("Invalid input for JSON hub protocol. Expected a string.");
-            }
             if (!input) {
                return [];
             }
             if (logger === null) {
-               logger = Loggers.NullLogger.instance;
+               logger = new Loggers.NullLogger();
             }
             // Parse the messages
             var messages = TextMessageFormat_1.TextMessageFormat.parse(input);
@@ -28676,19 +27771,19 @@ module.exports = exports['default'];
                   throw new Error("Invalid payload.");
                }
                switch (parsedMessage.type) {
-                  case IHubProtocol.MessageType.Invocation:
+                  case 1 /* Invocation */:
                      this.isInvocationMessage(parsedMessage);
                      break;
-                  case IHubProtocol.MessageType.StreamItem:
+                  case 2 /* StreamItem */:
                      this.isStreamItemMessage(parsedMessage);
                      break;
-                  case IHubProtocol.MessageType.Completion:
+                  case 3 /* Completion */:
                      this.isCompletionMessage(parsedMessage);
                      break;
-                  case IHubProtocol.MessageType.Ping:
+                  case 6 /* Ping */:
                      // Single value, no need to validate
                      break;
-                  case IHubProtocol.MessageType.Close:
+                  case 7 /* Close */:
                      // All optional values, no need to validate
                      break;
                   default:
@@ -28700,11 +27795,6 @@ module.exports = exports['default'];
             }
             return hubMessages;
          };
-         /** Writes the specified {@link HubMessage} to a string and returns it.
-          *
-          * @param {HubMessage} message The message to write.
-          * @returns {string} A string containing the serialized representation of the message.
-          */
          JsonHubProtocol.prototype.writeMessage = function (message) {
             return TextMessageFormat_1.TextMessageFormat.write(JSON.stringify(message));
          };
@@ -28741,158 +27831,506 @@ module.exports = exports['default'];
    });
 
    unwrapExports(JsonHubProtocol_1);
-   var JsonHubProtocol_2 = JsonHubProtocol_1.JsonHubProtocol;
+   var JsonHubProtocol_2 = JsonHubProtocol_1.JSON_HUB_PROTOCOL_NAME;
+   var JsonHubProtocol_3 = JsonHubProtocol_1.JsonHubProtocol;
 
-   var HubConnectionBuilder_1 = createCommonjsModule(function (module, exports) {
+   var Observable = createCommonjsModule(function (module, exports) {
       Object.defineProperty(exports, "__esModule", { value: true });
-
-
-
-
-
-      /** A builder for configuring {@link HubConnection} instances. */
-      var HubConnectionBuilder = /** @class */ (function () {
-         function HubConnectionBuilder() {
+      var Subscription = /** @class */ (function () {
+         function Subscription(subject, observer) {
+            this.subject = subject;
+            this.observer = observer;
          }
-         HubConnectionBuilder.prototype.configureLogging = function (logging) {
-            Utils.Arg.isRequired(logging, "logging");
-            if (isLogger(logging)) {
-               this.logger = logging;
+         Subscription.prototype.dispose = function () {
+            var index = this.subject.observers.indexOf(this.observer);
+            if (index > -1) {
+               this.subject.observers.splice(index, 1);
             }
-            else {
-               this.logger = new Utils.ConsoleLogger(logging);
+            if (this.subject.observers.length === 0) {
+               this.subject.cancelCallback().catch(function (_) { });
             }
-            return this;
          };
-         HubConnectionBuilder.prototype.withUrl = function (url, transportTypeOrOptions) {
-            Utils.Arg.isRequired(url, "url");
-            this.url = url;
-            // Flow-typing knows where it's at. Since HttpTransportType is a number and IHttpConnectionOptions is guaranteed
-            // to be an object, we know (as does TypeScript) this comparison is all we need to figure out which overload was called.
-            if (typeof transportTypeOrOptions === "object") {
-               this.httpConnectionOptions = transportTypeOrOptions;
-            }
-            else {
-               this.httpConnectionOptions = {
-                  transport: transportTypeOrOptions,
-               };
-            }
-            return this;
-         };
-         /** Configures the {@link HubConnection} to use the specified Hub Protocol.
-          *
-          * @param {IHubProtocol} protocol The {@link IHubProtocol} implementation to use.
-          */
-         HubConnectionBuilder.prototype.withHubProtocol = function (protocol) {
-            Utils.Arg.isRequired(protocol, "protocol");
-            this.protocol = protocol;
-            return this;
-         };
-         /** Creates a {@link HubConnection} from the configuration options specified in this builder.
-          *
-          * @returns {HubConnection} The configured {@link HubConnection}.
-          */
-         HubConnectionBuilder.prototype.build = function () {
-            // If httpConnectionOptions has a logger, use it. Otherwise, override it with the one
-            // provided to configureLogger
-            var httpConnectionOptions = this.httpConnectionOptions || {};
-            // If it's 'null', the user **explicitly** asked for null, don't mess with it.
-            if (httpConnectionOptions.logger === undefined) {
-               // If our logger is undefined or null, that's OK, the HttpConnection constructor will handle it.
-               httpConnectionOptions.logger = this.logger;
-            }
-            // Now create the connection
-            if (!this.url) {
-               throw new Error("The 'HubConnectionBuilder.withUrl' method must be called before building the connection.");
-            }
-            var connection = new HttpConnection_1.HttpConnection(this.url, httpConnectionOptions);
-            return HubConnection_1.HubConnection.create(connection, this.logger || Loggers.NullLogger.instance, this.protocol || new JsonHubProtocol_1.JsonHubProtocol());
-         };
-         return HubConnectionBuilder;
+         return Subscription;
       }());
-      exports.HubConnectionBuilder = HubConnectionBuilder;
-      function isLogger(logger) {
-         return logger.log !== undefined;
-      }
+      exports.Subscription = Subscription;
+      var Subject = /** @class */ (function () {
+         function Subject(cancelCallback) {
+            this.observers = [];
+            this.cancelCallback = cancelCallback;
+         }
+         Subject.prototype.next = function (item) {
+            for (var _i = 0, _a = this.observers; _i < _a.length; _i++) {
+               var observer = _a[_i];
+               observer.next(item);
+            }
+         };
+         Subject.prototype.error = function (err) {
+            for (var _i = 0, _a = this.observers; _i < _a.length; _i++) {
+               var observer = _a[_i];
+               if (observer.error) {
+                  observer.error(err);
+               }
+            }
+         };
+         Subject.prototype.complete = function () {
+            for (var _i = 0, _a = this.observers; _i < _a.length; _i++) {
+               var observer = _a[_i];
+               if (observer.complete) {
+                  observer.complete();
+               }
+            }
+         };
+         Subject.prototype.subscribe = function (observer) {
+            this.observers.push(observer);
+            return new Subscription(this, observer);
+         };
+         return Subject;
+      }());
+      exports.Subject = Subject;
 
    });
 
-   unwrapExports(HubConnectionBuilder_1);
-   var HubConnectionBuilder_2 = HubConnectionBuilder_1.HubConnectionBuilder;
+   unwrapExports(Observable);
+   var Observable_1 = Observable.Subscription;
+   var Observable_2 = Observable.Subject;
 
-   var cjs = createCommonjsModule(function (module, exports) {
+   var HubConnection_1 = createCommonjsModule(function (module, exports) {
+      var __awaiter = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisArg, _arguments, P, generator) {
+         return new (P || (P = Promise))(function (resolve, reject) {
+            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+            function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
+         });
+      };
+      var __generator = (commonjsGlobal && commonjsGlobal.__generator) || function (thisArg, body) {
+         var _ = { label: 0, sent: function () { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+         return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function () { return this; }), g;
+         function verb(n) { return function (v) { return step([n, v]); }; }
+         function step(op) {
+            if (f) throw new TypeError("Generator is already executing.");
+            while (_) try {
+               if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+               if (y = 0, t) op = [0, t.value];
+               switch (op[0]) {
+                  case 0: case 1: t = op; break;
+                  case 4: _.label++; return { value: op[1], done: false };
+                  case 5: _.label++; y = op[1]; op = [0]; continue;
+                  case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                  default:
+                     if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                     if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                     if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                     if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                     if (t[2]) _.ops.pop();
+                     _.trys.pop(); continue;
+               }
+               op = body.call(thisArg, _);
+            } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+            if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+         }
+      };
       Object.defineProperty(exports, "__esModule", { value: true });
-      // Version token that will be replaced by the prepack command
-      /** The version of the SignalR client. */
-      exports.VERSION = "0.0.0-DEV_BUILD";
 
-      exports.HttpError = Errors.HttpError;
-      exports.TimeoutError = Errors.TimeoutError;
 
-      exports.DefaultHttpClient = HttpClient_1.DefaultHttpClient;
-      exports.HttpClient = HttpClient_1.HttpClient;
-      exports.HttpResponse = HttpClient_1.HttpResponse;
-
-      exports.HubConnection = HubConnection_1.HubConnection;
-
-      exports.HubConnectionBuilder = HubConnectionBuilder_1.HubConnectionBuilder;
-
-      exports.MessageType = IHubProtocol.MessageType;
-
-      exports.LogLevel = ILogger.LogLevel;
-
-      exports.HttpTransportType = ITransport.HttpTransportType;
-      exports.TransferFormat = ITransport.TransferFormat;
-
-      exports.NullLogger = Loggers.NullLogger;
 
       exports.JsonHubProtocol = JsonHubProtocol_1.JsonHubProtocol;
+
+
+
+      var DEFAULT_TIMEOUT_IN_MS = 30 * 1000;
+      var HubConnection = /** @class */ (function () {
+         function HubConnection(urlOrConnection, options) {
+            if (options === void 0) { options = {}; }
+            var _this = this;
+            options = options || {};
+            this.timeoutInMilliseconds = options.timeoutInMilliseconds || DEFAULT_TIMEOUT_IN_MS;
+            this.protocol = options.protocol || new JsonHubProtocol_1.JsonHubProtocol();
+            if (typeof urlOrConnection === "string") {
+               this.connection = new HttpConnection_1.HttpConnection(urlOrConnection, options);
+            }
+            else {
+               this.connection = urlOrConnection;
+            }
+            this.logger = Loggers.LoggerFactory.createLogger(options.logger);
+            this.connection.onreceive = function (data) { return _this.processIncomingData(data); };
+            this.connection.onclose = function (error) { return _this.connectionClosed(error); };
+            this.callbacks = {};
+            this.methods = {};
+            this.closedCallbacks = [];
+            this.id = 0;
+         }
+         HubConnection.prototype.processIncomingData = function (data) {
+            this.cleanupTimeout();
+            if (!this.receivedHandshakeResponse) {
+               data = this.processHandshakeResponse(data);
+               this.receivedHandshakeResponse = true;
+            }
+            // Data may have all been read when processing handshake response
+            if (data) {
+               // Parse the messages
+               var messages = this.protocol.parseMessages(data, this.logger);
+               for (var _i = 0, messages_1 = messages; _i < messages_1.length; _i++) {
+                  var message = messages_1[_i];
+                  switch (message.type) {
+                     case 1 /* Invocation */:
+                        this.invokeClientMethod(message);
+                        break;
+                     case 2 /* StreamItem */:
+                     case 3 /* Completion */:
+                        var callback = this.callbacks[message.invocationId];
+                        if (callback != null) {
+                           if (message.type === 3 /* Completion */) {
+                              delete this.callbacks[message.invocationId];
+                           }
+                           callback(message);
+                        }
+                        break;
+                     case 6 /* Ping */:
+                        // Don't care about pings
+                        break;
+                     case 7 /* Close */:
+                        this.logger.log(ILogger.LogLevel.Information, "Close message received from server.");
+                        this.connection.stop(message.error ? new Error("Server returned an error on close: " + message.error) : null);
+                        break;
+                     default:
+                        this.logger.log(ILogger.LogLevel.Warning, "Invalid message type: " + message.type);
+                        break;
+                  }
+               }
+            }
+            this.configureTimeout();
+         };
+         HubConnection.prototype.processHandshakeResponse = function (data) {
+            var responseMessage;
+            var messageData;
+            var remainingData;
+            try {
+               if (data instanceof ArrayBuffer) {
+                  // Format is binary but still need to read JSON text from handshake response
+                  var binaryData = new Uint8Array(data);
+                  var separatorIndex = binaryData.indexOf(TextMessageFormat_1.TextMessageFormat.RecordSeparatorCode);
+                  if (separatorIndex === -1) {
+                     throw new Error("Message is incomplete.");
+                  }
+                  // content before separator is handshake response
+                  // optional content after is additional messages
+                  var responseLength = separatorIndex + 1;
+                  messageData = String.fromCharCode.apply(null, binaryData.slice(0, responseLength));
+                  remainingData = (binaryData.byteLength > responseLength) ? binaryData.slice(responseLength).buffer : null;
+               }
+               else {
+                  var textData = data;
+                  var separatorIndex = textData.indexOf(TextMessageFormat_1.TextMessageFormat.RecordSeparator);
+                  if (separatorIndex === -1) {
+                     throw new Error("Message is incomplete.");
+                  }
+                  // content before separator is handshake response
+                  // optional content after is additional messages
+                  var responseLength = separatorIndex + 1;
+                  messageData = textData.substring(0, responseLength);
+                  remainingData = (textData.length > responseLength) ? textData.substring(responseLength) : null;
+               }
+               // At this point we should have just the single handshake message
+               var messages = TextMessageFormat_1.TextMessageFormat.parse(messageData);
+               responseMessage = JSON.parse(messages[0]);
+            }
+            catch (e) {
+               var message = "Error parsing handshake response: " + e;
+               this.logger.log(ILogger.LogLevel.Error, message);
+               var error = new Error(message);
+               this.connection.stop(error);
+               throw error;
+            }
+            if (responseMessage.error) {
+               var message = "Server returned handshake error: " + responseMessage.error;
+               this.logger.log(ILogger.LogLevel.Error, message);
+               this.connection.stop(new Error(message));
+            }
+            else {
+               this.logger.log(ILogger.LogLevel.Trace, "Server handshake complete.");
+            }
+            // multiple messages could have arrived with handshake
+            // return additional data to be parsed as usual, or null if all parsed
+            return remainingData;
+         };
+         HubConnection.prototype.configureTimeout = function () {
+            var _this = this;
+            if (!this.connection.features || !this.connection.features.inherentKeepAlive) {
+               // Set the timeout timer
+               this.timeoutHandle = setTimeout(function () { return _this.serverTimeout(); }, this.timeoutInMilliseconds);
+            }
+         };
+         HubConnection.prototype.serverTimeout = function () {
+            // The server hasn't talked to us in a while. It doesn't like us anymore ... :(
+            // Terminate the connection
+            this.connection.stop(new Error("Server timeout elapsed without receiving a message from the server."));
+         };
+         HubConnection.prototype.invokeClientMethod = function (invocationMessage) {
+            var _this = this;
+            var methods = this.methods[invocationMessage.target.toLowerCase()];
+            if (methods) {
+               methods.forEach(function (m) { return m.apply(_this, invocationMessage.arguments); });
+               if (invocationMessage.invocationId) {
+                  // This is not supported in v1. So we return an error to avoid blocking the server waiting for the response.
+                  var message = "Server requested a response, which is not supported in this version of the client.";
+                  this.logger.log(ILogger.LogLevel.Error, message);
+                  this.connection.stop(new Error(message));
+               }
+            }
+            else {
+               this.logger.log(ILogger.LogLevel.Warning, "No client method with the name '" + invocationMessage.target + "' found.");
+            }
+         };
+         HubConnection.prototype.connectionClosed = function (error) {
+            var _this = this;
+            var callbacks = this.callbacks;
+            this.callbacks = {};
+            Object.keys(callbacks)
+               .forEach(function (key) {
+                  var callback = callbacks[key];
+                  callback(undefined, error ? error : new Error("Invocation canceled due to connection being closed."));
+               });
+            this.cleanupTimeout();
+            this.closedCallbacks.forEach(function (c) { return c.apply(_this, [error]); });
+         };
+         HubConnection.prototype.start = function () {
+            return __awaiter(this, void 0, void 0, function () {
+               return __generator(this, function (_a) {
+                  switch (_a.label) {
+                     case 0:
+                        this.logger.log(ILogger.LogLevel.Trace, "Starting HubConnection.");
+                        this.receivedHandshakeResponse = false;
+                        return [4 /*yield*/, this.connection.start(this.protocol.transferFormat)];
+                     case 1:
+                        _a.sent();
+                        this.logger.log(ILogger.LogLevel.Trace, "Sending handshake request.");
+                        // Handshake request is always JSON
+                        return [4 /*yield*/, this.connection.send(TextMessageFormat_1.TextMessageFormat.write(JSON.stringify({ protocol: this.protocol.name, version: this.protocol.version })))];
+                     case 2:
+                        // Handshake request is always JSON
+                        _a.sent();
+                        this.logger.log(ILogger.LogLevel.Information, "Using HubProtocol '" + this.protocol.name + "'.");
+                        // defensively cleanup timeout in case we receive a message from the server before we finish start
+                        this.cleanupTimeout();
+                        this.configureTimeout();
+                        return [2 /*return*/];
+                  }
+               });
+            });
+         };
+         HubConnection.prototype.stop = function () {
+            this.logger.log(ILogger.LogLevel.Trace, "Stopping HubConnection.");
+            this.cleanupTimeout();
+            return this.connection.stop();
+         };
+         HubConnection.prototype.stream = function (methodName) {
+            var _this = this;
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+               args[_i - 1] = arguments[_i];
+            }
+            var invocationDescriptor = this.createStreamInvocation(methodName, args);
+            var subject = new Observable.Subject(function () {
+               var cancelInvocation = _this.createCancelInvocation(invocationDescriptor.invocationId);
+               var cancelMessage = _this.protocol.writeMessage(cancelInvocation);
+               delete _this.callbacks[invocationDescriptor.invocationId];
+               return _this.connection.send(cancelMessage);
+            });
+            this.callbacks[invocationDescriptor.invocationId] = function (invocationEvent, error) {
+               if (error) {
+                  subject.error(error);
+                  return;
+               }
+               if (invocationEvent.type === 3 /* Completion */) {
+                  if (invocationEvent.error) {
+                     subject.error(new Error(invocationEvent.error));
+                  }
+                  else {
+                     subject.complete();
+                  }
+               }
+               else {
+                  subject.next((invocationEvent.item));
+               }
+            };
+            var message = this.protocol.writeMessage(invocationDescriptor);
+            this.connection.send(message)
+               .catch(function (e) {
+                  subject.error(e);
+                  delete _this.callbacks[invocationDescriptor.invocationId];
+               });
+            return subject;
+         };
+         HubConnection.prototype.send = function (methodName) {
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+               args[_i - 1] = arguments[_i];
+            }
+            var invocationDescriptor = this.createInvocation(methodName, args, true);
+            var message = this.protocol.writeMessage(invocationDescriptor);
+            return this.connection.send(message);
+         };
+         HubConnection.prototype.invoke = function (methodName) {
+            var _this = this;
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+               args[_i - 1] = arguments[_i];
+            }
+            var invocationDescriptor = this.createInvocation(methodName, args, false);
+            var p = new Promise(function (resolve, reject) {
+               _this.callbacks[invocationDescriptor.invocationId] = function (invocationEvent, error) {
+                  if (error) {
+                     reject(error);
+                     return;
+                  }
+                  if (invocationEvent.type === 3 /* Completion */) {
+                     var completionMessage = invocationEvent;
+                     if (completionMessage.error) {
+                        reject(new Error(completionMessage.error));
+                     }
+                     else {
+                        resolve(completionMessage.result);
+                     }
+                  }
+                  else {
+                     reject(new Error("Unexpected message type: " + invocationEvent.type));
+                  }
+               };
+               var message = _this.protocol.writeMessage(invocationDescriptor);
+               _this.connection.send(message)
+                  .catch(function (e) {
+                     reject(e);
+                     delete _this.callbacks[invocationDescriptor.invocationId];
+                  });
+            });
+            return p;
+         };
+         HubConnection.prototype.on = function (methodName, newMethod) {
+            if (!methodName || !newMethod) {
+               return;
+            }
+            methodName = methodName.toLowerCase();
+            if (!this.methods[methodName]) {
+               this.methods[methodName] = [];
+            }
+            // Preventing adding the same handler multiple times.
+            if (this.methods[methodName].indexOf(newMethod) !== -1) {
+               return;
+            }
+            this.methods[methodName].push(newMethod);
+         };
+         HubConnection.prototype.off = function (methodName, method) {
+            if (!methodName) {
+               return;
+            }
+            methodName = methodName.toLowerCase();
+            var handlers = this.methods[methodName];
+            if (!handlers) {
+               return;
+            }
+            if (method) {
+               var removeIdx = handlers.indexOf(method);
+               if (removeIdx !== -1) {
+                  handlers.splice(removeIdx, 1);
+                  if (handlers.length === 0) {
+                     delete this.methods[methodName];
+                  }
+               }
+            }
+            else {
+               delete this.methods[methodName];
+            }
+         };
+         HubConnection.prototype.onclose = function (callback) {
+            if (callback) {
+               this.closedCallbacks.push(callback);
+            }
+         };
+         HubConnection.prototype.cleanupTimeout = function () {
+            if (this.timeoutHandle) {
+               clearTimeout(this.timeoutHandle);
+            }
+         };
+         HubConnection.prototype.createInvocation = function (methodName, args, nonblocking) {
+            if (nonblocking) {
+               return {
+                  arguments: args,
+                  target: methodName,
+                  type: 1 /* Invocation */,
+               };
+            }
+            else {
+               var id = this.id;
+               this.id++;
+               return {
+                  arguments: args,
+                  invocationId: id.toString(),
+                  target: methodName,
+                  type: 1 /* Invocation */,
+               };
+            }
+         };
+         HubConnection.prototype.createStreamInvocation = function (methodName, args) {
+            var id = this.id;
+            this.id++;
+            return {
+               arguments: args,
+               invocationId: id.toString(),
+               target: methodName,
+               type: 4 /* StreamInvocation */,
+            };
+         };
+         HubConnection.prototype.createCancelInvocation = function (id) {
+            return {
+               invocationId: id,
+               type: 5 /* CancelInvocation */,
+            };
+         };
+         return HubConnection;
+      }());
+      exports.HubConnection = HubConnection;
+
+   });
+
+   unwrapExports(HubConnection_1);
+   var HubConnection_2 = HubConnection_1.JsonHubProtocol;
+   var HubConnection_3 = HubConnection_1.HubConnection;
+
+   var IHubProtocol = createCommonjsModule(function (module, exports) {
+      Object.defineProperty(exports, "__esModule", { value: true });
+
+   });
+
+   unwrapExports(IHubProtocol);
+
+   var cjs = createCommonjsModule(function (module, exports) {
+      function __export(m) {
+         for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+      }
+      Object.defineProperty(exports, "__esModule", { value: true });
+      __export(Errors);
+      __export(HttpClient_1);
+      __export(HttpConnection_1);
+      __export(HubConnection_1);
+      __export(IHubProtocol);
+      __export(ILogger);
+      __export(Loggers);
+      __export(Transports);
+      __export(Observable);
 
    });
 
    unwrapExports(cjs);
-   var cjs_1 = cjs.VERSION;
-   var cjs_2 = cjs.HttpError;
-   var cjs_3 = cjs.TimeoutError;
-   var cjs_4 = cjs.DefaultHttpClient;
-   var cjs_5 = cjs.HttpClient;
-   var cjs_6 = cjs.HttpResponse;
-   var cjs_7 = cjs.HubConnection;
-   var cjs_8 = cjs.HubConnectionBuilder;
-   var cjs_9 = cjs.MessageType;
-   var cjs_10 = cjs.LogLevel;
-   var cjs_11 = cjs.HttpTransportType;
-   var cjs_12 = cjs.TransferFormat;
-   var cjs_13 = cjs.NullLogger;
-   var cjs_14 = cjs.JsonHubProtocol;
 
    var browserIndex = createCommonjsModule(function (module, exports) {
+      function __export(m) {
+         for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+      }
       Object.defineProperty(exports, "__esModule", { value: true });
-
       // This is where we add any polyfills we'll need for the browser. It is the entry module for browser-specific builds.
 
-      // Copy from Array.prototype into Uint8Array to polyfill on IE. It's OK because the implementations of indexOf and slice use properties
-      // that exist on Uint8Array with the same name, and JavaScript is magic.
-      // We make them 'writable' because the Buffer polyfill messes with it as well.
-      if (!Uint8Array.prototype.indexOf) {
-         Object.defineProperty(Uint8Array.prototype, "indexOf", {
-            value: Array.prototype.indexOf,
-            writable: true,
-         });
-      }
-      if (!Uint8Array.prototype.slice) {
-         Object.defineProperty(Uint8Array.prototype, "slice", {
-            value: Array.prototype.slice,
-            writable: true,
-         });
-      }
-      if (!Uint8Array.prototype.forEach) {
-         Object.defineProperty(Uint8Array.prototype, "forEach", {
-            value: Array.prototype.forEach,
-            writable: true,
-         });
-      }
-      tslib_1.__exportStar(cjs, exports);
+      __export(cjs);
 
    });
 
@@ -63775,7 +63213,7 @@ var dotnetifyHub = typeof dotnetifyHub === "undefined" ? {} : dotnetifyHub;
    (function ($, defaultSignalR, window) {
 
       dotnetifyHub = $.extend(dotnetifyHub, {
-         version: "1.2.0",
+         version: "1.1.1-beta",
          type: null,
          _init: false,
 
@@ -63829,7 +63267,7 @@ var dotnetifyHub = typeof dotnetifyHub === "undefined" ? {} : dotnetifyHub;
                   Object.keys(iHubOptions).forEach(function (key) { hubOptions[key] = iHubOptions[key] });
                   hubOptions.transport = iTransportArray.shift();
 
-                  dotnetifyHub._connection = new signalR.HubConnectionBuilder().withUrl(url, hubOptions).build();
+                  dotnetifyHub._connection = new signalR.HubConnection(url, hubOptions);
                   dotnetifyHub._connection.on("response_vm", dotnetifyHub.client.response_VM);
                   dotnetifyHub._connection.onclose(dotnetifyHub._onDisconnected);
 
@@ -67309,9 +66747,9 @@ jQuery.extend({
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {/**
- * lodash (Custom Build) <https://lodash.com/>
+ * Lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
- * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Copyright JS Foundation and other contributors <https://js.foundation/>
  * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -67323,12 +66761,17 @@ var LARGE_ARRAY_SIZE = 200;
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
 
+/** Used to detect hot functions by number of calls within a span of milliseconds. */
+var HOT_COUNT = 800,
+    HOT_SPAN = 16;
+
 /** Used as references for various `Number` constants. */
 var MAX_SAFE_INTEGER = 9007199254740991;
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]',
     arrayTag = '[object Array]',
+    asyncTag = '[object AsyncFunction]',
     boolTag = '[object Boolean]',
     dateTag = '[object Date]',
     errorTag = '[object Error]',
@@ -67336,12 +66779,13 @@ var argsTag = '[object Arguments]',
     genTag = '[object GeneratorFunction]',
     mapTag = '[object Map]',
     numberTag = '[object Number]',
+    nullTag = '[object Null]',
     objectTag = '[object Object]',
-    promiseTag = '[object Promise]',
+    proxyTag = '[object Proxy]',
     regexpTag = '[object RegExp]',
     setTag = '[object Set]',
     stringTag = '[object String]',
-    symbolTag = '[object Symbol]',
+    undefinedTag = '[object Undefined]',
     weakMapTag = '[object WeakMap]';
 
 var arrayBufferTag = '[object ArrayBuffer]',
@@ -67361,9 +66805,6 @@ var arrayBufferTag = '[object ArrayBuffer]',
  * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
  */
 var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
-
-/** Used to match `RegExp` flags from their coerced string values. */
-var reFlags = /\w*$/;
 
 /** Used to detect host constructors (Safari). */
 var reIsHostCtor = /^\[object .+?Constructor\]$/;
@@ -67386,22 +66827,6 @@ typedArrayTags[mapTag] = typedArrayTags[numberTag] =
 typedArrayTags[objectTag] = typedArrayTags[regexpTag] =
 typedArrayTags[setTag] = typedArrayTags[stringTag] =
 typedArrayTags[weakMapTag] = false;
-
-/** Used to identify `toStringTag` values supported by `_.clone`. */
-var cloneableTags = {};
-cloneableTags[argsTag] = cloneableTags[arrayTag] =
-cloneableTags[arrayBufferTag] = cloneableTags[dataViewTag] =
-cloneableTags[boolTag] = cloneableTags[dateTag] =
-cloneableTags[float32Tag] = cloneableTags[float64Tag] =
-cloneableTags[int8Tag] = cloneableTags[int16Tag] =
-cloneableTags[int32Tag] = cloneableTags[mapTag] =
-cloneableTags[numberTag] = cloneableTags[objectTag] =
-cloneableTags[regexpTag] = cloneableTags[setTag] =
-cloneableTags[stringTag] = cloneableTags[symbolTag] =
-cloneableTags[uint8Tag] = cloneableTags[uint8ClampedTag] =
-cloneableTags[uint16Tag] = cloneableTags[uint32Tag] = true;
-cloneableTags[errorTag] = cloneableTags[funcTag] =
-cloneableTags[weakMapTag] = false;
 
 /** Detect free variable `global` from Node.js. */
 var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
@@ -67427,40 +66852,12 @@ var freeProcess = moduleExports && freeGlobal.process;
 /** Used to access faster Node.js helpers. */
 var nodeUtil = (function() {
   try {
-    return freeProcess && freeProcess.binding('util');
+    return freeProcess && freeProcess.binding && freeProcess.binding('util');
   } catch (e) {}
 }());
 
 /* Node.js helper references. */
 var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
-
-/**
- * Adds the key-value `pair` to `map`.
- *
- * @private
- * @param {Object} map The map to modify.
- * @param {Array} pair The key-value pair to add.
- * @returns {Object} Returns `map`.
- */
-function addMapEntry(map, pair) {
-  // Don't return `map.set` because it's not chainable in IE 11.
-  map.set(pair[0], pair[1]);
-  return map;
-}
-
-/**
- * Adds `value` to `set`.
- *
- * @private
- * @param {Object} set The set to modify.
- * @param {*} value The value to add.
- * @returns {Object} Returns `set`.
- */
-function addSetEntry(set, value) {
-  // Don't return `set.add` because it's not chainable in IE 11.
-  set.add(value);
-  return set;
-}
 
 /**
  * A faster alternative to `Function#apply`, this function invokes `func`
@@ -67480,71 +66877,6 @@ function apply(func, thisArg, args) {
     case 3: return func.call(thisArg, args[0], args[1], args[2]);
   }
   return func.apply(thisArg, args);
-}
-
-/**
- * A specialized version of `_.forEach` for arrays without support for
- * iteratee shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns `array`.
- */
-function arrayEach(array, iteratee) {
-  var index = -1,
-      length = array ? array.length : 0;
-
-  while (++index < length) {
-    if (iteratee(array[index], index, array) === false) {
-      break;
-    }
-  }
-  return array;
-}
-
-/**
- * Appends the elements of `values` to `array`.
- *
- * @private
- * @param {Array} array The array to modify.
- * @param {Array} values The values to append.
- * @returns {Array} Returns `array`.
- */
-function arrayPush(array, values) {
-  var index = -1,
-      length = values.length,
-      offset = array.length;
-
-  while (++index < length) {
-    array[offset + index] = values[index];
-  }
-  return array;
-}
-
-/**
- * A specialized version of `_.reduce` for arrays without support for
- * iteratee shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @param {*} [accumulator] The initial value.
- * @param {boolean} [initAccum] Specify using the first element of `array` as
- *  the initial value.
- * @returns {*} Returns the accumulated value.
- */
-function arrayReduce(array, iteratee, accumulator, initAccum) {
-  var index = -1,
-      length = array ? array.length : 0;
-
-  if (initAccum && length) {
-    accumulator = array[++index];
-  }
-  while (++index < length) {
-    accumulator = iteratee(accumulator, array[index], index, array);
-  }
-  return accumulator;
 }
 
 /**
@@ -67592,42 +66924,6 @@ function getValue(object, key) {
 }
 
 /**
- * Checks if `value` is a host object in IE < 9.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
- */
-function isHostObject(value) {
-  // Many host objects are `Object` objects that can coerce to strings
-  // despite having improperly defined `toString` methods.
-  var result = false;
-  if (value != null && typeof value.toString != 'function') {
-    try {
-      result = !!(value + '');
-    } catch (e) {}
-  }
-  return result;
-}
-
-/**
- * Converts `map` to its key-value pairs.
- *
- * @private
- * @param {Object} map The map to convert.
- * @returns {Array} Returns the key-value pairs.
- */
-function mapToArray(map) {
-  var index = -1,
-      result = Array(map.size);
-
-  map.forEach(function(value, key) {
-    result[++index] = [key, value];
-  });
-  return result;
-}
-
-/**
  * Creates a unary function that invokes `func` with its argument transformed.
  *
  * @private
@@ -67642,20 +66938,17 @@ function overArg(func, transform) {
 }
 
 /**
- * Converts `set` to an array of its values.
+ * Gets the value at `key`, unless `key` is "__proto__".
  *
  * @private
- * @param {Object} set The set to convert.
- * @returns {Array} Returns the values.
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the property to get.
+ * @returns {*} Returns the property value.
  */
-function setToArray(set) {
-  var index = -1,
-      result = Array(set.size);
-
-  set.forEach(function(value) {
-    result[++index] = value;
-  });
-  return result;
+function safeGet(object, key) {
+  return key == '__proto__'
+    ? undefined
+    : object[key];
 }
 
 /** Used for built-in method references. */
@@ -67666,27 +66959,27 @@ var arrayProto = Array.prototype,
 /** Used to detect overreaching core-js shims. */
 var coreJsData = root['__core-js_shared__'];
 
-/** Used to detect methods masquerading as native. */
-var maskSrcKey = (function() {
-  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
-  return uid ? ('Symbol(src)_1.' + uid) : '';
-}());
-
 /** Used to resolve the decompiled source of functions. */
 var funcToString = funcProto.toString;
 
 /** Used to check objects for own properties. */
 var hasOwnProperty = objectProto.hasOwnProperty;
 
-/** Used to infer the `Object` constructor. */
-var objectCtorString = funcToString.call(Object);
+/** Used to detect methods masquerading as native. */
+var maskSrcKey = (function() {
+  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+  return uid ? ('Symbol(src)_1.' + uid) : '';
+}());
 
 /**
  * Used to resolve the
  * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
  * of values.
  */
-var objectToString = objectProto.toString;
+var nativeObjectToString = objectProto.toString;
+
+/** Used to infer the `Object` constructor. */
+var objectCtorString = funcToString.call(Object);
 
 /** Used to detect if a method is native. */
 var reIsNative = RegExp('^' +
@@ -67698,35 +66991,53 @@ var reIsNative = RegExp('^' +
 var Buffer = moduleExports ? root.Buffer : undefined,
     Symbol = root.Symbol,
     Uint8Array = root.Uint8Array,
+    allocUnsafe = Buffer ? Buffer.allocUnsafe : undefined,
     getPrototype = overArg(Object.getPrototypeOf, Object),
     objectCreate = Object.create,
     propertyIsEnumerable = objectProto.propertyIsEnumerable,
-    splice = arrayProto.splice;
+    splice = arrayProto.splice,
+    symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+var defineProperty = (function() {
+  try {
+    var func = getNative(Object, 'defineProperty');
+    func({}, '', {});
+    return func;
+  } catch (e) {}
+}());
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeGetSymbols = Object.getOwnPropertySymbols,
-    nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined,
-    nativeKeys = overArg(Object.keys, Object),
-    nativeMax = Math.max;
+var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined,
+    nativeMax = Math.max,
+    nativeNow = Date.now;
 
 /* Built-in method references that are verified to be native. */
-var DataView = getNative(root, 'DataView'),
-    Map = getNative(root, 'Map'),
-    Promise = getNative(root, 'Promise'),
-    Set = getNative(root, 'Set'),
-    WeakMap = getNative(root, 'WeakMap'),
+var Map = getNative(root, 'Map'),
     nativeCreate = getNative(Object, 'create');
 
-/** Used to detect maps, sets, and weakmaps. */
-var dataViewCtorString = toSource(DataView),
-    mapCtorString = toSource(Map),
-    promiseCtorString = toSource(Promise),
-    setCtorString = toSource(Set),
-    weakMapCtorString = toSource(WeakMap);
-
-/** Used to convert symbols to primitives and strings. */
-var symbolProto = Symbol ? Symbol.prototype : undefined,
-    symbolValueOf = symbolProto ? symbolProto.valueOf : undefined;
+/**
+ * The base implementation of `_.create` without support for assigning
+ * properties to the created object.
+ *
+ * @private
+ * @param {Object} proto The object to inherit from.
+ * @returns {Object} Returns the new object.
+ */
+var baseCreate = (function() {
+  function object() {}
+  return function(proto) {
+    if (!isObject(proto)) {
+      return {};
+    }
+    if (objectCreate) {
+      return objectCreate(proto);
+    }
+    object.prototype = proto;
+    var result = new object;
+    object.prototype = undefined;
+    return result;
+  };
+}());
 
 /**
  * Creates a hash object.
@@ -67737,7 +67048,7 @@ var symbolProto = Symbol ? Symbol.prototype : undefined,
  */
 function Hash(entries) {
   var index = -1,
-      length = entries ? entries.length : 0;
+      length = entries == null ? 0 : entries.length;
 
   this.clear();
   while (++index < length) {
@@ -67755,6 +67066,7 @@ function Hash(entries) {
  */
 function hashClear() {
   this.__data__ = nativeCreate ? nativeCreate(null) : {};
+  this.size = 0;
 }
 
 /**
@@ -67768,7 +67080,9 @@ function hashClear() {
  * @returns {boolean} Returns `true` if the entry was removed, else `false`.
  */
 function hashDelete(key) {
-  return this.has(key) && delete this.__data__[key];
+  var result = this.has(key) && delete this.__data__[key];
+  this.size -= result ? 1 : 0;
+  return result;
 }
 
 /**
@@ -67800,7 +67114,7 @@ function hashGet(key) {
  */
 function hashHas(key) {
   var data = this.__data__;
-  return nativeCreate ? data[key] !== undefined : hasOwnProperty.call(data, key);
+  return nativeCreate ? (data[key] !== undefined) : hasOwnProperty.call(data, key);
 }
 
 /**
@@ -67815,6 +67129,7 @@ function hashHas(key) {
  */
 function hashSet(key, value) {
   var data = this.__data__;
+  this.size += this.has(key) ? 0 : 1;
   data[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
   return this;
 }
@@ -67835,7 +67150,7 @@ Hash.prototype.set = hashSet;
  */
 function ListCache(entries) {
   var index = -1,
-      length = entries ? entries.length : 0;
+      length = entries == null ? 0 : entries.length;
 
   this.clear();
   while (++index < length) {
@@ -67853,6 +67168,7 @@ function ListCache(entries) {
  */
 function listCacheClear() {
   this.__data__ = [];
+  this.size = 0;
 }
 
 /**
@@ -67877,6 +67193,7 @@ function listCacheDelete(key) {
   } else {
     splice.call(data, index, 1);
   }
+  --this.size;
   return true;
 }
 
@@ -67924,6 +67241,7 @@ function listCacheSet(key, value) {
       index = assocIndexOf(data, key);
 
   if (index < 0) {
+    ++this.size;
     data.push([key, value]);
   } else {
     data[index][1] = value;
@@ -67947,7 +67265,7 @@ ListCache.prototype.set = listCacheSet;
  */
 function MapCache(entries) {
   var index = -1,
-      length = entries ? entries.length : 0;
+      length = entries == null ? 0 : entries.length;
 
   this.clear();
   while (++index < length) {
@@ -67964,6 +67282,7 @@ function MapCache(entries) {
  * @memberOf MapCache
  */
 function mapCacheClear() {
+  this.size = 0;
   this.__data__ = {
     'hash': new Hash,
     'map': new (Map || ListCache),
@@ -67981,7 +67300,9 @@ function mapCacheClear() {
  * @returns {boolean} Returns `true` if the entry was removed, else `false`.
  */
 function mapCacheDelete(key) {
-  return getMapData(this, key)['delete'](key);
+  var result = getMapData(this, key)['delete'](key);
+  this.size -= result ? 1 : 0;
+  return result;
 }
 
 /**
@@ -68021,7 +67342,11 @@ function mapCacheHas(key) {
  * @returns {Object} Returns the map cache instance.
  */
 function mapCacheSet(key, value) {
-  getMapData(this, key).set(key, value);
+  var data = getMapData(this, key),
+      size = data.size;
+
+  data.set(key, value);
+  this.size += data.size == size ? 0 : 1;
   return this;
 }
 
@@ -68040,7 +67365,8 @@ MapCache.prototype.set = mapCacheSet;
  * @param {Array} [entries] The key-value pairs to cache.
  */
 function Stack(entries) {
-  this.__data__ = new ListCache(entries);
+  var data = this.__data__ = new ListCache(entries);
+  this.size = data.size;
 }
 
 /**
@@ -68052,6 +67378,7 @@ function Stack(entries) {
  */
 function stackClear() {
   this.__data__ = new ListCache;
+  this.size = 0;
 }
 
 /**
@@ -68064,7 +67391,11 @@ function stackClear() {
  * @returns {boolean} Returns `true` if the entry was removed, else `false`.
  */
 function stackDelete(key) {
-  return this.__data__['delete'](key);
+  var data = this.__data__,
+      result = data['delete'](key);
+
+  this.size = data.size;
+  return result;
 }
 
 /**
@@ -68104,16 +67435,18 @@ function stackHas(key) {
  * @returns {Object} Returns the stack cache instance.
  */
 function stackSet(key, value) {
-  var cache = this.__data__;
-  if (cache instanceof ListCache) {
-    var pairs = cache.__data__;
+  var data = this.__data__;
+  if (data instanceof ListCache) {
+    var pairs = data.__data__;
     if (!Map || (pairs.length < LARGE_ARRAY_SIZE - 1)) {
       pairs.push([key, value]);
+      this.size = ++data.size;
       return this;
     }
-    cache = this.__data__ = new MapCache(pairs);
+    data = this.__data__ = new MapCache(pairs);
   }
-  cache.set(key, value);
+  data.set(key, value);
+  this.size = data.size;
   return this;
 }
 
@@ -68133,18 +67466,26 @@ Stack.prototype.set = stackSet;
  * @returns {Array} Returns the array of property names.
  */
 function arrayLikeKeys(value, inherited) {
-  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
-  // Safari 9 makes `arguments.length` enumerable in strict mode.
-  var result = (isArray(value) || isArguments(value))
-    ? baseTimes(value.length, String)
-    : [];
-
-  var length = result.length,
-      skipIndexes = !!length;
+  var isArr = isArray(value),
+      isArg = !isArr && isArguments(value),
+      isBuff = !isArr && !isArg && isBuffer(value),
+      isType = !isArr && !isArg && !isBuff && isTypedArray(value),
+      skipIndexes = isArr || isArg || isBuff || isType,
+      result = skipIndexes ? baseTimes(value.length, String) : [],
+      length = result.length;
 
   for (var key in value) {
     if ((inherited || hasOwnProperty.call(value, key)) &&
-        !(skipIndexes && (key == 'length' || isIndex(key, length)))) {
+        !(skipIndexes && (
+           // Safari 9 has enumerable `arguments.length` in strict mode.
+           key == 'length' ||
+           // Node.js 0.10 has enumerable non-index properties on buffers.
+           (isBuff && (key == 'offset' || key == 'parent')) ||
+           // PhantomJS 2 has enumerable non-index properties on typed arrays.
+           (isType && (key == 'buffer' || key == 'byteLength' || key == 'byteOffset')) ||
+           // Skip index properties.
+           isIndex(key, length)
+        ))) {
       result.push(key);
     }
   }
@@ -68162,8 +67503,8 @@ function arrayLikeKeys(value, inherited) {
  */
 function assignMergeValue(object, key, value) {
   if ((value !== undefined && !eq(object[key], value)) ||
-      (typeof key == 'number' && value === undefined && !(key in object))) {
-    object[key] = value;
+      (value === undefined && !(key in object))) {
+    baseAssignValue(object, key, value);
   }
 }
 
@@ -68181,7 +67522,7 @@ function assignValue(object, key, value) {
   var objValue = object[key];
   if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) ||
       (value === undefined && !(key in object))) {
-    object[key] = value;
+    baseAssignValue(object, key, value);
   }
 }
 
@@ -68204,130 +67545,65 @@ function assocIndexOf(array, key) {
 }
 
 /**
- * The base implementation of `_.assign` without support for multiple sources
- * or `customizer` functions.
+ * The base implementation of `assignValue` and `assignMergeValue` without
+ * value checks.
  *
  * @private
- * @param {Object} object The destination object.
- * @param {Object} source The source object.
+ * @param {Object} object The object to modify.
+ * @param {string} key The key of the property to assign.
+ * @param {*} value The value to assign.
+ */
+function baseAssignValue(object, key, value) {
+  if (key == '__proto__' && defineProperty) {
+    defineProperty(object, key, {
+      'configurable': true,
+      'enumerable': true,
+      'value': value,
+      'writable': true
+    });
+  } else {
+    object[key] = value;
+  }
+}
+
+/**
+ * The base implementation of `baseForOwn` which iterates over `object`
+ * properties returned by `keysFunc` and invokes `iteratee` for each property.
+ * Iteratee functions may exit iteration early by explicitly returning `false`.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {Function} keysFunc The function to get the keys of `object`.
  * @returns {Object} Returns `object`.
  */
-function baseAssign(object, source) {
-  return object && copyObject(source, keys(source), object);
-}
+var baseFor = createBaseFor();
 
 /**
- * The base implementation of `_.clone` and `_.cloneDeep` which tracks
- * traversed objects.
- *
- * @private
- * @param {*} value The value to clone.
- * @param {boolean} [isDeep] Specify a deep clone.
- * @param {boolean} [isFull] Specify a clone including symbols.
- * @param {Function} [customizer] The function to customize cloning.
- * @param {string} [key] The key of `value`.
- * @param {Object} [object] The parent object of `value`.
- * @param {Object} [stack] Tracks traversed objects and their clone counterparts.
- * @returns {*} Returns the cloned value.
- */
-function baseClone(value, isDeep, isFull, customizer, key, object, stack) {
-  var result;
-  if (customizer) {
-    result = object ? customizer(value, key, object, stack) : customizer(value);
-  }
-  if (result !== undefined) {
-    return result;
-  }
-  if (!isObject(value)) {
-    return value;
-  }
-  var isArr = isArray(value);
-  if (isArr) {
-    result = initCloneArray(value);
-    if (!isDeep) {
-      return copyArray(value, result);
-    }
-  } else {
-    var tag = getTag(value),
-        isFunc = tag == funcTag || tag == genTag;
-
-    if (isBuffer(value)) {
-      return cloneBuffer(value, isDeep);
-    }
-    if (tag == objectTag || tag == argsTag || (isFunc && !object)) {
-      if (isHostObject(value)) {
-        return object ? value : {};
-      }
-      result = initCloneObject(isFunc ? {} : value);
-      if (!isDeep) {
-        return copySymbols(value, baseAssign(result, value));
-      }
-    } else {
-      if (!cloneableTags[tag]) {
-        return object ? value : {};
-      }
-      result = initCloneByTag(value, tag, baseClone, isDeep);
-    }
-  }
-  // Check for circular references and return its corresponding clone.
-  stack || (stack = new Stack);
-  var stacked = stack.get(value);
-  if (stacked) {
-    return stacked;
-  }
-  stack.set(value, result);
-
-  if (!isArr) {
-    var props = isFull ? getAllKeys(value) : keys(value);
-  }
-  arrayEach(props || value, function(subValue, key) {
-    if (props) {
-      key = subValue;
-      subValue = value[key];
-    }
-    // Recursively populate clone (susceptible to call stack limits).
-    assignValue(result, key, baseClone(subValue, isDeep, isFull, customizer, key, value, stack));
-  });
-  return result;
-}
-
-/**
- * The base implementation of `_.create` without support for assigning
- * properties to the created object.
- *
- * @private
- * @param {Object} prototype The object to inherit from.
- * @returns {Object} Returns the new object.
- */
-function baseCreate(proto) {
-  return isObject(proto) ? objectCreate(proto) : {};
-}
-
-/**
- * The base implementation of `getAllKeys` and `getAllKeysIn` which uses
- * `keysFunc` and `symbolsFunc` to get the enumerable property names and
- * symbols of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Function} keysFunc The function to get the keys of `object`.
- * @param {Function} symbolsFunc The function to get the symbols of `object`.
- * @returns {Array} Returns the array of property names and symbols.
- */
-function baseGetAllKeys(object, keysFunc, symbolsFunc) {
-  var result = keysFunc(object);
-  return isArray(object) ? result : arrayPush(result, symbolsFunc(object));
-}
-
-/**
- * The base implementation of `getTag`.
+ * The base implementation of `getTag` without fallbacks for buggy environments.
  *
  * @private
  * @param {*} value The value to query.
  * @returns {string} Returns the `toStringTag`.
  */
 function baseGetTag(value) {
-  return objectToString.call(value);
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return (symToStringTag && symToStringTag in Object(value))
+    ? getRawTag(value)
+    : objectToString(value);
+}
+
+/**
+ * The base implementation of `_.isArguments`.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ */
+function baseIsArguments(value) {
+  return isObjectLike(value) && baseGetTag(value) == argsTag;
 }
 
 /**
@@ -68342,7 +67618,7 @@ function baseIsNative(value) {
   if (!isObject(value) || isMasked(value)) {
     return false;
   }
-  var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
+  var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
   return pattern.test(toSource(value));
 }
 
@@ -68355,27 +67631,7 @@ function baseIsNative(value) {
  */
 function baseIsTypedArray(value) {
   return isObjectLike(value) &&
-    isLength(value.length) && !!typedArrayTags[objectToString.call(value)];
-}
-
-/**
- * The base implementation of `_.keys` which doesn't treat sparse arrays as dense.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- */
-function baseKeys(object) {
-  if (!isPrototype(object)) {
-    return nativeKeys(object);
-  }
-  var result = [];
-  for (var key in Object(object)) {
-    if (hasOwnProperty.call(object, key) && key != 'constructor') {
-      result.push(key);
-    }
-  }
-  return result;
+    isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
 }
 
 /**
@@ -68415,21 +67671,14 @@ function baseMerge(object, source, srcIndex, customizer, stack) {
   if (object === source) {
     return;
   }
-  if (!(isArray(source) || isTypedArray(source))) {
-    var props = baseKeysIn(source);
-  }
-  arrayEach(props || source, function(srcValue, key) {
-    if (props) {
-      key = srcValue;
-      srcValue = source[key];
-    }
+  baseFor(source, function(srcValue, key) {
     if (isObject(srcValue)) {
       stack || (stack = new Stack);
       baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
     }
     else {
       var newValue = customizer
-        ? customizer(object[key], srcValue, (key + ''), object, source, stack)
+        ? customizer(safeGet(object, key), srcValue, (key + ''), object, source, stack)
         : undefined;
 
       if (newValue === undefined) {
@@ -68437,7 +67686,7 @@ function baseMerge(object, source, srcIndex, customizer, stack) {
       }
       assignMergeValue(object, key, newValue);
     }
-  });
+  }, keysIn);
 }
 
 /**
@@ -68456,8 +67705,8 @@ function baseMerge(object, source, srcIndex, customizer, stack) {
  *  counterparts.
  */
 function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, stack) {
-  var objValue = object[key],
-      srcValue = source[key],
+  var objValue = safeGet(object, key),
+      srcValue = safeGet(source, key),
       stacked = stack.get(srcValue);
 
   if (stacked) {
@@ -68471,29 +67720,37 @@ function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, sta
   var isCommon = newValue === undefined;
 
   if (isCommon) {
+    var isArr = isArray(srcValue),
+        isBuff = !isArr && isBuffer(srcValue),
+        isTyped = !isArr && !isBuff && isTypedArray(srcValue);
+
     newValue = srcValue;
-    if (isArray(srcValue) || isTypedArray(srcValue)) {
+    if (isArr || isBuff || isTyped) {
       if (isArray(objValue)) {
         newValue = objValue;
       }
       else if (isArrayLikeObject(objValue)) {
         newValue = copyArray(objValue);
       }
-      else {
+      else if (isBuff) {
         isCommon = false;
-        newValue = baseClone(srcValue, true);
+        newValue = cloneBuffer(srcValue, true);
+      }
+      else if (isTyped) {
+        isCommon = false;
+        newValue = cloneTypedArray(srcValue, true);
+      }
+      else {
+        newValue = [];
       }
     }
     else if (isPlainObject(srcValue) || isArguments(srcValue)) {
+      newValue = objValue;
       if (isArguments(objValue)) {
         newValue = toPlainObject(objValue);
       }
       else if (!isObject(objValue) || (srcIndex && isFunction(objValue))) {
-        isCommon = false;
-        newValue = baseClone(srcValue, true);
-      }
-      else {
-        newValue = objValue;
+        newValue = initCloneObject(srcValue);
       }
     }
     else {
@@ -68518,25 +67775,25 @@ function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, sta
  * @returns {Function} Returns the new function.
  */
 function baseRest(func, start) {
-  start = nativeMax(start === undefined ? (func.length - 1) : start, 0);
-  return function() {
-    var args = arguments,
-        index = -1,
-        length = nativeMax(args.length - start, 0),
-        array = Array(length);
-
-    while (++index < length) {
-      array[index] = args[start + index];
-    }
-    index = -1;
-    var otherArgs = Array(start + 1);
-    while (++index < start) {
-      otherArgs[index] = args[index];
-    }
-    otherArgs[start] = array;
-    return apply(func, this, otherArgs);
-  };
+  return setToString(overRest(func, start, identity), func + '');
 }
+
+/**
+ * The base implementation of `setToString` without support for hot loop shorting.
+ *
+ * @private
+ * @param {Function} func The function to modify.
+ * @param {Function} string The `toString` result.
+ * @returns {Function} Returns `func`.
+ */
+var baseSetToString = !defineProperty ? identity : function(func, string) {
+  return defineProperty(func, 'toString', {
+    'configurable': true,
+    'enumerable': false,
+    'value': constant(string),
+    'writable': true
+  });
+};
 
 /**
  * Creates a clone of  `buffer`.
@@ -68550,7 +67807,9 @@ function cloneBuffer(buffer, isDeep) {
   if (isDeep) {
     return buffer.slice();
   }
-  var result = new buffer.constructor(buffer.length);
+  var length = buffer.length,
+      result = allocUnsafe ? allocUnsafe(length) : new buffer.constructor(length);
+
   buffer.copy(result);
   return result;
 }
@@ -68566,71 +67825,6 @@ function cloneArrayBuffer(arrayBuffer) {
   var result = new arrayBuffer.constructor(arrayBuffer.byteLength);
   new Uint8Array(result).set(new Uint8Array(arrayBuffer));
   return result;
-}
-
-/**
- * Creates a clone of `dataView`.
- *
- * @private
- * @param {Object} dataView The data view to clone.
- * @param {boolean} [isDeep] Specify a deep clone.
- * @returns {Object} Returns the cloned data view.
- */
-function cloneDataView(dataView, isDeep) {
-  var buffer = isDeep ? cloneArrayBuffer(dataView.buffer) : dataView.buffer;
-  return new dataView.constructor(buffer, dataView.byteOffset, dataView.byteLength);
-}
-
-/**
- * Creates a clone of `map`.
- *
- * @private
- * @param {Object} map The map to clone.
- * @param {Function} cloneFunc The function to clone values.
- * @param {boolean} [isDeep] Specify a deep clone.
- * @returns {Object} Returns the cloned map.
- */
-function cloneMap(map, isDeep, cloneFunc) {
-  var array = isDeep ? cloneFunc(mapToArray(map), true) : mapToArray(map);
-  return arrayReduce(array, addMapEntry, new map.constructor);
-}
-
-/**
- * Creates a clone of `regexp`.
- *
- * @private
- * @param {Object} regexp The regexp to clone.
- * @returns {Object} Returns the cloned regexp.
- */
-function cloneRegExp(regexp) {
-  var result = new regexp.constructor(regexp.source, reFlags.exec(regexp));
-  result.lastIndex = regexp.lastIndex;
-  return result;
-}
-
-/**
- * Creates a clone of `set`.
- *
- * @private
- * @param {Object} set The set to clone.
- * @param {Function} cloneFunc The function to clone values.
- * @param {boolean} [isDeep] Specify a deep clone.
- * @returns {Object} Returns the cloned set.
- */
-function cloneSet(set, isDeep, cloneFunc) {
-  var array = isDeep ? cloneFunc(setToArray(set), true) : setToArray(set);
-  return arrayReduce(array, addSetEntry, new set.constructor);
-}
-
-/**
- * Creates a clone of the `symbol` object.
- *
- * @private
- * @param {Object} symbol The symbol object to clone.
- * @returns {Object} Returns the cloned symbol object.
- */
-function cloneSymbol(symbol) {
-  return symbolValueOf ? Object(symbolValueOf.call(symbol)) : {};
 }
 
 /**
@@ -68676,6 +67870,7 @@ function copyArray(source, array) {
  * @returns {Object} Returns `object`.
  */
 function copyObject(source, props, object, customizer) {
+  var isNew = !object;
   object || (object = {});
 
   var index = -1,
@@ -68688,21 +67883,16 @@ function copyObject(source, props, object, customizer) {
       ? customizer(object[key], source[key], key, object, source)
       : undefined;
 
-    assignValue(object, key, newValue === undefined ? source[key] : newValue);
+    if (newValue === undefined) {
+      newValue = source[key];
+    }
+    if (isNew) {
+      baseAssignValue(object, key, newValue);
+    } else {
+      assignValue(object, key, newValue);
+    }
   }
   return object;
-}
-
-/**
- * Copies own symbol properties of `source` to `object`.
- *
- * @private
- * @param {Object} source The object to copy symbols from.
- * @param {Object} [object={}] The object to copy symbols to.
- * @returns {Object} Returns `object`.
- */
-function copySymbols(source, object) {
-  return copyObject(source, getSymbols(source), object);
 }
 
 /**
@@ -68739,14 +67929,27 @@ function createAssigner(assigner) {
 }
 
 /**
- * Creates an array of own enumerable property names and symbols of `object`.
+ * Creates a base function for methods like `_.forIn` and `_.forOwn`.
  *
  * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names and symbols.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
  */
-function getAllKeys(object) {
-  return baseGetAllKeys(object, keys, getSymbols);
+function createBaseFor(fromRight) {
+  return function(object, iteratee, keysFunc) {
+    var index = -1,
+        iterable = Object(object),
+        props = keysFunc(object),
+        length = props.length;
+
+    while (length--) {
+      var key = props[fromRight ? length : ++index];
+      if (iteratee(iterable[key], key, iterable) === false) {
+        break;
+      }
+    }
+    return object;
+  };
 }
 
 /**
@@ -68778,63 +67981,28 @@ function getNative(object, key) {
 }
 
 /**
- * Creates an array of the own enumerable symbol properties of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of symbols.
- */
-var getSymbols = nativeGetSymbols ? overArg(nativeGetSymbols, Object) : stubArray;
-
-/**
- * Gets the `toStringTag` of `value`.
+ * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
  *
  * @private
  * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
+ * @returns {string} Returns the raw `toStringTag`.
  */
-var getTag = baseGetTag;
+function getRawTag(value) {
+  var isOwn = hasOwnProperty.call(value, symToStringTag),
+      tag = value[symToStringTag];
 
-// Fallback for data views, maps, sets, and weak maps in IE 11,
-// for data views in Edge < 14, and promises in Node.js.
-if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
-    (Map && getTag(new Map) != mapTag) ||
-    (Promise && getTag(Promise.resolve()) != promiseTag) ||
-    (Set && getTag(new Set) != setTag) ||
-    (WeakMap && getTag(new WeakMap) != weakMapTag)) {
-  getTag = function(value) {
-    var result = objectToString.call(value),
-        Ctor = result == objectTag ? value.constructor : undefined,
-        ctorString = Ctor ? toSource(Ctor) : undefined;
+  try {
+    value[symToStringTag] = undefined;
+    var unmasked = true;
+  } catch (e) {}
 
-    if (ctorString) {
-      switch (ctorString) {
-        case dataViewCtorString: return dataViewTag;
-        case mapCtorString: return mapTag;
-        case promiseCtorString: return promiseTag;
-        case setCtorString: return setTag;
-        case weakMapCtorString: return weakMapTag;
-      }
+  var result = nativeObjectToString.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag] = tag;
+    } else {
+      delete value[symToStringTag];
     }
-    return result;
-  };
-}
-
-/**
- * Initializes an array clone.
- *
- * @private
- * @param {Array} array The array to clone.
- * @returns {Array} Returns the initialized clone.
- */
-function initCloneArray(array) {
-  var length = array.length,
-      result = array.constructor(length);
-
-  // Add properties assigned by `RegExp#exec`.
-  if (length && typeof array[0] == 'string' && hasOwnProperty.call(array, 'index')) {
-    result.index = array.index;
-    result.input = array.input;
   }
   return result;
 }
@@ -68853,55 +68021,6 @@ function initCloneObject(object) {
 }
 
 /**
- * Initializes an object clone based on its `toStringTag`.
- *
- * **Note:** This function only supports cloning values with tags of
- * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
- *
- * @private
- * @param {Object} object The object to clone.
- * @param {string} tag The `toStringTag` of the object to clone.
- * @param {Function} cloneFunc The function to clone values.
- * @param {boolean} [isDeep] Specify a deep clone.
- * @returns {Object} Returns the initialized clone.
- */
-function initCloneByTag(object, tag, cloneFunc, isDeep) {
-  var Ctor = object.constructor;
-  switch (tag) {
-    case arrayBufferTag:
-      return cloneArrayBuffer(object);
-
-    case boolTag:
-    case dateTag:
-      return new Ctor(+object);
-
-    case dataViewTag:
-      return cloneDataView(object, isDeep);
-
-    case float32Tag: case float64Tag:
-    case int8Tag: case int16Tag: case int32Tag:
-    case uint8Tag: case uint8ClampedTag: case uint16Tag: case uint32Tag:
-      return cloneTypedArray(object, isDeep);
-
-    case mapTag:
-      return cloneMap(object, isDeep, cloneFunc);
-
-    case numberTag:
-    case stringTag:
-      return new Ctor(object);
-
-    case regexpTag:
-      return cloneRegExp(object);
-
-    case setTag:
-      return cloneSet(object, isDeep, cloneFunc);
-
-    case symbolTag:
-      return cloneSymbol(object);
-  }
-}
-
-/**
  * Checks if `value` is a valid array-like index.
  *
  * @private
@@ -68910,10 +68029,13 @@ function initCloneByTag(object, tag, cloneFunc, isDeep) {
  * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
  */
 function isIndex(value, length) {
+  var type = typeof value;
   length = length == null ? MAX_SAFE_INTEGER : length;
+
   return !!length &&
-    (typeof value == 'number' || reIsUint.test(value)) &&
-    (value > -1 && value % 1 == 0 && value < length);
+    (type == 'number' ||
+      (type != 'symbol' && reIsUint.test(value))) &&
+        (value > -1 && value % 1 == 0 && value < length);
 }
 
 /**
@@ -68999,10 +68121,90 @@ function nativeKeysIn(object) {
 }
 
 /**
+ * Converts `value` to a string using `Object.prototype.toString`.
+ *
+ * @private
+ * @param {*} value The value to convert.
+ * @returns {string} Returns the converted string.
+ */
+function objectToString(value) {
+  return nativeObjectToString.call(value);
+}
+
+/**
+ * A specialized version of `baseRest` which transforms the rest array.
+ *
+ * @private
+ * @param {Function} func The function to apply a rest parameter to.
+ * @param {number} [start=func.length-1] The start position of the rest parameter.
+ * @param {Function} transform The rest array transform.
+ * @returns {Function} Returns the new function.
+ */
+function overRest(func, start, transform) {
+  start = nativeMax(start === undefined ? (func.length - 1) : start, 0);
+  return function() {
+    var args = arguments,
+        index = -1,
+        length = nativeMax(args.length - start, 0),
+        array = Array(length);
+
+    while (++index < length) {
+      array[index] = args[start + index];
+    }
+    index = -1;
+    var otherArgs = Array(start + 1);
+    while (++index < start) {
+      otherArgs[index] = args[index];
+    }
+    otherArgs[start] = transform(array);
+    return apply(func, this, otherArgs);
+  };
+}
+
+/**
+ * Sets the `toString` method of `func` to return `string`.
+ *
+ * @private
+ * @param {Function} func The function to modify.
+ * @param {Function} string The `toString` result.
+ * @returns {Function} Returns `func`.
+ */
+var setToString = shortOut(baseSetToString);
+
+/**
+ * Creates a function that'll short out and invoke `identity` instead
+ * of `func` when it's called `HOT_COUNT` or more times in `HOT_SPAN`
+ * milliseconds.
+ *
+ * @private
+ * @param {Function} func The function to restrict.
+ * @returns {Function} Returns the new shortable function.
+ */
+function shortOut(func) {
+  var count = 0,
+      lastCalled = 0;
+
+  return function() {
+    var stamp = nativeNow(),
+        remaining = HOT_SPAN - (stamp - lastCalled);
+
+    lastCalled = stamp;
+    if (remaining > 0) {
+      if (++count >= HOT_COUNT) {
+        return arguments[0];
+      }
+    } else {
+      count = 0;
+    }
+    return func.apply(undefined, arguments);
+  };
+}
+
+/**
  * Converts `func` to its source code.
  *
  * @private
- * @param {Function} func The function to process.
+ * @param {Function} func The function to convert.
  * @returns {string} Returns the source code.
  */
 function toSource(func) {
@@ -69071,11 +68273,10 @@ function eq(value, other) {
  * _.isArguments([1, 2, 3]);
  * // => false
  */
-function isArguments(value) {
-  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
-  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
-    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
-}
+var isArguments = baseIsArguments(function() { return arguments; }()) ? baseIsArguments : function(value) {
+  return isObjectLike(value) && hasOwnProperty.call(value, 'callee') &&
+    !propertyIsEnumerable.call(value, 'callee');
+};
 
 /**
  * Checks if `value` is classified as an `Array` object.
@@ -69197,10 +68398,13 @@ var isBuffer = nativeIsBuffer || stubFalse;
  * // => false
  */
 function isFunction(value) {
+  if (!isObject(value)) {
+    return false;
+  }
   // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8-9 which returns 'object' for typed array and other constructors.
-  var tag = isObject(value) ? objectToString.call(value) : '';
-  return tag == funcTag || tag == genTag;
+  // in Safari 9 which returns 'object' for typed arrays and other constructors.
+  var tag = baseGetTag(value);
+  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
 }
 
 /**
@@ -69261,7 +68465,7 @@ function isLength(value) {
  */
 function isObject(value) {
   var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
+  return value != null && (type == 'object' || type == 'function');
 }
 
 /**
@@ -69289,7 +68493,7 @@ function isObject(value) {
  * // => false
  */
 function isObjectLike(value) {
-  return !!value && typeof value == 'object';
+  return value != null && typeof value == 'object';
 }
 
 /**
@@ -69321,8 +68525,7 @@ function isObjectLike(value) {
  * // => true
  */
 function isPlainObject(value) {
-  if (!isObjectLike(value) ||
-      objectToString.call(value) != objectTag || isHostObject(value)) {
+  if (!isObjectLike(value) || baseGetTag(value) != objectTag) {
     return false;
   }
   var proto = getPrototype(value);
@@ -69330,8 +68533,8 @@ function isPlainObject(value) {
     return true;
   }
   var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
-  return (typeof Ctor == 'function' &&
-    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
+  return typeof Ctor == 'function' && Ctor instanceof Ctor &&
+    funcToString.call(Ctor) == objectCtorString;
 }
 
 /**
@@ -69379,38 +68582,6 @@ var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedA
  */
 function toPlainObject(value) {
   return copyObject(value, keysIn(value));
-}
-
-/**
- * Creates an array of the own enumerable property names of `object`.
- *
- * **Note:** Non-object values are coerced to objects. See the
- * [ES spec](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
- * for more details.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.keys(new Foo);
- * // => ['a', 'b'] (iteration order is not guaranteed)
- *
- * _.keys('hi');
- * // => ['0', '1']
- */
-function keys(object) {
-  return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
 }
 
 /**
@@ -69476,25 +68647,48 @@ var merge = createAssigner(function(object, source, srcIndex) {
 });
 
 /**
- * This method returns a new empty array.
+ * Creates a function that returns `value`.
  *
  * @static
  * @memberOf _
- * @since 4.13.0
+ * @since 2.4.0
  * @category Util
- * @returns {Array} Returns the new empty array.
+ * @param {*} value The value to return from the new function.
+ * @returns {Function} Returns the new constant function.
  * @example
  *
- * var arrays = _.times(2, _.stubArray);
+ * var objects = _.times(2, _.constant({ 'a': 1 }));
  *
- * console.log(arrays);
- * // => [[], []]
+ * console.log(objects);
+ * // => [{ 'a': 1 }, { 'a': 1 }]
  *
- * console.log(arrays[0] === arrays[1]);
- * // => false
+ * console.log(objects[0] === objects[1]);
+ * // => true
  */
-function stubArray() {
-  return [];
+function constant(value) {
+  return function() {
+    return value;
+  };
+}
+
+/**
+ * This method returns the first argument it receives.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Util
+ * @param {*} value Any value.
+ * @returns {*} Returns `value`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ *
+ * console.log(_.identity(object) === object);
+ * // => true
+ */
+function identity(value) {
+  return value;
 }
 
 /**
@@ -72827,8 +72021,7 @@ module.exports = strictIndexOf;
 var memoizeCapped = __webpack_require__(649);
 
 /** Used to match property names within property paths. */
-var reLeadingDot = /^\./,
-    rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
+var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
 
 /** Used to match backslashes in property paths. */
 var reEscapeChar = /\\(\\)?/g;
@@ -72842,11 +72035,11 @@ var reEscapeChar = /\\(\\)?/g;
  */
 var stringToPath = memoizeCapped(function(string) {
   var result = [];
-  if (reLeadingDot.test(string)) {
+  if (string.charCodeAt(0) === 46 /* . */) {
     result.push('');
   }
-  string.replace(rePropName, function(match, number, quote, string) {
-    result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
+  string.replace(rePropName, function(match, number, quote, subString) {
+    result.push(quote ? subString.replace(reEscapeChar, '$1') : (number || match));
   });
   return result;
 });
