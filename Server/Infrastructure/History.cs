@@ -45,7 +45,7 @@ namespace HistoCoin.Server.Infrastructure
             }
             catch
             {
-                // thread collisions for now
+                // ignore thread collisions for now
             }
 
             return this;
