@@ -13,7 +13,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DotNetify.Core" Version="3.0.1" />
-    <PackageReference Include="DotNetify.Elements" Version="0.1.0" />
     <PackageReference Include="DotNetify.SignalR" Version="3.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.2" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
