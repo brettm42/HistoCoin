@@ -46,7 +46,7 @@ namespace HistoCoin.Server.Infrastructure
 
         public static double CalculateLinearTrend(double[] historicalValues, int depth = 25)
         {
-            var (rSquared, yIntercept, slope) = 
+            var (_, _, slope) = 
                 Numerics.LinearRegression(historicalValues, depth);
 
             return slope;
@@ -58,9 +58,11 @@ namespace HistoCoin.Server.Infrastructure
                 new Random((int)DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 
             return currentValue 
-                   + dailyChange 
-                   * reach 
-                   * (randomEnabled ? (random.NextDouble() + random.NextDouble()) + random.NextDouble() : 1);
+                + dailyChange 
+                * reach 
+                * (randomEnabled 
+                    ? random.NextDouble() + random.NextDouble() + random.NextDouble() 
+                    : 1);
         }
 
         public static double[] CalculateFutureValueSteps(double dailyChange, double currentValue, int steps, bool randomEnabled = false)
@@ -69,15 +71,38 @@ namespace HistoCoin.Server.Infrastructure
 
             output[0] = currentValue;
 
-            var random = 
-                new Random((int)DateTimeOffset.UtcNow.ToUnixTimeSeconds());
-
-            for (var i = 1; i < output.Length; i++)
+            if (randomEnabled)
             {
-                output[i] = 
-                    output[i - 1] 
-                    + dailyChange 
-                    * (randomEnabled ? random.NextDouble() : 1);
+                var random =
+                    new Random((int)DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+
+                var change = dailyChange;
+
+                for (var i = 1; i < output.Length; i++)
+                {
+                    output[i] = output[i - 1] + (change * random.NextDouble());
+
+                    // add lower bound of 0 to outputs
+                    if (output[i] < 0)
+                    {
+                        output[i] = 0;
+                    }
+
+                    change *= random.NextDouble();
+                }
+            }
+            else
+            {
+                for (var i = 1; i < output.Length; i++)
+                {
+                    output[i] = output[i - 1] + dailyChange;
+
+                    // add lower bound of 0 to outputs
+                    if (output[i] < 0)
+                    {
+                        output[i] = 0;
+                    }
+                }
             }
 
             return output;
@@ -122,10 +147,7 @@ namespace HistoCoin.Server.Infrastructure
             double sumY = 0;
             double sumSqX = 0;
             double sumSqY = 0;
-            double ssX = 0;
-            double ssY = 0;
             double sumCod = 0;
-            double sCo = 0;
 
             if (values.Count <= depth)
             {
@@ -144,23 +166,22 @@ namespace HistoCoin.Server.Infrastructure
                 sumSqY += Math.Pow(y, 2);
             }
 
-            ssX = sumSqX - (Math.Pow(sumX, 2) / depth);
-            ssY = sumSqY - (Math.Pow(sumY, 2) / depth);
+            var ssX = sumSqX - (Math.Pow(sumX, 2) / depth);
+            var ssY = sumSqY - (Math.Pow(sumY, 2) / depth);
 
             var rNum = (depth * sumCod) - (sumX * sumY);
             var rDenom =
                 (depth * sumSqX - Math.Pow(sumX, 2)) 
                 * (depth * sumSqY - Math.Pow(sumY, 2));
 
-            sCo = sumCod - (sumX * sumY / depth);
+            var sCo = sumCod - (sumX * sumY / depth);
 
             var meanX = sumX / depth;
             var meanY = sumY / depth;
 
             var doubleR = rNum / Math.Sqrt(rDenom);
 
-            return 
-                (Math.Pow(doubleR, 2), meanY - (sCo / ssX * meanX), sCo / ssX);
+            return (Math.Pow(doubleR, 2), meanY - (sCo / ssX * meanX), sCo / ssX);
         }
 
         public static double AverageTrends(double trend0, double trend1)
