@@ -303,45 +303,52 @@ namespace HistoCoin.Server.Services.CurrencyService
         
         private double CalculateAverageValue(in ConcurrentBag<Currency> cache, Currencies currency)
         {
-            var output = 
-                cache
-                    .Where(c => c.BaseCurrency == currency)
-                    .Where(coin => !(coin.CurrentValue < 0))
-                    .Sum(coin => coin.Worth);
+            var output =
+                    cache
+                        .Where(c => c.BaseCurrency == currency)
+                        .Where(coin => !(coin.CurrentValue < 0))
+                        .Sum(coin => coin.Worth);
 
             output = Normalize(output, currency);
 
-            if (output > 0)
+            try
             {
-                switch (currency)
+                if (output > 0)
                 {
-                    case Currencies.USD:
-                        if (this._valueHistoryUsd.GetLastEntryValue() != output)
-                        {
-                            this._valueHistoryUsd.Add(Normalize(DateTime.Now), output);
-                        }
+                    switch (currency)
+                    {
+                        case Currencies.USD:
+                            if (this._valueHistoryUsd.GetLastEntryValue() != output)
+                            {
+                                this._valueHistoryUsd.Add(Normalize(DateTime.Now), output);
+                            }
 
-                        break;
+                            break;
 
-                    case Currencies.BTC:
-                        if (this._valueHistoryBtc.GetLastEntryValue() != output)
-                        {
-                            this._valueHistoryBtc.Add(Normalize(DateTime.Now), output);
-                        }
+                        case Currencies.BTC:
+                            if (this._valueHistoryBtc.GetLastEntryValue() != output)
+                            {
+                                this._valueHistoryBtc.Add(Normalize(DateTime.Now), output);
+                            }
 
-                        break;
+                            break;
 
-                    case Currencies.ETH:
-                        if (this._valueHistoryEth.GetLastEntryValue() != output)
-                        {
-                            this._valueHistoryEth.Add(Normalize(DateTime.Now), output);
-                        }
+                        case Currencies.ETH:
+                            if (this._valueHistoryEth.GetLastEntryValue() != output)
+                            {
+                                this._valueHistoryEth.Add(Normalize(DateTime.Now), output);
+                            }
 
-                        break;
+                            break;
 
-                    default:
-                        break;
+                        default:
+                            break;
+                    }
                 }
+            }
+            catch (InvalidOperationException)
+            {
+                // ignore collection was modified exceptions for now
             }
 
             return output;
