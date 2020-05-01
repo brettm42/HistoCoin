@@ -60,34 +60,26 @@ namespace HistoCoin.Server.Data
         {
             const int Accuracy = 2;
 
-            switch (currency)
+            return currency switch
             {
-                case Currencies.USD:
-                    return Math.Round(currentValue - purchasePrice, Digits[currency] + Accuracy);
-                case Currencies.BTC:
-                    return Math.Round(BtcToUsd(currentValue) - purchasePrice, Digits[currency] + Accuracy);
-                case Currencies.ETH:
-                    return Math.Round(EthToUsd(currentValue) - purchasePrice, Digits[currency] + Accuracy);
-                default:
-                    return 0;
-            }
+                Currencies.USD => Math.Round(currentValue - purchasePrice, Digits[currency] + Accuracy),
+                Currencies.BTC => Math.Round(BtcToUsd(currentValue) - purchasePrice, Digits[currency] + Accuracy),
+                Currencies.ETH => Math.Round(EthToUsd(currentValue) - purchasePrice, Digits[currency] + Accuracy),
+                _ => 0,
+            };
         }
 
         public static double CalculateDelta(string handle, double currentValue, double purchasePrice, Currencies currency)
         {
             const int Accuracy = 2;
 
-            switch (currency)
+            return currency switch
             {
-                case Currencies.USD:
-                    return Math.Round(currentValue - purchasePrice, Digits[currency] + Accuracy);
-                case Currencies.BTC:
-                    return Math.Round(BtcToUsd(currentValue) - purchasePrice, Digits[currency] + Accuracy);
-                case Currencies.ETH:
-                    return Math.Round(EthToUsd(currentValue) - purchasePrice, Digits[currency] + Accuracy);
-                default:
-                    return 0;
-            }
+                Currencies.USD => Math.Round(currentValue - purchasePrice, Digits[currency] + Accuracy),
+                Currencies.BTC => Math.Round(BtcToUsd(currentValue) - purchasePrice, Digits[currency] + Accuracy),
+                Currencies.ETH => Math.Round(EthToUsd(currentValue) - purchasePrice, Digits[currency] + Accuracy),
+                _ => 0,
+            };
         }
         
         public static (string Handle, Packet<Dictionary<string, string>> Result) FetchComparison(string handle, bool fullResponse = false)

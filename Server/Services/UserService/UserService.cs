@@ -209,12 +209,15 @@ namespace HistoCoin.Server.Services.UserService
 
         private static bool Authenticate(IUser user, Credential credentials)
         {
-            if (user is null || string.IsNullOrWhiteSpace(credentials.Username) || string.IsNullOrWhiteSpace(credentials.Password))
+            if (user is null 
+                || string.IsNullOrWhiteSpace(credentials.Username) 
+                || string.IsNullOrWhiteSpace(credentials.Password))
             {
                 return false;
             }
 
-            return user.Username.Equals(credentials.Username) && user.Password.Equals(credentials.Password);
+            return user.Username.Equals(credentials.Username) 
+                && user.Password.Equals(credentials.Password);
         }
     }
 }

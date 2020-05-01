@@ -81,10 +81,9 @@
                         context.Response.Redirect("/dist/__webpack_hmr");
                     }
 
-                    using (var reader = new StreamReader(File.OpenRead("wwwroot/index.html")))
-                    {
-                        await context.Response.WriteAsync(reader.ReadToEnd());
-                    }
+                    using var reader = new StreamReader(File.OpenRead("wwwroot/index.html"));
+
+                    await context.Response.WriteAsync(reader.ReadToEnd());
                 });
         }
     }

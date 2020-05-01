@@ -10,7 +10,7 @@ namespace HistoCoin.Server.Infrastructure
     {
         public static double CalculateTrend(double[] historicalValues, int depth)
         {
-            double SquareDeviation(IReadOnlyList<double> values, int start, int end)
+            static double SquareDeviation(IReadOnlyList<double> values, int start, int end)
             {
                 double sum = 0;
                 int i;

@@ -304,10 +304,10 @@ namespace HistoCoin.Server.Services.CurrencyService
         private double CalculateAverageValue(in ConcurrentBag<Currency> cache, Currencies currency)
         {
             var output =
-                    cache
-                        .Where(c => c.BaseCurrency == currency)
-                        .Where(coin => !(coin.CurrentValue < 0))
-                        .Sum(coin => coin.Worth);
+                cache
+                    .Where(c => c.BaseCurrency == currency)
+                    .Where(coin => !(coin.CurrentValue < 0))
+                    .Sum(coin => coin.Worth);
 
             output = Normalize(output, currency);
 

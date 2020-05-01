@@ -172,7 +172,7 @@ namespace HistoCoin.Server.Services.CacheService
                             userService.GetServiceUser(credentials),
                             credentials));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // TODO: report unauthorized credentials
                 return this;
