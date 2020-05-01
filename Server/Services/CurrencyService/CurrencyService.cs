@@ -271,7 +271,7 @@ namespace HistoCoin.Server.Services.CurrencyService
                     double.Parse(
                         results
                             .FirstOrDefault(
-                                i => i.Name.Equals(coin.Handle))?
+                                i => i.Name?.Equals(coin.Handle) ?? false)?
                             .Contents?[$"{coin.BaseCurrency}"] ?? "-1");
 
                 if (value < 0)
