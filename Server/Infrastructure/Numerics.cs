@@ -115,7 +115,7 @@ namespace HistoCoin.Server.Infrastructure
 
         public static (string Label, double value) CalculateBest(double[] values, string[] labels)
         {
-            if (values is null || labels is null)
+            if (values is null || labels is null || labels.Length < 1)
             {
                 return ("-", 0);
             }
